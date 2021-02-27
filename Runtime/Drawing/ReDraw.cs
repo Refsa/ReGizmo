@@ -15,6 +15,11 @@ namespace ReGizmo.Drawing
 
         static ReDraw()
         {
+            Setup();
+        }
+
+        public static void Setup()
+        {
             drawers = new List<IReGizmoDrawer>();
 
             drawers.Add(
@@ -39,8 +44,22 @@ namespace ReGizmo.Drawing
             proxyComp.inUpdate += OnUpdate;
         }
 
-        private static void OnUpdate()
+        public static void Dispose()
         {
+            if (drawers == null) return;
+
+            foreach (var drawer in drawers)
+            {
+                drawer.Dispose();
+            }
+
+            drawers = null;
+        }
+
+        public static void OnUpdate()
+        {
+            if (drawers == null) return;
+
             Camera gameCamera = Camera.main;
             Camera sceneViewCamera = UnityEditor.SceneView.lastActiveSceneView.camera;
 
