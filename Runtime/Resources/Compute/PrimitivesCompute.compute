@@ -1,0 +1,98 @@
+﻿#pragma kernel CreateCube
+#pragma kernel DrawCubes
+
+#define DEFAULT_SIZE 1.0
+
+struct CubeData
+{
+    float3 Center;
+    float4 Rotation;
+    float3 Size;
+    float4 Color;
+};
+
+struct Vertex
+{
+    float3 Position;
+};
+
+struct Triangle
+{
+    Vertex vertices[3];
+};
+
+struct DrawCallArgsBuffer
+{
+    uint vertexCountPerInstance;
+    uint instanceCount;
+    uint startVertexLocation;
+    uint startInstanceLocation;
+};
+
+StructuredBuffer<CubeData> CubeCreationData;
+
+RWStructuredBuffer<CubeData> CubeDrawDatas;
+AppendStructuredBuffer<Triangle> CubeTriangleBuffer;
+
+Vertex CreateVertex(float3 p)
+{
+    Vertex vert;
+    vert.Position = p;
+    return vert;
+}
+
+Triangle CreateTriangle(float3 p1, float3 p2, float3 p3)
+{
+    Triangle tri;
+
+    tri.vertices[0] = CreateVertex(p1);
+    tri.vertices[1] = CreateVertex(p2);
+    tri.vertices[2] = CreateVertex(p3);
+
+    return tri;
+}
+
+[numthreads(1,1,1)]
+void CreateCube (uint3 id : SV_DispatchThreadID)
+{
+    CubeData cubeData = CubeCreationData[0];
+    float3 halfSize = cubeData.Size / 2.0;
+    float3 size = cubeData.Size;
+    float3 offset = float3(halfSize.x, 0, halfSize.z);
+
+    float3 bA = float3(0, -halfSize.y, 0) - offset;
+    float3 bB = float3(size.x, -halfSize.y, 0) - offset;
+    float3 bC = float3(size.x, -halfSize.y, size.z) - offset;
+    float3 bD = float3(0, -halfSize.y, size.z) - offset;
+
+    float3 tA = float3(0, halfSize.y, 0) - offset;
+    float3 tB = float3(size.x, halfSize.y, 0) - offset;
+    float3 tC = float3(size.x, halfSize.y, size.z) - offset;
+    float3 tD = float3(0, halfSize.y, size.z) - offset;
+
+    Triangle triangles[12];
+
+    triangles[0] = CreateTriangle(bA, bB, bC);
+    triangles[1] = CreateTriangle(bA, bC, bD);
+    triangles[2] = CreateTriangle(tC, tB, bA);
+    triangles[3] = CreateTriangle(tC, tA, tD);
+    triangles[4] = CreateTriangle(bA, tA, tB);
+    triangles[5] = CreateTriangle(bA, tB, bB);
+    triangles[6] = CreateTriangle(bB, tB, tC);
+    triangles[7] = CreateTriangle(bB, tC, bC);
+    triangles[8] = CreateTriangle(bA, tD, tA);
+    triangles[9] = CreateTriangle(bA, bD, tD);
+    triangles[10] = CreateTriangle(bD, bC, tC);
+    triangles[11] = CreateTriangle(bD, tC, tD);
+
+    for (int i = 0; i < 12; i++)
+    {
+        CubeTriangleBuffer.Append(triangles[i]);
+    }
+}
+
+[numthreads(1,1,1)]
+void DrawCubes(uint3 id : SV_DispatchThreadID)
+{
+
+}

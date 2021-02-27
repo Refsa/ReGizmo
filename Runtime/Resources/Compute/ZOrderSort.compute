@@ -1,0 +1,77 @@
+#pragma kernel BitonicSortLarge
+
+#define LARGE_BATCH_SIZE 512
+
+struct Properties 
+{
+    float3 Position;
+    float3 Rotation;
+    float3 Scale;
+    float4 Color;
+
+    float CameraDistance;
+    float2 Pad0;
+};
+
+struct MortonData
+{
+    uint Index;
+    uint MortonCode;
+};
+
+// This buffer should be shared with the material shader
+RWStructuredBuffer<Properties> _Properties;
+RWStructuredBuffer<Properties> _Input;
+uint BatchIndex;
+uint MaxIndex;
+uint Total;
+
+groupshared Properties _SharedData[LARGE_BATCH_SIZE];
+
+[numthreads(LARGE_BATCH_SIZE,1,1)]
+void BitonicSortLarge(uint3 id : SV_DispatchThreadID, uint3 gid : SV_GroupID, uint3 gtid : SV_GroupThreadID, uint gi : SV_GroupIndex)
+{
+    uint tid = id.x;
+    _SharedData[gi] = _Input[tid];
+    uint index = tid + BatchIndex * LARGE_BATCH_SIZE;
+    GroupMemoryBarrierWithGroupSync();
+
+    for (uint k = 2; k <= LARGE_BATCH_SIZE; k *= 2)
+    {
+        for (uint j = k / 2; j > 0; j /= 2)
+        {
+            uint ixj = tid ^ j;
+            if (ixj > tid)
+            {
+                uint indexA = tid;
+                uint indexB = ixj;
+                uint insideBounds = k <= MaxIndex;
+
+                Properties a = _SharedData[indexA];
+                Properties b = _SharedData[indexB];
+
+                if ((tid & k) == 0)
+                {
+                    if (a.CameraDistance < b.CameraDistance)
+                    {
+                        Properties tidProp = _SharedData[indexA]; 
+                        _SharedData[indexA] = _SharedData[indexB];
+                        _SharedData[indexB] = tidProp;
+                    }
+                }
+                else
+                {
+                    if (a.CameraDistance > b.CameraDistance)
+                    {
+                        Properties tidProp = _SharedData[indexA];
+                        _SharedData[indexA] = _SharedData[indexB];
+                        _SharedData[indexB] = tidProp;
+                    }
+                }
+            }
+            GroupMemoryBarrierWithGroupSync();
+        }
+    }
+    
+    _Properties[index] = _SharedData[gi];
+}
