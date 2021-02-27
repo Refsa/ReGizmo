@@ -1,12 +1,19 @@
 using System;
 using UnityEngine;
 
-public class ReGizmoProxy : MonoBehaviour
+public class ReGizmoProxy : MonoBehaviour, IDisposable
 {
     public event Action inUpdate;
     public event Action inLateUpdate;
     public event Action inFixedUpdate;
     public event Action inDrawGizmos;
+
+    public event Action inDestroy;
+
+    void OnDestroy()
+    {
+        inDestroy?.Invoke();
+    }
 
     void Update()
     {
@@ -26,5 +33,10 @@ public class ReGizmoProxy : MonoBehaviour
     void OnDrawGizmos()
     {
         inDrawGizmos?.Invoke();
+    }
+
+    public void Dispose()
+    {
+        inDestroy?.Invoke();
     }
 }

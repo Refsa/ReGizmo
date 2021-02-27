@@ -8,12 +8,15 @@ namespace ReGizmo.Drawing
         void Clear();
         void Dispose();
         void Render(Camera camera);
+        uint CurrentDrawCount();
     }
 
     internal abstract class ReGizmoDrawer<TShaderData> : System.IDisposable, IReGizmoDrawer
         where TShaderData : unmanaged
     {
         protected static readonly Bounds DefaultRenderBounds = new Bounds(Vector3.zero, Vector3.one * 10_000f);
+
+        protected virtual string PropertiesName { get; } = "_Properties";
 
         protected Material material;
 
@@ -46,7 +49,7 @@ namespace ReGizmo.Drawing
             shaderDataBuffer.Reset();
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             shaderDataBuffer?.Dispose();
             renderArgumentsBuffer?.Dispose();
@@ -74,7 +77,7 @@ namespace ReGizmo.Drawing
 
         protected virtual void SetMaterialPropertyBlockData()
         {
-            shaderDataBuffer.PushData(materialPropertyBlock, "_Properties");
+            shaderDataBuffer.PushData(materialPropertyBlock, PropertiesName);
         }
     }
 }

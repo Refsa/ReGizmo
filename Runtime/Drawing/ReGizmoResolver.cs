@@ -2,9 +2,8 @@
 
 namespace ReGizmo.Drawing
 {
-    internal static class ReGizmoResolver<TDrawer, TShaderData>
-        where TDrawer : ReGizmoDrawer<TShaderData>
-        where TShaderData : unmanaged
+    internal static class ReGizmoResolver<TDrawer>
+        where TDrawer : IReGizmoDrawer
     {
         static TDrawer _drawer;
 
