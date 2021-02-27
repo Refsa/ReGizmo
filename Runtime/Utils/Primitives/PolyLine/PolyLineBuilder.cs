@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-namespace ReGizmo
+namespace ReGizmo.Drawing
 {
     public static class PolyLineBuilder
     {
@@ -23,7 +23,7 @@ namespace ReGizmo
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static PolyLine WithLine(this PolyLine self, LineData line)
+        public static PolyLine WithLine(this PolyLine self, PolyLineData line)
         {
             self.Add(line);
             return self;

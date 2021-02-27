@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ReGizmo.Utility
 {
-    public static class ReGizmoPrimitives
+    internal static class ReGizmoPrimitives
     {
         static readonly Vector3 DefaultSize = Vector3.one;
 

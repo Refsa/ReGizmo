@@ -48,12 +48,60 @@ namespace ReGizmo
             return font;
         }
 
+        public static Font LoadFontByName(string name)
+        {
+            Font font = null;
+
+#if UNITY_EDITOR
+            string localResourcesFolder = ReGizmoHelpers.GetProjectResourcesPath() + @"Font/" + name + ".ttf";
+            font = ReGizmoHelpers.LoadFont(localResourcesFolder);
+            if (font == null) localResourcesFolder = ReGizmoHelpers.GetProjectResourcesPath() + @"Font/" + name + ".otf";
+            font = ReGizmoHelpers.LoadFont(localResourcesFolder);
+#else
+            // HACK: Should probably just load the asset directly
+            foreach (Font f in Resources.LoadAll("", typeof(Font)))
+            {
+                if (f.name == name)
+                {
+                    font = f;
+                    break;
+                }
+            }
+#endif
+
+            return font;
+        }
+
         public static Texture2D LoadTexture(string path)
         {
 #if UNITY_EDITOR
             Texture2D texture = AssetDatabase.LoadAssetAtPath(path, typeof(Texture2D)) as Texture2D;
 #else
             Texture2D texture = Resources.Load<Texture2D>(path);
+#endif
+
+            return texture;
+        }
+
+        public static Texture2D LoadTextureByName(string name)
+        {
+            Texture2D texture = null;
+
+#if UNITY_EDITOR
+            string localResourcesFolder = GetProjectResourcesPath() + @"Textures/Icons/" + name + ".png";
+            texture = LoadTexture(localResourcesFolder);
+            if (texture == null) localResourcesFolder = GetProjectResourcesPath() + @"Textures/Icons/" + name + ".png";
+            texture = LoadTexture(localResourcesFolder);
+#else
+            // HACK: Should probably just load the asset directly
+            foreach (Font f in Resources.LoadAll("", typeof(Font)))
+            {
+                if (f.name == name)
+                {
+                    font = f;
+                    break;
+                }
+            }
 #endif
 
             return texture;

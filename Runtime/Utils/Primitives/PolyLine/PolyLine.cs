@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-namespace ReGizmo
+namespace ReGizmo.Drawing
 {
     public struct PolyLine : System.IDisposable, IEnumerable
     {
         const int StartFlag = 1 << 1;
         const int EndFlag = 1 << 2;
 
-        public List<LineData> Points;
+        public List<PolyLineData> Points;
         public int Looping;
         /// <summary>
         /// Automatically Dispose after PolyLine has been drawn
@@ -28,7 +28,7 @@ namespace ReGizmo
         public uint ID => id;
         public bool Initialized{get; private set;}
 
-        public LineData this[int index]
+        public PolyLineData this[int index]
         {
             get => Points[index];
             set => Points[index] = value;
@@ -76,7 +76,7 @@ namespace ReGizmo
             return Points.GetEnumerator();
         }
 
-        public void Add(LineData ld)
+        public void Add(PolyLineData ld)
         {
             Initialize();
 
