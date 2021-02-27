@@ -1,90 +1,86 @@
 
-
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace ReGizmo.Drawing
 {
-    public static class ReDraw
+    public partial class ReDraw
     {
-        static bool isSetup = false;
-        static GameObject proxyObject;
-
-        static List<IReGizmoDrawer> drawers;
-
-        static ReDraw()
+        public static void Cube(Vector3 position, Quaternion rotation, Vector3 scale, Color color)
         {
-            Setup();
-        }
-
-        public static void Setup()
-        {
-            drawers = new List<IReGizmoDrawer>();
-
-            drawers.Add(
-                ReGizmoResolver<ReGizmoCubeDrawer, MeshDrawerShaderData>.Init(new ReGizmoCubeDrawer())
-            );
-
-            if (Application.isPlaying)
-            {
-                SetupProxyObject();
-            }
-
-            isSetup = true;
-        }
-
-        static void SetupProxyObject()
-        {
-            proxyObject = new GameObject("ReGizmoProxy");
-            GameObject.DontDestroyOnLoad(proxyObject);
-
-            var proxyComp = proxyObject.AddComponent<ReGizmoProxy>();
-
-            proxyComp.inUpdate += OnUpdate;
-        }
-
-        public static void Dispose()
-        {
-            if (drawers == null) return;
-
-            foreach (var drawer in drawers)
-            {
-                drawer.Dispose();
-            }
-
-            drawers = null;
-        }
-
-        public static void OnUpdate()
-        {
-            if (drawers == null) return;
-
-            Camera gameCamera = Camera.main;
-            Camera sceneViewCamera = UnityEditor.SceneView.lastActiveSceneView.camera;
-
-            foreach (var drawer in drawers)
-            {
-                if (sceneViewCamera != null)
-                {
-                    drawer.Render(sceneViewCamera);
-                }
-                drawer.Render(gameCamera);
-
-                drawer.Clear();
-            }
-        }
-
-        public static void Cube(Vector3 position, Color color)
-        {
-            if (ReGizmoResolver<ReGizmoCubeDrawer, MeshDrawerShaderData>.TryGet(out var drawer))
+            if (ReGizmoResolver<ReGizmoCubeDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
 
                 shaderData.Position = position;
                 shaderData.Color = color;
-                shaderData.Scale = Vector3.one;
-                shaderData.Rotation = Vector3.zero;
+                shaderData.Scale = scale;
+                shaderData.Rotation = rotation.eulerAngles * Mathf.Deg2Rad;
+            }
+        }
+
+        public static void Mesh(Mesh mesh, Vector3 position, Quaternion rotation, Vector3 scale, Color color)
+        {
+            if (ReGizmoResolver<ReGizmoCustomMeshDrawer>.TryGet(out var drawer))
+            {
+                ref var shaderData = ref drawer.GetShaderData(mesh);
+
+                shaderData.Position = position;
+                shaderData.Color = color;
+                shaderData.Scale = scale;
+                shaderData.Rotation = rotation.eulerAngles * Mathf.Deg2Rad;
+            }
+        }
+
+        public static void Text(string text, Vector3 position, float scale, Color color)
+        {
+            if (ReGizmoResolver<ReGizmoFontDrawer>.TryGet(out var drawer))
+            {
+                int textLength = text.Length;
+                float totalAdvance = 0f;
+                for (int i = 0; i < text.Length; i++)
+                {
+                    ref var charData = ref drawer.GetShaderData();
+
+                    charData.Position = position;
+                    charData.Color = new Vector3(color.r, color.g, color.b);
+                    charData.Scale = scale;
+                    charData.Advance = totalAdvance;
+
+                    uint charIndex = (uint)text[i];
+                    charData.CharIndex = charIndex;
+
+                    totalAdvance += scale * drawer.GetCharacterInfo(charIndex).Advance;
+                }
+            }
+        }
+
+        public static void Line(Vector3 p1, Vector3 p2, Color color1, Color color2, float width1, float width2)
+        {
+            if (ReGizmoResolver<ReGizmoLineDrawer>.TryGet(out var drawer))
+            {
+                ref var shaderData = ref drawer.GetShaderData();
+                shaderData.Position = p1;
+                shaderData.Color = color1;
+                shaderData.Width = width1;
+                shaderData.Mode = 1;
+
+                shaderData = ref drawer.GetShaderData();
+                shaderData.Position = p2;
+                shaderData.Color = color2;
+                shaderData.Width = width2;
+                shaderData.Mode = 1;
+            }
+        }
+
+        public static void Icon(Texture2D texture, Vector3 position, Color color, float scale)
+        {
+            if (ReGizmoResolver<ReGizmoIconsDrawer>.TryGet(out var drawer))
+            {
+                ref var shaderData = ref drawer.GetShaderData(texture);
+
+                shaderData.Position = position;
+                shaderData.Color = new Vector3(color.r, color.g, color.b);
+                shaderData.Scale = scale;
             }
         }
     }

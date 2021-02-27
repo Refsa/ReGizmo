@@ -1,4 +1,4 @@
-using ReGizmo.Drawing;
+using ReGizmo.Core;
 using UnityEditor;
 using UnityEngine;
 
@@ -9,6 +9,8 @@ namespace ReGizmo.Editor
     {
         static ReGizmoEditor()
         {
+            ReGizmo.Core.ReGizmo.Initialize();
+
             Setup();
         }
 
@@ -22,7 +24,6 @@ namespace ReGizmo.Editor
         {
             EditorApplication.playModeStateChanged += OnPlaymodeChanged;
             AssemblyReloadEvents.beforeAssemblyReload += OnBeforeAssemblyReloaded;
-            AssemblyReloadEvents.afterAssemblyReload += OnAfterAssemblyReloaded;
 
             if (!Application.isPlaying)
             {
@@ -34,37 +35,31 @@ namespace ReGizmo.Editor
         {
             EditorApplication.playModeStateChanged -= OnPlaymodeChanged;
             AssemblyReloadEvents.beforeAssemblyReload -= OnBeforeAssemblyReloaded;
-            AssemblyReloadEvents.afterAssemblyReload -= OnAfterAssemblyReloaded;
 
             EditorApplication.update -= OnUpdate;
         }
 
         static void OnPlaymodeChanged(PlayModeStateChange change)
         {
-            if (change == PlayModeStateChange.ExitingPlayMode || change == PlayModeStateChange.ExitingEditMode)
+            if (change == PlayModeStateChange.ExitingEditMode)
             {
-                ReDraw.Dispose();
+                EditorApplication.update -= OnUpdate;
             }
             else if (change == PlayModeStateChange.EnteredEditMode)
-            { 
+            {
                 Setup();
-                ReDraw.Setup();
+                ReGizmo.Core.ReGizmo.Initialize();
             }
         }
 
         static void OnBeforeAssemblyReloaded()
         {
-            ReDraw.Dispose();
-        }
-
-        static void OnAfterAssemblyReloaded()
-        {
-
+            ReGizmo.Core.ReGizmo.Dispose();
         }
 
         static void OnUpdate()
         {
-            ReDraw.OnUpdate();
+            ReGizmo.Core.ReGizmo.OnUpdate();
         }
     }
 }
