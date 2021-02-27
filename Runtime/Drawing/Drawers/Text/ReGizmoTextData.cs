@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace ReGizmo.Rendering
+namespace ReGizmo.Drawing
 {
-    struct CharacterInfoShader
+    internal struct CharacterInfoShader
     {
         public Vector2 BottomLeft;
         public Vector2 BottomRight;
@@ -12,7 +12,7 @@ namespace ReGizmo.Rendering
         public float Advance;
     }
 
-    public struct CharData
+    internal struct CharData
     {
         public Vector3 Position;
         public float Scale;
