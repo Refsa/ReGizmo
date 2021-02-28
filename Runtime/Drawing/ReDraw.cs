@@ -5,7 +5,12 @@ namespace ReGizmo.Drawing
 {
     public partial class ReDraw
     {
-        public static void Cube(Vector3 position, Quaternion rotation, Vector3 scale, Color color)
+        static Vector3 currentPosition = Vector3.zero;
+        static Quaternion currentRotation = Quaternion.identity;
+        static Vector3 currentScale = Vector3.one;
+        static Color currentColor = Color.white;
+
+        /* public static void Cube(Vector3 position, Quaternion rotation, Vector3 scale, Color color)
         {
             if (ReGizmoResolver<ReGizmoCubeDrawer>.TryGet(out var drawer))
             {
@@ -16,9 +21,9 @@ namespace ReGizmo.Drawing
                 shaderData.Scale = scale;
                 shaderData.Rotation = rotation.eulerAngles * Mathf.Deg2Rad;
             }
-        }
+        } */
 
-        public static void Mesh(Mesh mesh, Vector3 position, Quaternion rotation, Vector3 scale, Color color)
+        /* public static void Mesh(Mesh mesh, Vector3 position, Quaternion rotation, Vector3 scale, Color color)
         {
             if (ReGizmoResolver<ReGizmoCustomMeshDrawer>.TryGet(out var drawer))
             {
@@ -29,7 +34,7 @@ namespace ReGizmo.Drawing
                 shaderData.Scale = scale;
                 shaderData.Rotation = rotation.eulerAngles * Mathf.Deg2Rad;
             }
-        }
+        } */
 
         public static void Text(string text, Vector3 position, float scale, Color color)
         {

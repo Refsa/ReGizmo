@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using ReGizmo.Drawing;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace ReGizmo.Core
 {
@@ -16,7 +17,7 @@ namespace ReGizmo.Core
         [RuntimeInitializeOnLoadMethod]
         public static void Initialize()
         {
-            if (drawers != null) 
+            if (drawers != null)
             {
                 Dispose();
             }
@@ -82,6 +83,10 @@ namespace ReGizmo.Core
         {
             if (drawers == null) return;
 
+#if UNITY_EDITOR
+            Profiler.BeginSample("ReGizmo::OnUpdate");
+#endif
+
             Camera gameCamera = Camera.main;
             Camera sceneViewCamera = UnityEditor.SceneView.lastActiveSceneView.camera;
 
@@ -95,6 +100,10 @@ namespace ReGizmo.Core
 
                 drawer.Clear();
             }
+
+#if UNITY_EDITOR
+            Profiler.EndSample();
+#endif
         }
     }
 }
