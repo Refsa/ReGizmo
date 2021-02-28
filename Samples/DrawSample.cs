@@ -10,11 +10,11 @@ public class DrawSample : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 16; i++)
         {
-            for (int j = 0; j < 10; j++)
+            for (int j = 0; j < 16; j++)
             {
-                ReDraw.Cube(new Vector3(i * 2, 0, j * 2), Quaternion.identity, Vector3.one, Color.red);
+                ReDraw.Cube(new Vector3(10 + i * 2, 0, 10 + j * 2), Quaternion.identity, Vector3.one, Color.red);
             }
         }
 
@@ -27,7 +27,7 @@ public class DrawSample : MonoBehaviour
                 index++;
             }
         }
-
+ 
         // Text
         {
             string text = "Hello From ReGizmo";
