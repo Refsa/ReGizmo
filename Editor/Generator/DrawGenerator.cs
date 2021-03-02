@@ -13,7 +13,7 @@ namespace ReGizmo.Drawing
 {
     public partial class ReDraw
     {
-        $CONTENT
+$CONTENT
     }
 }";
         protected string methodShell;
@@ -27,7 +27,6 @@ namespace ReGizmo.Drawing
             string content = fileShell.Replace("$CONTENT", GenerateInternal());
 
             System.IO.File.WriteAllText(targetFolder + fileName, content);
-
             AssetDatabase.Refresh();
         }
 

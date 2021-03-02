@@ -14,29 +14,16 @@ namespace ReGizmo.Generator
         public string ArgName;
         public string MethodArgName;
         public string DefaultName;
+        public int Priority;
 
-        public Variable(System.Type type, string paramName, string defaultName, string methodArgName)
+        public Variable(System.Type type, string paramName, string defaultName, string methodArgName, int priority = 0)
         {
             ValueType = type;
             ArgName = paramName;
             DefaultName = defaultName;
             MethodArgName = methodArgName;
+            Priority = priority;
         }
-    }
-
-    public struct Parameters
-    {
-        public Variable[] Variables;
-
-        public Parameters(Variable[] variables)
-        {
-            Variables = variables;
-        }
-    }
-
-    public static class VariableGenerator
-    {
-
     }
 
     public static class Permutation
@@ -45,6 +32,7 @@ namespace ReGizmo.Generator
         static VariableArrayComparer variableArrayComparer = new VariableArrayComparer();
         static HashSet<int> seenOverrides = new HashSet<int>();
 
+        // TODO: This be a mess
         public static IEnumerable<(string, string)> GenerateOverrides(Variable[] variables)
         {
             seenOverrides.Clear();
@@ -70,22 +58,66 @@ namespace ReGizmo.Generator
                     return arr;
                 })
                 .Where(v => VerifyPermutation(v, variables))
-                .OrderByDescending(ActiveParametersCount);
-                // .Distinct(variableArrayComparer);
+                .OrderByDescending(ActiveParametersCount)
+                .Distinct(variableArrayComparer)
+                .ToList();
 
-            /* permutations = permutations
-                .Where(v =>
+            /*
+            - Find all configs of same active parameter counts
+            - Find the ones that are equal in types
+            - Discard the ones with lower priority
+            */
+
+            List<(int, Variable[])>[] buckets = new List<(int, Variable[])>[variables.Length - 1];
+            for (int i = 0; i < buckets.Length; i++) buckets[i] = new List<(int, Variable[])>();
+            for (int i = 0; i < permutations.Count; i++)
+            {
+                var perm = permutations[i];
+
+                int activeParams = ActiveParametersCount(perm);
+                if (activeParams == 0 || activeParams == variables.Length) continue;
+
+                buckets[activeParams - 1].Add(
+                    (i, perm.Where(e => e.ValueType != null).ToArray())
+                );
+            }
+
+            List<int> toRemove = new List<int>();
+            for (int i = 0; i < buckets.Length; i++)
+            {
+                (int, int, int)[] hashCodes = new (int, int, int)[buckets[i].Count];
+                for (int j = 0; j < buckets[i].Count; j++)
                 {
-                    int paramCount = ActiveParametersCount(v);
-                    foreach (var other in permutations
-                        .Where(e => ActiveParametersCount(e) == paramCount && e != v))
-                    {
-                        for (int i = 0; i < variables.Length; i++)
-                        {
+                    hashCodes[j].Item1 = buckets[i][j].Item1;
+                    hashCodes[j].Item2 = ActiveParametersTypeHash(buckets[i][j].Item2);
+                    hashCodes[j].Item3 = ParametersPriority(buckets[i][j].Item2);
+                }
 
+                for (int j = 0; j < hashCodes.Length; j++)
+                {
+                    for (int k = j; k < hashCodes.Length; k++)
+                    {
+                        if (k == j || toRemove.Contains(hashCodes[k].Item1) || toRemove.Contains(hashCodes[j].Item1)) continue;
+
+                        if (hashCodes[j].Item2 == hashCodes[k].Item2)
+                        {
+                            if (hashCodes[j].Item3 > hashCodes[k].Item3)
+                            {
+                                toRemove.Add(hashCodes[k].Item1);
+                            }
+                            else
+                            {
+                                toRemove.Add(hashCodes[j].Item1);
+                            }
                         }
                     }
-                }); */
+                }
+            }
+
+            foreach (int rem in toRemove.OrderByDescending(e => e))
+            {
+                permutations.RemoveAt(rem);
+            }
 
             foreach (var perm in permutations)
             {
@@ -96,6 +128,19 @@ namespace ReGizmo.Generator
         static int ActiveParametersCount(Variable[] v)
         {
             return v.Sum(e => e.ValueType != null ? 1 : 0);
+        }
+
+        static int ActiveParametersTypeHash(Variable[] v)
+        {
+            return v.Aggregate(0, (acc, val) =>
+            {
+                return acc ^ val.ValueType.Name.GetHashCode();
+            });
+        }
+
+        static int ParametersPriority(Variable[] v)
+        {
+            return v.Sum(e => e.Priority);
         }
 
         static (string, string) GenerateParameters(Variable[] parameters)
@@ -151,9 +196,13 @@ namespace ReGizmo.Generator
             }
         }
 
-        // TODO: Currently only handles 4 parameters in a specific order
         static bool VerifyPermutation(Variable[] parameters, Variable[] originalSet)
         {
+            if (parameters == null || parameters.Length == 0 || parameters.Length != originalSet.Length)
+            {
+                return false;
+            }
+
             for (int i = 0; i < originalSet.Length; i++)
             {
                 if (parameters[i].ArgName == null) return false;
@@ -161,17 +210,6 @@ namespace ReGizmo.Generator
             }
 
             if (parameters.Distinct(variableComparer).Count() != parameters.Length) return false;
-
-            /* bool hasScale = parameters[2].ValueType != null;
-            bool isAlone = parameters[0].ValueType == null && parameters[1].ValueType == null && parameters[3].ValueType == null;
-
-            bool hasRotation = parameters[3].ValueType != null;
-            bool isAloneWithScale = parameters[0].ValueType == null && parameters[1].ValueType == null;
-
-            if ((hasScale && isAlone) || (hasRotation && hasScale && isAloneWithScale))
-            {
-                return false;
-            } */
 
             return true;
         }
@@ -236,7 +274,21 @@ namespace ReGizmo.Generator
             {
                 if (x.Length != y.Length || ActiveParametersCount(x) != ActiveParametersCount(y)) return false;
 
-                return true;
+                int equals = 0;
+                for (int i = 0; i < x.Length; i++)
+                {
+                    if (x[i].ValueType != null && x[i].ValueType == y[i].ValueType)
+                    {
+                        equals++;
+                    }
+                }
+
+                if (equals == ActiveParametersCount(x))
+                {
+                    return true;
+                }
+
+                return false;
             }
 
             public int GetHashCode(Variable[] obj)

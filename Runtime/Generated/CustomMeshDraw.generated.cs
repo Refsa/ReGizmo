@@ -6,11 +6,11 @@ namespace ReGizmo.Drawing
     public partial class ReDraw
     {
 
-        public static void Icosahedron(UnityEngine.Vector3 position, UnityEngine.Quaternion rotation, UnityEngine.Vector3 scale, UnityEngine.Color color)
+        public static void Mesh(Mesh mesh, UnityEngine.Vector3 position, UnityEngine.Quaternion rotation, UnityEngine.Vector3 scale, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoIcosahedronDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<ReGizmoCustomMeshDrawer>.TryGet(out var drawer))
             {
-                ref var shaderData = ref drawer.GetShaderData();
+                ref var shaderData = ref drawer.GetShaderData(mesh);
 
                 shaderData.Position = currentPosition + position;
                 shaderData.Rotation = currentRotation.eulerAngles + rotation.eulerAngles * Mathf.Deg2Rad;
@@ -18,11 +18,11 @@ namespace ReGizmo.Drawing
                 shaderData.Color = color;
             }
         }
-        public static void Icosahedron(UnityEngine.Vector3 position, UnityEngine.Quaternion rotation, UnityEngine.Vector3 scale)
+        public static void Mesh(Mesh mesh, UnityEngine.Vector3 position, UnityEngine.Quaternion rotation, UnityEngine.Vector3 scale)
         {
-            if (ReGizmoResolver<ReGizmoIcosahedronDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<ReGizmoCustomMeshDrawer>.TryGet(out var drawer))
             {
-                ref var shaderData = ref drawer.GetShaderData();
+                ref var shaderData = ref drawer.GetShaderData(mesh);
 
                 shaderData.Position = currentPosition + position;
                 shaderData.Rotation = currentRotation.eulerAngles + rotation.eulerAngles * Mathf.Deg2Rad;
@@ -30,11 +30,11 @@ namespace ReGizmo.Drawing
                 shaderData.Color = currentColor;
             }
         }
-        public static void Icosahedron(UnityEngine.Vector3 position, UnityEngine.Quaternion rotation, UnityEngine.Color color)
+        public static void Mesh(Mesh mesh, UnityEngine.Vector3 position, UnityEngine.Quaternion rotation, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoIcosahedronDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<ReGizmoCustomMeshDrawer>.TryGet(out var drawer))
             {
-                ref var shaderData = ref drawer.GetShaderData();
+                ref var shaderData = ref drawer.GetShaderData(mesh);
 
                 shaderData.Position = currentPosition + position;
                 shaderData.Rotation = currentRotation.eulerAngles + rotation.eulerAngles * Mathf.Deg2Rad;
@@ -42,11 +42,11 @@ namespace ReGizmo.Drawing
                 shaderData.Color = color;
             }
         }
-        public static void Icosahedron(UnityEngine.Vector3 position, UnityEngine.Vector3 scale, UnityEngine.Color color)
+        public static void Mesh(Mesh mesh, UnityEngine.Vector3 position, UnityEngine.Vector3 scale, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoIcosahedronDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<ReGizmoCustomMeshDrawer>.TryGet(out var drawer))
             {
-                ref var shaderData = ref drawer.GetShaderData();
+                ref var shaderData = ref drawer.GetShaderData(mesh);
 
                 shaderData.Position = currentPosition + position;
                 shaderData.Rotation = currentRotation.eulerAngles * Mathf.Deg2Rad;
@@ -54,11 +54,11 @@ namespace ReGizmo.Drawing
                 shaderData.Color = color;
             }
         }
-        public static void Icosahedron(UnityEngine.Vector3 position, UnityEngine.Quaternion rotation)
+        public static void Mesh(Mesh mesh, UnityEngine.Vector3 position, UnityEngine.Quaternion rotation)
         {
-            if (ReGizmoResolver<ReGizmoIcosahedronDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<ReGizmoCustomMeshDrawer>.TryGet(out var drawer))
             {
-                ref var shaderData = ref drawer.GetShaderData();
+                ref var shaderData = ref drawer.GetShaderData(mesh);
 
                 shaderData.Position = currentPosition + position;
                 shaderData.Rotation = currentRotation.eulerAngles + rotation.eulerAngles * Mathf.Deg2Rad;
@@ -66,11 +66,11 @@ namespace ReGizmo.Drawing
                 shaderData.Color = currentColor;
             }
         }
-        public static void Icosahedron(UnityEngine.Vector3 position, UnityEngine.Vector3 scale)
+        public static void Mesh(Mesh mesh, UnityEngine.Vector3 position, UnityEngine.Vector3 scale)
         {
-            if (ReGizmoResolver<ReGizmoIcosahedronDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<ReGizmoCustomMeshDrawer>.TryGet(out var drawer))
             {
-                ref var shaderData = ref drawer.GetShaderData();
+                ref var shaderData = ref drawer.GetShaderData(mesh);
 
                 shaderData.Position = currentPosition + position;
                 shaderData.Rotation = currentRotation.eulerAngles * Mathf.Deg2Rad;
@@ -78,11 +78,11 @@ namespace ReGizmo.Drawing
                 shaderData.Color = currentColor;
             }
         }
-        public static void Icosahedron(UnityEngine.Vector3 position, UnityEngine.Color color)
+        public static void Mesh(Mesh mesh, UnityEngine.Vector3 position, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoIcosahedronDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<ReGizmoCustomMeshDrawer>.TryGet(out var drawer))
             {
-                ref var shaderData = ref drawer.GetShaderData();
+                ref var shaderData = ref drawer.GetShaderData(mesh);
 
                 shaderData.Position = currentPosition + position;
                 shaderData.Rotation = currentRotation.eulerAngles * Mathf.Deg2Rad;
@@ -90,11 +90,11 @@ namespace ReGizmo.Drawing
                 shaderData.Color = color;
             }
         }
-        public static void Icosahedron(UnityEngine.Quaternion rotation, UnityEngine.Color color)
+        public static void Mesh(Mesh mesh, UnityEngine.Quaternion rotation, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoIcosahedronDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<ReGizmoCustomMeshDrawer>.TryGet(out var drawer))
             {
-                ref var shaderData = ref drawer.GetShaderData();
+                ref var shaderData = ref drawer.GetShaderData(mesh);
 
                 shaderData.Position = currentPosition;
                 shaderData.Rotation = currentRotation.eulerAngles + rotation.eulerAngles * Mathf.Deg2Rad;
@@ -102,11 +102,11 @@ namespace ReGizmo.Drawing
                 shaderData.Color = color;
             }
         }
-        public static void Icosahedron(UnityEngine.Vector3 position)
+        public static void Mesh(Mesh mesh, UnityEngine.Vector3 position)
         {
-            if (ReGizmoResolver<ReGizmoIcosahedronDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<ReGizmoCustomMeshDrawer>.TryGet(out var drawer))
             {
-                ref var shaderData = ref drawer.GetShaderData();
+                ref var shaderData = ref drawer.GetShaderData(mesh);
 
                 shaderData.Position = currentPosition + position;
                 shaderData.Rotation = currentRotation.eulerAngles * Mathf.Deg2Rad;
@@ -114,11 +114,11 @@ namespace ReGizmo.Drawing
                 shaderData.Color = currentColor;
             }
         }
-        public static void Icosahedron(UnityEngine.Quaternion rotation)
+        public static void Mesh(Mesh mesh, UnityEngine.Quaternion rotation)
         {
-            if (ReGizmoResolver<ReGizmoIcosahedronDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<ReGizmoCustomMeshDrawer>.TryGet(out var drawer))
             {
-                ref var shaderData = ref drawer.GetShaderData();
+                ref var shaderData = ref drawer.GetShaderData(mesh);
 
                 shaderData.Position = currentPosition;
                 shaderData.Rotation = currentRotation.eulerAngles + rotation.eulerAngles * Mathf.Deg2Rad;
@@ -126,11 +126,11 @@ namespace ReGizmo.Drawing
                 shaderData.Color = currentColor;
             }
         }
-        public static void Icosahedron(UnityEngine.Color color)
+        public static void Mesh(Mesh mesh, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoIcosahedronDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<ReGizmoCustomMeshDrawer>.TryGet(out var drawer))
             {
-                ref var shaderData = ref drawer.GetShaderData();
+                ref var shaderData = ref drawer.GetShaderData(mesh);
 
                 shaderData.Position = currentPosition;
                 shaderData.Rotation = currentRotation.eulerAngles * Mathf.Deg2Rad;
@@ -138,11 +138,11 @@ namespace ReGizmo.Drawing
                 shaderData.Color = color;
             }
         }
-        public static void Icosahedron()
+        public static void Mesh(Mesh mesh)
         {
-            if (ReGizmoResolver<ReGizmoIcosahedronDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<ReGizmoCustomMeshDrawer>.TryGet(out var drawer))
             {
-                ref var shaderData = ref drawer.GetShaderData();
+                ref var shaderData = ref drawer.GetShaderData(mesh);
 
                 shaderData.Position = currentPosition;
                 shaderData.Rotation = currentRotation.eulerAngles * Mathf.Deg2Rad;
