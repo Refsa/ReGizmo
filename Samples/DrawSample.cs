@@ -10,11 +10,14 @@ public class DrawSample : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        for (int i = 0; i < 16; i++)
+        using (new ColorScope(Color.green))
         {
-            for (int j = 0; j < 16; j++)
+            for (int i = 0; i < 64; i++)
             {
-                ReDraw.Cube(new Vector3(10 + i * 2, 0, 10 + j * 2), Quaternion.identity, Vector3.one, Color.red);
+                for (int j = 0; j < 64; j++)
+                {
+                    ReDraw.Cube(new Vector3(10 + i * 2, 0, 10 + j * 2), Quaternion.identity, Vector3.one);
+                }
             }
         }
 
@@ -27,7 +30,7 @@ public class DrawSample : MonoBehaviour
                 index++;
             }
         }
- 
+
         // Text
         {
             string text = "Hello From ReGizmo";
@@ -45,6 +48,14 @@ public class DrawSample : MonoBehaviour
             for (int i = 0; i < customIcons.Length; i++)
             {
                 ReDraw.Icon(customIcons[i], Vector3.left * 5 + Vector3.up * 2 * i, Color.black, 1f);
+            }
+        }
+
+        // Scopes
+        {
+            using (new TransformScope(transform))
+            {
+                ReDraw.Sphere(Color.cyan);
             }
         }
     }
