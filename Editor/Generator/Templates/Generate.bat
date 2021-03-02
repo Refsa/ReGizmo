@@ -1,1 +1,0 @@
-"\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\TextTransform.exe" -out "../../../Runtime/Generated/CubeGenerate.cs" -P "C:\Users\Refsa\Documents\Unity\ReGizmo\Library\ScriptAssemblies" -P "C:\Program Files\Unity_Editor\2019.4.12f1\Editor\Data\Managed" CubeOverrideTemplate.tt
