@@ -26,7 +26,9 @@ namespace ReGizmo.Drawing
         {
             if (writeCursor >= shaderDataPool.Length)
             {
+                var oldPool = shaderDataPool;
                 Expand(128);
+                System.Array.Copy(oldPool, shaderDataPool, writeCursor);
             }
 
             return ref shaderDataPool[writeCursor++];
