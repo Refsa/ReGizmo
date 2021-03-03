@@ -4,7 +4,6 @@ Shader "Hidden/ReGizmo/Icon"
     SubShader
     {
         Tags { "RenderType"="Transparent" "Queue"="Transparent" }
-        Cull Off Lighting Off Blend SrcAlpha OneMinusSrcAlpha
 
         CGINCLUDE
         #include "Utils/ReGizmoShaderUtils.cginc"
@@ -106,7 +105,11 @@ Shader "Hidden/ReGizmo/Icon"
 
         Pass
         {
-            ZTest Always
+			Blend SrcAlpha OneMinusSrcAlpha
+            ColorMask RGB
+            ZTest On
+            ZWrite Off
+
             CGPROGRAM
             #pragma vertex vert
             #pragma geometry geom
@@ -116,7 +119,8 @@ Shader "Hidden/ReGizmo/Icon"
 
         Pass
         {
-            ZTest LEqual
+			Blend SrcAlpha OneMinusSrcAlpha
+            ZTest On
             ZWrite On
             CGPROGRAM
             #pragma vertex vert

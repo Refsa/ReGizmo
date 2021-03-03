@@ -11,8 +11,6 @@
             "RenderType"="Transparent"
             "PreviewType"="Plane"
         }
-        Lighting Off Cull Off
-        Blend SrcAlpha OneMinusSrcAlpha
 
         CGINCLUDE
         #include "UnityCG.cginc"
@@ -141,7 +139,11 @@
         ENDCG
 
         Pass {
-            ZTest Greater ZWrite Off
+            Blend SrcAlpha OneMinusSrcAlpha
+            ColorMask RGB
+            ZTest On // Off = Overlay
+            ZWrite Off
+            Cull Front
 
             CGPROGRAM
             #pragma vertex vert
@@ -152,7 +154,9 @@
         }
 
         Pass {
-            ZTest LEqual ZWrite Off
+            Blend SrcAlpha OneMinusSrcAlpha
+            ZTest On
+            ZWrite On
 
             CGPROGRAM
             #pragma vertex vert

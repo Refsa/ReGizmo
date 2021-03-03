@@ -6,14 +6,9 @@ Shader "ReGizmo/DMIILine" {
 	}
 	SubShader {
 		Tags {
-            "RenderType" = "Opaque"
-            "IgnoreProjector" = "True"
-            "Queue" = "Transparent+100"
+            "RenderType" = "Transparent"
+            "Queue" = "Transparent"
         }
-
-        Lighting Off
-        Blend SrcAlpha OneMinusSrcAlpha
-        Cull Off
 
         CGINCLUDE
         #include "UnityCG.cginc"
@@ -229,7 +224,7 @@ Shader "ReGizmo/DMIILine" {
             float dist = distance(centerUV, g.uv);
             float width = pixelWidth * g.widths.y;
 
-            // if (dist > width) return float4(1,0,1,1);
+            if (dist > width) return float4(1,0,1,1);
 
             if (dist <= width) col.a = 1;
             // else {
@@ -258,8 +253,11 @@ Shader "ReGizmo/DMIILine" {
 
 
 		Pass {
+			Blend SrcAlpha OneMinusSrcAlpha
+            ColorMask RGB
             ZWrite Off
-            ZTest Always
+            ZTest On
+
 			CGPROGRAM
 			#pragma vertex vert
             #pragma geometry geom
@@ -270,8 +268,10 @@ Shader "ReGizmo/DMIILine" {
 		}
 
         Pass {
-            ZWrite Off
-            ZTest Less
+			Blend SrcAlpha OneMinusSrcAlpha
+            ZWrite On
+            ZTest On
+
 			CGPROGRAM
 			#pragma vertex vert
             #pragma geometry geom

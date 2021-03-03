@@ -3,11 +3,8 @@ Shader "ReGizmo/DMIIDepthSort" {
 	SubShader {
 		Tags {
             "RenderType" = "Transparent"
-            "IgnoreProjector" = "True"
             "Queue" = "Transparent"
         }
-        Lighting Off
-        Blend One OneMinusSrcAlpha 
 
         CGINCLUDE
             #include "UnityCG.cginc"
@@ -31,12 +28,7 @@ Shader "ReGizmo/DMIIDepthSort" {
             float _Shaded;
             float _FresnelFactor;
 
-            void setup()
-            {
-        #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
-                DMIIProperties prop = _Properties[unity_InstanceID];
-        #endif
-            }
+            void setup() { }
 
 			fragment vert(vertex v, uint instanceID: SV_InstanceID) 
             {
@@ -50,8 +42,8 @@ Shader "ReGizmo/DMIIDepthSort" {
 
                 float3 normal = normalize(UnityObjectToWorldNormal(v.normal));
                 float3 viewDir = normalize(WorldSpaceViewDir(cloc));
-                f.dist = distance(prop.Position, _WorldSpaceCameraPos);
-                f.dist = 1.0 - pow((1.0 - saturate(dot(normal, viewDir))), _FresnelFactor) *  (1 - clamp(f.dist / 100, 0, 1));
+                f.dist = 1.0 - pow((1.0 - saturate(dot(normal, viewDir))), _FresnelFactor);
+                f.dist = smoothstep(0, 1, f.dist);
         #else
                 float4 cloc = float4(v.vertex.xyz, 1);
                 f.loc = UnityObjectToClipPos(cloc);
@@ -65,32 +57,31 @@ Shader "ReGizmo/DMIIDepthSort" {
 			float4 frag(fragment f) : SV_Target
             {
                 float4 c = f.col;
-
-                float fresnel = smoothstep(0, 1, f.dist);
                 float3 shade = lerp(c.rgb, 0, _Shaded);
-
-                c.rgb = saturate(lerp(shade, c.rgb, fresnel));
+                c.rgb = saturate(lerp(shade, c.rgb, f.dist));
 
 				return c * c.a;
 			}
         ENDCG
 
-        // Depth order front
         Pass {
-            ZTest Always
-            ZWrite On
+			Blend SrcAlpha OneMinusSrcAlpha
+            ColorMask RGB
+            ZTest On
+            ZWrite Off
 
             CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
             #pragma multi_compile_instancing
             #pragma instancing_options procedural:setup
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
 			ENDCG
         }
 
-        // Depth order depth
         Pass {
-            ZTest Less
+			Blend SrcAlpha OneMinusSrcAlpha
+            ZTest On
             ZWrite On
 
             CGPROGRAM
@@ -98,6 +89,7 @@ Shader "ReGizmo/DMIIDepthSort" {
 			#pragma fragment frag
             #pragma multi_compile_instancing
             #pragma instancing_options procedural:setup
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
 			ENDCG
         }
 	}
