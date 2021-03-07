@@ -20,13 +20,11 @@ namespace ReGizmo.Generator
                 shaderData.Position = point1;
                 shaderData.Color = $PARAM_1;
                 shaderData.Width = $PARAM_3;
-                shaderData.Mode = 1;
 
                 shaderData = ref drawer.GetShaderData();
                 shaderData.Position = point2;
                 shaderData.Color = $PARAM_2;
                 shaderData.Width = $PARAM_4;
-                shaderData.Mode = 1;
             }
         }";
             variables = new Variable[] {

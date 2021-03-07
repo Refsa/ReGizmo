@@ -7,7 +7,6 @@ Shader "Hidden/ReGizmo/Icon"
 
         CGINCLUDE
         #include "Utils/ReGizmoShaderUtils.cginc"
-        #pragma multi_compile_instancing
 
         struct v2g
         {
@@ -114,6 +113,8 @@ Shader "Hidden/ReGizmo/Icon"
             #pragma vertex vert
             #pragma geometry geom
             #pragma fragment frag
+            #pragma multi_compile_instancing
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
             ENDCG
         }
 
@@ -126,6 +127,8 @@ Shader "Hidden/ReGizmo/Icon"
             #pragma vertex vert
             #pragma geometry geom
             #pragma fragment frag
+            #pragma multi_compile_instancing
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
             ENDCG
         }
     }

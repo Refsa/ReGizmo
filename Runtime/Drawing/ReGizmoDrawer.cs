@@ -1,4 +1,5 @@
 
+using ReGizmo.Core;
 using UnityEngine;
 
 namespace ReGizmo.Drawing
@@ -34,6 +35,8 @@ namespace ReGizmo.Drawing
             shaderDataBuffer = new ShaderDataBuffer<TShaderData>();
 
             renderArguments = new uint[5] { 0, 0, 0, 0, 0 };
+
+            renderArgumentsBuffer?.Dispose();
             renderArgumentsBuffer = new ComputeBuffer(1, sizeof(uint) * 5, ComputeBufferType.IndirectArguments);
 
             currentBounds = DefaultRenderBounds;
@@ -51,8 +54,8 @@ namespace ReGizmo.Drawing
 
         public virtual void Dispose()
         {
-            shaderDataBuffer?.Dispose();
             renderArgumentsBuffer?.Dispose();
+            shaderDataBuffer?.Dispose();
         }
 
         public void Render(Camera camera)

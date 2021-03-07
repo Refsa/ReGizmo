@@ -1,6 +1,7 @@
 
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using ReGizmo.Core;
 using UnityEngine;
 
 namespace ReGizmo.Drawing
@@ -50,7 +51,7 @@ namespace ReGizmo.Drawing
             mpb.SetBuffer(name, shaderDataBuffer);
         }
 
-        void Expand(int amount)
+        void Expand(int amount) 
         {
             int currentLength = shaderDataPool == null ? 0 : shaderDataPool.Length;
             shaderDataPool = new T[currentLength + amount];

@@ -1,6 +1,7 @@
 
 
 using System.Runtime.InteropServices;
+using ReGizmo.Core;
 using UnityEngine;
 
 namespace ReGizmo.Drawing
@@ -47,6 +48,7 @@ namespace ReGizmo.Drawing
                 characterInfos[i] = ci;
             }
 
+            characterInfoBuffer?.Dispose();
             characterInfoBuffer = new ComputeBuffer(200, Marshal.SizeOf<CharacterInfoShader>());
             characterInfoBuffer.SetData(characterInfos);
             material.SetBuffer("_CharacterInfos", characterInfoBuffer);
@@ -89,7 +91,7 @@ namespace ReGizmo.Drawing
         public override void Dispose()
         {
             base.Dispose();
-            characterInfoBuffer.Dispose();
+            characterInfoBuffer?.Dispose();
         }
     }
 }

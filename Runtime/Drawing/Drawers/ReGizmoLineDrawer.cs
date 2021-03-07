@@ -8,7 +8,6 @@ namespace ReGizmo.Drawing
         public Vector3 Position;
         public Vector4 Color;
         public float Width;
-        public uint Mode;
     }
 
     internal class ReGizmoLineDrawer : ReGizmoDrawer<LineData>
@@ -30,7 +29,5 @@ namespace ReGizmo.Drawing
                 camera, materialPropertyBlock
             );
         }
-
-
     }
 }

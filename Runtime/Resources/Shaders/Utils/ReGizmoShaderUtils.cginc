@@ -196,6 +196,11 @@ float AreaPixelVariance(float2 uv)
     return areaSampleUV + variance;
 }
 
+float Remap_float(float In, float2 InMinMax, float2 OutMinMax)
+{
+    return OutMinMax.x + (In - InMinMax.x) * (OutMinMax.y - OutMinMax.x) / (InMinMax.y - InMinMax.x);
+}
+
 float SampleLineDist(float2 uv, float widthScale)
 {
     const float2 centeruv = float2(0.5, uv.y);

@@ -13,13 +13,11 @@ namespace ReGizmo.Drawing
                 shaderData.Position = p1;
                 shaderData.Color = color1;
                 shaderData.Width = width1;
-                shaderData.Mode = 1;
 
                 shaderData = ref drawer.GetShaderData();
                 shaderData.Position = p2;
                 shaderData.Color = color2;
                 shaderData.Width = width2;
-                shaderData.Mode = 1;
             }
         }
 
@@ -31,13 +29,11 @@ namespace ReGizmo.Drawing
                 shaderData.Position = p1;
                 shaderData.Color = color;
                 shaderData.Width = width1;
-                shaderData.Mode = 1;
 
                 shaderData = ref drawer.GetShaderData();
                 shaderData.Position = p2;
                 shaderData.Color = color;
                 shaderData.Width = width2;
-                shaderData.Mode = 1;
             }
         }
 
@@ -49,13 +45,11 @@ namespace ReGizmo.Drawing
                 shaderData.Position = p1;
                 shaderData.Color = color;
                 shaderData.Width = width;
-                shaderData.Mode = 1;
 
                 shaderData = ref drawer.GetShaderData();
                 shaderData.Position = p2;
                 shaderData.Color = color;
                 shaderData.Width = width;
-                shaderData.Mode = 1;
             }
         }
 
@@ -67,13 +61,11 @@ namespace ReGizmo.Drawing
                 shaderData.Position = p1;
                 shaderData.Color = color;
                 shaderData.Width = 1f;
-                shaderData.Mode = 1;
 
                 shaderData = ref drawer.GetShaderData();
                 shaderData.Position = p2;
                 shaderData.Color = color;
                 shaderData.Width = 1f;
-                shaderData.Mode = 1;
             }
         }
 
@@ -85,13 +77,11 @@ namespace ReGizmo.Drawing
                 shaderData.Position = p1;
                 shaderData.Color = currentColor;
                 shaderData.Width = 1f;
-                shaderData.Mode = 1;
 
                 shaderData = ref drawer.GetShaderData();
                 shaderData.Position = p2;
                 shaderData.Color = currentColor;
                 shaderData.Width = 1f;
-                shaderData.Mode = 1;
             }
         }
     }
