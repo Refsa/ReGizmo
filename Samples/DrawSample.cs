@@ -13,7 +13,7 @@ public class DrawSample : MonoBehaviour
     void OnDrawGizmos()
     {
         Color cubeColor = Color.black;
-        cubeColor.a = 0.5f;
+        cubeColor.a = 1f;
         for (int i = 0; i < 16; i++)
         {
             cubeColor.r = (float)i / 16f;
@@ -22,6 +22,17 @@ public class DrawSample : MonoBehaviour
                 cubeColor.g = (float)j / 16f;
                 ReDraw.Cube(new Vector3(10 + i * 2, 0, 10 + j * 2), Quaternion.identity, Vector3.one, cubeColor);
             }
+        }
+
+        {
+            ReDraw.Quad(Vector3.up * 5f + Vector3.back * 20f, Vector3.one * 2f, Color.red);
+            ReDraw.Cube(Vector3.up * 5f + Vector3.back * 25f, Vector3.one * 2f, Color.red);
+            ReDraw.Cylinder(Vector3.up * 5f + Vector3.back * 30f, Vector3.one * 2f, Color.red);
+            ReDraw.Icosahedron(Vector3.up * 5f + Vector3.back * 35f, Vector3.one * 2f, Color.red);
+            ReDraw.Octahedron(Vector3.up * 5f + Vector3.back * 40f, Vector3.one * 2f, Color.red);
+            ReDraw.Pyramid(Vector3.up * 5f + Vector3.back * 45f, Vector3.one * 2f, Color.red);
+            ReDraw.Sphere(Vector3.up * 5f + Vector3.back * 50f, Vector3.one * 2f, Color.red);
+            ReDraw.Capsule(Vector3.up * 5f + Vector3.back * 55f, Vector3.one * 2f, Color.red);
         }
 
         if (customMeshes != null)

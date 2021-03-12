@@ -33,6 +33,7 @@ namespace ReGizmo.Generator
                 new MeshDrawGenerator("Sphere", "ReGizmoSphereDrawer"),
                 new MeshDrawGenerator("Quad", "ReGizmoQuadDrawer"),
                 new MeshDrawGenerator("Cylinder", "ReGizmoCylinderDrawer"),
+                new MeshDrawGenerator("Capsule", "ReGizmoCapsuleDrawer"),
                 new MeshDrawGenerator("Cone", "ReGizmoConeDrawer"),
                 new MeshDrawGenerator("Octahedron", "ReGizmoOctahedronDrawer"),
                 new MeshDrawGenerator("Pyramid", "ReGizmoPyramidDrawer"),

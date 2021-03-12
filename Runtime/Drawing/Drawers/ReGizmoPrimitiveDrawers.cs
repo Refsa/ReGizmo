@@ -42,6 +42,16 @@ namespace ReGizmo.Drawing
             renderArguments[0] = mesh.GetIndexCount(0);
         }
     }
+    
+    internal class ReGizmoCapsuleDrawer : ReGizmoMeshDrawer
+    {
+        public ReGizmoCapsuleDrawer() : base()
+        {
+            mesh = ReGizmoPrimitives.Capsule();
+            material = ReGizmoHelpers.PrepareMaterial("ReGizmo/DMIIDepthSort");
+            renderArguments[0] = mesh.GetIndexCount(0);
+        }
+    }
 
     internal class ReGizmoConeDrawer : ReGizmoMeshDrawer
     {
