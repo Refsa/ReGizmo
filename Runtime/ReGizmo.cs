@@ -101,7 +101,7 @@ namespace ReGizmo.Core
 #endif
 
             activeCameras.Add(Camera.main);
-            
+
 #if UNITY_EDITOR
             activeCameras.Add(UnityEditor.SceneView.currentDrawingSceneView.camera);
 #endif
@@ -120,7 +120,7 @@ namespace ReGizmo.Core
                 {
                     try
                     {
-                        if (camera != null || !camera.isActiveAndEnabled) drawer.Render(camera);
+                        if (camera != null) drawer.Render(camera);
                     }
                     catch
                     {

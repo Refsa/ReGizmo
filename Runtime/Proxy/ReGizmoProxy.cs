@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public class ReGizmoProxy : MonoBehaviour, IDisposable
+internal class ReGizmoProxy : MonoBehaviour, IDisposable
 {
     public event Action inUpdate;
     public event Action inLateUpdate;
@@ -9,6 +11,11 @@ public class ReGizmoProxy : MonoBehaviour, IDisposable
     public event Action inDrawGizmos;
 
     public event Action inDestroy;
+
+    void Awake()
+    {
+        Debug.Log("######### ReGizmo Proxy Setup #########");
+    }
 
     void OnDestroy()
     {

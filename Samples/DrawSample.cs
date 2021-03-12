@@ -5,25 +5,43 @@ using ReGizmo.Drawing;
 
 public class DrawSample : MonoBehaviour
 {
+    [SerializeField] Mesh someMesh;
+
     [SerializeField] Mesh[] customMeshes;
     [SerializeField] Texture2D[] customIcons;
 
-    Color[] colors = new Color[] { Color.red, Color.green, Color.blue };
+    Color[] colors = new Color[] {Color.red, Color.green, Color.blue};
 
+    Vector3[] someMeshVertices;
+    int[] someMeshIndices;
+
+#if UNITY_EDITOR
     void OnDrawGizmos()
+    {
+        Draw();
+    }
+#else
+    void Update()
+    {
+        Draw();
+    }
+#endif
+
+    void Draw()
     {
         Color cubeColor = Color.black;
         cubeColor.a = 1f;
         for (int i = 0; i < 16; i++)
         {
-            cubeColor.r = (float)i / 16f;
+            cubeColor.r = (float) i / 16f;
             for (int j = 0; j < 16; j++)
             {
-                cubeColor.g = (float)j / 16f;
+                cubeColor.g = (float) j / 16f;
                 ReDraw.Cube(new Vector3(10 + i * 2, 0, 10 + j * 2), Quaternion.identity, Vector3.one, cubeColor);
             }
         }
 
+        // Primitives
         {
             ReDraw.Quad(Vector3.up * 5f + Vector3.back * 20f, Vector3.one * 2f, Color.red);
             ReDraw.Cube(Vector3.up * 5f + Vector3.back * 25f, Vector3.one * 2f, Color.red);
@@ -75,6 +93,35 @@ public class DrawSample : MonoBehaviour
                 ReDraw.Sphere(Vector3.back * 1, Color.cyan.WithAlpha(0.8f));
                 ReDraw.Sphere(Vector3.back * 2, Color.cyan.WithAlpha(0.6f));
                 ReDraw.Sphere(Vector3.back * 3, Color.cyan.WithAlpha(0.4f));
+            }
+        }
+
+        // Dots and lines
+        if (someMesh != null)
+        {
+            if (someMeshVertices == null || someMeshVertices.Length != someMesh.vertexCount)
+            {
+                someMeshVertices = someMesh.vertices;
+                someMeshIndices = someMesh.GetIndices(0);
+            }
+            
+            using (new PositionScope(Vector3.right * 10f))
+            {
+                foreach (var vertex in someMeshVertices)
+                {
+                    ReDraw.Sphere(vertex, Vector3.one * 0.01f, Color.red);
+                }
+
+                for (int i = 0; i < someMeshIndices.Length; i += 3)
+                {
+                    Vector3 p1 = someMeshVertices[someMeshIndices[i]];
+                    Vector3 p2 = someMeshVertices[someMeshIndices[i + 1]];
+                    Vector3 p3 = someMeshVertices[someMeshIndices[i + 2]];
+                    
+                    ReDraw.Line(p1, p2, Color.green, 2f);
+                    ReDraw.Line(p2, p3, Color.green, 2f);
+                    ReDraw.Line(p3, p1, Color.green, 2f);
+                }
             }
         }
     }
