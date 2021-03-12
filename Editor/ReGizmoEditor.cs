@@ -28,6 +28,9 @@ namespace ReGizmo.Editor
             AssemblyReloadEvents.beforeAssemblyReload += OnBeforeAssemblyReloaded;
             AssemblyReloadEvents.afterAssemblyReload += OnAfterAssemblyReloaded;
 
+            BuildHook.onAfterBuild += OnAfterBuild;
+            BuildHook.onBeforeBuild += OnBeforeBuild;
+
             SceneView.duringSceneGui += OnSceneGUI;
 
             if (!Application.isPlaying)
@@ -43,9 +46,22 @@ namespace ReGizmo.Editor
             AssemblyReloadEvents.beforeAssemblyReload -= OnBeforeAssemblyReloaded;
             AssemblyReloadEvents.afterAssemblyReload -= OnAfterAssemblyReloaded;
 
+            BuildHook.onAfterBuild -= OnAfterBuild;
+            BuildHook.onBeforeBuild -= OnBeforeBuild;
+
             SceneView.duringSceneGui -= OnSceneGUI;
 
             EditorApplication.update -= OnUpdate;
+        }
+
+        static void OnBeforeBuild()
+        {
+        }
+
+        static void OnAfterBuild()
+        {
+            DeAttachEventHooks();
+            AttachEventHooks();
         }
 
         private static void OnSceneGUI(SceneView obj)
@@ -72,26 +88,21 @@ namespace ReGizmo.Editor
             {
                 exitingEditMode = true;
                 ReGizmo.Core.ReGizmo.Interrupt();
-                UnityEngine.Debug.Log($"exit edit mode");
             }
             else if (change == PlayModeStateChange.EnteredEditMode)
             {
-                UnityEngine.Debug.Log($"enter edit mode");
                 ReGizmo.Core.ReGizmo.Initialize();
             }
             else if (change == PlayModeStateChange.ExitingPlayMode)
             {
-                UnityEngine.Debug.Log($"exit play mode");
             }
             else if (change == PlayModeStateChange.EnteredPlayMode)
             {
-                UnityEngine.Debug.Log($"enter play mode");
             }
         }
 
         static void OnBeforeAssemblyReloaded()
         {
-            UnityEngine.Debug.Log($"before assembly reload");
             // if (lastGUIEventType != EventType.Repaint)
             // if (!exitingEditMode)
             // {
@@ -102,7 +113,6 @@ namespace ReGizmo.Editor
 
         static void OnAfterAssemblyReloaded()
         {
-            UnityEngine.Debug.Log($"after assembly reload");
         }
 
         static void AwaitSetup()
@@ -118,7 +128,6 @@ namespace ReGizmo.Editor
         {
             if (EditorApplication.isPlayingOrWillChangePlaymode)
             {
-                Console.WriteLine("Changing mode");
             }
 
             if (!exitingEditMode)
