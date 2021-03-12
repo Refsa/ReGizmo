@@ -28,6 +28,7 @@ Shader "Hidden/ReGizmo/Icon"
         };
 
         sampler2D _IconTexture;
+        float _IconAspect;
 
         StructuredBuffer<Data> _Properties;
 
@@ -43,18 +44,18 @@ Shader "Hidden/ReGizmo/Icon"
             return o;
         }
 
+        static const float aspect = _ScreenParams.x / _ScreenParams.y;
+
         [maxvertexcount(6)]
         void geom(point v2g i[1], inout TriangleStream<g2f> triangleStream)
         {
             Data bd = _Properties[i[0].vertexID];
 
-            static const float aspect = _ScreenParams.x / _ScreenParams.y;
-
             float halfOffset = bd.scale * 0.5;
             
             float4 clip = mul(UNITY_MATRIX_VP, i[0].pos);
 
-            float dx = -halfOffset;
+            float dx = -halfOffset * _IconAspect;
             float dy = -halfOffset * aspect;
 
             float4 cp1 = float4(clip.x - dx, clip.y - dy, clip.z, clip.w); 

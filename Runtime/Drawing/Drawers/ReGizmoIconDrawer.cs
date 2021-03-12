@@ -14,10 +14,13 @@ namespace ReGizmo.Drawing
     internal class ReGizmoIconDrawer : ReGizmoDrawer<IconShaderData>
     {
         Texture2D icon;
+        float aspect;
 
         public ReGizmoIconDrawer(Texture2D icon) : base()
         {
             this.icon = icon;
+
+            this.aspect = (float) icon.width / (float) icon.height;
 
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Icon");
             renderArguments[1] = 1;
@@ -37,7 +40,9 @@ namespace ReGizmo.Drawing
         protected override void SetMaterialPropertyBlockData()
         {
             base.SetMaterialPropertyBlockData();
+            
             materialPropertyBlock.SetTexture("_IconTexture", icon);
+            materialPropertyBlock.SetFloat("_IconAspect", aspect);
         }
     }
 }
