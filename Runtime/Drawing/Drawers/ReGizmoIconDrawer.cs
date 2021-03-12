@@ -19,7 +19,6 @@ namespace ReGizmo.Drawing
         public ReGizmoIconDrawer(Texture2D icon) : base()
         {
             this.icon = icon;
-
             this.aspect = (float) icon.width / (float) icon.height;
 
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Icon");

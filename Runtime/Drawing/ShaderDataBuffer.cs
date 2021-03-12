@@ -51,18 +51,18 @@ namespace ReGizmo.Drawing
             mpb.SetBuffer(name, shaderDataBuffer);
         }
 
-        void Expand(int amount) 
+        void Expand(int amount)
         {
             int currentLength = shaderDataPool == null ? 0 : shaderDataPool.Length;
             shaderDataPool = new T[currentLength + amount];
 
-            shaderDataBuffer?.Dispose();
-            shaderDataBuffer = new ComputeBuffer(shaderDataPool.Length, Marshal.SizeOf<T>());
+            ComputeBufferPool.Free(shaderDataBuffer);
+            shaderDataBuffer = ComputeBufferPool.Get(shaderDataPool.Length, Marshal.SizeOf<T>());
         }
 
         public void Dispose()
         {
-            shaderDataBuffer?.Dispose();
+            shaderDataBuffer = ComputeBufferPool.Free(shaderDataBuffer);
         }
     }
 }

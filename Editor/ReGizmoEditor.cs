@@ -10,13 +10,12 @@ namespace ReGizmo.Editor
     static class ReGizmoEditor
     {
         static double startTime;
-        static bool toggle;
+        static bool exitingEditMode;
+        static EventType lastGUIEventType;
 
         static ReGizmoEditor()
         {
             startTime = EditorApplication.timeSinceStartup;
-
-            ReGizmo.Core.ReGizmo.Dispose();
             DeAttachEventHooks();
             AttachEventHooks();
         }
@@ -28,6 +27,8 @@ namespace ReGizmo.Editor
             EditorApplication.playModeStateChanged += OnPlaymodeChanged;
             AssemblyReloadEvents.beforeAssemblyReload += OnBeforeAssemblyReloaded;
             AssemblyReloadEvents.afterAssemblyReload += OnAfterAssemblyReloaded;
+
+            SceneView.duringSceneGui += OnSceneGUI;
 
             if (!Application.isPlaying)
             {
@@ -42,15 +43,36 @@ namespace ReGizmo.Editor
             AssemblyReloadEvents.beforeAssemblyReload -= OnBeforeAssemblyReloaded;
             AssemblyReloadEvents.afterAssemblyReload -= OnAfterAssemblyReloaded;
 
+            SceneView.duringSceneGui -= OnSceneGUI;
+
             EditorApplication.update -= OnUpdate;
+        }
+
+        private static void OnSceneGUI(SceneView obj)
+        {
+            lastGUIEventType = Event.current.type;
+
+            if (exitingEditMode)
+            {
+                ReGizmo.Core.ReGizmo.Interrupt();
+                if (Event.current.type != EventType.Repaint)
+                {
+                    ReGizmo.Core.ReGizmo.Dispose();
+                }
+            }
+            else if (Event.current.type == EventType.Repaint)
+            {
+                ReGizmo.Core.ReGizmo.OnUpdate();
+            }
         }
 
         static void OnPlaymodeChanged(PlayModeStateChange change)
         {
             if (change == PlayModeStateChange.ExitingEditMode)
             {
+                exitingEditMode = true;
+                ReGizmo.Core.ReGizmo.Interrupt();
                 UnityEngine.Debug.Log($"exit edit mode");
-                ReGizmo.Core.ReGizmo.Dispose();
             }
             else if (change == PlayModeStateChange.EnteredEditMode)
             {
@@ -70,6 +92,12 @@ namespace ReGizmo.Editor
         static void OnBeforeAssemblyReloaded()
         {
             UnityEngine.Debug.Log($"before assembly reload");
+            // if (lastGUIEventType != EventType.Repaint)
+            // if (!exitingEditMode)
+            // {
+            //     ReGizmo.Core.ReGizmo.Interrupt();
+            //     ReGizmo.Core.ReGizmo.Dispose();
+            // }
         }
 
         static void OnAfterAssemblyReloaded()
@@ -93,7 +121,10 @@ namespace ReGizmo.Editor
                 Console.WriteLine("Changing mode");
             }
 
-            ReGizmo.Core.ReGizmo.OnUpdate();
+            if (!exitingEditMode)
+            {
+                // ReGizmo.Core.ReGizmo.OnUpdate();
+            }
         }
     }
-} 
+}

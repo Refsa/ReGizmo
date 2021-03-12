@@ -1,5 +1,3 @@
-
-
 using System.Collections.Generic;
 using ReGizmo.Drawing;
 using UnityEngine;
@@ -16,20 +14,19 @@ namespace ReGizmo.Core
         static List<IReGizmoDrawer> drawers;
         static bool interrupted = false;
 
-        static CommandBuffer commandBuffer;
-
-        [RuntimeInitializeOnLoadMethod]
+#if !UNITY_EDITOR
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+#endif
         public static void Initialize()
         {
+            Debug.Log("########## Setting up ReGizmo ##########");
             Dispose();
             Setup();
         }
 
         public static void Setup()
         {
-            commandBuffer = new CommandBuffer();
-
-            string assetPath = ReGizmoHelpers.GetProjectResourcesPath();
+            ComputeBufferPool.Init();
 
             drawers = new List<IReGizmoDrawer>()
             {
@@ -43,18 +40,22 @@ namespace ReGizmo.Core
                 ReGizmoResolver<ReGizmoOctahedronDrawer>.Init(new ReGizmoOctahedronDrawer()),
                 ReGizmoResolver<ReGizmoQuadDrawer>.Init(new ReGizmoQuadDrawer()),
                 ReGizmoResolver<ReGizmoPyramidDrawer>.Init(new ReGizmoPyramidDrawer()),
+                ReGizmoResolver<ReGizmoCapsuleDrawer>.Init(new ReGizmoCapsuleDrawer()),
 
                 ReGizmoResolver<ReGizmoCustomMeshDrawer>.Init(new ReGizmoCustomMeshDrawer()),
 
                 ReGizmoResolver<ReGizmoIconsDrawer>.Init(new ReGizmoIconsDrawer()),
 
-                ReGizmoResolver<ReGizmoFontDrawer>.Init(new ReGizmoFontDrawer(ReGizmoHelpers.LoadFontByName("MonoSpatial"))),
+                ReGizmoResolver<ReGizmoFontDrawer>.Init(
+                    new ReGizmoFontDrawer(ReGizmoHelpers.LoadFontByName("MonoSpatial"))),
             };
 
-            if (Application.isPlaying)
+            // if (Application.isPlaying)
+#if !UNITY_EDITOR
             {
                 SetupProxyObject();
             }
+#endif
 
             isSetup = true;
             interrupted = false;
@@ -68,12 +69,11 @@ namespace ReGizmo.Core
             var proxyComp = proxyObject.AddComponent<ReGizmoProxy>();
 
             proxyComp.inUpdate += OnUpdate;
+            proxyComp.inDestroy += Dispose;
         }
 
         public static void Dispose()
         {
-            commandBuffer?.Dispose();
-
             if (drawers == null) return;
 
             foreach (var drawer in drawers)
@@ -87,7 +87,10 @@ namespace ReGizmo.Core
         public static void Interrupt()
         {
             interrupted = true;
+            activeCameras.Clear();
         }
+
+        static HashSet<Camera> activeCameras = new HashSet<Camera>();
 
         public static void OnUpdate()
         {
@@ -97,26 +100,32 @@ namespace ReGizmo.Core
             Profiler.BeginSample("ReGizmo::OnUpdate");
 #endif
 
-            Camera gameCamera = Camera.main;
+            activeCameras.Add(Camera.main);
+            
 #if UNITY_EDITOR
-            Camera sceneViewCamera = UnityEditor.SceneView.lastActiveSceneView.camera;
+            activeCameras.Add(UnityEditor.SceneView.currentDrawingSceneView.camera);
 #endif
 
             foreach (var drawer in drawers)
             {
-                if (interrupted) break;
-                try
-                {
-#if UNITY_EDITOR
-                    if (sceneViewCamera != null)
-                    {
-                        drawer.Render(sceneViewCamera);
-                    }
-#endif
+                if (drawer.CurrentDrawCount() == 0) continue;
 
-                    drawer.Render(gameCamera);
+                if (interrupted)
+                {
+                    drawer.Clear();
+                    break;
                 }
-                catch { }
+
+                foreach (var camera in activeCameras)
+                {
+                    try
+                    {
+                        if (camera != null || !camera.isActiveAndEnabled) drawer.Render(camera);
+                    }
+                    catch
+                    {
+                    }
+                }
 
                 drawer.Clear();
             }

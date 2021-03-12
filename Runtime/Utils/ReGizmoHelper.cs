@@ -94,11 +94,11 @@ namespace ReGizmo
             texture = LoadTexture(localResourcesFolder);
 #else
             // HACK: Should probably just load the asset directly
-            foreach (Font f in Resources.LoadAll("", typeof(Font)))
+            foreach (Texture2D t in Resources.LoadAll("", typeof(Texture2D)))
             {
-                if (f.name == name)
+                if (t.name == name)
                 {
-                    font = f;
+                    texture = t;
                     break;
                 }
             }

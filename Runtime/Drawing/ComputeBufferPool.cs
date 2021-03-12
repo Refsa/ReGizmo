@@ -27,12 +27,14 @@ namespace ReGizmo.Core
             return cb;
         }
 
-        public static void Free(ComputeBuffer buffer)
+        public static ComputeBuffer Free(ComputeBuffer buffer)
         {
-            if (buffer == null || !buffer.IsValid()) return;
+            if (buffer == null || !buffer.IsValid()) return null;
 
             instance.activeBuffers.Remove(buffer);
             buffer.Dispose();
+
+            return null;
         }
 
         public static void FreeAll()

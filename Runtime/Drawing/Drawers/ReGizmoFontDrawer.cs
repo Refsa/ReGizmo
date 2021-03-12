@@ -48,8 +48,8 @@ namespace ReGizmo.Drawing
                 characterInfos[i] = ci;
             }
 
-            characterInfoBuffer?.Dispose();
-            characterInfoBuffer = new ComputeBuffer(200, Marshal.SizeOf<CharacterInfoShader>());
+            ComputeBufferPool.Free(characterInfoBuffer);
+            characterInfoBuffer = ComputeBufferPool.Get(200, Marshal.SizeOf<CharacterInfoShader>());
             characterInfoBuffer.SetData(characterInfos);
             material.SetBuffer("_CharacterInfos", characterInfoBuffer);
         }
@@ -91,7 +91,7 @@ namespace ReGizmo.Drawing
         public override void Dispose()
         {
             base.Dispose();
-            characterInfoBuffer?.Dispose();
+            characterInfoBuffer = ComputeBufferPool.Free(characterInfoBuffer);
         }
     }
 }

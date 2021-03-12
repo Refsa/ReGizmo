@@ -36,8 +36,8 @@ namespace ReGizmo.Drawing
 
             renderArguments = new uint[5] { 0, 0, 0, 0, 0 };
 
-            renderArgumentsBuffer?.Dispose();
-            renderArgumentsBuffer = new ComputeBuffer(1, sizeof(uint) * 5, ComputeBufferType.IndirectArguments);
+            ComputeBufferPool.Free(renderArgumentsBuffer);
+            renderArgumentsBuffer = ComputeBufferPool.Get(1, sizeof(uint) * 5, ComputeBufferType.IndirectArguments);
 
             currentBounds = DefaultRenderBounds;
         }
@@ -54,7 +54,7 @@ namespace ReGizmo.Drawing
 
         public virtual void Dispose()
         {
-            renderArgumentsBuffer?.Dispose();
+            renderArgumentsBuffer = ComputeBufferPool.Free(renderArgumentsBuffer);
             shaderDataBuffer?.Dispose();
         }
 
