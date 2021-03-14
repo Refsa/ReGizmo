@@ -1,4 +1,4 @@
-﻿Shader "ReGizmo/FontShader"
+﻿Shader "ReGizmo/SDFShader"
 {
     Properties
     {
@@ -67,6 +67,9 @@
         StructuredBuffer<CharData> _CharData;
         StructuredBuffer<CharacterInfo> _CharacterInfos;
         StructuredBuffer<TextData> _TextData;
+
+        float _DistanceRange;
+        float2 _AltasSize;
 
         sampler2D _MainTex;
         float4 _MainTex_ST;
@@ -150,11 +153,25 @@
 
         static const float2 pixelSize = 1.0 / _ProjectionParams.xy;
 
+        float median(float r, float g, float b)
+        {
+            return max(min(r, g), min(max(r, g), b));
+        }
+
+        float screenPxRange(float2 uv)
+        {
+            float2 unitRange = float2(_DistanceRange, _DistanceRange) / _AltasSize;
+            float2 screenTexSize = rcp(fwidth(uv));
+            return max(0.5 * dot(unitRange, screenTexSize), 1.0);
+        }
+
         float4 frag(g2f i) : SV_Target
         {
-            float4 glyph = tex2D(_MainTex, i.uv);
-            float4 col = float4(i.color, glyph.a);
-            return col;
+            float3 msd = tex2D(_MainTex, i.uv).rgb;
+            float sd = median(msd.r, msd.g, msd.b);
+            float screenPxDist = screenPxRange(i.uv) * (sd - 0.5);
+            float opacity = clamp(screenPxDist + 0.5, 0.0, 1.0);
+            return float4(i.color, opacity);
         }
         ENDCG
 

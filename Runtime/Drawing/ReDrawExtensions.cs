@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 namespace ReGizmo.Drawing
@@ -82,6 +81,34 @@ namespace ReGizmo.Drawing
                 shaderData.Position = currentPosition + p2;
                 shaderData.Color = currentColor;
                 shaderData.Width = 1f;
+            }
+        } 
+
+        public static void TextSDF(string text, UnityEngine.Vector3 position, System.Single scale,
+            UnityEngine.Color color)
+        {
+            if (ReGizmoResolver<ReGizmoSDFFontDrawer>.TryGet(out var drawer))
+            {
+                ref var textData = ref drawer.GetTextShaderData(out uint id);
+                textData.Position = currentPosition + position;
+                textData.Scale = scale;
+                textData.Color = new Vector3(color.r, color.g, color.b);
+
+                float totalAdvance = 0f;
+                for (int i = 0; i < text.Length; i++)
+                {
+                    ref var charData = ref drawer.GetShaderData();
+
+                    charData.TextID = id;
+                    charData.Advance = totalAdvance;
+
+                    uint charIndex = (uint) text[i];
+                    charData.CharIndex = charIndex;
+
+                    totalAdvance += scale * drawer.GetCharacterInfo(charIndex).Advance;
+                }
+
+                textData.CenterOffset = totalAdvance / 2.0f;
             }
         }
     }

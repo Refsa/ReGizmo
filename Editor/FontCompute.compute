@@ -1,0 +1,54 @@
+﻿#pragma kernel GenerateFont
+#pragma kernel ClearTexture
+
+struct CharacterInfoShader
+{
+    float2 BottomLeft;
+    float2 BottomRight;
+    float2 TopLeft;
+    float2 TopRight;
+    float4 Size;
+    float Advance;
+};
+
+Texture2D<float4> _FontTexture;
+RWTexture2D<float4> _TargetTexture;
+StructuredBuffer<CharacterInfoShader> _CharacterInfos;
+
+float2 _TextureSize;
+
+static const int2 outside = int2(-1, -1);
+
+[numthreads(16,1,1)]
+void GenerateFont(uint3 id : SV_DISPATCHTHREADID)
+{
+    CharacterInfoShader ci = _CharacterInfos[id.x];
+
+    float2 tl = ci.TopLeft * _TextureSize;
+    float2 tr = ci.TopRight * _TextureSize;
+    float2 bl = ci.BottomLeft * _TextureSize;
+    float2 br = ci.BottomRight * _TextureSize;
+
+    uint2 center = floor(br - tl);
+
+    float width = tr.x - tl.x;
+    float height = bl.y - tl.y;
+
+    float minDist = 0;
+    for (int x = tl.x; x < tr.x; x++)
+    {
+        for (int y = tl.y; y < bl.y; y++)
+        {
+            int2 uv = int2(x, y);
+            if (_FontTexture[uv].a == 0) continue;
+
+            _TargetTexture[uv] = _FontTexture[uv];
+        }
+    }
+}
+
+[numthreads(32, 32, 1)]
+void ClearTexture(uint3 id : SV_DISPATCHTHREADID)
+{
+    _TargetTexture[id.xy] = 0;
+}

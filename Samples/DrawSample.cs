@@ -69,6 +69,15 @@ public class DrawSample : MonoBehaviour
 
             ReDraw.Text(text, Vector3.back * 5, 1f, Color.green);
             ReDraw.Text(text, Vector3.back * 7, 1f, Color.green);
+            ReDraw.Text(text, Vector3.right * 15f + Vector3.up * 15f, 4f, Color.green);
+        }
+
+        // SDF Text
+        {
+            string text = "ABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890!#{}[]()";
+
+            ReDraw.TextSDF(text, Vector3.up * 10f + Vector3.right * 15f, 4f, Color.blue);
+            ReDraw.Text(text, Vector3.up * 8f + Vector3.right * 15f, 4f, Color.blue);
         }
 
         // Lines
@@ -104,7 +113,7 @@ public class DrawSample : MonoBehaviour
                 someMeshVertices = someMesh.vertices;
                 someMeshIndices = someMesh.GetIndices(0);
             }
-            
+
             using (new PositionScope(Vector3.right * 10f))
             {
                 foreach (var vertex in someMeshVertices)
@@ -117,7 +126,7 @@ public class DrawSample : MonoBehaviour
                     Vector3 p1 = someMeshVertices[someMeshIndices[i]];
                     Vector3 p2 = someMeshVertices[someMeshIndices[i + 1]];
                     Vector3 p3 = someMeshVertices[someMeshIndices[i + 2]];
-                    
+
                     ReDraw.Line(p1, p2, Color.green, 2f);
                     ReDraw.Line(p2, p3, Color.green, 2f);
                     ReDraw.Line(p3, p1, Color.green, 2f);
