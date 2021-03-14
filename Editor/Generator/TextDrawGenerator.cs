@@ -16,6 +16,8 @@ namespace ReGizmo.Generator
         {
             if (ReGizmoResolver<ReGizmoFontDrawer>.TryGet(out var drawer))
             {
+                var textData = drawer.GetTextShaderData();
+
                 int textLength = text.Length;
                 float totalAdvance = 0f;
                 for (int i = 0; i < text.Length; i++)

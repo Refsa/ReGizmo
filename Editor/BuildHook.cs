@@ -6,7 +6,7 @@ namespace ReGizmo.Editor
 {
     internal class BuildHook : IPostprocessBuildWithReport, IPreprocessBuildWithReport
     {
-        public int callbackOrder { get; } = 10000;
+        public int callbackOrder { get; } = int.MaxValue;
 
         public static event Action onBeforeBuild;
         public static event Action onAfterBuild;

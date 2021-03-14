@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 #if UNITY_EDITOR
 using UnityEditor;
+
 #endif
 
 namespace ReGizmo
@@ -55,7 +56,8 @@ namespace ReGizmo
 #if UNITY_EDITOR
             string localResourcesFolder = ReGizmoHelpers.GetProjectResourcesPath() + @"Font/" + name + ".ttf";
             font = ReGizmoHelpers.LoadFont(localResourcesFolder);
-            if (font == null) localResourcesFolder = ReGizmoHelpers.GetProjectResourcesPath() + @"Font/" + name + ".otf";
+            if (font == null)
+                localResourcesFolder = ReGizmoHelpers.GetProjectResourcesPath() + @"Font/" + name + ".otf";
             font = ReGizmoHelpers.LoadFont(localResourcesFolder);
 #else
             // HACK: Should probably just load the asset directly
@@ -70,6 +72,32 @@ namespace ReGizmo
 #endif
 
             return font;
+        }
+
+        public static T LoadAssetByName<T>(string name) where T : UnityEngine.Object
+        {
+            T obj = null;
+
+#if UNITY_EDITOR
+            var assets = AssetDatabase.FindAssets($"{name} t:{typeof(T).Name}");
+
+            if (assets != null && assets.Length > 0)
+            {
+                obj = AssetDatabase.LoadAssetAtPath<T>(AssetDatabase.GUIDToAssetPath(assets[0]));
+            }
+#else
+            // HACK: Should probably just load the asset directly
+            foreach (T t in Resources.LoadAll("", typeof(T)))
+            {
+                if (t.name == name)
+                {
+                    obj = t;
+                    break;
+                }
+            }
+#endif
+
+            return obj;
         }
 
         public static Texture2D LoadTexture(string path)
@@ -112,7 +140,8 @@ namespace ReGizmo
         {
             try
             {
-                var dirs = System.IO.Directory.GetDirectories(Application.dataPath, @"*ReGizmo*", System.IO.SearchOption.AllDirectories);
+                var dirs = System.IO.Directory.GetDirectories(Application.dataPath, @"*ReGizmo*",
+                    System.IO.SearchOption.AllDirectories);
 
                 if (dirs.Length == 0) return "";
 
@@ -129,6 +158,7 @@ namespace ReGizmo
             {
                 UnityEngine.Debug.LogException(e);
             }
+
             return "";
         }
 #else

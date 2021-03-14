@@ -1,7 +1,10 @@
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace ReGizmo.Drawing
 {
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     internal struct CharacterInfoShader
     {
         public Vector2 BottomLeft;
@@ -10,15 +13,27 @@ namespace ReGizmo.Drawing
         public Vector2 TopRight;
         public Vector4 Size;
         public float Advance;
+
+        public override string ToString()
+        {
+            return $"{Size.ToString()}, {Advance.ToString()}";
+        }
     }
 
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     internal struct CharData
     {
-        public Vector3 Position;
-        public float Scale;
+        public uint TextID;
+        public uint CharIndex;
+        public float Advance;
+    }
 
-        public uint CharIndex; // UNIQUE
-        public Vector3 Color; // UNIQUE?
-        public float Advance; // UNIQUE
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    internal struct TextData
+    {
+        public Vector3 Color;
+        public float Scale;
+        public Vector3 Position;
+        public float CenterOffset;
     }
 }

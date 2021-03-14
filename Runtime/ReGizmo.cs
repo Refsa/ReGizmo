@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using ReGizmo.Core.Fonts;
 using ReGizmo.Drawing;
 using UnityEngine;
 using UnityEngine.Profiling;
@@ -46,6 +47,9 @@ namespace ReGizmo.Core
 
                 ReGizmoResolver<ReGizmoIconsDrawer>.Init(new ReGizmoIconsDrawer()),
 
+                ReGizmoResolver<ReGizmoSDFFontDrawer>.Init(
+                    new ReGizmoSDFFontDrawer(ReGizmoHelpers.LoadAssetByName<ReSDFData>("MonoSpatial"))),
+                
                 ReGizmoResolver<ReGizmoFontDrawer>.Init(
                     new ReGizmoFontDrawer(ReGizmoHelpers.LoadFontByName("MonoSpatial"))),
             };

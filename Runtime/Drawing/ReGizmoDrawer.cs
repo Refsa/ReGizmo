@@ -12,7 +12,7 @@ namespace ReGizmo.Drawing
         uint CurrentDrawCount();
     }
 
-    internal abstract class ReGizmoDrawer<TShaderData> : System.IDisposable, IReGizmoDrawer
+    public abstract class ReGizmoDrawer<TShaderData> : System.IDisposable, IReGizmoDrawer
         where TShaderData : unmanaged
     {
         protected static readonly Bounds DefaultRenderBounds = new Bounds(Vector3.zero, Vector3.one * 10_000f);
@@ -47,7 +47,7 @@ namespace ReGizmo.Drawing
             this.material = material;
         }
 
-        public void Clear()
+        public virtual void Clear()
         {
             shaderDataBuffer.Reset();
         }
