@@ -1,0 +1,1173 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7f089b271a54432af7fdb3cacd0ba0c, type: 3}
+  m_Name: Metropolis-Thin
+  m_EditorClassIdentifier: 
+  image: {fileID: 2800000, guid: 1fa3457f81b9b97448d4b60907fa3347, type: 3}
+  info: '{"atlas":{"type":"mtsdf","distanceRange":2,"size":128,"width":716,"height":716,"yOrigin":"bottom"},"metrics":{"lineHeight":1,"ascender":0.79500000000000004,"descender":-0.20500000000000002,"underlineY":-0.13300000000000001,"underlineThickness":0.02},"glyphs":[{"unicode":32,"advance":0.28999999999999998},{"unicode":33,"advance":0.22500000000000001,"planeBounds":{"left":0.073937500000000003,"bottom":-0.021874999999999967,"right":0.15206249999999999,"top":0.69687500000000002},"atlasBounds":{"left":105.5,"bottom":424.5,"right":115.5,"top":516.5}},{"unicode":34,"advance":0.38300000000000001,"planeBounds":{"left":0.062593750000000004,"bottom":0.44553124999999999,"right":0.32040625,"top":0.65646875000000005},"atlasBounds":{"left":668.5,"bottom":371.5,"right":701.5,"top":398.5}},{"unicode":35,"advance":0.66800000000000004,"planeBounds":{"left":0.028812499999999987,"bottom":-0.0080624999999999725,"right":0.63818750000000002,"top":0.69506250000000003},"atlasBounds":{"left":126.5,"bottom":63.5,"right":204.5,"top":153.5}},{"unicode":36,"advance":0.60299999999999998,"planeBounds":{"left":0.035781250000000001,"bottom":-0.083281250000000015,"right":0.55921874999999999,"top":0.76828125000000003},"atlasBounds":{"left":291.5,"bottom":238.5,"right":358.5,"top":347.5}},{"unicode":37,"advance":0.76900000000000002,"planeBounds":{"left":0.036343750000000022,"bottom":-0.017874999999999964,"right":0.73165625000000001,"top":0.70087500000000003},"atlasBounds":{"left":0.5,"bottom":96.5,"right":89.5,"top":188.5}},{"unicode":38,"advance":0.64500000000000002,"planeBounds":{"left":0.032937500000000029,"bottom":-0.021781250000000019,"right":0.61106250000000006,"top":0.70478125000000003},"atlasBounds":{"left":212.5,"bottom":440.5,"right":286.5,"top":533.5}},{"unicode":39,"advance":0.20200000000000001,"planeBounds":{"left":0.0619375,"bottom":0.44553124999999999,"right":0.14006250000000001,"top":0.65646875000000005},"atlasBounds":{"left":105.5,"bottom":396.5,"right":115.5,"top":423.5}},{"unicode":40,"advance":0.33000000000000002,"planeBounds":{"left":0.051906250000000001,"bottom":-0.18031250000000001,"right":0.29409374999999999,"top":0.71031250000000001},"atlasBounds":{"left":668.5,"bottom":73.5,"right":699.5,"top":187.5}},{"unicode":41,"advance":0.33000000000000002,"planeBounds":{"left":0.035906250000000001,"bottom":-0.18031250000000001,"right":0.27809375000000003,"top":0.71031250000000001},"atlasBounds":{"left":614.5,"bottom":312.5,"right":645.5,"top":426.5}},{"unicode":42,"advance":0.35899999999999999,"planeBounds":{"left":0.050315972222222241,"bottom":0.39446875000000003,"right":0.30812847222222223,"top":0.68353125000000003},"atlasBounds":{"left":556.5,"bottom":19.5,"right":589.5,"top":56.5}},{"unicode":43,"advance":0.59299999999999997,"planeBounds":{"left":0.058218750000000007,"bottom":0.09621875000000002,"right":0.53478124999999999,"top":0.57278125000000002},"atlasBounds":{"left":126.5,"bottom":1.5,"right":187.5,"top":62.5}},{"unicode":44,"advance":0.24099999999999999,"planeBounds":{"left":0.070218749999999996,"bottom":-0.13125000000000001,"right":0.17178125,"top":0.056250000000000001},"atlasBounds":{"left":105.5,"bottom":600.5,"right":118.5,"top":624.5}},{"unicode":45,"advance":0.371,"planeBounds":{"left":0.044875000000000005,"bottom":0.24465624999999999,"right":0.326125,"top":0.29934375000000002},"atlasBounds":{"left":362.5,"bottom":5.5,"right":398.5,"top":12.5}},{"unicode":46,"advance":0.20500000000000002,"planeBounds":{"left":0.063937500000000008,"bottom":-0.021062500000000001,"right":0.14206250000000001,"top":0.057062500000000002},"atlasBounds":{"left":105.5,"bottom":385.5,"right":115.5,"top":395.5}},{"unicode":47,"advance":0.36899999999999999,"planeBounds":{"left":-0.024124999999999994,"bottom":-0.083468749999999967,"right":0.38212499999999999,"top":0.75246875000000002},"atlasBounds":{"left":614.5,"bottom":535.5,"right":666.5,"top":642.5}},{"unicode":48,"advance":0.64600000000000002,"planeBounds":{"left":0.049562500000000016,"bottom":-0.023687500000000018,"right":0.59643750000000006,"top":0.71068750000000003},"atlasBounds":{"left":291.5,"bottom":621.5,"right":361.5,"top":715.5}},{"unicode":49,"advance":0.33200000000000002,"planeBounds":{"left":0.014312499999999997,"bottom":-0.0080624999999999725,"right":0.24868750000000001,"top":0.69506250000000003},"atlasBounds":{"left":41.5,"bottom":5.5,"right":71.5,"top":95.5}},{"unicode":50,"advance":0.57899999999999996,"planeBounds":{"left":0.038812500000000014,"bottom":-0.0098749999999999689,"right":0.52318750000000003,"top":0.70887500000000003},"atlasBounds":{"left":430.5,"bottom":344.5,"right":492.5,"top":436.5}},{"unicode":51,"advance":0.55000000000000004,"planeBounds":{"left":0.032125000000000008,"bottom":-0.023687500000000018,"right":0.50087499999999996,"top":0.71068750000000003},"atlasBounds":{"left":494.5,"bottom":275.5,"right":554.5,"top":369.5}},{"unicode":52,"advance":0.59199999999999997,"planeBounds":{"left":0.029781250000000002,"bottom":-0.0080624999999999725,"right":0.55321874999999998,"top":0.69506250000000003},"atlasBounds":{"left":212.5,"bottom":1.5,"right":279.5,"top":91.5}},{"unicode":53,"advance":0.57799999999999996,"planeBounds":{"left":0.046312500000000013,"bottom":-0.021874999999999967,"right":0.53068749999999998,"top":0.69687500000000002},"atlasBounds":{"left":430.5,"bottom":251.5,"right":492.5,"top":343.5}},{"unicode":54,"advance":0.57999999999999996,"planeBounds":{"left":0.051718750000000008,"bottom":-0.023687500000000018,"right":0.52828125000000004,"top":0.71068750000000003},"atlasBounds":{"left":430.5,"bottom":156.5,"right":491.5,"top":250.5}},{"unicode":55,"advance":0.58999999999999997,"planeBounds":{"left":0.048218750000000005,"bottom":-0.0080624999999999725,"right":0.52478124999999998,"top":0.69506250000000003},"atlasBounds":{"left":430.5,"bottom":65.5,"right":491.5,"top":155.5}},{"unicode":56,"advance":0.56300000000000006,"planeBounds":{"left":0.043218750000000007,"bottom":-0.023687500000000018,"right":0.51978124999999997,"top":0.71068750000000003},"atlasBounds":{"left":494.5,"bottom":621.5,"right":555.5,"top":715.5}},{"unicode":57,"advance":0.57999999999999996,"planeBounds":{"left":0.051718750000000008,"bottom":-0.023687500000000018,"right":0.52828125000000004,"top":0.71068750000000003},"atlasBounds":{"left":494.5,"bottom":526.5,"right":555.5,"top":620.5}},{"unicode":58,"advance":0.20500000000000002,"planeBounds":{"left":0.063937500000000008,"bottom":-0.023124999999999996,"right":0.14206250000000001,"top":0.50812500000000005},"atlasBounds":{"left":105.5,"bottom":316.5,"right":115.5,"top":384.5}},{"unicode":59,"advance":0.24099999999999999,"planeBounds":{"left":0.070218749999999996,"bottom":-0.1333125,"right":0.17178125,"top":0.50731250000000006},"atlasBounds":{"left":105.5,"bottom":517.5,"right":118.5,"top":599.5}},{"unicode":60,"advance":0.58599999999999997,"planeBounds":{"left":0.044218750000000008,"bottom":0.094,"right":0.52078124999999997,"top":0.59399999999999997},"atlasBounds":{"left":430.5,"bottom":0.5,"right":491.5,"top":64.5}},{"unicode":61,"advance":0.59299999999999997,"planeBounds":{"left":0.058218750000000007,"bottom":0.19728124999999999,"right":0.53478124999999999,"top":0.47071875000000002},"atlasBounds":{"left":291.5,"bottom":20.5,"right":352.5,"top":55.5}},{"unicode":62,"advance":0.58599999999999997,"planeBounds":{"left":0.065218750000000006,"bottom":0.094,"right":0.54178124999999999,"top":0.59399999999999997},"atlasBounds":{"left":494.5,"bottom":461.5,"right":555.5,"top":525.5}},{"unicode":63,"advance":0.48599999999999999,"planeBounds":{"left":0.015750000000000017,"bottom":-0.023687500000000018,"right":0.45324999999999999,"top":0.71068750000000003},"atlasBounds":{"left":556.5,"bottom":548.5,"right":612.5,"top":642.5}},{"unicode":64,"advance":0.88100000000000001,"planeBounds":{"left":0.034250000000000023,"bottom":-0.12674999999999997,"right":0.84675,"top":0.68574999999999997},"atlasBounds":{"left":0.5,"bottom":520.5,"right":104.5,"top":624.5}},{"unicode":65,"advance":0.70999999999999996,"planeBounds":{"left":0.02296875000000001,"bottom":-0.0080624999999999725,"right":0.68703124999999998,"top":0.69506250000000003},"atlasBounds":{"left":126.5,"bottom":625.5,"right":211.5,"top":715.5}},{"unicode":66,"advance":0.65400000000000003,"planeBounds":{"left":0.083781250000000002,"bottom":-0.0080624999999999725,"right":0.60721875000000003,"top":0.69506250000000003},"atlasBounds":{"left":291.5,"bottom":56.5,"right":358.5,"top":146.5}},{"unicode":67,"advance":0.68000000000000005,"planeBounds":{"left":0.042906249999999986,"bottom":-0.023687500000000018,"right":0.66009375000000003,"top":0.71068750000000003},"atlasBounds":{"left":126.5,"bottom":253.5,"right":205.5,"top":347.5}},{"unicode":68,"advance":0.745,"planeBounds":{"left":0.082812499999999983,"bottom":-0.0080624999999999725,"right":0.69218750000000007,"top":0.69506250000000003},"atlasBounds":{"left":212.5,"bottom":625.5,"right":290.5,"top":715.5}},{"unicode":69,"advance":0.58499999999999996,"planeBounds":{"left":0.070125000000000007,"bottom":-0.0080624999999999725,"right":0.53887499999999999,"top":0.69506250000000003},"atlasBounds":{"left":494.5,"bottom":370.5,"right":554.5,"top":460.5}},{"unicode":70,"advance":0.58699999999999997,"planeBounds":{"left":0.068406250000000016,"bottom":-0.0080624999999999725,"right":0.56059375,"top":0.69506250000000003},"atlasBounds":{"left":430.5,"bottom":437.5,"right":493.5,"top":527.5}},{"unicode":71,"advance":0.74299999999999999,"planeBounds":{"left":0.044093750000000001,"bottom":-0.023687500000000018,"right":0.67690625000000004,"top":0.71068750000000003},"atlasBounds":{"left":126.5,"bottom":348.5,"right":207.5,"top":442.5}},{"unicode":72,"advance":0.67700000000000005,"planeBounds":{"left":0.068968750000000009,"bottom":-0.0080624999999999725,"right":0.60803125000000002,"top":0.69506250000000003},"atlasBounds":{"left":291.5,"bottom":348.5,"right":360.5,"top":438.5}},{"unicode":73,"advance":0.19400000000000001,"planeBounds":{"left":0.069656250000000003,"bottom":-0.0080624999999999725,"right":0.12434375,"top":0.69506250000000003},"atlasBounds":{"left":105.5,"bottom":25.5,"right":112.5,"top":115.5}},{"unicode":74,"advance":0.51900000000000002,"planeBounds":{"left":0.014656250000000015,"bottom":-0.021874999999999967,"right":0.44434374999999998,"top":0.69687500000000002},"atlasBounds":{"left":556.5,"bottom":385.5,"right":611.5,"top":477.5}},{"unicode":75,"advance":0.61199999999999999,"planeBounds":{"left":0.084187499999999998,"bottom":-0.0080624999999999725,"right":0.59981249999999997,"top":0.69506250000000003},"atlasBounds":{"left":362.5,"bottom":530.5,"right":428.5,"top":620.5}},{"unicode":76,"advance":0.53400000000000003,"planeBounds":{"left":0.057437500000000002,"bottom":-0.0080624999999999725,"right":0.51056250000000003,"top":0.69506250000000003},"atlasBounds":{"left":494.5,"bottom":41.5,"right":552.5,"top":131.5}},{"unicode":77,"advance":0.81200000000000006,"planeBounds":{"left":0.0856875,"bottom":-0.0080624999999999725,"right":0.72631250000000003,"top":0.69506250000000003},"atlasBounds":{"left":126.5,"bottom":443.5,"right":208.5,"top":533.5}},{"unicode":78,"advance":0.72799999999999998,"planeBounds":{"left":0.082750000000000018,"bottom":-0.0080624999999999725,"right":0.64524999999999999,"top":0.69506250000000003},"atlasBounds":{"left":212.5,"bottom":349.5,"right":284.5,"top":439.5}},{"unicode":79,"advance":0.80700000000000005,"planeBounds":{"left":0.044125000000000039,"bottom":-0.023687500000000018,"right":0.76287499999999997,"top":0.71068750000000003},"atlasBounds":{"left":0.5,"bottom":284.5,"right":92.5,"top":378.5}},{"unicode":80,"advance":0.63900000000000001,"planeBounds":{"left":0.069062500000000013,"bottom":-0.0080624999999999725,"right":0.61593750000000003,"top":0.69506250000000003},"atlasBounds":{"left":291.5,"bottom":530.5,"right":361.5,"top":620.5}},{"unicode":81,"advance":0.80700000000000005,"planeBounds":{"left":0.044125000000000039,"bottom":-0.023687500000000018,"right":0.76287499999999997,"top":0.71068750000000003},"atlasBounds":{"left":0.5,"bottom":189.5,"right":92.5,"top":283.5}},{"unicode":82,"advance":0.63900000000000001,"planeBounds":{"left":0.069062500000000013,"bottom":-0.0080624999999999725,"right":0.61593750000000003,"top":0.69506250000000003},"atlasBounds":{"left":291.5,"bottom":439.5,"right":361.5,"top":529.5}},{"unicode":83,"advance":0.60299999999999998,"planeBounds":{"left":0.035781250000000001,"bottom":-0.022687500000000017,"right":0.55921874999999999,"top":0.71168750000000003},"atlasBounds":{"left":362.5,"bottom":621.5,"right":429.5,"top":715.5}},{"unicode":84,"advance":0.63,"planeBounds":{"left":0.033750000000000016,"bottom":-0.0080624999999999725,"right":0.59625000000000006,"top":0.69506250000000003},"atlasBounds":{"left":212.5,"bottom":258.5,"right":284.5,"top":348.5}},{"unicode":85,"advance":0.70399999999999996,"planeBounds":{"left":0.074656250000000021,"bottom":-0.021874999999999967,"right":0.62934374999999998,"top":0.69687500000000002},"atlasBounds":{"left":212.5,"bottom":92.5,"right":283.5,"top":184.5}},{"unicode":86,"advance":0.70999999999999996,"planeBounds":{"left":0.02296875000000001,"bottom":-0.0080624999999999725,"right":0.68703124999999998,"top":0.69506250000000003},"atlasBounds":{"left":126.5,"bottom":534.5,"right":211.5,"top":624.5}},{"unicode":87,"advance":1.0329999999999999,"planeBounds":{"left":0.028218750000000035,"bottom":-0.0080624999999999725,"right":1.00478125,"top":0.69506250000000003},"atlasBounds":{"left":0.5,"bottom":625.5,"right":125.5,"top":715.5}},{"unicode":88,"advance":0.64800000000000002,"planeBounds":{"left":0.027125000000000031,"bottom":-0.0080624999999999725,"right":0.62087500000000007,"top":0.69506250000000003},"atlasBounds":{"left":212.5,"bottom":534.5,"right":288.5,"top":624.5}},{"unicode":89,"advance":0.63200000000000001,"planeBounds":{"left":0.0074062499999999875,"bottom":-0.0080624999999999725,"right":0.62459375000000006,"top":0.69506250000000003},"atlasBounds":{"left":126.5,"bottom":162.5,"right":205.5,"top":252.5}},{"unicode":90,"advance":0.61899999999999999,"planeBounds":{"left":0.048781249999999998,"bottom":-0.0080624999999999725,"right":0.57221875,"top":0.69506250000000003},"atlasBounds":{"left":291.5,"bottom":147.5,"right":358.5,"top":237.5}},{"unicode":91,"advance":0.35100000000000003,"planeBounds":{"left":0.070406250000000004,"bottom":-0.12409375,"right":0.31259375,"top":0.74309375},"atlasBounds":{"left":614.5,"bottom":200.5,"right":645.5,"top":311.5}},{"unicode":92,"advance":0.36899999999999999,"planeBounds":{"left":-0.013124999999999993,"bottom":-0.083468749999999967,"right":0.393125,"top":0.75246875000000002},"atlasBounds":{"left":614.5,"bottom":427.5,"right":666.5,"top":534.5}},{"unicode":93,"advance":0.35100000000000003,"planeBounds":{"left":0.038406250000000003,"bottom":-0.12409375,"right":0.28059375000000003,"top":0.74309375},"atlasBounds":{"left":668.5,"bottom":188.5,"right":699.5,"top":299.5}},{"unicode":94,"advance":0.47000000000000003,"planeBounds":{"left":0.043593749999999994,"bottom":0.40156249999999999,"right":0.42640624999999999,"top":0.69843750000000004},"atlasBounds":{"left":494.5,"bottom":2.5,"right":543.5,"top":40.5}},{"unicode":95,"advance":0.59199999999999997,"planeBounds":{"left":-0.012593750000000015,"bottom":-0.13634375000000001,"right":0.60459375000000004,"top":-0.08165625},"atlasBounds":{"left":126.5,"bottom":154.5,"right":205.5,"top":161.5}},{"unicode":96,"advance":0.29199999999999998,"planeBounds":{"left":0.052250000000000005,"bottom":0.56496875000000002,"right":0.23975000000000002,"top":0.72903125000000002},"atlasBounds":{"left":668.5,"bottom":51.5,"right":692.5,"top":72.5}},{"unicode":97,"advance":0.55400000000000005,"planeBounds":{"left":0.040843749999999991,"bottom":-0.022749999999999982,"right":0.48615625000000001,"top":0.53975000000000006},"atlasBounds":{"left":556.5,"bottom":643.5,"right":613.5,"top":715.5}},{"unicode":98,"advance":0.60899999999999999,"planeBounds":{"left":0.07290625000000002,"bottom":-0.023687500000000018,"right":0.56509375000000006,"top":0.71068750000000003},"atlasBounds":{"left":430.5,"bottom":528.5,"right":493.5,"top":622.5}},{"unicode":99,"advance":0.52200000000000002,"planeBounds":{"left":0.0389375,"bottom":-0.022749999999999982,"right":0.49206250000000001,"top":0.53975000000000006},"atlasBounds":{"left":494.5,"bottom":132.5,"right":552.5,"top":204.5}},{"unicode":100,"advance":0.60899999999999999,"planeBounds":{"left":0.043906250000000015,"bottom":-0.023687500000000018,"right":0.53609375000000004,"top":0.71068750000000003},"atlasBounds":{"left":362.5,"bottom":106.5,"right":425.5,"top":200.5}},{"unicode":101,"advance":0.59499999999999997,"planeBounds":{"left":0.040187500000000001,"bottom":-0.022749999999999982,"right":0.55581250000000004,"top":0.53975000000000006},"atlasBounds":{"left":362.5,"bottom":387.5,"right":428.5,"top":459.5}},{"unicode":102,"advance":0.34100000000000003,"planeBounds":{"left":0.027249999999999993,"bottom":-0.011093750000000015,"right":0.33975,"top":0.73109374999999999},"atlasBounds":{"left":0.5,"bottom":0.5,"right":40.5,"top":95.5}},{"unicode":103,"advance":0.59699999999999998,"planeBounds":{"left":0.025000000000000019,"bottom":-0.18087499999999998,"right":0.52500000000000002,"top":0.53787499999999999},"atlasBounds":{"left":362.5,"bottom":201.5,"right":426.5,"top":293.5}},{"unicode":104,"advance":0.55200000000000005,"planeBounds":{"left":0.06556250000000001,"bottom":-0.0098749999999999689,"right":0.48743750000000002,"top":0.70887500000000003},"atlasBounds":{"left":556.5,"bottom":199.5,"right":610.5,"top":291.5}},{"unicode":105,"advance":0.186,"planeBounds":{"left":0.053937499999999999,"bottom":-0.0099687499999999724,"right":0.1320625,"top":0.70096875000000003},"atlasBounds":{"left":105.5,"bottom":224.5,"right":115.5,"top":315.5}},{"unicode":106,"advance":0.161,"planeBounds":{"left":-0.098875000000000005,"bottom":-0.18881249999999999,"right":0.11987500000000001,"top":0.70181250000000006},"atlasBounds":{"left":614.5,"bottom":85.5,"right":642.5,"top":199.5}},{"unicode":107,"advance":0.5,"planeBounds":{"left":0.065656250000000013,"bottom":-0.0098749999999999689,"right":0.49534375000000003,"top":0.70887500000000003},"atlasBounds":{"left":556.5,"bottom":292.5,"right":611.5,"top":384.5}},{"unicode":108,"advance":0.188,"planeBounds":{"left":0.06665625,"bottom":-0.0098749999999999689,"right":0.12134375,"top":0.70887500000000003},"atlasBounds":{"left":96.5,"bottom":427.5,"right":103.5,"top":519.5}},{"unicode":109,"advance":0.85799999999999998,"planeBounds":{"left":0.065718749999999979,"bottom":-0.0089374999999999854,"right":0.79228125000000005,"top":0.53793749999999996},"atlasBounds":{"left":0.5,"bottom":379.5,"right":93.5,"top":449.5}},{"unicode":110,"advance":0.55200000000000005,"planeBounds":{"left":0.06556250000000001,"bottom":-0.0089374999999999854,"right":0.48743750000000002,"top":0.53793749999999996},"atlasBounds":{"left":556.5,"bottom":128.5,"right":610.5,"top":198.5}},{"unicode":111,"advance":0.63100000000000001,"planeBounds":{"left":0.038156250000000017,"bottom":-0.022749999999999982,"right":0.59284375,"top":0.53975000000000006},"atlasBounds":{"left":212.5,"bottom":185.5,"right":283.5,"top":257.5}},{"unicode":112,"advance":0.60899999999999999,"planeBounds":{"left":0.07290625000000002,"bottom":-0.18087499999999998,"right":0.56509375000000006,"top":0.53787499999999999},"atlasBounds":{"left":430.5,"bottom":623.5,"right":493.5,"top":715.5}},{"unicode":113,"advance":0.60899999999999999,"planeBounds":{"left":0.043906250000000015,"bottom":-0.18087499999999998,"right":0.53609375000000004,"top":0.53787499999999999},"atlasBounds":{"left":362.5,"bottom":13.5,"right":425.5,"top":105.5}},{"unicode":114,"advance":0.34700000000000003,"planeBounds":{"left":0.072093749999999998,"bottom":-0.0089374999999999854,"right":0.32990625000000001,"top":0.53793749999999996},"atlasBounds":{"left":668.5,"bottom":300.5,"right":701.5,"top":370.5}},{"unicode":115,"advance":0.48599999999999999,"planeBounds":{"left":0.034468750000000006,"bottom":-0.022749999999999982,"right":0.44853124999999999,"top":0.53975000000000006},"atlasBounds":{"left":614.5,"bottom":643.5,"right":667.5,"top":715.5}},{"unicode":116,"advance":0.35999999999999999,"planeBounds":{"left":0.027249999999999993,"bottom":-0.02024999999999998,"right":0.33975,"top":0.66725000000000001},"atlasBounds":{"left":668.5,"bottom":399.5,"right":708.5,"top":487.5}},{"unicode":117,"advance":0.55200000000000005,"planeBounds":{"left":0.064562500000000009,"bottom":-0.020937499999999987,"right":0.48643750000000002,"top":0.52593750000000006},"atlasBounds":{"left":556.5,"bottom":57.5,"right":610.5,"top":127.5}},{"unicode":118,"advance":0.55000000000000004,"planeBounds":{"left":0.017187500000000001,"bottom":-0.011031249999999992,"right":0.53281250000000002,"top":0.52803125000000006},"atlasBounds":{"left":362.5,"bottom":460.5,"right":428.5,"top":529.5}},{"unicode":119,"advance":0.79300000000000004,"planeBounds":{"left":0.026406249999999989,"bottom":-0.011031249999999992,"right":0.76859374999999996,"top":0.52803125000000006},"atlasBounds":{"left":0.5,"bottom":450.5,"right":95.5,"top":519.5}},{"unicode":120,"advance":0.50700000000000001,"planeBounds":{"left":0.023031250000000003,"bottom":-0.011031249999999992,"right":0.48396875,"top":0.52803125000000006},"atlasBounds":{"left":494.5,"bottom":205.5,"right":553.5,"top":274.5}},{"unicode":121,"advance":0.56700000000000006,"planeBounds":{"left":0.021093749999999998,"bottom":-0.19087499999999999,"right":0.52890625000000002,"top":0.52787499999999998},"atlasBounds":{"left":362.5,"bottom":294.5,"right":427.5,"top":386.5}},{"unicode":122,"advance":0.51400000000000001,"planeBounds":{"left":0.043156250000000014,"bottom":-0.011031249999999992,"right":0.47284375000000001,"top":0.52803125000000006},"atlasBounds":{"left":556.5,"bottom":478.5,"right":611.5,"top":547.5}},{"unicode":123,"advance":0.39200000000000002,"planeBounds":{"left":0.034343749999999999,"bottom":-0.17590625000000001,"right":0.35465625000000001,"top":0.70690625000000007},"atlasBounds":{"left":668.5,"bottom":488.5,"right":709.5,"top":601.5}},{"unicode":124,"advance":0.254,"planeBounds":{"left":0.099656250000000002,"bottom":-0.083468749999999967,"right":0.15434375,"top":0.75246875000000002},"atlasBounds":{"left":105.5,"bottom":116.5,"right":112.5,"top":223.5}},{"unicode":125,"advance":0.39200000000000002,"planeBounds":{"left":0.037343749999999995,"bottom":-0.17590625000000001,"right":0.35765625000000001,"top":0.70690625000000007},"atlasBounds":{"left":668.5,"bottom":602.5,"right":709.5,"top":715.5}},{"unicode":126,"advance":0.45100000000000001,"planeBounds":{"left":0.061437499999999999,"bottom":0.28778124999999999,"right":0.38956250000000003,"top":0.43621874999999999},"atlasBounds":{"left":291.5,"bottom":0.5,"right":333.5,"top":19.5}}],"kerning":[]}
+
+'
+  font:
+    atlas:
+      type: mtsdf
+      distanceRange: 2
+      size: 128
+      width: 716
+      height: 716
+      yOrigin: bottom
+    metrics:
+      lineHeight: 1
+      ascender: 0.795
+      descender: -0.205
+      underlineY: -0.133
+      underlineThickness: 0.02
+    glyphs:
+    - unicode: 32
+      advance: 0.29
+      planeBounds:
+        left: 0
+        bottom: 0
+        right: 0
+        top: 0
+      atlasBounds:
+        left: 0
+        bottom: 0
+        right: 0
+        top: 0
+    - unicode: 33
+      advance: 0.225
+      planeBounds:
+        left: 0.0739375
+        bottom: -0.021875
+        right: 0.1520625
+        top: 0.696875
+      atlasBounds:
+        left: 105.5
+        bottom: 424.5
+        right: 115.5
+        top: 516.5
+    - unicode: 34
+      advance: 0.383
+      planeBounds:
+        left: 0.06259375
+        bottom: 0.44553125
+        right: 0.32040626
+        top: 0.65646875
+      atlasBounds:
+        left: 668.5
+        bottom: 371.5
+        right: 701.5
+        top: 398.5
+    - unicode: 35
+      advance: 0.668
+      planeBounds:
+        left: 0.0288125
+        bottom: -0.0080625
+        right: 0.6381875
+        top: 0.6950625
+      atlasBounds:
+        left: 126.5
+        bottom: 63.5
+        right: 204.5
+        top: 153.5
+    - unicode: 36
+      advance: 0.603
+      planeBounds:
+        left: 0.03578125
+        bottom: -0.08328125
+        right: 0.55921876
+        top: 0.7682812
+      atlasBounds:
+        left: 291.5
+        bottom: 238.5
+        right: 358.5
+        top: 347.5
+    - unicode: 37
+      advance: 0.769
+      planeBounds:
+        left: 0.03634375
+        bottom: -0.017875
+        right: 0.73165625
+        top: 0.700875
+      atlasBounds:
+        left: 0.5
+        bottom: 96.5
+        right: 89.5
+        top: 188.5
+    - unicode: 38
+      advance: 0.645
+      planeBounds:
+        left: 0.0329375
+        bottom: -0.02178125
+        right: 0.6110625
+        top: 0.70478123
+      atlasBounds:
+        left: 212.5
+        bottom: 440.5
+        right: 286.5
+        top: 533.5
+    - unicode: 39
+      advance: 0.202
+      planeBounds:
+        left: 0.0619375
+        bottom: 0.44553125
+        right: 0.1400625
+        top: 0.65646875
+      atlasBounds:
+        left: 105.5
+        bottom: 396.5
+        right: 115.5
+        top: 423.5
+    - unicode: 40
+      advance: 0.33
+      planeBounds:
+        left: 0.05190625
+        bottom: -0.1803125
+        right: 0.29409376
+        top: 0.7103125
+      atlasBounds:
+        left: 668.5
+        bottom: 73.5
+        right: 699.5
+        top: 187.5
+    - unicode: 41
+      advance: 0.33
+      planeBounds:
+        left: 0.03590625
+        bottom: -0.1803125
+        right: 0.27809376
+        top: 0.7103125
+      atlasBounds:
+        left: 614.5
+        bottom: 312.5
+        right: 645.5
+        top: 426.5
+    - unicode: 42
+      advance: 0.359
+      planeBounds:
+        left: 0.050315972
+        bottom: 0.39446875
+        right: 0.30812848
+        top: 0.6835312
+      atlasBounds:
+        left: 556.5
+        bottom: 19.5
+        right: 589.5
+        top: 56.5
+    - unicode: 43
+      advance: 0.593
+      planeBounds:
+        left: 0.05821875
+        bottom: 0.09621875
+        right: 0.5347813
+        top: 0.57278126
+      atlasBounds:
+        left: 126.5
+        bottom: 1.5
+        right: 187.5
+        top: 62.5
+    - unicode: 44
+      advance: 0.241
+      planeBounds:
+        left: 0.07021875
+        bottom: -0.13125
+        right: 0.17178126
+        top: 0.05625
+      atlasBounds:
+        left: 105.5
+        bottom: 600.5
+        right: 118.5
+        top: 624.5
+    - unicode: 45
+      advance: 0.371
+      planeBounds:
+        left: 0.044875
+        bottom: 0.24465625
+        right: 0.326125
+        top: 0.29934376
+      atlasBounds:
+        left: 362.5
+        bottom: 5.5
+        right: 398.5
+        top: 12.5
+    - unicode: 46
+      advance: 0.205
+      planeBounds:
+        left: 0.0639375
+        bottom: -0.0210625
+        right: 0.1420625
+        top: 0.0570625
+      atlasBounds:
+        left: 105.5
+        bottom: 385.5
+        right: 115.5
+        top: 395.5
+    - unicode: 47
+      advance: 0.369
+      planeBounds:
+        left: -0.024125
+        bottom: -0.08346875
+        right: 0.382125
+        top: 0.75246876
+      atlasBounds:
+        left: 614.5
+        bottom: 535.5
+        right: 666.5
+        top: 642.5
+    - unicode: 48
+      advance: 0.646
+      planeBounds:
+        left: 0.0495625
+        bottom: -0.0236875
+        right: 0.5964375
+        top: 0.7106875
+      atlasBounds:
+        left: 291.5
+        bottom: 621.5
+        right: 361.5
+        top: 715.5
+    - unicode: 49
+      advance: 0.332
+      planeBounds:
+        left: 0.0143125
+        bottom: -0.0080625
+        right: 0.2486875
+        top: 0.6950625
+      atlasBounds:
+        left: 41.5
+        bottom: 5.5
+        right: 71.5
+        top: 95.5
+    - unicode: 50
+      advance: 0.579
+      planeBounds:
+        left: 0.0388125
+        bottom: -0.009875
+        right: 0.5231875
+        top: 0.708875
+      atlasBounds:
+        left: 430.5
+        bottom: 344.5
+        right: 492.5
+        top: 436.5
+    - unicode: 51
+      advance: 0.55
+      planeBounds:
+        left: 0.032125
+        bottom: -0.0236875
+        right: 0.500875
+        top: 0.7106875
+      atlasBounds:
+        left: 494.5
+        bottom: 275.5
+        right: 554.5
+        top: 369.5
+    - unicode: 52
+      advance: 0.592
+      planeBounds:
+        left: 0.02978125
+        bottom: -0.0080625
+        right: 0.5532187
+        top: 0.6950625
+      atlasBounds:
+        left: 212.5
+        bottom: 1.5
+        right: 279.5
+        top: 91.5
+    - unicode: 53
+      advance: 0.578
+      planeBounds:
+        left: 0.0463125
+        bottom: -0.021875
+        right: 0.5306875
+        top: 0.696875
+      atlasBounds:
+        left: 430.5
+        bottom: 251.5
+        right: 492.5
+        top: 343.5
+    - unicode: 54
+      advance: 0.58
+      planeBounds:
+        left: 0.05171875
+        bottom: -0.0236875
+        right: 0.5282813
+        top: 0.7106875
+      atlasBounds:
+        left: 430.5
+        bottom: 156.5
+        right: 491.5
+        top: 250.5
+    - unicode: 55
+      advance: 0.59
+      planeBounds:
+        left: 0.04821875
+        bottom: -0.0080625
+        right: 0.5247812
+        top: 0.6950625
+      atlasBounds:
+        left: 430.5
+        bottom: 65.5
+        right: 491.5
+        top: 155.5
+    - unicode: 56
+      advance: 0.563
+      planeBounds:
+        left: 0.04321875
+        bottom: -0.0236875
+        right: 0.51978123
+        top: 0.7106875
+      atlasBounds:
+        left: 494.5
+        bottom: 621.5
+        right: 555.5
+        top: 715.5
+    - unicode: 57
+      advance: 0.58
+      planeBounds:
+        left: 0.05171875
+        bottom: -0.0236875
+        right: 0.5282813
+        top: 0.7106875
+      atlasBounds:
+        left: 494.5
+        bottom: 526.5
+        right: 555.5
+        top: 620.5
+    - unicode: 58
+      advance: 0.205
+      planeBounds:
+        left: 0.0639375
+        bottom: -0.023125
+        right: 0.1420625
+        top: 0.508125
+      atlasBounds:
+        left: 105.5
+        bottom: 316.5
+        right: 115.5
+        top: 384.5
+    - unicode: 59
+      advance: 0.241
+      planeBounds:
+        left: 0.07021875
+        bottom: -0.1333125
+        right: 0.17178126
+        top: 0.5073125
+      atlasBounds:
+        left: 105.5
+        bottom: 517.5
+        right: 118.5
+        top: 599.5
+    - unicode: 60
+      advance: 0.586
+      planeBounds:
+        left: 0.04421875
+        bottom: 0.094
+        right: 0.5207813
+        top: 0.594
+      atlasBounds:
+        left: 430.5
+        bottom: 0.5
+        right: 491.5
+        top: 64.5
+    - unicode: 61
+      advance: 0.593
+      planeBounds:
+        left: 0.05821875
+        bottom: 0.19728126
+        right: 0.5347813
+        top: 0.47071874
+      atlasBounds:
+        left: 291.5
+        bottom: 20.5
+        right: 352.5
+        top: 55.5
+    - unicode: 62
+      advance: 0.586
+      planeBounds:
+        left: 0.06521875
+        bottom: 0.094
+        right: 0.54178125
+        top: 0.594
+      atlasBounds:
+        left: 494.5
+        bottom: 461.5
+        right: 555.5
+        top: 525.5
+    - unicode: 63
+      advance: 0.486
+      planeBounds:
+        left: 0.01575
+        bottom: -0.0236875
+        right: 0.45325
+        top: 0.7106875
+      atlasBounds:
+        left: 556.5
+        bottom: 548.5
+        right: 612.5
+        top: 642.5
+    - unicode: 64
+      advance: 0.881
+      planeBounds:
+        left: 0.03425
+        bottom: -0.12675
+        right: 0.84675
+        top: 0.68575
+      atlasBounds:
+        left: 0.5
+        bottom: 520.5
+        right: 104.5
+        top: 624.5
+    - unicode: 65
+      advance: 0.71
+      planeBounds:
+        left: 0.02296875
+        bottom: -0.0080625
+        right: 0.68703127
+        top: 0.6950625
+      atlasBounds:
+        left: 126.5
+        bottom: 625.5
+        right: 211.5
+        top: 715.5
+    - unicode: 66
+      advance: 0.654
+      planeBounds:
+        left: 0.08378125
+        bottom: -0.0080625
+        right: 0.60721874
+        top: 0.6950625
+      atlasBounds:
+        left: 291.5
+        bottom: 56.5
+        right: 358.5
+        top: 146.5
+    - unicode: 67
+      advance: 0.68
+      planeBounds:
+        left: 0.04290625
+        bottom: -0.0236875
+        right: 0.6600937
+        top: 0.7106875
+      atlasBounds:
+        left: 126.5
+        bottom: 253.5
+        right: 205.5
+        top: 347.5
+    - unicode: 68
+      advance: 0.745
+      planeBounds:
+        left: 0.0828125
+        bottom: -0.0080625
+        right: 0.6921875
+        top: 0.6950625
+      atlasBounds:
+        left: 212.5
+        bottom: 625.5
+        right: 290.5
+        top: 715.5
+    - unicode: 69
+      advance: 0.585
+      planeBounds:
+        left: 0.070125
+        bottom: -0.0080625
+        right: 0.538875
+        top: 0.6950625
+      atlasBounds:
+        left: 494.5
+        bottom: 370.5
+        right: 554.5
+        top: 460.5
+    - unicode: 70
+      advance: 0.587
+      planeBounds:
+        left: 0.06840625
+        bottom: -0.0080625
+        right: 0.5605937
+        top: 0.6950625
+      atlasBounds:
+        left: 430.5
+        bottom: 437.5
+        right: 493.5
+        top: 527.5
+    - unicode: 71
+      advance: 0.743
+      planeBounds:
+        left: 0.04409375
+        bottom: -0.0236875
+        right: 0.6769062
+        top: 0.7106875
+      atlasBounds:
+        left: 126.5
+        bottom: 348.5
+        right: 207.5
+        top: 442.5
+    - unicode: 72
+      advance: 0.677
+      planeBounds:
+        left: 0.06896875
+        bottom: -0.0080625
+        right: 0.6080313
+        top: 0.6950625
+      atlasBounds:
+        left: 291.5
+        bottom: 348.5
+        right: 360.5
+        top: 438.5
+    - unicode: 73
+      advance: 0.194
+      planeBounds:
+        left: 0.06965625
+        bottom: -0.0080625
+        right: 0.12434375
+        top: 0.6950625
+      atlasBounds:
+        left: 105.5
+        bottom: 25.5
+        right: 112.5
+        top: 115.5
+    - unicode: 74
+      advance: 0.519
+      planeBounds:
+        left: 0.01465625
+        bottom: -0.021875
+        right: 0.44434375
+        top: 0.696875
+      atlasBounds:
+        left: 556.5
+        bottom: 385.5
+        right: 611.5
+        top: 477.5
+    - unicode: 75
+      advance: 0.612
+      planeBounds:
+        left: 0.0841875
+        bottom: -0.0080625
+        right: 0.5998125
+        top: 0.6950625
+      atlasBounds:
+        left: 362.5
+        bottom: 530.5
+        right: 428.5
+        top: 620.5
+    - unicode: 76
+      advance: 0.534
+      planeBounds:
+        left: 0.0574375
+        bottom: -0.0080625
+        right: 0.5105625
+        top: 0.6950625
+      atlasBounds:
+        left: 494.5
+        bottom: 41.5
+        right: 552.5
+        top: 131.5
+    - unicode: 77
+      advance: 0.812
+      planeBounds:
+        left: 0.0856875
+        bottom: -0.0080625
+        right: 0.7263125
+        top: 0.6950625
+      atlasBounds:
+        left: 126.5
+        bottom: 443.5
+        right: 208.5
+        top: 533.5
+    - unicode: 78
+      advance: 0.728
+      planeBounds:
+        left: 0.08275
+        bottom: -0.0080625
+        right: 0.64525
+        top: 0.6950625
+      atlasBounds:
+        left: 212.5
+        bottom: 349.5
+        right: 284.5
+        top: 439.5
+    - unicode: 79
+      advance: 0.807
+      planeBounds:
+        left: 0.044125
+        bottom: -0.0236875
+        right: 0.762875
+        top: 0.7106875
+      atlasBounds:
+        left: 0.5
+        bottom: 284.5
+        right: 92.5
+        top: 378.5
+    - unicode: 80
+      advance: 0.639
+      planeBounds:
+        left: 0.0690625
+        bottom: -0.0080625
+        right: 0.6159375
+        top: 0.6950625
+      atlasBounds:
+        left: 291.5
+        bottom: 530.5
+        right: 361.5
+        top: 620.5
+    - unicode: 81
+      advance: 0.807
+      planeBounds:
+        left: 0.044125
+        bottom: -0.0236875
+        right: 0.762875
+        top: 0.7106875
+      atlasBounds:
+        left: 0.5
+        bottom: 189.5
+        right: 92.5
+        top: 283.5
+    - unicode: 82
+      advance: 0.639
+      planeBounds:
+        left: 0.0690625
+        bottom: -0.0080625
+        right: 0.6159375
+        top: 0.6950625
+      atlasBounds:
+        left: 291.5
+        bottom: 439.5
+        right: 361.5
+        top: 529.5
+    - unicode: 83
+      advance: 0.603
+      planeBounds:
+        left: 0.03578125
+        bottom: -0.0226875
+        right: 0.55921876
+        top: 0.7116875
+      atlasBounds:
+        left: 362.5
+        bottom: 621.5
+        right: 429.5
+        top: 715.5
+    - unicode: 84
+      advance: 0.63
+      planeBounds:
+        left: 0.03375
+        bottom: -0.0080625
+        right: 0.59625
+        top: 0.6950625
+      atlasBounds:
+        left: 212.5
+        bottom: 258.5
+        right: 284.5
+        top: 348.5
+    - unicode: 85
+      advance: 0.704
+      planeBounds:
+        left: 0.07465625
+        bottom: -0.021875
+        right: 0.62934375
+        top: 0.696875
+      atlasBounds:
+        left: 212.5
+        bottom: 92.5
+        right: 283.5
+        top: 184.5
+    - unicode: 86
+      advance: 0.71
+      planeBounds:
+        left: 0.02296875
+        bottom: -0.0080625
+        right: 0.68703127
+        top: 0.6950625
+      atlasBounds:
+        left: 126.5
+        bottom: 534.5
+        right: 211.5
+        top: 624.5
+    - unicode: 87
+      advance: 1.033
+      planeBounds:
+        left: 0.02821875
+        bottom: -0.0080625
+        right: 1.0047812
+        top: 0.6950625
+      atlasBounds:
+        left: 0.5
+        bottom: 625.5
+        right: 125.5
+        top: 715.5
+    - unicode: 88
+      advance: 0.648
+      planeBounds:
+        left: 0.027125
+        bottom: -0.0080625
+        right: 0.620875
+        top: 0.6950625
+      atlasBounds:
+        left: 212.5
+        bottom: 534.5
+        right: 288.5
+        top: 624.5
+    - unicode: 89
+      advance: 0.632
+      planeBounds:
+        left: 0.00740625
+        bottom: -0.0080625
+        right: 0.62459373
+        top: 0.6950625
+      atlasBounds:
+        left: 126.5
+        bottom: 162.5
+        right: 205.5
+        top: 252.5
+    - unicode: 90
+      advance: 0.619
+      planeBounds:
+        left: 0.04878125
+        bottom: -0.0080625
+        right: 0.5722188
+        top: 0.6950625
+      atlasBounds:
+        left: 291.5
+        bottom: 147.5
+        right: 358.5
+        top: 237.5
+    - unicode: 91
+      advance: 0.351
+      planeBounds:
+        left: 0.07040625
+        bottom: -0.12409375
+        right: 0.31259376
+        top: 0.7430937
+      atlasBounds:
+        left: 614.5
+        bottom: 200.5
+        right: 645.5
+        top: 311.5
+    - unicode: 92
+      advance: 0.369
+      planeBounds:
+        left: -0.013125
+        bottom: -0.08346875
+        right: 0.393125
+        top: 0.75246876
+      atlasBounds:
+        left: 614.5
+        bottom: 427.5
+        right: 666.5
+        top: 534.5
+    - unicode: 93
+      advance: 0.351
+      planeBounds:
+        left: 0.03840625
+        bottom: -0.12409375
+        right: 0.28059375
+        top: 0.7430937
+      atlasBounds:
+        left: 668.5
+        bottom: 188.5
+        right: 699.5
+        top: 299.5
+    - unicode: 94
+      advance: 0.47
+      planeBounds:
+        left: 0.04359375
+        bottom: 0.4015625
+        right: 0.42640626
+        top: 0.6984375
+      atlasBounds:
+        left: 494.5
+        bottom: 2.5
+        right: 543.5
+        top: 40.5
+    - unicode: 95
+      advance: 0.592
+      planeBounds:
+        left: -0.01259375
+        bottom: -0.13634375
+        right: 0.60459375
+        top: -0.08165625
+      atlasBounds:
+        left: 126.5
+        bottom: 154.5
+        right: 205.5
+        top: 161.5
+    - unicode: 96
+      advance: 0.292
+      planeBounds:
+        left: 0.05225
+        bottom: 0.56496876
+        right: 0.23975
+        top: 0.72903126
+      atlasBounds:
+        left: 668.5
+        bottom: 51.5
+        right: 692.5
+        top: 72.5
+    - unicode: 97
+      advance: 0.554
+      planeBounds:
+        left: 0.04084375
+        bottom: -0.02275
+        right: 0.48615626
+        top: 0.53975
+      atlasBounds:
+        left: 556.5
+        bottom: 643.5
+        right: 613.5
+        top: 715.5
+    - unicode: 98
+      advance: 0.609
+      planeBounds:
+        left: 0.07290625
+        bottom: -0.0236875
+        right: 0.56509376
+        top: 0.7106875
+      atlasBounds:
+        left: 430.5
+        bottom: 528.5
+        right: 493.5
+        top: 622.5
+    - unicode: 99
+      advance: 0.522
+      planeBounds:
+        left: 0.0389375
+        bottom: -0.02275
+        right: 0.4920625
+        top: 0.53975
+      atlasBounds:
+        left: 494.5
+        bottom: 132.5
+        right: 552.5
+        top: 204.5
+    - unicode: 100
+      advance: 0.609
+      planeBounds:
+        left: 0.04390625
+        bottom: -0.0236875
+        right: 0.5360938
+        top: 0.7106875
+      atlasBounds:
+        left: 362.5
+        bottom: 106.5
+        right: 425.5
+        top: 200.5
+    - unicode: 101
+      advance: 0.595
+      planeBounds:
+        left: 0.0401875
+        bottom: -0.02275
+        right: 0.5558125
+        top: 0.53975
+      atlasBounds:
+        left: 362.5
+        bottom: 387.5
+        right: 428.5
+        top: 459.5
+    - unicode: 102
+      advance: 0.341
+      planeBounds:
+        left: 0.02725
+        bottom: -0.01109375
+        right: 0.33975
+        top: 0.73109376
+      atlasBounds:
+        left: 0.5
+        bottom: 0.5
+        right: 40.5
+        top: 95.5
+    - unicode: 103
+      advance: 0.597
+      planeBounds:
+        left: 0.025
+        bottom: -0.180875
+        right: 0.525
+        top: 0.537875
+      atlasBounds:
+        left: 362.5
+        bottom: 201.5
+        right: 426.5
+        top: 293.5
+    - unicode: 104
+      advance: 0.552
+      planeBounds:
+        left: 0.0655625
+        bottom: -0.009875
+        right: 0.4874375
+        top: 0.708875
+      atlasBounds:
+        left: 556.5
+        bottom: 199.5
+        right: 610.5
+        top: 291.5
+    - unicode: 105
+      advance: 0.186
+      planeBounds:
+        left: 0.0539375
+        bottom: -0.00996875
+        right: 0.1320625
+        top: 0.70096874
+      atlasBounds:
+        left: 105.5
+        bottom: 224.5
+        right: 115.5
+        top: 315.5
+    - unicode: 106
+      advance: 0.161
+      planeBounds:
+        left: -0.098875
+        bottom: -0.1888125
+        right: 0.119875
+        top: 0.7018125
+      atlasBounds:
+        left: 614.5
+        bottom: 85.5
+        right: 642.5
+        top: 199.5
+    - unicode: 107
+      advance: 0.5
+      planeBounds:
+        left: 0.06565625
+        bottom: -0.009875
+        right: 0.49534374
+        top: 0.708875
+      atlasBounds:
+        left: 556.5
+        bottom: 292.5
+        right: 611.5
+        top: 384.5
+    - unicode: 108
+      advance: 0.188
+      planeBounds:
+        left: 0.06665625
+        bottom: -0.009875
+        right: 0.12134375
+        top: 0.708875
+      atlasBounds:
+        left: 96.5
+        bottom: 427.5
+        right: 103.5
+        top: 519.5
+    - unicode: 109
+      advance: 0.858
+      planeBounds:
+        left: 0.06571875
+        bottom: -0.0089375
+        right: 0.79228127
+        top: 0.5379375
+      atlasBounds:
+        left: 0.5
+        bottom: 379.5
+        right: 93.5
+        top: 449.5
+    - unicode: 110
+      advance: 0.552
+      planeBounds:
+        left: 0.0655625
+        bottom: -0.0089375
+        right: 0.4874375
+        top: 0.5379375
+      atlasBounds:
+        left: 556.5
+        bottom: 128.5
+        right: 610.5
+        top: 198.5
+    - unicode: 111
+      advance: 0.631
+      planeBounds:
+        left: 0.03815625
+        bottom: -0.02275
+        right: 0.5928438
+        top: 0.53975
+      atlasBounds:
+        left: 212.5
+        bottom: 185.5
+        right: 283.5
+        top: 257.5
+    - unicode: 112
+      advance: 0.609
+      planeBounds:
+        left: 0.07290625
+        bottom: -0.180875
+        right: 0.56509376
+        top: 0.537875
+      atlasBounds:
+        left: 430.5
+        bottom: 623.5
+        right: 493.5
+        top: 715.5
+    - unicode: 113
+      advance: 0.609
+      planeBounds:
+        left: 0.04390625
+        bottom: -0.180875
+        right: 0.5360938
+        top: 0.537875
+      atlasBounds:
+        left: 362.5
+        bottom: 13.5
+        right: 425.5
+        top: 105.5
+    - unicode: 114
+      advance: 0.347
+      planeBounds:
+        left: 0.07209375
+        bottom: -0.0089375
+        right: 0.32990626
+        top: 0.5379375
+      atlasBounds:
+        left: 668.5
+        bottom: 300.5
+        right: 701.5
+        top: 370.5
+    - unicode: 115
+      advance: 0.486
+      planeBounds:
+        left: 0.03446875
+        bottom: -0.02275
+        right: 0.44853124
+        top: 0.53975
+      atlasBounds:
+        left: 614.5
+        bottom: 643.5
+        right: 667.5
+        top: 715.5
+    - unicode: 116
+      advance: 0.36
+      planeBounds:
+        left: 0.02725
+        bottom: -0.02025
+        right: 0.33975
+        top: 0.66725
+      atlasBounds:
+        left: 668.5
+        bottom: 399.5
+        right: 708.5
+        top: 487.5
+    - unicode: 117
+      advance: 0.552
+      planeBounds:
+        left: 0.0645625
+        bottom: -0.0209375
+        right: 0.4864375
+        top: 0.5259375
+      atlasBounds:
+        left: 556.5
+        bottom: 57.5
+        right: 610.5
+        top: 127.5
+    - unicode: 118
+      advance: 0.55
+      planeBounds:
+        left: 0.0171875
+        bottom: -0.01103125
+        right: 0.5328125
+        top: 0.52803123
+      atlasBounds:
+        left: 362.5
+        bottom: 460.5
+        right: 428.5
+        top: 529.5
+    - unicode: 119
+      advance: 0.793
+      planeBounds:
+        left: 0.02640625
+        bottom: -0.01103125
+        right: 0.7685937
+        top: 0.52803123
+      atlasBounds:
+        left: 0.5
+        bottom: 450.5
+        right: 95.5
+        top: 519.5
+    - unicode: 120
+      advance: 0.507
+      planeBounds:
+        left: 0.02303125
+        bottom: -0.01103125
+        right: 0.48396876
+        top: 0.52803123
+      atlasBounds:
+        left: 494.5
+        bottom: 205.5
+        right: 553.5
+        top: 274.5
+    - unicode: 121
+      advance: 0.567
+      planeBounds:
+        left: 0.02109375
+        bottom: -0.190875
+        right: 0.5289062
+        top: 0.527875
+      atlasBounds:
+        left: 362.5
+        bottom: 294.5
+        right: 427.5
+        top: 386.5
+    - unicode: 122
+      advance: 0.514
+      planeBounds:
+        left: 0.04315625
+        bottom: -0.01103125
+        right: 0.47284374
+        top: 0.52803123
+      atlasBounds:
+        left: 556.5
+        bottom: 478.5
+        right: 611.5
+        top: 547.5
+    - unicode: 123
+      advance: 0.392
+      planeBounds:
+        left: 0.03434375
+        bottom: -0.17590626
+        right: 0.35465625
+        top: 0.70690626
+      atlasBounds:
+        left: 668.5
+        bottom: 488.5
+        right: 709.5
+        top: 601.5
+    - unicode: 124
+      advance: 0.254
+      planeBounds:
+        left: 0.09965625
+        bottom: -0.08346875
+        right: 0.15434375
+        top: 0.75246876
+      atlasBounds:
+        left: 105.5
+        bottom: 116.5
+        right: 112.5
+        top: 223.5
+    - unicode: 125
+      advance: 0.392
+      planeBounds:
+        left: 0.03734375
+        bottom: -0.17590626
+        right: 0.35765624
+        top: 0.70690626
+      atlasBounds:
+        left: 668.5
+        bottom: 602.5
+        right: 709.5
+        top: 715.5
+    - unicode: 126
+      advance: 0.451
+      planeBounds:
+        left: 0.0614375
+        bottom: 0.28778124
+        right: 0.3895625
+        top: 0.43621874
+      atlasBounds:
+        left: 291.5
+        bottom: 0.5
+        right: 333.5
+        top: 19.5
