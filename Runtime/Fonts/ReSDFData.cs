@@ -7,7 +7,6 @@ namespace ReGizmo.Core.Fonts
     public class ReSDFData : ScriptableObject
     {
         [SerializeField] Texture2D image;
-        [SerializeField] string info;
         [SerializeField] ReSDF.Font font;
 
         public ReSDF.Font Font => font;
@@ -15,8 +14,7 @@ namespace ReGizmo.Core.Fonts
 
         public void Setup(Texture2D image, string jsonInfo)
         {
-            this.image = image;
-            this.info = jsonInfo;
+            this.image = image; 
 
             font = JsonUtility.FromJson<ReSDF.Font>(jsonInfo);
             font.glyphs = font.glyphs.OrderBy(e => e.unicode).ToArray();

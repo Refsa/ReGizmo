@@ -1,11 +1,22 @@
-﻿namespace ReGizmo.Editor.MSDF
+﻿namespace ReGizmo.Editor
 {
-    enum AtlasDimensions
+    namespace MSDF
     {
-        pots,
-        potr,
-        square,
-        square2,
-        square4,
+        enum AtlasDimensions
+        {
+            pots,
+            potr,
+            square,
+            square2,
+            square4,
+        }
+
+        enum Format
+        {
+            mtsdf,
+            sdf,
+            psdf,
+            msdf,
+        }
     }
 }

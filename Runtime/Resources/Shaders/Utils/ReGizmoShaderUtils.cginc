@@ -1,12 +1,12 @@
 #include "UnityCG.cginc"
 
-struct DMIIProperties {
+struct DMIIProperties
+{
     float3 Position;
     float3 Rotation;
     float3 Scale;
     float4 Color;
 };
-
 
 float4 Rotate3D(float3 pos, float3 rotation)
 {
@@ -55,7 +55,7 @@ float4 TRS(float3 position, float3 rotation, float3 scale, float4 vLoc)
             0, 0, 1, position.z,
             0, 0, 0, 1
         );
-    
+
     float4x4 scaleMat =
         float4x4(
             scale.x, 0, 0, 0,
@@ -108,30 +108,30 @@ float4 TRS(float3 position, float3 rotation, float3 scale, float4 vLoc)
 // https://forum.unity.com/threads/incorrect-normals-on-after-rotating-instances-graphics-drawmeshinstancedindirect.503232/#post-3277479
 float4x4 inverse(float4x4 input)
 {
-#define minor(a,b,c) determinant(float3x3(input.a, input.b, input.c))
- 
+    #define minor(a,b,c) determinant(float3x3(input.a, input.b, input.c))
+
     float4x4 cofactors = float4x4(
         minor(_22_23_24, _32_33_34, _42_43_44),
         -minor(_21_23_24, _31_33_34, _41_43_44),
         minor(_21_22_24, _31_32_34, _41_42_44),
         -minor(_21_22_23, _31_32_33, _41_42_43),
- 
+
         -minor(_12_13_14, _32_33_34, _42_43_44),
         minor(_11_13_14, _31_33_34, _41_43_44),
         -minor(_11_12_14, _31_32_34, _41_42_44),
         minor(_11_12_13, _31_32_33, _41_42_43),
- 
+
         minor(_12_13_14, _22_23_24, _42_43_44),
         -minor(_11_13_14, _21_23_24, _41_43_44),
         minor(_11_12_14, _21_22_24, _41_42_44),
         -minor(_11_12_13, _21_22_23, _41_42_43),
- 
+
         -minor(_12_13_14, _22_23_24, _32_33_34),
         minor(_11_13_14, _21_23_24, _31_33_34),
         -minor(_11_12_14, _21_22_24, _31_32_34),
         minor(_11_12_13, _21_22_23, _31_32_33)
-        );
-#undef minor
+    );
+    #undef minor
     return transpose(cofactors) / determinant(input);
 }
 
@@ -157,8 +157,8 @@ float CamDistSampleFactorLine(float3 pos, float3 cameraPos)
 
 float SincFilter(float2 uv, float radius)
 {
-    return 
-    radius * 
+    return
+        radius *
         float2(
             sin(uv.x) / uv.x,
             sin(uv.y) / uv.y
@@ -170,7 +170,7 @@ float PixelVariance(float2 uv, float sigma2, out float2 ddu, out float2 ddv)
     ddu = ddx(uv);
     ddv = ddy(uv);
     return sigma2 * (dot(ddu, ddu) + dot(ddv, ddv));
-} 
+}
 
 float AreaPixelVariance(float2 uv)
 {
@@ -231,8 +231,8 @@ float3 BlinnPhong(float3 lightDir, float3 viewDir, float3 normal, float3 specCol
     float specular = pow(specAngle, shinyness);
     float lambertian = max(dot(lightDir, normal), 0);
 
-    return 
-        float3(1,1,1) * specular * lambertian;
+    return
+        float3(1, 1, 1) * specular * lambertian;
 }
 
 float3 ViewRefract(float3 viewDir, float3 lightDir, float3 normal)
@@ -246,34 +246,37 @@ float3 ViewRefract(float3 viewDir, float3 lightDir, float3 normal)
 }
 
 // OIT
-struct TrFrag{
-	float4 c1: COLOR1;
-	float4 c2: COLOR2;
+struct TrFrag
+{
+    float4 c1: COLOR1;
+    float4 c2: COLOR2;
 };
 
 
-float computeWeight(float4 color, float z){
-	float weight =  
-		max(min(1.0, max(max(color.r, color.g), color.b) * color.a), color.a) *
-		clamp(0.03 / (0.00001 + pow(z / 200, 4.0)), 0.01, 3000);
-	return weight;
+float computeWeight(float4 color, float z)
+{
+    float weight =
+        max(min(1.0, max(max(color.r, color.g), color.b) * color.a), color.a) *
+        clamp(0.03 / (0.00001 + pow(z / 200, 4.0)), 0.01, 3000);
+    return weight;
 }
 
 
-TrFrag encodeTransparency(float4 col, float z){
-//	float weight = computeWeight(color, z); 
+TrFrag encodeTransparency(float4 col, float z)
+{
+    //	float weight = computeWeight(color, z); 
 
-	float weight = computeWeight(col, z);
-	float4 weightColor = float4(col.xyz, 1.0)*weight;
-	float4 weightPremulColor = weightColor*col.w;
-	float alpha = col.w;
+    float weight = computeWeight(col, z);
+    float4 weightColor = float4(col.xyz, 1.0) * weight;
+    float4 weightPremulColor = weightColor * col.w;
+    float alpha = col.w;
 
-	TrFrag res;
+    TrFrag res;
 
-	res.c1 = float4(weightPremulColor.xyz, 1.0);
-	res.c2 = 0.0;
-	res.c2.yz = weightPremulColor.w;
-	res.c2.w = alpha;
+    res.c1 = float4(weightPremulColor.xyz, 1.0);
+    res.c2 = 0.0;
+    res.c2.yz = weightPremulColor.w;
+    res.c2.w = alpha;
 
-	return res;
+    return res;
 }

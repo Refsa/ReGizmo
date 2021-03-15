@@ -2,25 +2,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using ReGizmo.Drawing;
+using UnityEditor;
 using UnityEngine;
 
 public class DrawSDFText : MonoBehaviour
 {
-    const string text = "Hello";
-
-    protected void RunInternal()
-    {
-        for (int x = 0; x < 64; x++)
-        {
-            for (int y = 0; y < 64; y++)
-            {
-                ReDraw.TextSDF(text, new Vector3(x, 0, y) * 2, 1f, Color.green);
-            }
-        }
-    }
+    [SerializeField] string text = "Hello";
+    [SerializeField, Range(1f, 32f)] float fontSize = 1f;
 
     void OnDrawGizmos()
     {
-        RunInternal();
+        ReDraw.TextSDF(text, Vector3.left * 0.15f, fontSize, Color.green);
+        ReDraw.Text(text, Vector3.right * 0.15f, fontSize, Color.green);
+
+        Handles.Label(Vector3.left * 0.15f, text);
+        Handles.Label(Vector3.right * 0.15f, text);
     }
 }

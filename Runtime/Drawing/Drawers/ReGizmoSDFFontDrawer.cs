@@ -30,6 +30,7 @@ namespace ReGizmo.Drawing
         void SetupCharacterData()
         {
             Vector2 atlasTextureSize = new Vector2(font.Font.atlas.width, font.Font.atlas.height);
+            Debug.Log(atlasTextureSize); 
 
             characterInfos = new CharacterInfoShader[200];
             for (int i = 0; i < 200; i++)
@@ -47,7 +48,7 @@ namespace ReGizmo.Drawing
                     new Vector2(glyph.atlasBounds.right, glyph.atlasBounds.bottom) / atlasTextureSize;
                 Vector2 topLeftUV = new Vector2(glyph.atlasBounds.left, glyph.atlasBounds.top) / atlasTextureSize;
                 Vector2 topRightUV = new Vector2(glyph.atlasBounds.right, glyph.atlasBounds.top) / atlasTextureSize;
-
+                
                 var ci = new CharacterInfoShader
                 {
                     BottomLeft = bottomLeftUV,
@@ -82,7 +83,7 @@ namespace ReGizmo.Drawing
             id = (uint) textDataBuffers.Count();
             return ref textDataBuffers.Get();
         }
-
+ 
         protected override void RenderInternal(Camera camera)
         {
             renderArguments[0] = CurrentDrawCount();
@@ -102,7 +103,8 @@ namespace ReGizmo.Drawing
             base.SetMaterialPropertyBlockData();
 
             material.SetFloat("_DistanceRange", font.Font.atlas.distanceRange);
-            material.SetVector("_AltasSize", new Vector2(font.Font.atlas.width, font.Font.atlas.height));
+            material.SetVector("_AtlasDimensions", new Vector2(font.Font.atlas.width, font.Font.atlas.height));
+            material.SetFloat("_AtlasSize", font.Font.atlas.size);
             material.SetTexture("_MainTex", font.Texture);
             material.SetBuffer("_CharacterInfos", characterInfoBuffer);
             textDataBuffers.PushData(materialPropertyBlock, "_TextData");
