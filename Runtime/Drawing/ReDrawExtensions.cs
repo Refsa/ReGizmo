@@ -91,7 +91,7 @@ namespace ReGizmo.Drawing
             {
                 ref var textData = ref drawer.GetTextShaderData(out uint id);
                 textData.Position = currentPosition + position;
-                textData.Scale = scale;
+                textData.Scale = Mathf.Clamp(scale, 1, scale);
                 textData.Color = new Vector3(color.r, color.g, color.b);
 
                 float totalAdvance = 0f;
