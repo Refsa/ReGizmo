@@ -20,9 +20,13 @@ namespace ReGizmo.Core
 #endif
         public static void Initialize()
         {
+            ReGizmoSettings.Load();
+
+#if UNITY_EDITOR || REGIZMO_RUNTIME
             Debug.Log("########## Setting up ReGizmo ##########");
             Dispose();
             Setup();
+#endif
         }
 
         public static void Setup()
@@ -48,11 +52,21 @@ namespace ReGizmo.Core
                 ReGizmoResolver<ReGizmoIconsDrawer>.Init(new ReGizmoIconsDrawer()),
 
                 ReGizmoResolver<ReGizmoSDFFontDrawer>.Init(
-                    new ReGizmoSDFFontDrawer(ReGizmoHelpers.LoadAssetByName<ReSDFData>("MonoSpatial"))),
-                
+                    new ReGizmoSDFFontDrawer(ReGizmoSettings.SDFFont)),
+
                 ReGizmoResolver<ReGizmoFontDrawer>.Init(
-                    new ReGizmoFontDrawer(ReGizmoHelpers.LoadFontByName("MonoSpatial"))),
+                    new ReGizmoFontDrawer(ReGizmoSettings.Font)),
             };
+
+            /*if (ReGizmoResolver<ReGizmoFontDrawer>.TryGet(out var fontDrawer))
+            {
+                Debug.Log(fontDrawer.GetCharacterInfo('A').Size);
+            }
+
+            if (ReGizmoResolver<ReGizmoSDFFontDrawer>.TryGet(out var sdfDrawer))
+            {
+                Debug.Log(sdfDrawer.GetCharacterInfo('A').Size);
+            }*/
 
             // if (Application.isPlaying)
 #if !UNITY_EDITOR

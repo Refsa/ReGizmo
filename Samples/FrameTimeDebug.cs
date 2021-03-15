@@ -9,6 +9,8 @@ public class FrameTimeDebug : MonoBehaviour
     Stopwatch totalFrameTimeSW = new Stopwatch();
     Queue<long> avgFrameTime = new Queue<long>();
 
+    public float LastAvgFrameTime { get; private set; }
+
     void Update()
     {
         if (Time.frameCount < 100) return;
@@ -19,21 +21,27 @@ public class FrameTimeDebug : MonoBehaviour
         {
             avgFrameTime.Dequeue();
         }
+
+        if (avgFrameTime.Count > 0)
+        {
+            LastAvgFrameTime = 1000f / ((float) avgFrameTime.Average() / 10_000f);
+        }
+
         totalFrameTimeSW.Restart();
+    }
+
+    public void Clear()
+    {
+        avgFrameTime.Clear();
     }
 
     void OnGUI()
     {
-        if (avgFrameTime.Count == 0) return;
-
-        float frameTimeAverage = (float)avgFrameTime.Average() / 10_000f;
-        float avgFps = 1000f / frameTimeAverage;
-
         Rect rect = new Rect(0, 0, 150, 50);
 
         using (new GUILayout.AreaScope(rect))
         {
-            GUILayout.Label($"{avgFps:F1}");
+            GUILayout.Label($"{LastAvgFrameTime:F1}");
         }
     }
 }
