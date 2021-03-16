@@ -24,7 +24,6 @@
         float4 frag(font_g2f i) : SV_Target
         {
             float opacity = sampleMSDF(i.pos, i.uv, i.scale);
-            opacity += (1 - exp2(-0.2 * opacity));
             return float4(i.color, saturate(opacity));
         }
         ENDCG

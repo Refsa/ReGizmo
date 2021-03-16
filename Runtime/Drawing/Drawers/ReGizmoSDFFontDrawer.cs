@@ -30,7 +30,6 @@ namespace ReGizmo.Drawing
         void SetupCharacterData()
         {
             Vector2 atlasTextureSize = new Vector2(font.Font.atlas.width, font.Font.atlas.height);
-            Debug.Log(atlasTextureSize); 
 
             characterInfos = new CharacterInfoShader[200];
             for (int i = 0; i < 200; i++)

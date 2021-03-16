@@ -148,7 +148,6 @@ void font_geom(point font_v2g i[1], inout TriangleStream<font_g2f> triangleStrea
     triangleStream.RestartStrip();
 }
 
-
 // METHODS
 float aastep(float4 pos, float value, float step)
 {
@@ -165,7 +164,6 @@ float median(float r, float g, float b)
 float screenPxRange(float4 pos, float2 uv)
 {
     float2 unitRange = float2(_DistanceRange, _DistanceRange) / _AtlasDimensions;
-    //float2 screenTexSize = rcp(float2(ddx_fine(uv.x), ddy_fine(uv.y)));
     float2 screenTexSize = rcp(fwidth(uv));
 
     return max(0.5 * dot(unitRange, screenTexSize), 1.0);
@@ -174,9 +172,8 @@ float screenPxRange(float4 pos, float2 uv)
 // SDF SAMPLE METHODS
 float sampleMSDF(float4 pos, float2 uv, float scale)
 {
-    float mip = 1 - (min(scale, 2) - 1);
+    float mip = 1 - ((min(scale, 3)) / 3.0);
     float4 msd = tex2Dlod(_MainTex, float4(uv, 0.0, mip));
-    //float4 msd = tex2D(_MainTex, uv);
 
     float sd = median(msd.r, msd.g, msd.b);
 

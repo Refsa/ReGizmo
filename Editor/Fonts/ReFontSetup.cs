@@ -136,13 +136,14 @@ namespace ReGizmo.Editor
 
             var atlasImage = AssetDatabase.LoadAssetAtPath<Texture2D>(atlasSavePath);
             var atlasData = AssetDatabase.LoadAssetAtPath<TextAsset>(atlasDataSavePath);
-  
+
             ReSDFData sdfAsset = null;
 
             if (AssetDatabase.LoadAssetAtPath<ReSDFData>(sdfAssetPath) is ReSDFData current)
             {
                 sdfAsset = current;
                 sdfAsset.Setup(atlasImage, atlasData.text);
+                ReGizmoEditorUtils.SaveAsset(sdfAsset);
             }
             else
             {
@@ -153,6 +154,8 @@ namespace ReGizmo.Editor
 
             AssetDatabase.DeleteAsset(atlasDataSavePath);
             AssetDatabase.Refresh();
+
+            Core.ReGizmo.Reload();
         }
     }
 }

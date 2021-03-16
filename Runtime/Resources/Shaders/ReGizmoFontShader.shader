@@ -22,8 +22,8 @@
 
         float4 frag(font_g2f i) : SV_Target
         {
-            float glyph = tex2Dlod(_MainTex, float4(i.uv, 0, 0)).a;
-            float4 col = float4(i.color, glyph);
+            float op = tex2D(_MainTex, i.uv).a;
+            float4 col = float4(i.color, saturate(op));
             return col;
         }
         ENDCG
