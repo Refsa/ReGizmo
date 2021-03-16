@@ -26,7 +26,7 @@ namespace ReGizmo.Editor.Preferences
                     keywords = new HashSet<string>(new[] {"ReGizmo", "Gizmos"}),
                     activateHandler = PreferencedTabUI
                 };
-            
+
             return provider;
         }
 
@@ -97,6 +97,8 @@ namespace ReGizmo.Editor.Preferences
                     }
 
                     ReGizmoSettings.SetFont((Font) ce.newValue);
+                    ReGizmoEditorUtils.SaveAsset(ReGizmoSettings.Instance);
+                    Core.ReGizmo.Reload();
                 });
             }
 
@@ -114,6 +116,8 @@ namespace ReGizmo.Editor.Preferences
                     }
 
                     ReGizmoSettings.SetSDFFont((ReSDFData) ce.newValue);
+                    ReGizmoEditorUtils.SaveAsset(ReGizmoSettings.Instance);
+                    Core.ReGizmo.Reload();
                 });
             }
 

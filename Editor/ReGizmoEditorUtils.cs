@@ -25,6 +25,12 @@ namespace ReGizmo.Editor
             PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, scriptingDefines);
         }
 
+        public static void SaveAsset(UnityEngine.Object asset)
+        {
+            EditorUtility.SetDirty(asset);
+            AssetDatabase.SaveAssets();
+        }
+
         #region B64_Logo
 
         static Texture2D logoTexture;

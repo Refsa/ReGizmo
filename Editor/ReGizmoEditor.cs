@@ -10,19 +10,21 @@ namespace ReGizmo.Editor
     static class ReGizmoEditor
     {
         static double startTime;
-        static bool exitingEditMode;
         static EventType lastGUIEventType;
 
         static ReGizmoEditor()
         {
-            startTime = EditorApplication.timeSinceStartup;
             DeAttachEventHooks();
+
+            startTime = EditorApplication.timeSinceStartup;
+
             AttachEventHooks();
         }
 
         static void AttachEventHooks()
         {
             EditorApplication.update += AwaitSetup;
+            EditorApplication.update += OnUpdate;
 
             EditorApplication.playModeStateChanged += OnPlaymodeChanged;
             AssemblyReloadEvents.beforeAssemblyReload += OnBeforeAssemblyReloaded;
@@ -32,11 +34,6 @@ namespace ReGizmo.Editor
             BuildHook.onBeforeBuild += OnBeforeBuild;
 
             SceneView.duringSceneGui += OnSceneGUI;
-
-            if (!Application.isPlaying)
-            {
-                EditorApplication.update += OnUpdate;
-            }
         }
 
 
@@ -67,30 +64,17 @@ namespace ReGizmo.Editor
         private static void OnSceneGUI(SceneView obj)
         {
             lastGUIEventType = Event.current.type;
-
-            if (exitingEditMode)
-            {
-                ReGizmo.Core.ReGizmo.Interrupt();
-                if (Event.current.type != EventType.Repaint)
-                {
-                    ReGizmo.Core.ReGizmo.Dispose();
-                }
-            }
-            else if (Event.current.type == EventType.Repaint)
-            {
-                ReGizmo.Core.ReGizmo.OnUpdate();
-            }
         }
 
         static void OnPlaymodeChanged(PlayModeStateChange change)
         {
             if (change == PlayModeStateChange.ExitingEditMode)
             {
-                exitingEditMode = true;
-                ReGizmo.Core.ReGizmo.Interrupt();
             }
             else if (change == PlayModeStateChange.EnteredEditMode)
             {
+                DeAttachEventHooks();
+                AttachEventHooks();
                 ReGizmo.Core.ReGizmo.Initialize();
             }
             else if (change == PlayModeStateChange.ExitingPlayMode)
@@ -98,17 +82,14 @@ namespace ReGizmo.Editor
             }
             else if (change == PlayModeStateChange.EnteredPlayMode)
             {
+                EditorApplication.update -= OnUpdate;
             }
         }
 
         static void OnBeforeAssemblyReloaded()
         {
-            // if (lastGUIEventType != EventType.Repaint)
-            // if (!exitingEditMode)
-            // {
-            //     ReGizmo.Core.ReGizmo.Interrupt();
-            //     ReGizmo.Core.ReGizmo.Dispose();
-            // }
+            Core.ReGizmo.SetActive(false);
+            Core.ReGizmo.Dispose();
         }
 
         static void OnAfterAssemblyReloaded()
@@ -126,14 +107,7 @@ namespace ReGizmo.Editor
 
         static void OnUpdate()
         {
-            if (EditorApplication.isPlayingOrWillChangePlaymode)
-            {
-            }
-
-            if (!exitingEditMode)
-            {
-                // ReGizmo.Core.ReGizmo.OnUpdate();
-            }
+            Core.ReGizmo.OnUpdate();
         }
     }
 }
