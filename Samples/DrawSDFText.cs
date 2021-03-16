@@ -8,6 +8,7 @@ using UnityEngine.XR;
 
 namespace ReGizmo.Samples
 {
+    [AddComponentMenu("ReGizmo Samples/Draw SDF Text")]
     public class DrawSDFText : DrawBase
     {
         [SerializeField] string text = "Hello";

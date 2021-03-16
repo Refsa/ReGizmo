@@ -3,62 +3,65 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public abstract class PerformanceTest : MonoBehaviour
+namespace ReGizmo.Samples.Performance
 {
-    [SerializeField] float duration = 10f;
-
-    FrameTimeDebug _frameTimeDebug;
-
-    float startTime;
-
-    float averageFrameTime;
-    public float AverageFrameTime => averageFrameTime;
-
-    void Awake()
+    public abstract class PerformanceTest : MonoBehaviour
     {
-        _frameTimeDebug = FindObjectOfType<FrameTimeDebug>();
-    }
+        [SerializeField] float duration = 10f;
 
-    public virtual void Prepare()
-    {
-        _frameTimeDebug.Clear();
-        startTime = Time.time;
-    }
+        FrameTimeDebug _frameTimeDebug;
 
-    public bool Warmup()
-    {
-        if (Time.time - startTime > duration * 0.25f)
+        float startTime;
+
+        float averageFrameTime;
+        public float AverageFrameTime => averageFrameTime;
+
+        void Awake()
         {
-            Prepare();
+            _frameTimeDebug = FindObjectOfType<FrameTimeDebug>();
+        }
+
+        public virtual void Prepare()
+        {
+            _frameTimeDebug.Clear();
+            startTime = Time.time;
+        }
+
+        public bool Warmup()
+        {
+            if (Time.time - startTime > duration * 0.25f)
+            {
+                Prepare();
+                return false;
+            }
+
+            RunInternal();
+
             return false;
         }
 
-        RunInternal();
-
-        return false;
-    }
-
-    public bool Run()
-    {
-        if (Time.time - startTime > duration)
+        public bool Run()
         {
-            averageFrameTime = _frameTimeDebug.LastAvgFrameTime;
-            return false;
+            if (Time.time - startTime > duration)
+            {
+                averageFrameTime = _frameTimeDebug.LastAvgFrameTime;
+                return false;
+            }
+
+            RunInternal();
+
+            return true;
         }
 
-        RunInternal();
+        protected abstract void RunInternal();
 
-        return true;
-    }
-
-    protected abstract void RunInternal();
-    
 #if UNITY_EDITOR
-    void OnDrawGizmosSelected()
-    {
-        if (Selection.activeGameObject != this.gameObject) return;
-        
-        RunInternal();
-    }
+        void OnDrawGizmosSelected()
+        {
+            if (Selection.activeGameObject != this.gameObject) return;
+
+            RunInternal();
+        }
 #endif
+    }
 }

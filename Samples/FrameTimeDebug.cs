@@ -4,44 +4,50 @@ using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 
-public class FrameTimeDebug : MonoBehaviour
+namespace ReGizmo.Samples
 {
-    Stopwatch totalFrameTimeSW = new Stopwatch();
-    Queue<long> avgFrameTime = new Queue<long>();
-
-    public float LastAvgFrameTime { get; private set; }
-
-    void Update()
+#if !REGIZMO_DEV
+    [AddComponentMenu("")]
+#endif
+    public class FrameTimeDebug : MonoBehaviour
     {
-        if (Time.frameCount < 100) return;
+        Stopwatch totalFrameTimeSW = new Stopwatch();
+        Queue<long> avgFrameTime = new Queue<long>();
 
-        totalFrameTimeSW.Stop();
-        avgFrameTime.Enqueue(totalFrameTimeSW.ElapsedTicks);
-        if (avgFrameTime.Count > 1000)
+        public float LastAvgFrameTime { get; private set; }
+
+        void Update()
         {
-            avgFrameTime.Dequeue();
+            if (Time.frameCount < 100) return;
+
+            totalFrameTimeSW.Stop();
+            avgFrameTime.Enqueue(totalFrameTimeSW.ElapsedTicks);
+            if (avgFrameTime.Count > 1000)
+            {
+                avgFrameTime.Dequeue();
+            }
+
+            if (avgFrameTime.Count > 0)
+            {
+                LastAvgFrameTime = 1000f / ((float) avgFrameTime.Average() / 10_000f);
+            }
+
+            totalFrameTimeSW.Restart();
         }
 
-        if (avgFrameTime.Count > 0)
+        public void Clear()
         {
-            LastAvgFrameTime = 1000f / ((float) avgFrameTime.Average() / 10_000f);
+            avgFrameTime.Clear();
         }
 
-        totalFrameTimeSW.Restart();
-    }
-
-    public void Clear()
-    {
-        avgFrameTime.Clear();
-    }
-
-    void OnGUI()
-    {
-        Rect rect = new Rect(0, 0, 150, 50);
-
-        using (new GUILayout.AreaScope(rect))
+        void OnGUI()
         {
-            GUILayout.Label($"{LastAvgFrameTime:F1}");
+            Rect rect = new Rect(0, 0, 150, 50);
+
+            using (new GUILayout.AreaScope(rect))
+            {
+                GUILayout.Label($"{LastAvgFrameTime:F1}");
+            }
         }
     }
 }

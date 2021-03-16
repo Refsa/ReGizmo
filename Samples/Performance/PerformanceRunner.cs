@@ -4,104 +4,110 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class PerformanceRunner : MonoBehaviour
+namespace ReGizmo.Samples.Performance
 {
-    FrameTimeDebug _frameTimeDebug;
-
-    [SerializeField] List<PerformanceTest> tests;
-    int currentTest = 0;
-
-    List<string> results;
-
-    bool running = false;
-    float startTime = 0f;
-    float baseLine = 0f;
-
-    void Awake()
+#if !REGIZMO_DEV
+    [AddComponentMenu("")]
+#endif
+    public class PerformanceRunner : MonoBehaviour
     {
-        Application.targetFrameRate = 0;
-        QualitySettings.vSyncCount = 0;
+        FrameTimeDebug _frameTimeDebug;
 
-        results = new List<string>();
-        _frameTimeDebug = FindObjectOfType<FrameTimeDebug>();
-    }
+        [SerializeField] List<PerformanceTest> tests;
+        int currentTest = 0;
 
-    void Start()
-    {
-        StartCoroutine(BaselineWarmup());
-    }
+        List<string> results;
 
-    IEnumerator BaselineWarmup()
-    {
-        if (tests.Count == 0)
+        bool running = false;
+        float startTime = 0f;
+        float baseLine = 0f;
+
+        void Awake()
         {
-            Debug.Log("No performance tests registered");
-            yield break;
+            Application.targetFrameRate = 0;
+            QualitySettings.vSyncCount = 0;
+
+            results = new List<string>();
+            _frameTimeDebug = FindObjectOfType<FrameTimeDebug>();
         }
 
-        while (Time.frameCount < 100) yield return null;
-        startTime = Time.time;
-        _frameTimeDebug.Clear();
-
-        while (Time.time - startTime < 10f)
+        void Start()
         {
-            yield return null;
+            StartCoroutine(BaselineWarmup());
         }
 
-        baseLine = _frameTimeDebug.LastAvgFrameTime;
-
-        Debug.Log($"Baseline FPS: {baseLine} fps");
-        results.Add($"Baseline FPS: {baseLine} fps");
-
-        StartCoroutine(RunTest(tests[currentTest]));
-    }
-
-    IEnumerator RunTest(PerformanceTest test)
-    {
-        test.Prepare();
-
-        while (test.Warmup())
+        IEnumerator BaselineWarmup()
         {
-            yield return null;
-        }
+            if (tests.Count == 0)
+            {
+                Debug.Log("No performance tests registered");
+                yield break;
+            }
 
-        while (test.Run())
-        {
-            yield return null;
-        }
+            while (Time.frameCount < 100) yield return null;
+            startTime = Time.time;
+            _frameTimeDebug.Clear();
 
-        string result = $"{test.GetType().Name}: {test.AverageFrameTime} fps - {test.AverageFrameTime / baseLine}%";
-        results.Add(result);
-        Debug.Log(result);
+            while (Time.time - startTime < 10f)
+            {
+                yield return null;
+            }
 
-        if (++currentTest < tests.Count)
-        {
+            baseLine = _frameTimeDebug.LastAvgFrameTime;
+
+            Debug.Log($"Baseline FPS: {baseLine} fps");
+            results.Add($"Baseline FPS: {baseLine} fps");
+
             StartCoroutine(RunTest(tests[currentTest]));
         }
-    }
 
-    Vector2 scrollPos = Vector2.zero;
-
-    void OnGUI()
-    {
-        Rect rect = new Rect(Screen.width - 500f, 0f, 500f, 500f);
-
-        using (new GUILayout.AreaScope(rect, "", GUI.skin.box))
+        IEnumerator RunTest(PerformanceTest test)
         {
-            using (var scrollView = new GUILayout.ScrollViewScope(scrollPos, false, true))
+            test.Prepare();
+
+            while (test.Warmup())
             {
-                using (new GUILayout.VerticalScope())
+                yield return null;
+            }
+
+            while (test.Run())
+            {
+                yield return null;
+            }
+
+            string result = $"{test.GetType().Name}: {test.AverageFrameTime} fps - {test.AverageFrameTime / baseLine}%";
+            results.Add(result);
+            Debug.Log(result);
+
+            if (++currentTest < tests.Count)
+            {
+                StartCoroutine(RunTest(tests[currentTest]));
+            }
+        }
+
+        Vector2 scrollPos = Vector2.zero;
+
+        void OnGUI()
+        {
+            Rect rect = new Rect(Screen.width - 500f, 0f, 500f, 500f);
+
+            using (new GUILayout.AreaScope(rect, "", GUI.skin.box))
+            {
+                using (var scrollView = new GUILayout.ScrollViewScope(scrollPos, false, true))
                 {
-                    foreach (var result in results)
+                    using (new GUILayout.VerticalScope())
                     {
-                        using (new GUILayout.HorizontalScope(GUI.skin.box))
+                        foreach (var result in results)
                         {
-                            GUILayout.Label(result);
+                            using (new GUILayout.HorizontalScope(GUI.skin.box))
+                            {
+                                GUILayout.Label(result);
+                            }
                         }
                     }
-                }
 
-                scrollPos = scrollView.scrollPosition;
+                    scrollPos = scrollView.scrollPosition;
+                }
             }
         }
     }

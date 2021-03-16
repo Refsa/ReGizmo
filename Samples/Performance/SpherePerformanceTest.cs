@@ -3,15 +3,21 @@ using System.Collections.Generic;
 using ReGizmo.Drawing;
 using UnityEngine;
 
-public class SpherePerformanceTest : PerformanceTest
+namespace ReGizmo.Samples.Performance
 {
-    protected override void RunInternal()
+#if !REGIZMO_DEV
+    [AddComponentMenu("")]
+#endif
+    public class SpherePerformanceTest : PerformanceTest
     {
-        for (int x = 0; x < 64; x++)
+        protected override void RunInternal()
         {
-            for (int y = 0; y < 64; y++)
+            for (int x = 0; x < 64; x++)
             {
-                ReDraw.Sphere(new Vector3(x, 0, y) * 2, Color.blue);
+                for (int y = 0; y < 64; y++)
+                {
+                    ReDraw.Sphere(new Vector3(x, 0, y) * 2, Color.blue);
+                }
             }
         }
     }
