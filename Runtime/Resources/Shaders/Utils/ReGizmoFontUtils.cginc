@@ -16,7 +16,6 @@ struct font_v2g
 {
     float4 vertex : SV_POSITION;
     uint vertexID : TEXCOORD0;
-    float cameraDist : TEXCOORD1;
 };
 
 struct font_g2f
@@ -78,8 +77,6 @@ font_v2g font_vert(font_appdata_t v, uint vid : SV_VertexID)
     o.vertex = float4(td.Position, 1.0);
     o.vertexID = vid;
 
-    o.cameraDist = distance(_WorldSpaceCameraPos, o.vertex);
-
     return o;
 }
 
@@ -90,17 +87,18 @@ const static float aspect_ratio = _ScreenParams.y / _ScreenParams.x;
 void font_geom(point font_v2g i[1], inout TriangleStream<font_g2f> triangleStream)
 {
     uint vid = i[0].vertexID;
-    float camDist = i[0].cameraDist;
 
     CharData cd = _CharData[vid];
     TextData td = _TextData[cd.TextID];
     CharacterInfo ci = _CharacterInfos[cd.CharIndex];
 
+    float4 centerClip = UnityObjectToClipPos(i[0].vertex);
+    float camDist = centerClip.w;
+
     camDist = clamp(camDist, td.Scale, camDist);
     camDist = unity_OrthoParams.w == 1 ? td.Scale * default_scale_factor_sqr : camDist * default_scale_factor_sqr;
 
     float4 advanceOffset = float4(cd.Advance, 0, 0, 0) * aspect_ratio * camDist;
-    float4 centerClip = UnityObjectToClipPos(i[0].vertex);
     float4 size = ci.Size;
 
     float4 c1 = float4(size.x * aspect_ratio, -size.w, 0, 0) * camDist * td.Scale + advanceOffset;

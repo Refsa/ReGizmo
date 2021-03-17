@@ -71,13 +71,9 @@ namespace ReGizmo.Samples
                 string text = "Hello From ReGizmo";
 
                 ReDraw.Text(text, Vector3.back * 5, 1f, Color.green);
-                ReDraw.Text(text, Vector3.back * 7, 1f, Color.green);
-                ReDraw.Text(text, Vector3.right * 15f + Vector3.up * 15f, 4f, Color.green);
-            }
+                ReDraw.TextSDF(text, Vector3.back * 7, 1f, Color.green);
 
-            // SDF Text
-            {
-                string text = "ABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890!#{}[]()";
+                text = "ABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890!#{}[]()";
 
                 ReDraw.TextSDF("SDF: " + text, Vector3.up * 10f + Vector3.right * 15f, 2f, Color.blue);
                 ReDraw.Text("REG: " + text, Vector3.up * 8f + Vector3.right * 15f, 2f, Color.blue);
