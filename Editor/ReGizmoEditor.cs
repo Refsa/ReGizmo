@@ -1,8 +1,10 @@
 using System;
 using ReGizmo.Core;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 
 namespace ReGizmo.Editor
 {
@@ -10,7 +12,6 @@ namespace ReGizmo.Editor
     static class ReGizmoEditor
     {
         static double startTime;
-        static EventType lastGUIEventType;
 
         static ReGizmoEditor()
         {
@@ -33,9 +34,8 @@ namespace ReGizmo.Editor
             BuildHook.onAfterBuild += OnAfterBuild;
             BuildHook.onBeforeBuild += OnBeforeBuild;
 
-            SceneView.duringSceneGui += OnSceneGUI;
+            EditorSceneManager.activeSceneChangedInEditMode += OnSceneChanged;
         }
-
 
         static void DeAttachEventHooks()
         {
@@ -46,7 +46,7 @@ namespace ReGizmo.Editor
             BuildHook.onAfterBuild -= OnAfterBuild;
             BuildHook.onBeforeBuild -= OnBeforeBuild;
 
-            SceneView.duringSceneGui -= OnSceneGUI;
+            EditorSceneManager.activeSceneChangedInEditMode -= OnSceneChanged;
 
             EditorApplication.update -= OnUpdate;
         }
@@ -59,11 +59,6 @@ namespace ReGizmo.Editor
         {
             DeAttachEventHooks();
             AttachEventHooks();
-        }
-
-        private static void OnSceneGUI(SceneView obj)
-        {
-            lastGUIEventType = Event.current.type;
         }
 
         static void OnPlaymodeChanged(PlayModeStateChange change)
@@ -94,6 +89,11 @@ namespace ReGizmo.Editor
 
         static void OnAfterAssemblyReloaded()
         {
+        }
+
+        static void OnSceneChanged(Scene arg0, Scene arg1)
+        {
+            Core.ReGizmo.Reload();
         }
 
         static void AwaitSetup()

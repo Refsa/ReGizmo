@@ -18,9 +18,9 @@ namespace ReGizmo.Samples
 
         void Update()
         {
-            if (Time.frameCount < 100) return;
-
             totalFrameTimeSW.Stop();
+            if (Application.isPlaying && Time.frameCount < 100) return;
+
             avgFrameTime.Enqueue(totalFrameTimeSW.ElapsedTicks);
             if (avgFrameTime.Count > 1000)
             {

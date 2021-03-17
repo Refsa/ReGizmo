@@ -18,7 +18,7 @@ namespace ReGizmo.Samples.Performance
             {
                 for (int y = 0; y < 64; y++)
                 {
-                    ReDraw.TextSDF(text, new Vector3(x, 0, y) * 2, 1f, Color.green);
+                    ReDraw.TextSDF(text, new Vector3(x, 0, y), 1f, Color.green);
                 }
             }
         }
