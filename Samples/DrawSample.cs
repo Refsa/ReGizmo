@@ -85,6 +85,13 @@ namespace ReGizmo.Samples
                 ReDraw.Line(Vector3.up + Vector3.left, Vector3.up + Vector3.left * 10, Color.cyan, Color.green, 5f, 5f);
             }
 
+            // Ray
+            {
+                ReDraw.Ray(Vector3.left * 10f, Vector3.up, Color.green);
+                ReDraw.Ray(Vector3.left * 10f, Vector3.right, Color.red);
+                ReDraw.Ray(Vector3.left * 10f, Vector3.forward, Color.blue);
+            }
+
             // Custom Icons
             {
                 for (int i = 0; i < customIcons.Length; i++)

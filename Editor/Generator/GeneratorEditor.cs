@@ -19,6 +19,7 @@ namespace ReGizmo.Generator
             new TextDrawGenerator().Generate(OUTPUT_PATH);
 
             // new LineDrawGenerator().Generate(OUTPUT_PATH);
+            new RayDrawGenerator().Generate(OUTPUT_PATH);
 
             new IconDrawGenerator().Generate(OUTPUT_PATH);
 
