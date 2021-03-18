@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 namespace ReGizmo.Generator
@@ -11,22 +10,23 @@ namespace ReGizmo.Generator
             fileName = $"TextDraw.generated.cs";
 
             methodShell =
-@"
+                @"
         public static void Text($PARAMS)
         {
             if (ReGizmoResolver<ReGizmoFontDrawer>.TryGet(out var drawer))
             {
-                var textData = drawer.GetTextShaderData();
-
+                ref var textData = ref drawer.GetTextShaderData(out uint id);
+                textData.Position = $PARAM_1;
+                textData.Scale = $PARAM_2;
+                textData.Color = new Vector3($PARAM_3.r, $PARAM_3.g, $PARAM_3.b);
+                
                 int textLength = text.Length;
                 float totalAdvance = 0f;
                 for (int i = 0; i < text.Length; i++)
                 {
                     ref var charData = ref drawer.GetShaderData();
 
-                    charData.Position = $PARAM_1;
-                    charData.Scale = $PARAM_2;
-                    charData.Color = new Vector3($PARAM_3.r, $PARAM_3.g, $PARAM_3.b);
+                    charData.TextID = id;
                     charData.Advance = totalAdvance;
 
                     uint charIndex = (uint)text[i];
@@ -34,12 +34,16 @@ namespace ReGizmo.Generator
 
                     totalAdvance += $PARAM_2 * drawer.GetCharacterInfo(charIndex).Advance;
                 }
+
+                textData.CenterOffset = totalAdvance / 2.0f;
             }
         }";
-            variables = new Variable[] {
+            variables = new Variable[]
+            {
                 new Variable(typeof(Vector3), "position", "currentPosition", "currentPosition + position", 255),
                 new Variable(typeof(float), "scale", "1f", "scale"),
-                new Variable(typeof(Color), "color", "currentColor", "color") };
+                new Variable(typeof(Color), "color", "currentColor", "color")
+            };
         }
 
         protected override string GenerateInternal()
@@ -54,6 +58,7 @@ namespace ReGizmo.Generator
                 {
                     parameters += ", " + perm.Item2;
                 }
+
                 method = method.Replace("$PARAMS", parameters);
 
                 string[] chars = perm.Item1.Split(',');

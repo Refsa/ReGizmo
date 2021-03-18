@@ -29,7 +29,7 @@ namespace ReGizmo.Generator
             variables = new Variable[] {
                 new Variable(typeof(Vector3), "position", "currentPosition", "currentPosition + position", 255),
                 new Variable(typeof(Quaternion), "rotation", "currentRotation", "currentRotation.eulerAngles + rotation"),
-                new Variable(typeof(Vector3), "scale", "currentScale", "currentScale + scale"),
+                new Variable(typeof(Vector3), "scale", "Vector3.one", "currentScale + scale"),
                 new Variable(typeof(Color), "color", "currentColor", "color") };
         }
 
