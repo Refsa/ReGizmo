@@ -83,8 +83,8 @@ namespace ReGizmo.Editor
 
         static void OnBeforeAssemblyReloaded()
         {
-            Core.ReGizmo.SetActive(false);
-            Core.ReGizmo.Dispose();
+            //Core.ReGizmo.SetActive(false);
+            //Core.ReGizmo.Dispose();
         }
 
         static void OnAfterAssemblyReloaded()
