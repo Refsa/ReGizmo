@@ -89,7 +89,7 @@ namespace ReGizmo.Editor
 
         static void OnAfterAssemblyReloaded()
         {
-        }
+        } 
 
         static void OnSceneChanged(Scene arg0, Scene arg1)
         {
