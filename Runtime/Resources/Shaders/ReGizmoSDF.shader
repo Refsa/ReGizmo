@@ -1,4 +1,4 @@
-﻿Shader "ReGizmo/SDFShader"
+﻿Shader "Hidden/ReGizmo/Font_SDF"
 {
     Properties
     {

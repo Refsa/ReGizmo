@@ -1,4 +1,4 @@
-﻿Shader "ReGizmo/FontShader"
+﻿Shader "Hidden/ReGizmo/Font"
 {
     Properties
     {

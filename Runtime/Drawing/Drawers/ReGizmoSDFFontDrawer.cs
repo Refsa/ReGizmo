@@ -20,7 +20,7 @@ namespace ReGizmo.Drawing
         {
             textDataBuffers = new ShaderDataBuffer<TextData>();
 
-            material = ReGizmoHelpers.PrepareMaterial("ReGizmo/SDFShader");
+            material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Font_SDF");
             this.font = font;
             renderArguments[1] = 1;
 

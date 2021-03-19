@@ -14,7 +14,7 @@ namespace ReGizmo.Drawing
     {
         public ReGizmoLineDrawer() : base()
         {
-            material = ReGizmoHelpers.PrepareMaterial("ReGizmo/DMIILine");
+            material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Line_Screen");
             renderArguments[1] = 1;
         }
 

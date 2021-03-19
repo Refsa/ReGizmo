@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ReGizmo.Drawing;
+using UnityEditor;
 
 namespace ReGizmo.Samples
 {
@@ -32,6 +33,14 @@ namespace ReGizmo.Samples
 
         void Draw()
         {
+            float time = Time.time;
+#if UNITY_EDITOR
+            if (!Application.isPlaying)
+            {
+                time = (float) EditorApplication.timeSinceStartup;
+            }
+#endif
+
             Color cubeColor = Color.black;
             cubeColor.a = 1f;
             for (int i = 0; i < 16; i++)
@@ -40,7 +49,12 @@ namespace ReGizmo.Samples
                 for (int j = 0; j < 16; j++)
                 {
                     cubeColor.g = (float) j / 16f;
-                    ReDraw.Cube(new Vector3(10 + i * 2, 0, 10 + j * 2), Quaternion.identity, Vector3.one, cubeColor);
+                    ReDraw.Cube(new Vector3(10 + i * 2, 0f, 10 + j * 2),
+                        Quaternion.Euler(
+                            (i * Mathf.Sin(time) * 5.625f),
+                            0f,
+                            (j * Mathf.Sin(time) * 5.625f)),
+                        Vector3.one, cubeColor);
                 }
             }
 
@@ -73,7 +87,7 @@ namespace ReGizmo.Samples
                 ReDraw.Text(text, Vector3.back * 5, 1f, Color.green);
                 ReDraw.TextSDF(text, Vector3.back * 7, 1f, Color.green);
 
-                text = "ABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890!#{}[]()";
+                text = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890!#{}[]()";
 
                 ReDraw.TextSDF("SDF: " + text, Vector3.up * 10f + Vector3.right * 15f, 2f, Color.blue);
                 ReDraw.Text("REG: " + text, Vector3.up * 8f + Vector3.right * 15f, 2f, Color.blue);
@@ -90,6 +104,33 @@ namespace ReGizmo.Samples
                 ReDraw.Ray(Vector3.left * 10f, Vector3.up, Color.green);
                 ReDraw.Ray(Vector3.left * 10f, Vector3.right, Color.red);
                 ReDraw.Ray(Vector3.left * 10f, Vector3.forward, Color.blue);
+            }
+
+            // Raycast
+            {
+                ReDraw.Raycast(Vector3.up * 20f, Vector3.right, 100f);
+                ReDraw.Raycast(Vector3.up * 20.5f, Vector3.right, 100f);
+                ReDraw.Raycast(Vector3.up * 21f, Vector3.right, 100f);
+                ReDraw.TextSDF("Raycast", Vector3.up * 21.1f, 1.25f, Color.blue);
+            }
+
+            // Spherecast
+            {
+                ReDraw.SphereCast(Vector3.up * 20f + Vector3.forward * 5f, Vector3.right, 0.5f, 100f);
+                ReDraw.SphereCast(Vector3.up * 21f + Vector3.forward * 5f, Vector3.right, 0.5f, 100f);
+                ReDraw.SphereCast(Vector3.up * 22f + Vector3.forward * 5f, Vector3.right, 0.5f, 100f);
+                ReDraw.TextSDF("Spherecast", Vector3.up * 22.1f + Vector3.forward * 5f, 1.25f, Color.blue);
+            }
+
+            // Boxcast
+            {
+                ReDraw.BoxCast(Vector3.up * 20f + Vector3.forward * 10f, Vector3.right, Vector3.one * 0.5f,
+                    Quaternion.identity, 100f);
+                ReDraw.BoxCast(Vector3.up * 21f + Vector3.forward * 10f, Vector3.right, Vector3.one * 0.5f,
+                    Quaternion.Euler(45f, 45f, 0f), 100f);
+                ReDraw.BoxCast(Vector3.up * 22f + Vector3.forward * 10f, Vector3.right, Vector3.one * 0.5f,
+                    Quaternion.Euler(0f, 45f, 45f), 100f);
+                ReDraw.TextSDF("Boxcast", Vector3.up * 22.1f + Vector3.forward * 10f, 1.25f, Color.blue);
             }
 
             // Custom Icons

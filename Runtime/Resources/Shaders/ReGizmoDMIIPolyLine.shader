@@ -1,4 +1,4 @@
-Shader "ReGizmo/DMIIPolyLine" {
+Shader "Hidden/ReGizmo/PolyLine_Screen" {
 	Properties { }
 	SubShader {
 		Tags {

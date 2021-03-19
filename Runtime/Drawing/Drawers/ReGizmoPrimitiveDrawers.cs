@@ -8,7 +8,7 @@ namespace ReGizmo.Drawing
         public ReGizmoCubeDrawer() : base()
         {
             mesh = ReGizmoPrimitives.Cube();
-            material = ReGizmoHelpers.PrepareMaterial("ReGizmo/DMIIDepthSort");
+            material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh");
             renderArguments[0] = mesh.GetIndexCount(0);
         }
     }
@@ -18,7 +18,7 @@ namespace ReGizmo.Drawing
         public ReGizmoSphereDrawer() : base()
         {
             mesh = ReGizmoPrimitives.Sphere();
-            material = ReGizmoHelpers.PrepareMaterial("ReGizmo/DMIIDepthSort");
+            material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh");
             renderArguments[0] = mesh.GetIndexCount(0);
         }
     }
@@ -28,7 +28,7 @@ namespace ReGizmo.Drawing
         public ReGizmoQuadDrawer() : base()
         {
             mesh = ReGizmoPrimitives.Quad();
-            material = ReGizmoHelpers.PrepareMaterial("ReGizmo/DMIIDepthSort");
+            material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh");
             renderArguments[0] = mesh.GetIndexCount(0);
         }
     }
@@ -38,7 +38,7 @@ namespace ReGizmo.Drawing
         public ReGizmoCylinderDrawer() : base()
         {
             mesh = ReGizmoPrimitives.Cylinder();
-            material = ReGizmoHelpers.PrepareMaterial("ReGizmo/DMIIDepthSort");
+            material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh");
             renderArguments[0] = mesh.GetIndexCount(0);
         }
     }
@@ -48,7 +48,7 @@ namespace ReGizmo.Drawing
         public ReGizmoCapsuleDrawer() : base()
         {
             mesh = ReGizmoPrimitives.Capsule();
-            material = ReGizmoHelpers.PrepareMaterial("ReGizmo/DMIIDepthSort");
+            material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh");
             renderArguments[0] = mesh.GetIndexCount(0);
         }
     }
@@ -58,7 +58,7 @@ namespace ReGizmo.Drawing
         public ReGizmoConeDrawer() : base()
         {
             mesh = ReGizmoPrimitives.Cone();
-            material = ReGizmoHelpers.PrepareMaterial("ReGizmo/DMIIDepthSort");
+            material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh");
             renderArguments[0] = mesh.GetIndexCount(0);
         }
     }
@@ -68,7 +68,7 @@ namespace ReGizmo.Drawing
         public ReGizmoOctahedronDrawer() : base()
         {
             mesh = ReGizmoPrimitives.Octahedron();
-            material = ReGizmoHelpers.PrepareMaterial("ReGizmo/DMIIDepthSort");
+            material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh");
             renderArguments[0] = mesh.GetIndexCount(0);
         }
     }
@@ -78,7 +78,7 @@ namespace ReGizmo.Drawing
         public ReGizmoPyramidDrawer() : base()
         {
             mesh = ReGizmoPrimitives.Pyramid();
-            material = ReGizmoHelpers.PrepareMaterial("ReGizmo/DMIIDepthSort");
+            material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh");
             renderArguments[0] = mesh.GetIndexCount(0);
         }
     }
@@ -88,7 +88,7 @@ namespace ReGizmo.Drawing
         public ReGizmoIcosahedronDrawer() : base()
         {
             mesh = ReGizmoPrimitives.Icosahedron();
-            material = ReGizmoHelpers.PrepareMaterial("ReGizmo/DMIIDepthSort");
+            material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh");
             renderArguments[0] = mesh.GetIndexCount(0);
         }
     }

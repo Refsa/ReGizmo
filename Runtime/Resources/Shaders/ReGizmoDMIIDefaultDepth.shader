@@ -1,4 +1,4 @@
-Shader "ReGizmo/DMIIDepthSort"
+Shader "Hidden/ReGizmo/Mesh"
 {
     Properties
     {

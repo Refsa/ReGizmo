@@ -20,7 +20,7 @@ namespace ReGizmo.Drawing
         public ReGizmoMeshDrawer(Mesh mesh) : base()
         {
             this.mesh = mesh;
-            material = ReGizmoHelpers.PrepareMaterial("ReGizmo/DMIIDepthSort");
+            material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh");
 
             renderArguments[0] = mesh.GetIndexCount(0);
         }

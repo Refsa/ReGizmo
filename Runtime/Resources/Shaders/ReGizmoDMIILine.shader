@@ -1,6 +1,6 @@
 // Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-Shader "ReGizmo/DMIILine" {
+Shader "Hidden/ReGizmo/Line_Screen" {
 	Properties { }
 	SubShader {
 		Tags {
