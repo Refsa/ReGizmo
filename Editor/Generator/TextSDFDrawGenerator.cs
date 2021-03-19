@@ -1,19 +1,19 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ReGizmo.Generator
 {
-    internal class TextDrawGenerator : DrawGenerator
+    internal class TextSDFDrawGenerator : DrawGenerator
     {
-        public TextDrawGenerator()
+        public TextSDFDrawGenerator()
         {
-            methodName = "Text";
-            fileName = $"TextDraw.generated.cs";
+            methodName = "TextSDF";
+            fileName = $"TextSDFDraw.generated.cs";
 
             methodShell =
                 @"
-        public static void Text($PARAMS)
+        public static void TextSDF($PARAMS)
         {
-            if (ReGizmoResolver<ReGizmoFontDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<ReGizmoSDFFontDrawer>.TryGet(out var drawer))
             {
                 ref var textData = ref drawer.GetTextShaderData(out uint id);
                 textData.Position = $PARAM_1;

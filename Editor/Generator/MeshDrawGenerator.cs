@@ -19,7 +19,7 @@ namespace ReGizmo.Generator
                 ref var shaderData = ref drawer.GetShaderData();
 
                 shaderData.Position = $PARAM_1;
-                shaderData.Rotation = $PARAM_2.eulerAngles * Mathf.Deg2Rad;
+                shaderData.Rotation = $PARAM_2 * Mathf.Deg2Rad;
                 shaderData.Scale = $PARAM_3;
                 shaderData.Color = $PARAM_4;
             }
@@ -28,7 +28,7 @@ namespace ReGizmo.Generator
 
             variables = new Variable[] {
                 new Variable(typeof(Vector3), "position", "currentPosition", "currentPosition + position", 255),
-                new Variable(typeof(Quaternion), "rotation", "currentRotation", "currentRotation.eulerAngles + rotation"),
+                new Variable(typeof(Quaternion), "rotation", "currentRotation.eulerAngles", "(currentRotation.eulerAngles + rotation.eulerAngles)"),
                 new Variable(typeof(Vector3), "scale", "Vector3.one", "currentScale + scale"),
                 new Variable(typeof(Color), "color", "currentColor", "color") };
         }

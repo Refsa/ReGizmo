@@ -15,7 +15,6 @@ namespace ReGizmo.Drawing
                 textData.Scale = scale;
                 textData.Color = new Vector3(color.r, color.g, color.b);
                 
-                int textLength = text.Length;
                 float totalAdvance = 0f;
                 for (int i = 0; i < text.Length; i++)
                 {
@@ -42,7 +41,6 @@ namespace ReGizmo.Drawing
                 textData.Scale = scale;
                 textData.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
                 
-                int textLength = text.Length;
                 float totalAdvance = 0f;
                 for (int i = 0; i < text.Length; i++)
                 {
@@ -69,7 +67,6 @@ namespace ReGizmo.Drawing
                 textData.Scale = 1f;
                 textData.Color = new Vector3(color.r, color.g, color.b);
                 
-                int textLength = text.Length;
                 float totalAdvance = 0f;
                 for (int i = 0; i < text.Length; i++)
                 {
@@ -96,7 +93,6 @@ namespace ReGizmo.Drawing
                 textData.Scale = scale;
                 textData.Color = new Vector3(color.r, color.g, color.b);
                 
-                int textLength = text.Length;
                 float totalAdvance = 0f;
                 for (int i = 0; i < text.Length; i++)
                 {
@@ -123,7 +119,6 @@ namespace ReGizmo.Drawing
                 textData.Scale = 1f;
                 textData.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
                 
-                int textLength = text.Length;
                 float totalAdvance = 0f;
                 for (int i = 0; i < text.Length; i++)
                 {
@@ -150,7 +145,6 @@ namespace ReGizmo.Drawing
                 textData.Scale = scale;
                 textData.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
                 
-                int textLength = text.Length;
                 float totalAdvance = 0f;
                 for (int i = 0; i < text.Length; i++)
                 {
@@ -177,7 +171,6 @@ namespace ReGizmo.Drawing
                 textData.Scale = 1f;
                 textData.Color = new Vector3(color.r, color.g, color.b);
                 
-                int textLength = text.Length;
                 float totalAdvance = 0f;
                 for (int i = 0; i < text.Length; i++)
                 {
@@ -204,7 +197,6 @@ namespace ReGizmo.Drawing
                 textData.Scale = 1f;
                 textData.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
                 
-                int textLength = text.Length;
                 float totalAdvance = 0f;
                 for (int i = 0; i < text.Length; i++)
                 {

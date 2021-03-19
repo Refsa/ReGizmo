@@ -17,6 +17,7 @@ namespace ReGizmo.Generator
             new CustomMeshDrawGenerator().Generate(OUTPUT_PATH);
 
             new TextDrawGenerator().Generate(OUTPUT_PATH);
+            new TextSDFDrawGenerator().Generate(OUTPUT_PATH);
 
             // new LineDrawGenerator().Generate(OUTPUT_PATH);
             new RayDrawGenerator().Generate(OUTPUT_PATH);

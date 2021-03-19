@@ -82,33 +82,49 @@ namespace ReGizmo.Drawing
                 shaderData.Color = currentColor;
                 shaderData.Width = 1f;
             }
-        } 
+        }
 
-        public static void TextSDF(string text, UnityEngine.Vector3 position, System.Single scale,
-            UnityEngine.Color color)
+        public static void Raycast(Vector3 origin, Vector3 direction, float distance = float.MaxValue,
+            int layerMask = ~0)
         {
-            if (ReGizmoResolver<ReGizmoSDFFontDrawer>.TryGet(out var drawer))
+            if (Physics.Raycast(origin, direction, out var hit, distance, layerMask))
             {
-                ref var textData = ref drawer.GetTextShaderData(out uint id);
-                textData.Position = currentPosition + position;
-                textData.Scale = Mathf.Clamp(scale, 1, scale);
-                textData.Color = new Vector3(color.r, color.g, color.b);
+                ReDraw.Line(origin, hit.point, Color.green, 2f);
+                ReDraw.Ray(hit.point, hit.normal * 0.2f, Color.blue, 2f);
+            }
+            else
+            {
+                ReDraw.Ray(origin, direction * distance, Color.red, 2f);
+            }
+        }
 
-                float totalAdvance = 0f;
-                for (int i = 0; i < text.Length; i++)
-                {
-                    ref var charData = ref drawer.GetShaderData();
+        public static void SphereCast(Vector3 origin, Vector3 direction, float radius, float distance = float.MaxValue,
+            int layerMask = ~0)
+        {
+            if (Physics.SphereCast(origin, radius, direction, out var hit, distance, layerMask))
+            {
+                ReDraw.Ray(origin, direction * hit.distance, Color.green, 2f);
+                ReDraw.Sphere(origin + direction * hit.distance, Vector3.one * radius,
+                    Color.green.WithAlpha(0.5f));
+            }
+            else
+            {
+                ReDraw.Ray(origin, direction * distance, Color.red, 2f);
+            }
+        }
 
-                    charData.TextID = id;
-                    charData.Advance = totalAdvance;
-
-                    uint charIndex = (uint) text[i];
-                    charData.CharIndex = charIndex;
-
-                    totalAdvance += scale * drawer.GetCharacterInfo(charIndex).Advance;
-                }
-
-                textData.CenterOffset = totalAdvance / 2.0f;
+        public static void BoxCast(Vector3 center, Vector3 direction, Vector3 halfExtents, Quaternion orientation,
+            float distance = float.MaxValue, int layerMask = ~0)
+        {
+            if (Physics.BoxCast(center, halfExtents, direction, out var hit, orientation, distance, layerMask))
+            {
+                ReDraw.Ray(center, direction * hit.distance, Color.green, 2f);
+                ReDraw.Cube(center + direction * hit.distance, orientation, halfExtents * 2,
+                    Color.green.WithAlpha(0.5f));
+            }
+            else
+            {
+                ReDraw.Ray(center, direction * distance, Color.red, 2f);
             }
         }
     }
