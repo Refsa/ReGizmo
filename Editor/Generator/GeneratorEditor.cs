@@ -15,6 +15,7 @@ namespace ReGizmo.Generator
             GenerateMeshDrawerOverrides();
 
             new CustomMeshDrawGenerator().Generate(OUTPUT_PATH);
+            new CustomMeshWireframeDrawGenerator().Generate(OUTPUT_PATH);
 
             new TextDrawGenerator().Generate(OUTPUT_PATH);
             new TextSDFDrawGenerator().Generate(OUTPUT_PATH);

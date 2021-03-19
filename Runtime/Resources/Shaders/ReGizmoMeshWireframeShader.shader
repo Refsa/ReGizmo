@@ -1,7 +1,12 @@
-Shader "ReGizmo/DMIIWireframe" {
-	Properties { }
-	SubShader {
-		Tags {
+Shader "Hidden/ReGizmo/Mesh_Wireframe"
+{
+    Properties
+    {
+    }
+    SubShader
+    {
+        Tags
+        {
             "RenderType" = "Transparent"
             "IgnoreProjector" = "True"
             "Queue" = "Transparent+100"
@@ -13,48 +18,55 @@ Shader "ReGizmo/DMIIWireframe" {
         #include "UnityCG.cginc"
         #include "Utils/ReGizmoShaderUtils.cginc"
 
-        struct vertex {
-            float4 loc	: POSITION;
+        struct vertex
+        {
+            float4 loc : POSITION;
         };
-        struct fragment {
-            float4 loc	: SV_POSITION;
+
+        struct fragment
+        {
+            float4 loc : SV_POSITION;
             float4 worldSpacePosition : TEXCOORD0;
             uint instanceID: TEXCOORD1;
         };
+
         struct g2f
         {
             float4 loc : SV_POSITION;
             float3 dist : TEXCOORD0;
             float4 color: TEXCOORD2;
         };
-        struct Properties {
+
+        struct Properties
+        {
             float3 Position;
             float3 Rotation;
             float3 Scale;
             float4 Color;
-
-            float3 Pad0;
         };
 
-    #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
+        #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
         StructuredBuffer<Properties> _Properties;
-    #endif
+        #endif
 
-        void setup() { }
+        void setup()
+        {
+        }
 
-        fragment vert(vertex v, uint instanceID: SV_InstanceID) {
+        fragment vert(vertex v, uint instanceID: SV_InstanceID)
+        {
             fragment f;
 
-        #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
+            #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
             Properties prop = _Properties[instanceID];
             f.worldSpacePosition = TRS(prop.Position, prop.Rotation, prop.Scale, v.loc);
-        #else
+            #else
             f.worldSpacePosition = mul(unity_ObjectToWorld, v.loc);
-        #endif
+            #endif
 
             f.loc = UnityObjectToClipPos(f.worldSpacePosition);
             f.instanceID = instanceID;
-            
+
             return f;
         }
 
@@ -71,11 +83,11 @@ Shader "ReGizmo/DMIIWireframe" {
 
             float area = abs(edge1.x * edge2.y - edge1.y * edge2.x);
 
-        #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
+            #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
             float4 color = _Properties[i[0].instanceID].Color;
-        #else
-            float4 color = float4(1,0,1,1);
-        #endif
+            #else
+            float4 color = float4(1, 0, 1, 1);
+            #endif
 
             g2f o;
             o.color = color;
@@ -93,9 +105,10 @@ Shader "ReGizmo/DMIIWireframe" {
             triangleStream.Append(o);
         }
 
-        float4 frag(g2f i) : SV_Target {
+        float4 frag(g2f i) : SV_Target
+        {
             float d = min(i.dist[0], min(i.dist[1], i.dist[2]));
-            float I = exp2(-0.5 * d * d);
+            float I = exp2(-1.4 * d * d);
 
             float4 fillColor = float4(i.color.rgb, 0);
             float4 wireColor = float4(i.color.rgb, 1);
@@ -103,16 +116,16 @@ Shader "ReGizmo/DMIIWireframe" {
         }
         ENDCG
 
-		Pass {
+        Pass
+        {
             ZTest LEqual
-			CGPROGRAM
-			#pragma vertex vert
+            CGPROGRAM
+            #pragma vertex vert
             #pragma geometry geom
-			#pragma fragment frag
+            #pragma fragment frag
             #pragma multi_compile_instancing
             #pragma instancing_options procedural:setup
-			
-			ENDCG
-		}
-	}
+            ENDCG
+        }
+    }
 }
