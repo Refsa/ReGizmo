@@ -76,6 +76,15 @@ namespace ReGizmo.Samples
                 foreach (var cm in customMeshes)
                 {
                     ReDraw.Mesh(cm, Vector3.up * index * 5, Quaternion.identity, Vector3.one, colors[index % 3]);
+
+                    ReDraw.WireframeMesh(cm, Vector3.up * index * 5 + Vector3.forward * 5f, Quaternion.identity,
+                        Vector3.one, colors[index % 3]);
+
+                    ReDraw.Mesh(cm, Vector3.up * index * 5 + Vector3.forward * 10f, Quaternion.identity, Vector3.one,
+                        colors[index % 3]);
+
+                    ReDraw.WireframeMesh(cm, Vector3.up * index * 5 + Vector3.forward * 10f, Quaternion.identity,
+                        Vector3.one, Color.black);
                     index++;
                 }
             }
@@ -111,7 +120,7 @@ namespace ReGizmo.Samples
                 ReDraw.Raycast(Vector3.up * 20f, Vector3.right, 100f);
                 ReDraw.Raycast(Vector3.up * 20.5f, Vector3.right, 100f);
                 ReDraw.Raycast(Vector3.up * 21f, Vector3.right, 100f);
-                ReDraw.TextSDF("Raycast", Vector3.up * 21.1f, 1.25f, Color.blue);
+                ReDraw.TextSDF("Raycast", Vector3.up * 21.1f, 1f, Color.blue);
             }
 
             // Spherecast
@@ -119,7 +128,7 @@ namespace ReGizmo.Samples
                 ReDraw.SphereCast(Vector3.up * 20f + Vector3.forward * 5f, Vector3.right, 0.5f, 100f);
                 ReDraw.SphereCast(Vector3.up * 21f + Vector3.forward * 5f, Vector3.right, 0.5f, 100f);
                 ReDraw.SphereCast(Vector3.up * 22f + Vector3.forward * 5f, Vector3.right, 0.5f, 100f);
-                ReDraw.TextSDF("Spherecast", Vector3.up * 22.1f + Vector3.forward * 5f, 1.25f, Color.blue);
+                ReDraw.TextSDF("Spherecast", Vector3.up * 22.1f + Vector3.forward * 5f, 1f, Color.blue);
             }
 
             // Boxcast
@@ -130,7 +139,7 @@ namespace ReGizmo.Samples
                     Quaternion.Euler(45f, 45f, 0f), 100f);
                 ReDraw.BoxCast(Vector3.up * 22f + Vector3.forward * 10f, Vector3.right, Vector3.one * 0.5f,
                     Quaternion.Euler(0f, 45f, 45f), 100f);
-                ReDraw.TextSDF("Boxcast", Vector3.up * 22.1f + Vector3.forward * 10f, 1.25f, Color.blue);
+                ReDraw.TextSDF("Boxcast", Vector3.up * 22.1f + Vector3.forward * 10f, 1f, Color.blue);
             }
 
             // Custom Icons
