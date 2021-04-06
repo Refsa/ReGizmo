@@ -85,10 +85,11 @@ namespace ReGizmo.Core
                 ReGizmoResolver<ReGizmoCustomMeshWireframeDrawer>.Init(new ReGizmoCustomMeshWireframeDrawer()),
 
                 ReGizmoResolver<ReGizmoIconsDrawer>.Init(new ReGizmoIconsDrawer()),
+                ReGizmoResolver<ReGizmoSpritesDrawer>.Init(new ReGizmoSpritesDrawer()),
 
                 ReGizmoResolver<ReGizmoFontDrawer>.Init(
                     new ReGizmoFontDrawer(ReGizmoSettings.Font)),
-                
+
                 ReGizmoResolver<ReGizmoSDFFontDrawer>.Init(
                     new ReGizmoSDFFontDrawer(ReGizmoSettings.SDFFont)),
             };

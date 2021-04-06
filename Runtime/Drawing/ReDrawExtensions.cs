@@ -127,5 +127,25 @@ namespace ReGizmo.Drawing
                 ReDraw.Ray(center, direction * distance, Color.red, 2f);
             }
         }
+
+        public static void Sprite(Sprite sprite, Vector3 pos, float scale)
+        {
+            if (ReGizmoResolver<ReGizmoSpritesDrawer>.TryGet(out var drawers))
+            {
+                ref var data = ref drawers.GetShaderData(sprite);
+
+                data.Position = currentPosition + pos;
+                data.Scale = sprite.pixelsPerUnit;
+
+                Vector2 spriteSize = new Vector2(sprite.texture.width, sprite.texture.height);
+                Rect spriteRect = sprite.textureRect;
+                spriteRect.position /= spriteSize;
+                spriteRect.size /= spriteSize;
+
+                data.UVs = new Vector4(
+                    spriteRect.xMin, spriteRect.yMin, spriteRect.xMax, spriteRect.yMax
+                );
+            }
+        }
     }
 }

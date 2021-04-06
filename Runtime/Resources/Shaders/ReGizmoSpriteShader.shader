@@ -1,4 +1,4 @@
-Shader "Hidden/ReGizmo/Icon"
+﻿Shader "Hidden/ReGizmo/Sprite"
 {
     Properties
     {
@@ -23,18 +23,18 @@ Shader "Hidden/ReGizmo/Icon"
         {
             float4 pos : SV_POSITION;
             float2 uv: TEXCOORD0;
-            float3 color: TEXCOORD1;
         };
 
         struct Data
         {
             float3 position;
-            float3 color;
             float scale;
+            // xMin, yMin, xMax, yMax
+            float4 uvs;
         };
 
         sampler2D _SpriteTexture;
-        float _IconAspect;
+        float4 _SpriteTexture_TexelSize;
 
         StructuredBuffer<Data> _Properties;
 
@@ -59,15 +59,20 @@ Shader "Hidden/ReGizmo/Icon"
 
             float halfOffset = bd.scale * 0.5;
 
-            float4 clip = mul(UNITY_MATRIX_VP, i[0].pos);
-
-            float dx = -halfOffset * _IconAspect;
+            float dx = -halfOffset;
             float dy = -halfOffset * aspect;
 
+            float4 clip = 0;
             if (unity_OrthoParams.w == 1.0)
             {
                 dx = (dx / unity_OrthoParams.x) * 0.01;
                 dy = (dy / unity_OrthoParams.x) * 0.01;
+
+                clip = mul(UNITY_MATRIX_VP, i[0].pos) + float4(-dx, dy, 0, 0);
+            }
+            else
+            {
+                clip = mul(UNITY_MATRIX_VP, i[0].pos);
             }
 
             float4 cp1 = float4(clip.x - dx, clip.y - dy, clip.z, clip.w);
@@ -77,23 +82,19 @@ Shader "Hidden/ReGizmo/Icon"
 
             g2f g1;
             g1.pos = cp1;
-            g1.uv = float2(1, 0);
-            g1.color = bd.color;
+            g1.uv = float2(bd.uvs.z, bd.uvs.y);
 
             g2f g2;
             g2.pos = cp2;
-            g2.uv = float2(1, 1);
-            g2.color = bd.color;
+            g2.uv = float2(bd.uvs.z, bd.uvs.w);
 
             g2f g3;
             g3.pos = cp3;
-            g3.uv = float2(0, 1);
-            g3.color = bd.color;
+            g3.uv = float2(bd.uvs.x, bd.uvs.w);
 
             g2f g4;
             g4.pos = cp4;
-            g4.uv = float2(0, 0);
-            g4.color = bd.color;
+            g4.uv = float2(bd.uvs.x, bd.uvs.y);
 
             triangleStream.Append(g1);
             triangleStream.Append(g2);
@@ -106,12 +107,9 @@ Shader "Hidden/ReGizmo/Icon"
 
         float4 frag(g2f i) : SV_Target
         {
-            float4 color = float4(i.color, 1.0);
-
             float4 tex_col = tex2D(_SpriteTexture, i.uv);
-            color *= tex_col.a;
 
-            return lerp(tex_col, color, 0.5);
+            return tex_col;
         }
         ENDCG
 
