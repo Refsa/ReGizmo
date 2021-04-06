@@ -86,7 +86,8 @@ Shader "Hidden/ReGizmo/Line_Screen"
 
             float w1 = prop1.Width * PixelSize * cd1;
             float w2 = prop2.Width * PixelSize * cd2;
-            float w = (w1 + w2) * 0.5;
+
+            float w = (w1 + w2) * (unity_OrthoParams.w == 1.0 ? 1.0 : 0.5);
 
             float4 p1normal = float4(cross(WorldSpaceViewDir(p1), dir), 0.0);
             float4 p2normal = float4(cross(WorldSpaceViewDir(p2), dir), 0.0);
@@ -134,28 +135,27 @@ Shader "Hidden/ReGizmo/Line_Screen"
 
         float4 frag(g2f g) : SV_Target
         {
-            //return float4(g.pos.xy / _ScreenParams.xy, 0, 1);
             float4 col = g.color;
 
-            float pixelWidth = length(fwidth(g.uv)) * 0.5;
+            /*float pixelWidth = length(fwidth(g.uv)) * 0.5;
             float sd = 1 - sdSegment(g.uv, float2(0.5, 0), float2(0.5, 1));
             Unity_Remap_float(sd, float2(0, 1), float2(0.25, 0.75), sd);
             sd = smoothstep(0.5, 1, sd);
 
-            col.a = saturate(sd);
+            col.a = saturate(sd);*/
 
             //if (col.a <= 0) return 1;
 
-            /*float pixelWidth = length(fwidth(g.uv));
+            float pixelWidth = length(fwidth(g.uv));
 
             float2 centerUV = float2(0.5, g.uv.y);
             float dist = distance(centerUV, g.uv);
             float width = pixelWidth * g.widths.y * 0.5;
 
-            if (dist > width) return float4(1,0,1,1);
+            //if (dist > width) return float4(1,0,1,1);
 
             if (dist > width) col.a = 0;
-            clip(col.a == 0 ? -1 : 1);*/
+            clip(col.a == 0 ? -1 : 1);
 
             return col;
         }
@@ -181,7 +181,6 @@ Shader "Hidden/ReGizmo/Line_Screen"
             Blend SrcAlpha OneMinusSrcAlpha
             ZWrite On
             ZTest On
-            ColorMask RGB
 
             CGPROGRAM
             #pragma vertex vert
