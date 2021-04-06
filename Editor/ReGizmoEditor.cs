@@ -98,7 +98,7 @@ namespace ReGizmo.Editor
 
         static void AwaitSetup()
         {
-            if (EditorApplication.timeSinceStartup - startTime > 1)
+            if (EditorApplication.timeSinceStartup - startTime > 1.0)
             {
                 EditorApplication.update -= AwaitSetup;
                 ReGizmo.Core.ReGizmo.Initialize();

@@ -69,8 +69,6 @@ namespace ReGizmo.Core
 
             drawers = new List<IReGizmoDrawer>()
             {
-                ReGizmoResolver<ReGizmoLineDrawer>.Init(new ReGizmoLineDrawer()),
-
                 ReGizmoResolver<ReGizmoCubeDrawer>.Init(new ReGizmoCubeDrawer()),
                 ReGizmoResolver<ReGizmoSphereDrawer>.Init(new ReGizmoSphereDrawer()),
                 ReGizmoResolver<ReGizmoConeDrawer>.Init(new ReGizmoConeDrawer()),
@@ -92,6 +90,8 @@ namespace ReGizmo.Core
 
                 ReGizmoResolver<ReGizmoSDFFontDrawer>.Init(
                     new ReGizmoSDFFontDrawer(ReGizmoSettings.SDFFont)),
+                
+                ReGizmoResolver<ReGizmoLineDrawer>.Init(new ReGizmoLineDrawer()),
             };
 
             if (Application.isPlaying)
