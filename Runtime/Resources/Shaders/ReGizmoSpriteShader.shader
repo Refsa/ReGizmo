@@ -65,8 +65,8 @@
             float4 clip = 0;
             if (unity_OrthoParams.w == 1.0)
             {
-                dx = (dx / unity_OrthoParams.x) * 0.01;
-                dy = (dy / unity_OrthoParams.x) * 0.01;
+                dx = (dx / unity_OrthoParams.x) * rcp(bd.scale);
+                dy = (dy / unity_OrthoParams.x) * rcp(bd.scale);
 
                 clip = mul(UNITY_MATRIX_VP, i[0].pos) + float4(-dx, dy, 0, 0);
             }

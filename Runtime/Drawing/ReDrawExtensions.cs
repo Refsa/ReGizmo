@@ -128,24 +128,28 @@ namespace ReGizmo.Drawing
             }
         }
 
-        public static void Sprite(Sprite sprite, Vector3 pos, float scale)
+        public static void Sprite(Sprite sprite, Vector3 pos, float sorting)
         {
             if (ReGizmoResolver<ReGizmoSpritesDrawer>.TryGet(out var drawers))
             {
                 ref var data = ref drawers.GetShaderData(sprite);
 
-                data.Position = currentPosition + pos;
+                data.Position = currentPosition + pos + Vector3.back * sorting;
                 data.Scale = sprite.pixelsPerUnit;
-
-                Vector2 spriteSize = new Vector2(sprite.texture.width, sprite.texture.height);
-                Rect spriteRect = sprite.textureRect;
-                spriteRect.position /= spriteSize;
-                spriteRect.size /= spriteSize;
-
-                data.UVs = new Vector4(
-                    spriteRect.xMin, spriteRect.yMin, spriteRect.xMax, spriteRect.yMax
-                );
             }
+        }
+
+        public static void Rect(Rect rect, Color color, float depth = 0f)
+        {
+            Vector3 p1 = new Vector3(rect.xMin, rect.yMin, depth);
+            Vector3 p2 = new Vector3(rect.xMin, rect.yMax, depth);
+            Vector3 p3 = new Vector3(rect.xMax, rect.yMax, depth);
+            Vector3 p4 = new Vector3(rect.xMax, rect.yMin, depth);
+
+            Line(p1, p2, color, 1f);
+            Line(p2, p3, color, 1f);
+            Line(p3, p4, color, 1f);
+            Line(p4, p1, color, 1f);
         }
     }
 }

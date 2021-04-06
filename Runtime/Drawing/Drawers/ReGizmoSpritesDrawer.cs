@@ -20,8 +20,12 @@ namespace ReGizmo.Drawing
             {
                 drawer = AddSubDrawer(sprite);
             }
+            
+            ref var data = ref drawer.GetShaderData();;
 
-            return ref drawer.GetShaderData();
+            data.UVs = drawer.SpriteUVs;
+
+            return ref data;
         }
 
         ReGizmoSpriteDrawer AddSubDrawer(Sprite sprite)
