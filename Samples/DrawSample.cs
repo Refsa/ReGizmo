@@ -110,9 +110,9 @@ namespace ReGizmo.Samples
 
             // Ray
             {
-                ReDraw.Ray(Vector3.left * 10f, Vector3.up, Color.green);
-                ReDraw.Ray(Vector3.left * 10f, Vector3.right, Color.red);
-                ReDraw.Ray(Vector3.left * 10f, Vector3.forward, Color.blue);
+                ReDraw.Ray(Vector3.left * 12f, Vector3.up, Color.green);
+                ReDraw.Ray(Vector3.left * 12f, Vector3.right, Color.red);
+                ReDraw.Ray(Vector3.left * 12f, Vector3.forward, Color.blue);
             }
 
             // Raycast

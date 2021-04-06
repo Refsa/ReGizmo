@@ -1,9 +1,14 @@
 Shader "Hidden/ReGizmo/Icon"
 {
-    Properties { }
+    Properties
+    {
+    }
     SubShader
     {
-        Tags { "RenderType"="Transparent" "Queue"="Transparent" }
+        Tags
+        {
+            "RenderType"="Overlay" "Queue"="Overlay"
+        }
 
         CGINCLUDE
         #include "Utils/ReGizmoShaderUtils.cginc"
@@ -21,7 +26,8 @@ Shader "Hidden/ReGizmo/Icon"
             float3 color: TEXCOORD1;
         };
 
-        struct Data {
+        struct Data
+        {
             float3 position;
             float3 color;
             float scale;
@@ -32,7 +38,7 @@ Shader "Hidden/ReGizmo/Icon"
 
         StructuredBuffer<Data> _Properties;
 
-        v2g vert (uint vertexID : SV_VertexID)
+        v2g vert(uint vertexID : SV_VertexID)
         {
             Data data = _Properties[vertexID];
 
@@ -52,17 +58,17 @@ Shader "Hidden/ReGizmo/Icon"
             Data bd = _Properties[i[0].vertexID];
 
             float halfOffset = bd.scale * 0.5;
-            
+
             float4 clip = mul(UNITY_MATRIX_VP, i[0].pos);
 
             float dx = -halfOffset * _IconAspect;
             float dy = -halfOffset * aspect;
 
-            float4 cp1 = float4(clip.x - dx, clip.y - dy, clip.z, clip.w); 
+            float4 cp1 = float4(clip.x - dx, clip.y - dy, clip.z, clip.w);
             float4 cp2 = float4(clip.x - dx, clip.y + dy, clip.z, clip.w);
             float4 cp3 = float4(clip.x + dx, clip.y + dy, clip.z, clip.w);
             float4 cp4 = float4(clip.x + dx, clip.y - dy, clip.z, clip.w);
-            
+
             g2f g1;
             g1.pos = cp1;
             g1.uv = float2(1, 0);
@@ -92,7 +98,7 @@ Shader "Hidden/ReGizmo/Icon"
             triangleStream.RestartStrip();
         }
 
-        float4 frag (g2f i) : SV_Target
+        float4 frag(g2f i) : SV_Target
         {
             float4 color = float4(i.color, 1.0);
 
@@ -105,7 +111,7 @@ Shader "Hidden/ReGizmo/Icon"
 
         Pass
         {
-			Blend SrcAlpha OneMinusSrcAlpha
+            Blend SrcAlpha OneMinusSrcAlpha
             ColorMask RGB
             ZTest On
             ZWrite Off
@@ -121,9 +127,10 @@ Shader "Hidden/ReGizmo/Icon"
 
         Pass
         {
-			Blend SrcAlpha OneMinusSrcAlpha
+            Blend SrcAlpha OneMinusSrcAlpha
             ZTest On
             ZWrite On
+
             CGPROGRAM
             #pragma vertex vert
             #pragma geometry geom

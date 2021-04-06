@@ -9,15 +9,15 @@
     {
         Tags
         {
-            "Queue"="Transparent+1000"
-            "RenderType"="Transparent"
-            "PreviewType"="Plane"
+            "Queue"="Overlay"
+            "RenderType"="Overlay"
         }
 
         CGINCLUDE
         #include "Utils/ReGizmoShaderUtils.cginc"
         #include "Utils/ReGizmoFontUtils.cginc"
-
+        #pragma target 4.6
+        
         static const float2 pixelSize = 1.0 / _ProjectionParams.xy;
 
         float4 frag(font_g2f i) : SV_Target
@@ -31,8 +31,7 @@
         Pass
         {
             Blend SrcAlpha OneMinusSrcAlpha
-            ColorMask RGB
-            ZTest On // Off = Overlay
+            ZTest On
             ZWrite Off
             Cull Front
 

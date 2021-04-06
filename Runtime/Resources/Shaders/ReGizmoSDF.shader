@@ -9,9 +9,8 @@
     {
         Tags
         {
-            "Queue"="Transparent+1000"
-            "RenderType"="Transparent"
-            "PreviewType"="Plane"
+            "Queue"="Overlay"
+            "RenderType"="Overlay"
         }
 
         CGINCLUDE
@@ -31,7 +30,6 @@
         Pass
         {
             Blend SrcAlpha OneMinusSrcAlpha
-            ColorMask RGB
             ZTest On // Off = Overlay
             ZWrite Off
             Cull Front

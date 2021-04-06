@@ -86,11 +86,11 @@ namespace ReGizmo.Core
 
                 ReGizmoResolver<ReGizmoIconsDrawer>.Init(new ReGizmoIconsDrawer()),
 
-                ReGizmoResolver<ReGizmoSDFFontDrawer>.Init(
-                    new ReGizmoSDFFontDrawer(ReGizmoSettings.SDFFont)),
-
                 ReGizmoResolver<ReGizmoFontDrawer>.Init(
                     new ReGizmoFontDrawer(ReGizmoSettings.Font)),
+                
+                ReGizmoResolver<ReGizmoSDFFontDrawer>.Init(
+                    new ReGizmoSDFFontDrawer(ReGizmoSettings.SDFFont)),
             };
 
             if (Application.isPlaying)

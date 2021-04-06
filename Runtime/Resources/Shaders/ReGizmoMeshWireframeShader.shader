@@ -7,11 +7,9 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
     {
         Tags
         {
-            "RenderType" = "Transparent"
-            "IgnoreProjector" = "True"
-            "Queue" = "Transparent+100"
+            "RenderType" = "Overlay"
+            "Queue" = "Overlay"
         }
-        Cull Off Lighting Off ZWrite Off
         Blend SrcAlpha OneMinusSrcAlpha
 
         CGINCLUDE
@@ -118,13 +116,34 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
 
         Pass
         {
-            ZTest LEqual
+            Blend SrcAlpha OneMinusSrcAlpha
+            ColorMask RGB
+            ZTest On
+            ZWrite Off
+
             CGPROGRAM
             #pragma vertex vert
             #pragma geometry geom
             #pragma fragment frag
             #pragma multi_compile_instancing
             #pragma instancing_options procedural:setup
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+            ENDCG
+        }
+
+        Pass
+        {
+            Blend SrcAlpha OneMinusSrcAlpha
+            ZTest On
+            ZWrite On
+
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma geometry geom
+            #pragma fragment frag
+            #pragma multi_compile_instancing
+            #pragma instancing_options procedural:setup
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
             ENDCG
         }
     }

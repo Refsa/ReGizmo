@@ -16,11 +16,11 @@ namespace ReGizmo.Samples
 
         protected override void Draw()
         {
-            ReDraw.TextSDF("SDF", Vector3.left * 0.15f + Vector3.up * 0.15f, 2f, Color.blue);
+            ReDraw.TextSDF("SDF", Vector3.left * 0.15f + Vector3.up * 0.15f, 2f, Color.green);
             ReDraw.TextSDF(text, Vector3.left * 0.15f, fontSize, Color.green);
             
             ReDraw.TextSDF("Regular", Vector3.right * 0.15f + Vector3.up * 0.15f, 2f, Color.blue);
-            ReDraw.Text(text, Vector3.right * 0.15f, fontSize, Color.green);
+            ReDraw.Text(text, Vector3.right * 0.15f, fontSize, Color.blue);
         }
 
         protected override void DrawGizmos()
