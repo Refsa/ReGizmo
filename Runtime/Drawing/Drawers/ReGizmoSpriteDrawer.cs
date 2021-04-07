@@ -12,6 +12,8 @@ namespace ReGizmo.Drawing
     internal class ReGizmoSpriteDrawer : ReGizmoDrawer<SpriteShaderData>
     {
         Sprite sprite;
+        Vector2Int oldSpriteSize;
+
         Vector4 spriteUVs;
 
         public Vector4 SpriteUVs => spriteUVs;
@@ -20,6 +22,14 @@ namespace ReGizmo.Drawing
         {
             this.sprite = sprite;
 
+            SetupSpriteUVs();
+
+            material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Sprite");
+            renderArguments[1] = 1;
+        }
+
+        void SetupSpriteUVs()
+        {
             Vector2 spriteSize = new Vector2(sprite.texture.width, sprite.texture.height);
             Rect spriteRect = sprite.textureRect;
             spriteRect.position /= spriteSize;
@@ -29,12 +39,17 @@ namespace ReGizmo.Drawing
                 spriteRect.xMin, spriteRect.yMin, spriteRect.xMax, spriteRect.yMax
             );
 
-            material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Sprite");
-            renderArguments[1] = 1;
+            oldSpriteSize.x = sprite.texture.width;
+            oldSpriteSize.y = sprite.texture.height;
         }
 
         protected override void RenderInternal(Camera camera)
         {
+            if (oldSpriteSize.x != sprite.texture.width || oldSpriteSize.y != sprite.texture.height)
+            {
+                SetupSpriteUVs();
+            }
+
             renderArguments[0] = CurrentDrawCount();
             renderArgumentsBuffer.SetData(renderArguments);
 
