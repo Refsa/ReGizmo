@@ -31,7 +31,6 @@ namespace ReGizmo.Core
 #endif
         public static void Initialize()
         {
-            if (isSetup) return;
 #if !UNITY_EDITOR && !REGIZMO_RUNTIME
             throw new System.InvalidOperationException("ReGizmo runtime is not enabled!");
 #endif
@@ -39,7 +38,6 @@ namespace ReGizmo.Core
 #if UNITY_EDITOR || REGIZMO_RUNTIME
             ReGizmoSettings.Load();
 
-            Dispose();
             Setup();
             activeCameras = new HashSet<Camera>();
             isActive = true;
@@ -65,6 +63,8 @@ namespace ReGizmo.Core
 
         public static void Setup()
         {
+            Dispose();
+
             ComputeBufferPool.Init();
 
             drawers = new List<IReGizmoDrawer>()
@@ -137,7 +137,7 @@ namespace ReGizmo.Core
                 drawer.Dispose();
             }
 
-            drawers = null;
+            drawers.Clear();
 
             wasDisposed?.Invoke();
         }
@@ -145,7 +145,7 @@ namespace ReGizmo.Core
         public static void Interrupt()
         {
             interrupted = true;
-            activeCameras.Clear();
+            activeCameras?.Clear();
         }
 
         public static void OnUpdate()
@@ -180,7 +180,7 @@ namespace ReGizmo.Core
                 if (interrupted)
                 {
                     drawer.Clear();
-                    break;
+                    continue;
                 }
 
                 foreach (var camera in activeCameras)
@@ -207,7 +207,6 @@ namespace ReGizmo.Core
             if (shouldReset)
             {
                 shouldReset = false;
-                Dispose();
                 Setup();
             }
 
