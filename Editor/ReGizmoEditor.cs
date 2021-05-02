@@ -8,25 +8,23 @@ using UnityEngine.SceneManagement;
 
 namespace ReGizmo.Editor
 {
-    [InitializeOnLoad]
     static class ReGizmoEditor
     {
         static double startTime;
+        static bool isSetup;
 
-        static ReGizmoEditor()
+        [InitializeOnLoadMethod]
+        static void Init()
         {
             DeAttachEventHooks();
+            AttachEventHooks();
 
             startTime = EditorApplication.timeSinceStartup;
-
-            AttachEventHooks();
+            EditorApplication.update += AwaitSetup;
         }
 
         static void AttachEventHooks()
         {
-            EditorApplication.update += AwaitSetup;
-            EditorApplication.update += OnUpdate;
-
             EditorApplication.playModeStateChanged += OnPlaymodeChanged;
             AssemblyReloadEvents.beforeAssemblyReload += OnBeforeAssemblyReloaded;
             AssemblyReloadEvents.afterAssemblyReload += OnAfterAssemblyReloaded;
@@ -68,16 +66,12 @@ namespace ReGizmo.Editor
             }
             else if (change == PlayModeStateChange.EnteredEditMode)
             {
-                DeAttachEventHooks();
-                AttachEventHooks();
-                ReGizmo.Core.ReGizmo.Initialize();
             }
             else if (change == PlayModeStateChange.ExitingPlayMode)
             {
             }
             else if (change == PlayModeStateChange.EnteredPlayMode)
             {
-                EditorApplication.update -= OnUpdate;
             }
         }
 
@@ -89,24 +83,30 @@ namespace ReGizmo.Editor
 
         static void OnAfterAssemblyReloaded()
         {
-        } 
+        }
 
         static void OnSceneChanged(Scene arg0, Scene arg1)
         {
-            Core.ReGizmo.Reload();
+            Init();
         }
 
         static void AwaitSetup()
         {
             if (EditorApplication.timeSinceStartup - startTime > 1.0)
             {
-                EditorApplication.update -= AwaitSetup;
                 ReGizmo.Core.ReGizmo.Initialize();
+
+                EditorApplication.update -= AwaitSetup;
+                EditorApplication.update += OnUpdate;
+
+                isSetup = true;
             }
         }
 
         static void OnUpdate()
         {
+            if (!isSetup) return;
+
             Core.ReGizmo.OnUpdate();
         }
     }
