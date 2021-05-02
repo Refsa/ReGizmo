@@ -1,4 +1,5 @@
 ﻿General:
+    - Should probably move Graphics calls to CommandBuffer instead
     - figure out best way to do scaling/default scaling
     - Sorting between drawers is kinda whack atm
         for example: Lines at -10f is drawing over sprites at 1f, but not at -1f

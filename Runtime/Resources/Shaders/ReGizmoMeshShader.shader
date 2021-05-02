@@ -45,7 +45,7 @@ Shader "Hidden/ReGizmo/Mesh"
 
         fragment vert(vertex v, uint instanceID: SV_InstanceID)
         {
-            fragment f;
+            fragment f = (fragment)0;
 
             f.wPos = mul(unity_ObjectToWorld, v.vertex);
             f.normal = v.normal;

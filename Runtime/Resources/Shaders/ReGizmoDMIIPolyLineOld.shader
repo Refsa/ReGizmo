@@ -113,7 +113,7 @@ Shader "ReGizmo/DMIIPolyLineOld" {
                     float4 c1 = p2 + l2 + l1 * isEnd;
                     float4 c2 = p2 - l2 - l1 * isEnd;
 
-                    float uv = i / total;
+                    float uv = (float)i / (float)total;
 
                     g2f g1;
                     g1.pos = UnityObjectToClipPos(c1);
