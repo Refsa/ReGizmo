@@ -4,6 +4,7 @@ using ReGizmo.Drawing;
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
 namespace ReGizmo.Samples.Performance
 {
 #if !REGIZMO_DEV
@@ -28,3 +29,4 @@ namespace ReGizmo.Samples.Performance
         }
     }
 }
+#endif
