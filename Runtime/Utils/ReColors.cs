@@ -4,7 +4,9 @@ namespace ReGizmo.Drawing
 {
     public static class ReColors
     {
-        static ReColors() { }
+        static ReColors()
+        {
+        }
 
 
         /// <summary>
@@ -15,6 +17,16 @@ namespace ReGizmo.Drawing
         {
             Color color = new Color(self.r, self.g, self.b, alpha);
             return color;
+        }
+
+        public static Color Random()
+        {
+            return new Color(
+                UnityEngine.Random.Range(0f, 1f),
+                UnityEngine.Random.Range(0f, 1f),
+                UnityEngine.Random.Range(0f, 1f),
+                1f
+            );
         }
 
         public static readonly Color AMARANTH = new Color(229f / 255f, 43f / 255f, 80f / 255f);
