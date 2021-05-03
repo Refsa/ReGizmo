@@ -35,14 +35,6 @@ namespace ReGizmo.Drawing
                 renderArgumentsBuffer, 0,
                 materialPropertyBlock
             );
-
-            /* Graphics.DrawMeshInstancedIndirect(
-                mesh, 0, material,
-                currentBounds,
-                renderArgumentsBuffer, 0, materialPropertyBlock,
-                ShadowCastingMode.Off, false,
-                0, camera
-            ); */
         }
 
         protected override void SetMaterialPropertyBlockData()

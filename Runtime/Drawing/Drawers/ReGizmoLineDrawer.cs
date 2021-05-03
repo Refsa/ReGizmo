@@ -31,12 +31,6 @@ namespace ReGizmo.Drawing
                 renderArgumentsBuffer, 0,
                 materialPropertyBlock
             );
-
-            /* Graphics.DrawProceduralIndirect(
-                material, currentBounds, MeshTopology.Lines,
-                renderArgumentsBuffer, 0,
-                camera, materialPropertyBlock
-            ); */
         }
     }
 }
