@@ -47,8 +47,6 @@ namespace ReGizmo.Generator
                 paramsWithNulls[i + variables.Length] = noType;
             }
 
-            string output = "";
-
             var permutations =
                 GetPermutations(paramsWithNulls, variables.Length)
                 .Select(v =>

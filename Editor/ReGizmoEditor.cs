@@ -61,11 +61,12 @@ namespace ReGizmo.Editor
 
         static void OnPlaymodeChanged(PlayModeStateChange change)
         {
-            if (change == PlayModeStateChange.ExitingEditMode)
+            if (change == PlayModeStateChange.ExitingEditMode) 
             {
             }
             else if (change == PlayModeStateChange.EnteredEditMode)
             {
+                Core.ReGizmo.Dispose();
             }
             else if (change == PlayModeStateChange.ExitingPlayMode)
             {
@@ -77,8 +78,7 @@ namespace ReGizmo.Editor
 
         static void OnBeforeAssemblyReloaded()
         {
-            //Core.ReGizmo.SetActive(false);
-            //Core.ReGizmo.Dispose();
+            Core.ReGizmo.Dispose();
         }
 
         static void OnAfterAssemblyReloaded()
