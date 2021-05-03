@@ -60,7 +60,13 @@ namespace ReGizmo.Utility
                     Vector3.forward, Vector3.forward, Vector3.forward, Vector3.forward
                 };
 
-            return CreateMesh(vertices, indices);
+            Vector2[] uvs =
+                new[]
+                {
+                    new Vector2(0f, 0f), new Vector2(1f, 0f), new Vector2(1f, 1f), new Vector2(0f, 1f)
+                };
+
+            return CreateMesh(vertices, indices, normals, uvs);
         }
 
         public static Mesh Cube()
@@ -1048,7 +1054,7 @@ namespace ReGizmo.Utility
             }
         }
 
-        static readonly int[] vertexPairs = {0, 1, 0, 2, 0, 3, 0, 4, 1, 2, 2, 3, 3, 4, 4, 1, 5, 1, 5, 2, 5, 3, 5, 4};
+        static readonly int[] vertexPairs = { 0, 1, 0, 2, 0, 3, 0, 4, 1, 2, 2, 3, 3, 4, 4, 1, 5, 1, 5, 2, 5, 3, 5, 4 };
 
         static readonly int[] edgeTriplets =
             {0, 1, 4, 1, 2, 5, 2, 3, 6, 3, 0, 7, 8, 9, 4, 9, 10, 5, 10, 11, 6, 11, 8, 7};
@@ -1191,6 +1197,22 @@ namespace ReGizmo.Utility
 
             mesh.SetVertices(vertices);
             mesh.SetIndices(indices, MeshTopology.Triangles, 0);
+
+            mesh.RecalculateBounds();
+            mesh.RecalculateNormals();
+            mesh.Optimize();
+
+            return mesh;
+        }
+
+        static Mesh CreateMesh(Vector3[] vertices, int[] indices, Vector3[] normals, Vector2[] uvs)
+        {
+            var mesh = new Mesh();
+
+            mesh.SetVertices(vertices);
+            mesh.SetIndices(indices, MeshTopology.Triangles, 0);
+            mesh.SetNormals(normals);
+            mesh.SetUVs(0, uvs);
 
             mesh.RecalculateBounds();
             mesh.RecalculateNormals();

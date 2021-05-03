@@ -15,6 +15,7 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
         CGINCLUDE
         #include "UnityCG.cginc"
         #include "Utils/ReGizmoShaderUtils.cginc"
+        #pragma target 4.6
 
         struct vertex
         {
@@ -103,13 +104,15 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
             triangleStream.Append(o);
         }
 
-        float4 frag(g2f i) : SV_Target
+        float4 frag(g2f i, inout uint mask : SV_COVERAGE) : SV_Target
         {
             float d = min(i.dist[0], min(i.dist[1], i.dist[2]));
-            float I = exp2(-1.4 * d * d);
+            float I = exp2(-0.5 * d * d * d * d);
 
             float4 fillColor = float4(i.color.rgb, 0);
             float4 wireColor = float4(i.color.rgb, 1);
+
+            mask = I == 0 ? 0 : 1;
             return lerp(fillColor, wireColor, I);
         }
         ENDCG
@@ -119,23 +122,8 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
             Blend SrcAlpha OneMinusSrcAlpha
             ColorMask RGB
             ZTest On
-            ZWrite Off
-
-            CGPROGRAM
-            #pragma vertex vert
-            #pragma geometry geom
-            #pragma fragment frag
-            #pragma multi_compile_instancing
-            #pragma instancing_options procedural:setup
-            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
-            ENDCG
-        }
-
-        Pass
-        {
-            Blend SrcAlpha OneMinusSrcAlpha
-            ZTest On
             ZWrite On
+            AlphaToMask On
 
             CGPROGRAM
             #pragma vertex vert

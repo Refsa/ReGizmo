@@ -18,7 +18,6 @@ namespace ReGizmo.Samples.Performance
 
         List<string> results;
 
-        bool running = false;
         float startTime = 0f;
         float baseLine = 0f;
 

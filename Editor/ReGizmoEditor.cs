@@ -46,7 +46,7 @@ namespace ReGizmo.Editor
 
             EditorSceneManager.activeSceneChangedInEditMode -= OnSceneChanged;
 
-            EditorApplication.update -= OnUpdate;
+            SceneView.duringSceneGui -= OnDuringSceneGUI;
         }
 
         static void OnBeforeBuild()
@@ -66,19 +66,20 @@ namespace ReGizmo.Editor
             }
             else if (change == PlayModeStateChange.EnteredEditMode)
             {
+                Core.ReGizmo.Dispose();
             }
             else if (change == PlayModeStateChange.ExitingPlayMode)
             {
             }
             else if (change == PlayModeStateChange.EnteredPlayMode)
             {
+                SceneView.duringSceneGui -= OnDuringSceneGUI;
             }
         }
 
         static void OnBeforeAssemblyReloaded()
         {
-            //Core.ReGizmo.SetActive(false);
-            //Core.ReGizmo.Dispose();
+            Core.ReGizmo.Dispose();
         }
 
         static void OnAfterAssemblyReloaded()
@@ -92,15 +93,22 @@ namespace ReGizmo.Editor
 
         static void AwaitSetup()
         {
-            if (EditorApplication.timeSinceStartup - startTime > 1.0)
+            if (EditorApplication.timeSinceStartup - startTime > 0.25)
             {
                 ReGizmo.Core.ReGizmo.Initialize();
 
                 EditorApplication.update -= AwaitSetup;
-                EditorApplication.update += OnUpdate;
+                SceneView.duringSceneGui += OnDuringSceneGUI;
 
                 isSetup = true;
             }
+        }
+
+        static void OnDuringSceneGUI(SceneView sceneView)
+        {
+            if (Event.current.type != EventType.Repaint) return;
+
+            OnUpdate();
         }
 
         static void OnUpdate()

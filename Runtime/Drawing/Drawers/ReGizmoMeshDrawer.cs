@@ -25,17 +25,15 @@ namespace ReGizmo.Drawing
             renderArguments[0] = mesh.GetIndexCount(0);
         }
 
-        protected override void RenderInternal(Camera camera)
+        protected override void RenderInternal(CommandBuffer cmd)
         {
             renderArguments[1] = CurrentDrawCount();
             renderArgumentsBuffer.SetData(renderArguments);
 
-            Graphics.DrawMeshInstancedIndirect(
-                mesh, 0, material,
-                currentBounds,
-                renderArgumentsBuffer, 0, materialPropertyBlock,
-                ShadowCastingMode.Off, false,
-                0, camera
+            cmd.DrawMeshInstancedIndirect(
+                mesh, 0, material, 0,
+                renderArgumentsBuffer, 0,
+                materialPropertyBlock
             );
         }
 

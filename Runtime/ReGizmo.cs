@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using ReGizmo.Core.Fonts;
 using ReGizmo.Drawing;
+using ReGizmo.Utils;
 using UnityEngine;
 using UnityEngine.Profiling;
 using UnityEngine.Rendering;
@@ -18,12 +16,12 @@ namespace ReGizmo.Core
         static List<IReGizmoDrawer> drawers;
         static HashSet<Camera> activeCameras;
 
+        static CommandBufferStack drawBuffers;
+
         static bool interrupted;
         static bool isActive;
-        static bool shouldDispose;
         static bool shouldReset;
 
-        public static event Action wasDisposed;
         public static bool IsSetup => isSetup;
 
 #if !UNITY_EDITOR
@@ -44,16 +42,16 @@ namespace ReGizmo.Core
 #endif
         }
 
-        public static void RunDispose()
-        {
-            shouldDispose = true;
-            interrupted = true;
-        }
-
         public static void Reload()
         {
             Interrupt();
             shouldReset = true;
+        }
+
+        public static void Interrupt()
+        {
+            interrupted = true;
+            activeCameras?.Clear();
         }
 
         public static void SetActive(bool state)
@@ -65,10 +63,19 @@ namespace ReGizmo.Core
         {
             Dispose();
 
+            drawBuffers = new CommandBufferStack("ReGizmo");
             ComputeBufferPool.Init();
 
             drawers = new List<IReGizmoDrawer>()
             {
+                ReGizmoResolver<ReGizmoLineDrawer>.Init(new ReGizmoLineDrawer()),
+
+                ReGizmoResolver<ReGizmoIconsDrawer>.Init(new ReGizmoIconsDrawer()),
+                ReGizmoResolver<ReGizmoSpritesDrawer>.Init(new ReGizmoSpritesDrawer()),
+
+                ReGizmoResolver<ReGizmoFontDrawer>.Init(new ReGizmoFontDrawer(ReGizmoSettings.Font)),
+                ReGizmoResolver<ReGizmoSDFFontDrawer>.Init(new ReGizmoSDFFontDrawer(ReGizmoSettings.SDFFont)),
+
                 ReGizmoResolver<ReGizmoCubeDrawer>.Init(new ReGizmoCubeDrawer()),
                 ReGizmoResolver<ReGizmoSphereDrawer>.Init(new ReGizmoSphereDrawer()),
                 ReGizmoResolver<ReGizmoConeDrawer>.Init(new ReGizmoConeDrawer()),
@@ -81,25 +88,14 @@ namespace ReGizmo.Core
 
                 ReGizmoResolver<ReGizmoCustomMeshDrawer>.Init(new ReGizmoCustomMeshDrawer()),
                 ReGizmoResolver<ReGizmoCustomMeshWireframeDrawer>.Init(new ReGizmoCustomMeshWireframeDrawer()),
-
-                ReGizmoResolver<ReGizmoIconsDrawer>.Init(new ReGizmoIconsDrawer()),
-                ReGizmoResolver<ReGizmoSpritesDrawer>.Init(new ReGizmoSpritesDrawer()),
-
-                ReGizmoResolver<ReGizmoFontDrawer>.Init(
-                    new ReGizmoFontDrawer(ReGizmoSettings.Font)),
-
-                ReGizmoResolver<ReGizmoSDFFontDrawer>.Init(
-                    new ReGizmoSDFFontDrawer(ReGizmoSettings.SDFFont)),
-                
-                ReGizmoResolver<ReGizmoLineDrawer>.Init(new ReGizmoLineDrawer()),
             };
 
+            //#if !UNITY_EDITOR
             if (Application.isPlaying)
-//#if !UNITY_EDITOR
             {
                 SetupProxyObject();
             }
-//#endif
+            //#endif
 
             isSetup = true;
             interrupted = false;
@@ -128,26 +124,6 @@ namespace ReGizmo.Core
             proxyComp.inDisable += () => SetActive(false);
         }
 
-        public static void Dispose()
-        {
-            if (drawers == null) return;
-
-            foreach (var drawer in drawers)
-            {
-                drawer.Dispose();
-            }
-
-            drawers.Clear();
-
-            wasDisposed?.Invoke();
-        }
-
-        public static void Interrupt()
-        {
-            interrupted = true;
-            activeCameras?.Clear();
-        }
-
         public static void OnUpdate()
         {
             if (drawers == null) return;
@@ -163,15 +139,26 @@ namespace ReGizmo.Core
 
             if (Application.isPlaying)
             {
-                activeCameras.Add(Camera.main);
+                var camera = Camera.main;
+                if (activeCameras.Add(camera))
+                {
+                    drawBuffers.Attach(camera, CameraEvent.AfterForwardAlpha);
+                }
             }
 
 #if UNITY_EDITOR
             if (UnityEditor.SceneView.lastActiveSceneView != null)
             {
-                activeCameras.Add(UnityEditor.SceneView.lastActiveSceneView.camera);
+                var camera = UnityEditor.SceneView.lastActiveSceneView.camera;
+                if (activeCameras.Add(camera))
+                {
+                    drawBuffers.Attach(camera, CameraEvent.AfterForwardAlpha);
+                }
             }
 #endif
+
+            var cmd = drawBuffers.Current();
+            cmd.BeginSample("ReGizmo Draw Buffer");
 
             foreach (var drawer in drawers)
             {
@@ -183,26 +170,11 @@ namespace ReGizmo.Core
                     continue;
                 }
 
-                foreach (var camera in activeCameras)
-                {
-                    try
-                    {
-                        if (camera != null) drawer.Render(camera);
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.LogException(e);
-                    }
-                }
-
+                drawer.Render(cmd);
                 drawer.Clear();
             }
 
-            if (shouldDispose)
-            {
-                Dispose();
-                shouldDispose = false;
-            }
+            cmd.EndSample("ReGizmo Draw Buffer");
 
             if (shouldReset)
             {
@@ -215,6 +187,31 @@ namespace ReGizmo.Core
 #if UNITY_EDITOR
             Profiler.EndSample();
 #endif
+        }
+
+        public static void Dispose()
+        {
+            if (activeCameras != null)
+            {
+                foreach (var camera in activeCameras)
+                {
+                    drawBuffers.DeAttach(camera);
+                }
+
+                activeCameras.Clear();
+            }
+
+            drawBuffers?.Dispose();
+
+            if (drawers != null)
+            {
+                foreach (var drawer in drawers)
+                {
+                    drawer.Dispose();
+                }
+
+                drawers.Clear();
+            }
         }
     }
 }

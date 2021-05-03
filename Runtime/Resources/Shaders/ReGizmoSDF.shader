@@ -20,9 +20,12 @@
 
         static const float2 pixelSize = 1.0 / _ProjectionParams.xy;
         
-        float4 frag(font_g2f i) : SV_Target
+        float4 frag(font_g2f i, inout uint mask : SV_COVERAGE) : SV_Target
         {
             float opacity = sampleMSDF(i.pos, i.uv, i.scale);
+
+            mask = opacity == 0 ? 0 : 1;
+
             return float4(i.color, opacity);
         }
         ENDCG
@@ -30,9 +33,10 @@
         Pass
         {
             Blend SrcAlpha OneMinusSrcAlpha
-            ZTest On // Off = Overlay
-            ZWrite Off
+            ZTest On
+            ZWrite On
             Cull Front
+            AlphaToMask On
 
             CGPROGRAM
             #pragma vertex font_vert

@@ -1,6 +1,6 @@
+using ReGizmo.Utility;
 using UnityEngine;
-
-
+using UnityEngine.Rendering;
 
 namespace ReGizmo.Drawing
 {
@@ -16,30 +16,35 @@ namespace ReGizmo.Drawing
         Texture2D icon;
         float aspect;
 
+        protected override string PropertiesName { get; } = "_DrawData";
+
         public ReGizmoIconDrawer(Texture2D icon) : base()
         {
             this.icon = icon;
-            this.aspect = (float) icon.width / (float) icon.height;
+            this.aspect = (float)icon.width / (float)icon.height;
 
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Icon");
             renderArguments[1] = 1;
         }
 
-        protected override void RenderInternal(Camera camera)
+        protected override void RenderInternal(CommandBuffer cmd)
         {
             renderArguments[0] = CurrentDrawCount();
             renderArgumentsBuffer.SetData(renderArguments);
 
-            Graphics.DrawProceduralIndirect(
-                material, currentBounds, MeshTopology.Points,
+            cmd.DrawProceduralIndirect(
+                Matrix4x4.identity,
+                material, 0,
+                MeshTopology.Points,
                 renderArgumentsBuffer, 0,
-                camera, materialPropertyBlock);
+                materialPropertyBlock
+            );
         }
 
         protected override void SetMaterialPropertyBlockData()
         {
             base.SetMaterialPropertyBlockData();
-            
+
             materialPropertyBlock.SetTexture("_IconTexture", icon);
             materialPropertyBlock.SetFloat("_IconAspect", aspect);
         }

@@ -1,6 +1,7 @@
 
 using ReGizmo.Core;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace ReGizmo.Drawing
 {
@@ -8,7 +9,7 @@ namespace ReGizmo.Drawing
     {
         void Clear();
         void Dispose();
-        void Render(Camera camera);
+        void Render(CommandBuffer cmd);
         uint CurrentDrawCount();
     }
 
@@ -58,12 +59,12 @@ namespace ReGizmo.Drawing
             shaderDataBuffer?.Dispose();
         }
 
-        public void Render(Camera camera)
+        public void Render(CommandBuffer cmd)
         {
             if (shaderDataBuffer.Count() == 0) return;
 
             SetMaterialPropertyBlockData();
-            RenderInternal(camera);
+            RenderInternal(cmd);
         }
 
         public uint CurrentDrawCount()
@@ -76,7 +77,7 @@ namespace ReGizmo.Drawing
             return ref shaderDataBuffer.Get();
         }
 
-        protected abstract void RenderInternal(Camera camera);
+        protected abstract void RenderInternal(CommandBuffer cmd);
 
         protected virtual void SetMaterialPropertyBlockData()
         {

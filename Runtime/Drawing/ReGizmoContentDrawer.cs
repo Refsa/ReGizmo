@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace ReGizmo.Drawing
 {
@@ -31,11 +32,11 @@ namespace ReGizmo.Drawing
             }
         }
 
-        public void Render(Camera camera)
+        public void Render(CommandBuffer cmd)
         {
             foreach (var drawer in _drawers)
             {
-                drawer.Render(camera);
+                drawer.Render(cmd);
             }
         }
 

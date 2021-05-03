@@ -12,6 +12,7 @@ Shader "Hidden/ReGizmo/Icon"
 
         CGINCLUDE
         #include "Utils/ReGizmoShaderUtils.cginc"
+        #pragma target 4.6
 
         struct v2g
         {
@@ -33,7 +34,7 @@ Shader "Hidden/ReGizmo/Icon"
             float scale;
         };
 
-        sampler2D _SpriteTexture;
+        sampler2D _IconTexture;
         float _IconAspect;
 
         StructuredBuffer<DrawData> _DrawData;
@@ -66,6 +67,7 @@ Shader "Hidden/ReGizmo/Icon"
 
             if (unity_OrthoParams.w == 1.0)
             {
+                // TODO: get rid of magic number
                 dx = (dx / unity_OrthoParams.x) * 0.01;
                 dy = (dy / unity_OrthoParams.x) * 0.01;
             }
@@ -104,12 +106,14 @@ Shader "Hidden/ReGizmo/Icon"
             triangleStream.RestartStrip();
         }
 
-        float4 frag(g2f i) : SV_Target
+        float4 frag(g2f i, inout uint mask: SV_COVERAGE) : SV_Target
         {
             float4 color = float4(i.color, 1.0);
 
-            float4 tex_col = tex2D(_SpriteTexture, i.uv);
+            float4 tex_col = tex2D(_IconTexture, i.uv);
             color *= tex_col.a;
+
+            mask = color.a == 0 ? 0 : 1;
 
             return lerp(tex_col, color, 0.5);
         }
@@ -118,24 +122,9 @@ Shader "Hidden/ReGizmo/Icon"
         Pass
         {
             Blend SrcAlpha OneMinusSrcAlpha
-            ColorMask RGB
-            ZTest On
-            ZWrite Off
-
-            CGPROGRAM
-            #pragma vertex vert
-            #pragma geometry geom
-            #pragma fragment frag
-            #pragma multi_compile_instancing
-            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
-            ENDCG
-        }
-
-        Pass
-        {
-            Blend SrcAlpha OneMinusSrcAlpha
             ZTest On
             ZWrite On
+            AlphaToMask On
 
             CGPROGRAM
             #pragma vertex vert
