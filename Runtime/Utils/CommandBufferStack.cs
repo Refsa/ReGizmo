@@ -55,6 +55,8 @@ namespace ReGizmo.Utils
 
         public void DeAttach(Camera camera)
         {
+            if (camera == null || camera.Equals(null)) return;
+
             foreach (var ev in activeEvents)
             {
                 camera.RemoveCommandBuffer(ev, front);
