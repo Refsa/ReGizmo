@@ -61,7 +61,7 @@ namespace ReGizmo.Editor
 
         static void OnPlaymodeChanged(PlayModeStateChange change)
         {
-            if (change == PlayModeStateChange.ExitingEditMode) 
+            if (change == PlayModeStateChange.ExitingEditMode)
             {
             }
             else if (change == PlayModeStateChange.EnteredEditMode)
@@ -92,7 +92,7 @@ namespace ReGizmo.Editor
 
         static void AwaitSetup()
         {
-            if (EditorApplication.timeSinceStartup - startTime > 1.0)
+            if (EditorApplication.timeSinceStartup - startTime > 0.25)
             {
                 ReGizmo.Core.ReGizmo.Initialize();
 

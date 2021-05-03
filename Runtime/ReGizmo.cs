@@ -26,7 +26,6 @@ namespace ReGizmo.Core
         static bool shouldDispose;
         static bool shouldReset;
 
-        public static event Action wasDisposed;
         public static bool IsSetup => isSetup;
 
 #if !UNITY_EDITOR
@@ -98,8 +97,8 @@ namespace ReGizmo.Core
                 ReGizmoResolver<ReGizmoLineDrawer>.Init(new ReGizmoLineDrawer()),
             };
 
-            if (Application.isPlaying)
             //#if !UNITY_EDITOR
+            if (Application.isPlaying)
             {
                 SetupProxyObject();
             }
@@ -134,18 +133,27 @@ namespace ReGizmo.Core
 
         public static void Dispose()
         {
-            drawBuffers?.Dispose();
-
-            if (drawers == null) return;
-
-            foreach (var drawer in drawers)
+            if (activeCameras != null)
             {
-                drawer.Dispose();
+                foreach (var camera in activeCameras)
+                {
+                    drawBuffers.DeAttach(camera);
+                }
+
+                activeCameras.Clear();
             }
 
-            drawers.Clear();
+            drawBuffers?.Dispose();
 
-            wasDisposed?.Invoke();
+            if (drawers != null)
+            {
+                foreach (var drawer in drawers)
+                {
+                    drawer.Dispose();
+                }
+
+                drawers.Clear();
+            }
         }
 
         public static void Interrupt()
@@ -172,7 +180,7 @@ namespace ReGizmo.Core
                 var camera = Camera.main;
                 if (activeCameras.Add(camera))
                 {
-                    drawBuffers.Attach(camera, CameraEvent.AfterForwardAlpha);
+                    drawBuffers.Attach(camera, CameraEvent.AfterImageEffects);
                 }
             }
 
@@ -182,7 +190,7 @@ namespace ReGizmo.Core
                 var camera = UnityEditor.SceneView.lastActiveSceneView.camera;
                 if (activeCameras.Add(camera))
                 {
-                    drawBuffers.Attach(camera, CameraEvent.AfterForwardAlpha);
+                    drawBuffers.Attach(camera, CameraEvent.AfterImageEffects);
                 }
             }
 #endif

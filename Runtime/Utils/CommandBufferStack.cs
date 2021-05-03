@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -12,9 +13,12 @@ namespace ReGizmo.Utils
 
         bool useFront;
 
+        HashSet<CameraEvent> activeEvents;
+
         public CommandBufferStack(string name)
         {
             useFront = true;
+            activeEvents = new HashSet<CameraEvent>();
 
             front = new CommandBuffer();
             back = new CommandBuffer();
@@ -41,10 +45,34 @@ namespace ReGizmo.Utils
             return target;
         }
 
-        public void Attach(Camera camera, CameraEvent ev)
+        public void Attach(Camera camera, CameraEvent cameraEvent)
         {
-            camera.AddCommandBuffer(ev, front);
-            camera.AddCommandBuffer(ev, back);
+            activeEvents.Add(cameraEvent);
+
+            camera.AddCommandBuffer(cameraEvent, front);
+            camera.AddCommandBuffer(cameraEvent, back);
+        }
+
+        public void DeAttach(Camera camera)
+        {
+            foreach (var ev in activeEvents)
+            {
+                camera.RemoveCommandBuffer(ev, front);
+                camera.RemoveCommandBuffer(ev, back);
+            }
+
+            activeEvents.Clear();
+        }
+
+        public void DeAttach(Camera camera, CameraEvent cameraEvent)
+        {
+            if (activeEvents.Contains(cameraEvent))
+            {
+                camera.RemoveCommandBuffer(cameraEvent, front);
+                camera.RemoveCommandBuffer(cameraEvent, back);
+
+                activeEvents.Remove(cameraEvent);
+            }
         }
 
         public void Dispose()
