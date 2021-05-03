@@ -1,7 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using ReGizmo.Core.Fonts;
 using ReGizmo.Drawing;
 using ReGizmo.Utils;
 using UnityEngine;
@@ -23,7 +20,6 @@ namespace ReGizmo.Core
 
         static bool interrupted;
         static bool isActive;
-        static bool shouldDispose;
         static bool shouldReset;
 
         public static bool IsSetup => isSetup;
@@ -46,16 +42,16 @@ namespace ReGizmo.Core
 #endif
         }
 
-        public static void RunDispose()
-        {
-            shouldDispose = true;
-            interrupted = true;
-        }
-
         public static void Reload()
         {
             Interrupt();
             shouldReset = true;
+        }
+
+        public static void Interrupt()
+        {
+            interrupted = true;
+            activeCameras?.Clear();
         }
 
         public static void SetActive(bool state)
@@ -131,37 +127,6 @@ namespace ReGizmo.Core
             proxyComp.inDisable += () => SetActive(false);
         }
 
-        public static void Dispose()
-        {
-            if (activeCameras != null)
-            {
-                foreach (var camera in activeCameras)
-                {
-                    drawBuffers.DeAttach(camera);
-                }
-
-                activeCameras.Clear();
-            }
-
-            drawBuffers?.Dispose();
-
-            if (drawers != null)
-            {
-                foreach (var drawer in drawers)
-                {
-                    drawer.Dispose();
-                }
-
-                drawers.Clear();
-            }
-        }
-
-        public static void Interrupt()
-        {
-            interrupted = true;
-            activeCameras?.Clear();
-        }
-
         public static void OnUpdate()
         {
             if (drawers == null) return;
@@ -209,35 +174,10 @@ namespace ReGizmo.Core
                 }
 
                 drawer.Render(cmd);
-
-                /* foreach (var camera in activeCameras)
-                {
-                    try
-                    {
-                        if (camera != null) drawer.Render(camera);
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.LogException(e);
-                    }
-                } */
-
                 drawer.Clear();
             }
 
             cmd.EndSample("ReGizmo");
-
-            /* foreach (var camera in activeCameras)
-            {
-                camera.RemoveCommandBuffer(CameraEvent.AfterEverything, drawBuffer);
-                camera.AddCommandBuffer(CameraEvent.AfterEverything, drawBuffer);
-            } */
-
-            if (shouldDispose)
-            {
-                Dispose();
-                shouldDispose = false;
-            }
 
             if (shouldReset)
             {
@@ -250,6 +190,31 @@ namespace ReGizmo.Core
 #if UNITY_EDITOR
             Profiler.EndSample();
 #endif
+        }
+
+        public static void Dispose()
+        {
+            if (activeCameras != null)
+            {
+                foreach (var camera in activeCameras)
+                {
+                    drawBuffers.DeAttach(camera);
+                }
+
+                activeCameras.Clear();
+            }
+
+            drawBuffers?.Dispose();
+
+            if (drawers != null)
+            {
+                foreach (var drawer in drawers)
+                {
+                    drawer.Dispose();
+                }
+
+                drawers.Clear();
+            }
         }
     }
 }
