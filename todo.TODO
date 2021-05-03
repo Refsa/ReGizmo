@@ -3,7 +3,6 @@
     - figure out best way to do scaling/default scaling
     - Sorting between drawers is kinda whack atm
         for example: Lines at -10f is drawing over sprites at 1f, but not at -1f
-    - event hooks are not attaching after exiting playmode outside of dev project
     
 Sprite Drawer:
     - Make base for Sprite Drawer a texture drawer with UVs so the same drawer can be shared for each sprite
@@ -12,3 +11,5 @@ Line Drawer:
     - Gotta clean up the line drawer shaders
     - World space lines
     
+Archive:
+  ✔ event hooks are not attaching after exiting playmode outside of dev project @done(21-05-03 05:47) @project(General)
