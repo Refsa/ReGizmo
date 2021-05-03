@@ -72,7 +72,7 @@ namespace ReGizmo.Samples
 
             if (customMeshes != null)
             {
-                int index = 0;
+                int index = 1;
                 foreach (var cm in customMeshes)
                 {
                     ReDraw.Mesh(cm, Vector3.up * index * 5, Quaternion.identity, Vector3.one, colors[index % 3]);
