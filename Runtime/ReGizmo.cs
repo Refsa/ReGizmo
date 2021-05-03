@@ -68,6 +68,14 @@ namespace ReGizmo.Core
 
             drawers = new List<IReGizmoDrawer>()
             {
+                ReGizmoResolver<ReGizmoLineDrawer>.Init(new ReGizmoLineDrawer()),
+
+                ReGizmoResolver<ReGizmoIconsDrawer>.Init(new ReGizmoIconsDrawer()),
+                ReGizmoResolver<ReGizmoSpritesDrawer>.Init(new ReGizmoSpritesDrawer()),
+
+                ReGizmoResolver<ReGizmoFontDrawer>.Init(new ReGizmoFontDrawer(ReGizmoSettings.Font)),
+                ReGizmoResolver<ReGizmoSDFFontDrawer>.Init(new ReGizmoSDFFontDrawer(ReGizmoSettings.SDFFont)),
+
                 ReGizmoResolver<ReGizmoCubeDrawer>.Init(new ReGizmoCubeDrawer()),
                 ReGizmoResolver<ReGizmoSphereDrawer>.Init(new ReGizmoSphereDrawer()),
                 ReGizmoResolver<ReGizmoConeDrawer>.Init(new ReGizmoConeDrawer()),
@@ -80,17 +88,6 @@ namespace ReGizmo.Core
 
                 ReGizmoResolver<ReGizmoCustomMeshDrawer>.Init(new ReGizmoCustomMeshDrawer()),
                 ReGizmoResolver<ReGizmoCustomMeshWireframeDrawer>.Init(new ReGizmoCustomMeshWireframeDrawer()),
-
-                ReGizmoResolver<ReGizmoIconsDrawer>.Init(new ReGizmoIconsDrawer()),
-                ReGizmoResolver<ReGizmoSpritesDrawer>.Init(new ReGizmoSpritesDrawer()),
-
-                ReGizmoResolver<ReGizmoFontDrawer>.Init(
-                    new ReGizmoFontDrawer(ReGizmoSettings.Font)),
-
-                ReGizmoResolver<ReGizmoSDFFontDrawer>.Init(
-                    new ReGizmoSDFFontDrawer(ReGizmoSettings.SDFFont)),
-
-                ReGizmoResolver<ReGizmoLineDrawer>.Init(new ReGizmoLineDrawer()),
             };
 
             //#if !UNITY_EDITOR
@@ -145,7 +142,7 @@ namespace ReGizmo.Core
                 var camera = Camera.main;
                 if (activeCameras.Add(camera))
                 {
-                    drawBuffers.Attach(camera, CameraEvent.AfterImageEffects);
+                    drawBuffers.Attach(camera, CameraEvent.AfterForwardAlpha);
                 }
             }
 
@@ -155,13 +152,13 @@ namespace ReGizmo.Core
                 var camera = UnityEditor.SceneView.lastActiveSceneView.camera;
                 if (activeCameras.Add(camera))
                 {
-                    drawBuffers.Attach(camera, CameraEvent.AfterImageEffects);
+                    drawBuffers.Attach(camera, CameraEvent.AfterForwardAlpha);
                 }
             }
 #endif
 
             var cmd = drawBuffers.Current();
-            cmd.BeginSample("ReGizmo");
+            cmd.BeginSample("ReGizmo Draw Buffer");
 
             foreach (var drawer in drawers)
             {
@@ -177,7 +174,7 @@ namespace ReGizmo.Core
                 drawer.Clear();
             }
 
-            cmd.EndSample("ReGizmo");
+            cmd.EndSample("ReGizmo Draw Buffer");
 
             if (shouldReset)
             {
