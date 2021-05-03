@@ -1,5 +1,6 @@
 
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace ReGizmo.Drawing
 {
@@ -18,16 +19,24 @@ namespace ReGizmo.Drawing
             renderArguments[1] = 1;
         }
 
-        protected override void RenderInternal(Camera camera)
+        protected override void RenderInternal(CommandBuffer cmd)
         {
             renderArguments[0] = CurrentDrawCount();
             renderArgumentsBuffer.SetData(renderArguments);
 
-            Graphics.DrawProceduralIndirect(
+            cmd.DrawProceduralIndirect(
+                Matrix4x4.identity,
+                material, 0,
+                MeshTopology.Lines,
+                renderArgumentsBuffer, 0,
+                materialPropertyBlock
+            );
+
+            /* Graphics.DrawProceduralIndirect(
                 material, currentBounds, MeshTopology.Lines,
                 renderArgumentsBuffer, 0,
                 camera, materialPropertyBlock
-            );
+            ); */
         }
     }
 }

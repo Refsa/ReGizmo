@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace ReGizmo.Drawing
 {
@@ -43,7 +44,7 @@ namespace ReGizmo.Drawing
             oldSpriteSize.y = sprite.texture.height;
         }
 
-        protected override void RenderInternal(Camera camera)
+        protected override void RenderInternal(CommandBuffer cmd)
         {
             if (oldSpriteSize.x != sprite.texture.width || oldSpriteSize.y != sprite.texture.height)
             {
@@ -53,10 +54,18 @@ namespace ReGizmo.Drawing
             renderArguments[0] = CurrentDrawCount();
             renderArgumentsBuffer.SetData(renderArguments);
 
-            Graphics.DrawProceduralIndirect(
+            cmd.DrawProceduralIndirect(
+                Matrix4x4.identity,
+                material, 0,
+                MeshTopology.Points,
+                renderArgumentsBuffer, 0,
+                materialPropertyBlock
+            );
+
+            /* Graphics.DrawProceduralIndirect(
                 material, currentBounds, MeshTopology.Points,
                 renderArgumentsBuffer, 0,
-                camera, materialPropertyBlock);
+                camera, materialPropertyBlock); */
         }
 
         protected override void SetMaterialPropertyBlockData()

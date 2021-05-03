@@ -1,6 +1,7 @@
 using System.Runtime.InteropServices;
 using ReGizmo.Core;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace ReGizmo.Drawing
 {
@@ -31,7 +32,7 @@ namespace ReGizmo.Drawing
             characterInfos = new CharacterInfoShader[200];
             for (int i = 0; i < 200; i++)
             {
-                if (!font.GetCharacterInfo((char) i, out var characterInfo)) continue;
+                if (!font.GetCharacterInfo((char)i, out var characterInfo)) continue;
 
                 Vector4 size = new Vector4(
                     characterInfo.minX, characterInfo.maxX,
@@ -44,7 +45,7 @@ namespace ReGizmo.Drawing
                     TopLeft = characterInfo.uvTopLeft,
                     TopRight = characterInfo.uvTopRight,
                     Size = size / font.fontSize,
-                    Advance = (float) characterInfo.advance / font.fontSize
+                    Advance = (float)characterInfo.advance / font.fontSize
                 };
 
                 characterInfos[i] = ci;
@@ -68,22 +69,30 @@ namespace ReGizmo.Drawing
 
         public ref TextData GetTextShaderData(out uint id)
         {
-            id = (uint) textDataBuffers.Count();
+            id = (uint)textDataBuffers.Count();
             return ref textDataBuffers.Get();
         }
 
-        protected override void RenderInternal(Camera camera)
+        protected override void RenderInternal(CommandBuffer cmd)
         {
             renderArguments[0] = CurrentDrawCount();
             renderArgumentsBuffer.SetData(renderArguments);
 
-            Graphics.DrawProceduralIndirect(
+            cmd.DrawProceduralIndirect(
+                Matrix4x4.identity,
+                material, 0,
+                MeshTopology.Points,
+                renderArgumentsBuffer, 0,
+                materialPropertyBlock
+            );
+
+            /* Graphics.DrawProceduralIndirect(
                 material, currentBounds,
                 MeshTopology.Points,
                 renderArgumentsBuffer, 0,
                 camera,
                 materialPropertyBlock
-            );
+            ); */
         }
 
         protected override void SetMaterialPropertyBlockData()

@@ -2,6 +2,7 @@
 using ReGizmo.Core;
 using ReGizmo.Core.Fonts;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace ReGizmo.Drawing
 {
@@ -83,18 +84,26 @@ namespace ReGizmo.Drawing
             return ref textDataBuffers.Get();
         }
  
-        protected override void RenderInternal(Camera camera)
+        protected override void RenderInternal(CommandBuffer cmd)
         {
             renderArguments[0] = CurrentDrawCount();
             renderArgumentsBuffer.SetData(renderArguments);
 
-            Graphics.DrawProceduralIndirect(
+            cmd.DrawProceduralIndirect(
+                Matrix4x4.identity,
+                material, 0,
+                MeshTopology.Points,
+                renderArgumentsBuffer, 0,
+                materialPropertyBlock
+            );
+
+            /* Graphics.DrawProceduralIndirect(
                 material, currentBounds,
                 MeshTopology.Points,
                 renderArgumentsBuffer, 0,
                 camera,
                 materialPropertyBlock
-            );
+            ); */
         }
 
         protected override void SetMaterialPropertyBlockData()

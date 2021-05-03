@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using ReGizmo.Core.Fonts;
 using ReGizmo.Drawing;
+using ReGizmo.Utils;
 using UnityEngine;
 using UnityEngine.Profiling;
 using UnityEngine.Rendering;
@@ -17,6 +18,8 @@ namespace ReGizmo.Core
 
         static List<IReGizmoDrawer> drawers;
         static HashSet<Camera> activeCameras;
+
+        static CommandBufferStack drawBuffers;
 
         static bool interrupted;
         static bool isActive;
@@ -65,6 +68,7 @@ namespace ReGizmo.Core
         {
             Dispose();
 
+            drawBuffers = new CommandBufferStack("ReGizmo");
             ComputeBufferPool.Init();
 
             drawers = new List<IReGizmoDrawer>()
@@ -90,16 +94,16 @@ namespace ReGizmo.Core
 
                 ReGizmoResolver<ReGizmoSDFFontDrawer>.Init(
                     new ReGizmoSDFFontDrawer(ReGizmoSettings.SDFFont)),
-                
+
                 ReGizmoResolver<ReGizmoLineDrawer>.Init(new ReGizmoLineDrawer()),
             };
 
             if (Application.isPlaying)
-//#if !UNITY_EDITOR
+            //#if !UNITY_EDITOR
             {
                 SetupProxyObject();
             }
-//#endif
+            //#endif
 
             isSetup = true;
             interrupted = false;
@@ -130,6 +134,8 @@ namespace ReGizmo.Core
 
         public static void Dispose()
         {
+            drawBuffers?.Dispose();
+
             if (drawers == null) return;
 
             foreach (var drawer in drawers)
@@ -163,15 +169,26 @@ namespace ReGizmo.Core
 
             if (Application.isPlaying)
             {
-                activeCameras.Add(Camera.main);
+                var camera = Camera.main;
+                if (activeCameras.Add(camera))
+                {
+                    drawBuffers.Attach(camera, CameraEvent.AfterForwardAlpha);
+                }
             }
 
 #if UNITY_EDITOR
             if (UnityEditor.SceneView.lastActiveSceneView != null)
             {
-                activeCameras.Add(UnityEditor.SceneView.lastActiveSceneView.camera);
+                var camera = UnityEditor.SceneView.lastActiveSceneView.camera;
+                if (activeCameras.Add(camera))
+                {
+                    drawBuffers.Attach(camera, CameraEvent.AfterForwardAlpha);
+                }
             }
 #endif
+
+            var cmd = drawBuffers.Current();
+            cmd.BeginSample("ReGizmo");
 
             foreach (var drawer in drawers)
             {
@@ -183,7 +200,9 @@ namespace ReGizmo.Core
                     continue;
                 }
 
-                foreach (var camera in activeCameras)
+                drawer.Render(cmd);
+
+                /* foreach (var camera in activeCameras)
                 {
                     try
                     {
@@ -193,10 +212,18 @@ namespace ReGizmo.Core
                     {
                         Debug.LogException(e);
                     }
-                }
+                } */
 
                 drawer.Clear();
             }
+
+            cmd.EndSample("ReGizmo");
+
+            /* foreach (var camera in activeCameras)
+            {
+                camera.RemoveCommandBuffer(CameraEvent.AfterEverything, drawBuffer);
+                camera.AddCommandBuffer(CameraEvent.AfterEverything, drawBuffer);
+            } */
 
             if (shouldDispose)
             {
