@@ -9,8 +9,8 @@ Shader "Hidden/ReGizmo/Line_Screen"
     {
         Tags
         {
-            "RenderType" = "Transparent"
-            "Queue" = "Transparent"
+            "RenderType" = "Overlay"
+            "Queue" = "Overlay"
         }
 
         CGINCLUDE
@@ -164,23 +164,9 @@ Shader "Hidden/ReGizmo/Line_Screen"
         Pass
         {
             Blend SrcAlpha OneMinusSrcAlpha
-            ZWrite Off
-            ZTest On
-
-            CGPROGRAM
-            #pragma vertex vert
-            #pragma geometry geom
-            #pragma fragment frag
-            #pragma multi_compile_instancing
-            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
-            ENDCG
-        }
-
-        Pass
-        {
-            Blend SrcAlpha OneMinusSrcAlpha
             ZWrite On
             ZTest On
+            Cull Back
 
             CGPROGRAM
             #pragma vertex vert

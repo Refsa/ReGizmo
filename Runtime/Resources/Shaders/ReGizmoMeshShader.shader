@@ -75,7 +75,6 @@ Shader "Hidden/ReGizmo/Mesh"
         Pass
         {
             Blend SrcAlpha OneMinusSrcAlpha
-            ColorMask RGB
             ZTest On
             ZWrite On
             Cull Back
