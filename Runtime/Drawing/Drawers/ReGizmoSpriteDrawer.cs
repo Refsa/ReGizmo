@@ -13,9 +13,10 @@ namespace ReGizmo.Drawing
     internal class ReGizmoSpriteDrawer : ReGizmoDrawer<SpriteShaderData>
     {
         Sprite sprite;
+        Vector4 spriteUVs;
         Vector2Int oldSpriteSize;
 
-        Vector4 spriteUVs;
+        protected override string PropertiesName { get; } = "_DrawData";
 
         public Vector4 SpriteUVs => spriteUVs;
 

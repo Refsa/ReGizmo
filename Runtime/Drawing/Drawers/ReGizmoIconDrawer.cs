@@ -1,3 +1,4 @@
+using ReGizmo.Utility;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -15,6 +16,8 @@ namespace ReGizmo.Drawing
         Texture2D icon;
         float aspect;
 
+        protected override string PropertiesName { get; } = "_DrawData";
+
         public ReGizmoIconDrawer(Texture2D icon) : base()
         {
             this.icon = icon;
@@ -30,17 +33,12 @@ namespace ReGizmo.Drawing
             renderArgumentsBuffer.SetData(renderArguments);
 
             cmd.DrawProceduralIndirect(
-                Matrix4x4.identity, 
+                Matrix4x4.identity,
                 material, 0,
                 MeshTopology.Points,
                 renderArgumentsBuffer, 0,
                 materialPropertyBlock
             );
-
-            /* Graphics.DrawProceduralIndirect(
-                material, currentBounds, MeshTopology.Points,
-                renderArgumentsBuffer, 0,
-                camera, materialPropertyBlock); */
         }
 
         protected override void SetMaterialPropertyBlockData()
