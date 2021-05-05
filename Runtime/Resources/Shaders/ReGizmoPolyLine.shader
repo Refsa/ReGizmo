@@ -70,7 +70,7 @@ Shader "Hidden/ReGizmo/PolyLine_Screen" {
 
                 Properties prop_temp = propA;
                 propA = propB;
-                propB = propA;
+                propB = prop_temp;
                 
                 propP = _Properties[vidN];
                 propN = _Properties[vidP];
