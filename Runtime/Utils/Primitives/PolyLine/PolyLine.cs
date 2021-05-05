@@ -24,6 +24,7 @@ namespace ReGizmo.Drawing
         int id;
 
         public bool Initialized { get; private set; }
+        public int ID => id;
 
         public PolyLineData this[int index]
         {

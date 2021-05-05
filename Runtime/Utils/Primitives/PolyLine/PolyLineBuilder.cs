@@ -10,7 +10,7 @@ namespace ReGizmo.Drawing
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static PolyLine Point(this PolyLine self, Vector3 position, Vector4 color, float width = 1f)
         {
-            self.Points.Add(new PolyLineData(position, color, width));
+            self.Points.Add(new PolyLineData(position, color, width, self.ID));
             return self;
         }
 
