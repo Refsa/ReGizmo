@@ -89,12 +89,12 @@ namespace ReGizmo.Drawing
         {
             if (Physics.Raycast(origin, direction, out var hit, distance, layerMask))
             {
-                ReDraw.Line(origin, hit.point, Color.green, 2f);
-                ReDraw.Ray(hit.point, hit.normal * 0.2f, Color.blue, 2f);
+                ReDraw.Line(origin, hit.point, Color.green, 1f);
+                ReDraw.Ray(hit.point, hit.normal * 0.2f, Color.blue, 1f);
             }
             else
             {
-                ReDraw.Ray(origin, direction * distance, Color.red, 2f);
+                ReDraw.Ray(origin, direction * distance, Color.red, 1f);
             }
         }
 
@@ -103,13 +103,13 @@ namespace ReGizmo.Drawing
         {
             if (Physics.SphereCast(origin, radius, direction, out var hit, distance, layerMask))
             {
-                ReDraw.Ray(origin, direction * hit.distance, Color.green, 2f);
+                ReDraw.Ray(origin, direction * hit.distance, Color.green, 1f);
                 ReDraw.Sphere(origin + direction * hit.distance, Vector3.one * radius,
                     Color.green.WithAlpha(0.5f));
             }
             else
             {
-                ReDraw.Ray(origin, direction * distance, Color.red, 2f);
+                ReDraw.Ray(origin, direction * distance, Color.red, 1f);
             }
         }
 
@@ -118,13 +118,13 @@ namespace ReGizmo.Drawing
         {
             if (Physics.BoxCast(center, halfExtents, direction, out var hit, orientation, distance, layerMask))
             {
-                ReDraw.Ray(center, direction * hit.distance, Color.green, 2f);
+                ReDraw.Ray(center, direction * hit.distance, Color.green, 1f);
                 ReDraw.Cube(center + direction * hit.distance, orientation, halfExtents * 2,
                     Color.green.WithAlpha(0.5f));
             }
             else
             {
-                ReDraw.Ray(center, direction * distance, Color.red, 2f);
+                ReDraw.Ray(center, direction * distance, Color.red, 1f);
             }
         }
 
