@@ -69,6 +69,7 @@ namespace ReGizmo.Core
             drawers = new List<IReGizmoDrawer>()
             {
                 ReGizmoResolver<ReGizmoLineDrawer>.Init(new ReGizmoLineDrawer()),
+                ReGizmoResolver<ReGizmoPolyLineDrawer>.Init(new ReGizmoPolyLineDrawer()),
 
                 ReGizmoResolver<ReGizmoIconsDrawer>.Init(new ReGizmoIconsDrawer()),
                 ReGizmoResolver<ReGizmoSpritesDrawer>.Init(new ReGizmoSpritesDrawer()),

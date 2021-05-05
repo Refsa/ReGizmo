@@ -1,5 +1,10 @@
 #include "UnityCG.cginc"
 
+static const float E = 2.71828;
+static const float HalfE = 2.71828 * 0.5;
+static const float2 PixelSize = 1.0 / _ScreenParams.xy;
+static const float PixelArea = length(PixelSize);
+
 struct DMIIProperties
 {
     float3 Position;
@@ -323,4 +328,10 @@ float lineWu(float2 a, float2 b, float2 c)
     // calculate result brightness
     float br = 1.0 - abs(c.y - y);
     return max(0.0, br) * k * (0.5 * length(d) / d.x);
+}
+
+float GetDepthFromClip(float4 clipPos)
+{
+    float4 screenPos = ComputeScreenPos(clipPos);
+    return UNITY_Z_0_FAR_FROM_CLIPSPACE(screenPos.z);
 }

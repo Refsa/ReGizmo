@@ -84,6 +84,29 @@ namespace ReGizmo.Drawing
             }
         }
 
+        public static void PolyLine(in PolyLine polyLine)
+        {
+            polyLine.Build();
+
+            if (ReGizmoResolver<ReGizmoPolyLineDrawer>.TryGet(out var drawer))
+            {
+                foreach (var point in polyLine.Points)
+                {
+                    ref var shaderData = ref drawer.GetShaderData();
+
+                    shaderData.Position = point.Position;
+                    shaderData.Color = point.Color;
+                    shaderData.ID = point.ID;
+                    shaderData.Width = point.Width;
+                }
+            }
+
+            if (polyLine.AutoDispose)
+            {
+                polyLine.Dispose();
+            }
+        }
+
         public static void Raycast(Vector3 origin, Vector3 direction, float distance = float.MaxValue,
             int layerMask = ~0)
         {

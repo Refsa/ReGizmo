@@ -8,16 +8,14 @@ namespace ReGizmo.Drawing
         public Vector3 Position;
         public Vector4 Color;
         public float Width;
-        public float EdgeSmoothing;
-        public Vector4 ID;
+        public int ID;
 
-        public PolyLineData(Vector3 position, Vector4 color, float width = 0.01f, float edgeSmoothing = 0f)
+        public PolyLineData(Vector3 position, Vector4 color, float width = 1f)
         {
             Position = position;
             Color = color;
             Width = width;
-            EdgeSmoothing = edgeSmoothing;
-            ID = Vector4.zero;
+            ID = 0;
         }
     }
 }
