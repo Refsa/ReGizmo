@@ -41,6 +41,8 @@ namespace ReGizmo
             if (instance != null) return;
 
             instance = ReGizmoHelpers.LoadAssetByName<ReGizmoSettings>("ReGizmoSettings");
+
+            Core.ReGizmo.DetectPipeline();
         }
 
         void OnValidate()
