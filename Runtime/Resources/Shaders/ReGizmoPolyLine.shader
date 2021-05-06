@@ -20,7 +20,7 @@ Shader "Hidden/ReGizmo/PolyLine_Screen" {
         };
         struct g2f {
             float4 pos: SV_POSITION;
-            float2 uv: TEXCOORD0;
+            noperspective float2 uv: TEXCOORD0;
             float4 color: TEXCOORD1;
             float width: TEXCOORD2;
         };
@@ -90,8 +90,11 @@ Shader "Hidden/ReGizmo/PolyLine_Screen" {
             float w1 = ceil(propA.Width + PixelSize);
             float w2 = ceil(propB.Width + PixelSize);
 
+            float2 dir = normalize(p2.xy - p1.xy);
+
             float2 a = p1.xy / p1.w;
             float2 b = p2.xy / p2.w;
+
             float2 c1 = normalize(float2(a.y - b.y, b.x - a.x)) / _ScreenParams.xy * w1;
             float2 c2 = normalize(float2(a.y - b.y, b.x - a.x)) / _ScreenParams.xy * w2;
 

@@ -94,7 +94,7 @@ namespace ReGizmo.Drawing
                 {
                     ref var shaderData = ref drawer.GetShaderData();
 
-                    shaderData.Position = point.Position;
+                    shaderData.Position = point.Position + currentPosition;
                     shaderData.Color = point.Color;
                     shaderData.ID = point.ID;
                     shaderData.Width = point.Width;

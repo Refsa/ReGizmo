@@ -25,36 +25,66 @@ public class DrawLines : MonoBehaviour
                     .Point(Vector3.back * 2 + Vector3.up, Color.green, 1f)
                     .Point(Vector3.back * 4 + Vector3.up, Color.blue, 1f)
                     .Point(Vector3.back * 6, Color.cyan, 1f)
+                    .ClosedLoop()
                     .Draw();
 
-                /* using (var polyLine = PolyLine.Scope())
-                {
-                    polyLine
-                        .Point(Vector3.right + Vector3.back, Color.red, 1f)
-                        .Point(Vector3.right + Vector3.back * 2 + Vector3.up, Color.green, 2f)
-                        .Point(Vector3.right + Vector3.back * 4 + Vector3.up, Color.blue, 4f)
-                        .Point(Vector3.right + Vector3.back * 6, Color.cyan, 8f);
-                } */
+                new PolyLine(false)
+                    .Point(Vector3.right + Vector3.back, Color.red, 1f)
+                    .Point(Vector3.right + Vector3.back * 2 + Vector3.up, Color.green, 2f)
+                    .Point(Vector3.right + Vector3.back * 4 + Vector3.up, Color.blue, 4f)
+                    .Point(Vector3.right + Vector3.back * 6, Color.cyan, 8f)
+                    .Draw();
+
+                new PolyLine(false)
+                    .Point(Vector3.right * 2 + Vector3.back, Color.red, 10f)
+                    .Point(Vector3.right * 2 + Vector3.back * 2 + Vector3.up, Color.green, 20f)
+                    .Point(Vector3.right * 2 + Vector3.back * 4 + Vector3.up, Color.blue, 30f)
+                    .Point(Vector3.right * 2 + Vector3.back * 6, Color.cyan, 40f)
+                    .Draw();
+
+                new PolyLine(false)
+                    .Point(Vector3.right * 3 + Vector3.back, Color.red, 10f)
+                    .Point(Vector3.right * 3 + Vector3.back + Vector3.up, Color.green, 20f)
+                    .Point(Vector3.right * 3 + Vector3.back * 4 + Vector3.up, Color.blue, 30f)
+                    .Draw();
             }
 
             /* {
-                if (cachedPolyLine.Points == null || cachedPolyLine.Points.Count == 0)
-                {
-                    cachedPolyLine.AutoDispose = false;
-                    Vector3 point = Random.insideUnitSphere * 3f;
-                    float maxTheta = 10f;
+                Vector3 dir1 = ((Vector3.back * 2 + Vector3.up) - Vector3.back).normalized;
+                Vector3 dir2 = ((Vector3.back * 4 + Vector3.up) - (Vector3.back * 2 + Vector3.up)).normalized;
 
-                    for (int i = 0; i < 512; i++)
-                    {
-                        cachedPolyLine.Add(new PolyLineData(point, new Color(i / 512f, 1 - (i / 512f), Random.Range(0f, 1f), 1f), 1f));
+                Vector3 cross1 = Vector3.Cross(dir1, UnityEditor.SceneView.lastActiveSceneView.camera.transform.forward);
+                Vector3 cross2 = Vector3.Cross(dir2, UnityEditor.SceneView.lastActiveSceneView.camera.transform.forward);
+                Vector3 cross = Vector3.Cross(cross1, cross2);
 
-                        Vector3 change = Random.insideUnitSphere * maxTheta;
-                        point = Quaternion.Euler(change) * point;
-                    }
-                }
-
-                ReDraw.PolyLine(cachedPolyLine);
+                ReDraw.Ray((Vector3.back * 2 + Vector3.up), cross, Color.magenta, 2f);
             } */
+        }
+
+
+        {
+            if (cachedPolyLine.Points == null || cachedPolyLine.Points.Count == 0)
+            {
+                cachedPolyLine = new PolyLine(false);
+                cachedPolyLine.AutoDispose = false;
+
+                Vector3 point = Random.insideUnitSphere * 0.001f;
+                float maxTheta = 10f;
+                float count = 1 << 10;
+
+                for (int i = 0; i < count; i++)
+                {
+                    cachedPolyLine.Point(point, new Color(i / count, 1 - (i / count), Random.Range(0f, 1f), 1f), 1f);
+
+                    Vector3 change = Random.insideUnitSphere * Random.Range(0.01f, maxTheta);
+
+                    point = Quaternion.Euler(change) * point;
+                    Vector3 dir = (transform.position - point).normalized;
+                    point += dir * Random.Range(0.001f, 0.02f);
+                }
+            }
+
+            ReDraw.PolyLine(cachedPolyLine);
         }
     }
 }
