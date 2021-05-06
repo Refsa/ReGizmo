@@ -1,8 +1,6 @@
 Shader "Hidden/ReGizmo/Line_Screen"
 {
-    Properties
-    {
-    }
+    Properties { }
     SubShader
     {
         Tags
@@ -13,17 +11,15 @@ Shader "Hidden/ReGizmo/Line_Screen"
 
         CGINCLUDE
         #include "UnityCG.cginc"
-        #include "Utils/ReGizmoShaderUtils.cginc"
         #include "Utils/ReGizmoLineUtils.cginc"
         #pragma target 4.6
-
         ENDCG
 
         Pass
         {
             Blend SrcAlpha OneMinusSrcAlpha
             ZWrite Off
-            ZTest Greater
+            ZTest LEqual
 
             CGPROGRAM
             #pragma vertex vert_line

@@ -1,13 +1,12 @@
 Shader "Hidden/ReGizmo/Icon"
 {
-    Properties
-    {
-    }
+    Properties { }
     SubShader
     {
         Tags
         {
-            "RenderType"="Overlay" "Queue"="Overlay"
+            "RenderType"="Overlay" 
+            "Queue"="Overlay" 
         }
 
         CGINCLUDE
@@ -35,6 +34,7 @@ Shader "Hidden/ReGizmo/Icon"
         };
 
         sampler2D _IconTexture;
+        float4 _IconTexture_TexelSize;
         float _IconAspect;
 
         StructuredBuffer<DrawData> _DrawData;
@@ -72,6 +72,11 @@ Shader "Hidden/ReGizmo/Icon"
                 dy = (dy / unity_OrthoParams.x) * 0.01;
             }
 
+            if (ProjectionFlipped())
+            {
+                dy = -dy;
+            }
+
             float4 cp1 = float4(clip.x - dx, clip.y - dy, clip.z, clip.w);
             float4 cp2 = float4(clip.x - dx, clip.y + dy, clip.z, clip.w);
             float4 cp3 = float4(clip.x + dx, clip.y + dy, clip.z, clip.w);
@@ -106,14 +111,12 @@ Shader "Hidden/ReGizmo/Icon"
             triangleStream.RestartStrip();
         }
 
-        float4 frag(g2f i, inout uint mask: SV_COVERAGE) : SV_Target
+        float4 frag(g2f i) : SV_Target
         {
             float4 color = float4(i.color, 1.0);
 
             float4 tex_col = tex2D(_IconTexture, i.uv);
             color *= tex_col.a;
-
-            mask = color.a == 0 ? 0 : 1;
 
             return lerp(tex_col, color, 0.5);
         }
@@ -122,9 +125,23 @@ Shader "Hidden/ReGizmo/Icon"
         Pass
         {
             Blend SrcAlpha OneMinusSrcAlpha
-            ZTest On
+            ZTest LEqual
+            ZWrite Off
+
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma geometry geom
+            #pragma fragment frag
+            #pragma multi_compile_instancing
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+            ENDCG
+        }
+
+        Pass
+        {
+            Blend SrcAlpha OneMinusSrcAlpha
+            ZTest LEqual
             ZWrite On
-            AlphaToMask On
 
             CGPROGRAM
             #pragma vertex vert

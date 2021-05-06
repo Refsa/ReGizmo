@@ -149,7 +149,7 @@ Shader "Hidden/ReGizmo/PolyLine_Screen" {
 		Pass {
             Blend SrcAlpha OneMinusSrcAlpha
             ZWrite Off
-            ZTest Greater
+            ZTest LEqual
 
 			CGPROGRAM
 			#pragma vertex vert

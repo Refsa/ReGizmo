@@ -6,6 +6,9 @@
     - Sorting between drawers is kinda whack atm
         for example: Lines at -10f is drawing over sprites at 1f, but not at -1f
     - ortho scaling on Icon drawer
+    - Change font to scale in screenspace (like lines)
+    - Change icons to scale in screenspace (like lines)
+    - SDF Font Shader is fucked in HDRP
     
 Sprite Drawer:
     - Make base for Sprite Drawer a texture drawer with UVs so the same drawer can be shared for each sprite
