@@ -248,7 +248,7 @@ namespace ReGizmo.Core
 
 #if RG_LEGACY
             if (Application.isPlaying)
-            {
+            { 
                 var camera = Camera.main;
                 if (activeCameras.Add(camera))
                 {

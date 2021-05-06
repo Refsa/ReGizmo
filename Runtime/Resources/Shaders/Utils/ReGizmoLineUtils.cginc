@@ -49,12 +49,6 @@ void geom_line(line v2g_line i[2], inout TriangleStream<g2f_line> triangleStream
         float ratio = (_ProjectionParams.y - p1.w) / (p2.w - p1.w);
         p1 = lerp(p1, p2, ratio);
     }
-    
-    /* if (ProjectionFlipped()) 
-    {
-        p1.y = -p1.y;
-        p2.y = -p2.y;
-    } */
 
     float w1 = ceil(prop1.Width + PixelSize);
     float w2 = ceil(prop2.Width + PixelSize);

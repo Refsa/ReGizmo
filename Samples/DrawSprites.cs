@@ -1,24 +1,24 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using ReGizmo.Drawing;
 using UnityEngine;
 
 namespace ReGizmo.Samples
 {
-    public class DrawIcons : MonoBehaviour
+    public class DrawSprites : MonoBehaviour
     {
-        [SerializeField] List<Texture2D> icons;
+        [SerializeField] List<Sprite> sprites;
 
         void OnDrawGizmos()
         {
-            if (icons == null) return;
+            if (sprites == null) return;
 
             using (new TransformScope(transform))
             {
                 int index = 0;
-                foreach (var icon in icons)
+                foreach (var sprite in sprites)
                 {
-                    ReDraw.Icon(icon, Vector3.up * 12 * index++, Color.black, 32f);
+                    ReDraw.Sprite(sprite, Vector3.up * 12 * index++, 4f);
                 }
             }
         }
