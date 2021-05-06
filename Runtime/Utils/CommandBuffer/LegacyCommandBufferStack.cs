@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +5,8 @@ using UnityEngine.Rendering;
 
 namespace ReGizmo.Utils
 {
-    class CommandBufferStack : IDisposable
+#if RG_LEGACY
+    class LegacyCommandBufferStack : CommandBufferStack
     {
         CommandBuffer front;
         CommandBuffer back;
@@ -15,7 +15,7 @@ namespace ReGizmo.Utils
 
         HashSet<CameraEvent> activeEvents;
 
-        public CommandBufferStack(string name)
+        public LegacyCommandBufferStack(string name) : base(name)
         {
             useFront = true;
             activeEvents = new HashSet<CameraEvent>();
@@ -27,7 +27,7 @@ namespace ReGizmo.Utils
             back.name = name + "_back";
         }
 
-        public CommandBuffer Current()
+        public override CommandBuffer Current()
         {
             CommandBuffer target = null;
 
@@ -41,11 +41,10 @@ namespace ReGizmo.Utils
             }
 
             useFront = !useFront;
-            target.Clear();
             return target;
         }
 
-        public void Attach(Camera camera, CameraEvent cameraEvent)
+        public override void Attach(Camera camera, CameraEvent cameraEvent)
         {
             activeEvents.Add(cameraEvent);
 
@@ -53,7 +52,7 @@ namespace ReGizmo.Utils
             camera.AddCommandBuffer(cameraEvent, back);
         }
 
-        public void DeAttach(Camera camera)
+        public override void DeAttach(Camera camera)
         {
             if (camera == null || camera.Equals(null)) return;
 
@@ -66,7 +65,7 @@ namespace ReGizmo.Utils
             activeEvents.Clear();
         }
 
-        public void DeAttach(Camera camera, CameraEvent cameraEvent)
+        public override void DeAttach(Camera camera, CameraEvent cameraEvent)
         {
             if (activeEvents.Contains(cameraEvent))
             {
@@ -76,18 +75,6 @@ namespace ReGizmo.Utils
                 activeEvents.Remove(cameraEvent);
             }
         }
-
-        public void Dispose()
-        {
-            /* if (front != null && !front.Equals(null))
-            {
-                front.Dispose();
-            }
-
-            if (back != null && !back.Equals(null))
-            {
-                back.Dispose();
-            } */
-        }
     }
+#endif
 }
