@@ -15,7 +15,6 @@ Shader "Hidden/ReGizmo/Icon"
 
         struct v2g
         {
-            float4 pos : SV_POSITION;
             uint vertexID : TEXCOORD0;
         };
 
@@ -40,13 +39,8 @@ Shader "Hidden/ReGizmo/Icon"
 
         v2g vert(uint vertexID : SV_VertexID)
         {
-            DrawData data = _DrawData[vertexID];
-
             v2g o;
-
-            o.pos = float4(data.position, 1.0);
             o.vertexID = vertexID;
-
             return o;
         }
 
@@ -56,12 +50,12 @@ Shader "Hidden/ReGizmo/Icon"
         void geom(point v2g i[1], inout TriangleStream<g2f> triangleStream)
         {
             DrawData bd = _DrawData[i[0].vertexID];
+            float4 clip = mul(UNITY_MATRIX_VP, float4(bd.position, 1.0));
 
             float halfOffset = bd.scale;
-
-            float4 clip = mul(UNITY_MATRIX_VP, i[0].pos);
-
             float2 size = float2(-halfOffset * _IconAspect, -halfOffset);
+
+            // Scale the size to screen coords
             size /= _ScreenParams.xy;
             size *= clip.w;
 
@@ -70,6 +64,7 @@ Shader "Hidden/ReGizmo/Icon"
                 size.y = -size.y;
             }
 
+            // Create billboard vertices
             float4 cp1 = float4(clip.x - size.x, clip.y - size.y, clip.z, clip.w);
             float4 cp2 = float4(clip.x - size.x, clip.y + size.y, clip.z, clip.w);
             float4 cp3 = float4(clip.x + size.x, clip.y + size.y, clip.z, clip.w);

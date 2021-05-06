@@ -151,14 +151,23 @@ namespace ReGizmo.Drawing
             }
         }
 
-        public static void Sprite(Sprite sprite, Vector3 pos, float sorting)
+        /// <summary>
+        /// Draws a sprite at the given position
+        /// 
+        /// Uses the sprites PixelsPerUnit mutliplied by the given scale as size in pixels
+        /// </summary>
+        /// <param name="sprite">Sprite to draw</param>
+        /// <param name="pos">World position</param>
+        /// <param name="scale">Scale, internally multiplied with PPU</param>
+        /// <param name="sorting">No functionality atm</param>
+        public static void Sprite(Sprite sprite, Vector3 pos, float scale, float sorting = 0f)
         {
             if (ReGizmoResolver<ReGizmoSpritesDrawer>.TryGet(out var drawers))
             {
                 ref var data = ref drawers.GetShaderData(sprite);
 
                 data.Position = currentPosition + pos + Vector3.back * sorting;
-                data.Scale = sprite.pixelsPerUnit;
+                data.Scale = sprite.pixelsPerUnit * scale;
             }
         }
 
