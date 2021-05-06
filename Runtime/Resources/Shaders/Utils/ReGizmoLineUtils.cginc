@@ -50,13 +50,11 @@ void geom_line(line v2g_line i[2], inout TriangleStream<g2f_line> triangleStream
         p1 = lerp(p1, p2, ratio);
     }
     
-#if UNITY_UV_STARTS_AT_TOP
-    if (_ProjectionParams.x > 0)
+    if (ProjectionFlipped()) 
     {
         p1.y = -p1.y;
         p2.y = -p2.y;
     }
-#endif
 
     float w1 = ceil(prop1.Width + PixelSize);
     float w2 = ceil(prop2.Width + PixelSize);
@@ -76,8 +74,8 @@ void geom_line(line v2g_line i[2], inout TriangleStream<g2f_line> triangleStream
     g2.pos = float4(p2.xy + c2 * p2.w, p2.zw);
     g3.pos = float4(p2.xy - c2 * p2.w, p2.zw);
 
-    g0.uv = float2(0,0);
-    g1.uv = float2(1,0);
+    g0.uv = float2(0, 0);
+    g1.uv = float2(1, 0);
     g2.uv = float2(0, 1);
     g3.uv = float2(1, 1);
 

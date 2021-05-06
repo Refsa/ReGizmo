@@ -81,7 +81,7 @@ font_v2g font_vert(font_appdata_t v, uint vid : SV_VertexID)
     return o;
 }
 
-[maxvertexcount(6)]
+[maxvertexcount(4)]
 void font_geom(point font_v2g i[1], inout TriangleStream<font_g2f> triangleStream)
 {
     uint vid = i[0].vertexID;
@@ -143,11 +143,8 @@ void font_geom(point font_v2g i[1], inout TriangleStream<font_g2f> triangleStrea
 
     triangleStream.Append(vd1);
     triangleStream.Append(vd2);
-    triangleStream.Append(vd3);
-
-    triangleStream.Append(vd1);
-    triangleStream.Append(vd3);
     triangleStream.Append(vd4);
+    triangleStream.Append(vd3);
 
     triangleStream.RestartStrip();
 }

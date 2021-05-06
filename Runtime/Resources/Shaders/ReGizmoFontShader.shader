@@ -32,7 +32,6 @@
             Blend SrcAlpha OneMinusSrcAlpha
             ZTest On
             ZWrite Off
-            Cull Front
 
             CGPROGRAM
             #pragma vertex font_vert

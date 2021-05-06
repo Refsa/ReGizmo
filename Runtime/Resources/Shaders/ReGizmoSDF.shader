@@ -30,7 +30,6 @@
             Blend SrcAlpha OneMinusSrcAlpha
             ZTest LEqual
             ZWrite Off
-            Cull Front
 
             CGPROGRAM
             #pragma vertex font_vert
@@ -45,7 +44,6 @@
             Blend SrcAlpha OneMinusSrcAlpha
             ZTest LEqual
             ZWrite On
-            Cull Front
 
             CGPROGRAM
             #pragma vertex font_vert

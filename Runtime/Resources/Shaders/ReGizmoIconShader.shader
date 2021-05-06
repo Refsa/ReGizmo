@@ -34,7 +34,6 @@ Shader "Hidden/ReGizmo/Icon"
         };
 
         sampler2D _IconTexture;
-        float4 _IconTexture_TexelSize;
         float _IconAspect;
 
         StructuredBuffer<DrawData> _DrawData;
@@ -53,7 +52,7 @@ Shader "Hidden/ReGizmo/Icon"
 
         static const float aspect = _ScreenParams.x / _ScreenParams.y;
 
-        [maxvertexcount(6)]
+        [maxvertexcount(4)]
         void geom(point v2g i[1], inout TriangleStream<g2f> triangleStream)
         {
             DrawData bd = _DrawData[i[0].vertexID];
@@ -102,12 +101,10 @@ Shader "Hidden/ReGizmo/Icon"
             g4.uv = float2(0, 0);
             g4.color = bd.color;
 
-            triangleStream.Append(g1);
             triangleStream.Append(g2);
-            triangleStream.Append(g3);
             triangleStream.Append(g1);
-            triangleStream.Append(g4);
             triangleStream.Append(g3);
+            triangleStream.Append(g4);
             triangleStream.RestartStrip();
         }
 
