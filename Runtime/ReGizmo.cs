@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using ReGizmo.Drawing;
 using ReGizmo.Utils;
@@ -6,6 +7,12 @@ using UnityEngine.Profiling;
 using UnityEngine.Rendering;
 using Debug = UnityEngine.Debug;
 
+#if RG_URP
+using UnityEngine.Rendering.Universal;
+#elif RG_HDRP
+using UnityEngine.Rendering.HighDefinition;
+#endif
+
 namespace ReGizmo.Core
 {
     public static class ReGizmo
@@ -13,16 +20,21 @@ namespace ReGizmo.Core
         static bool isSetup = false;
         static GameObject proxyObject;
 
+        static RenderPipelineUtils.Pipeline currentPipeline;
         static List<IReGizmoDrawer> drawers;
         static HashSet<Camera> activeCameras;
 
         static CommandBufferStack drawBuffers;
+        static CommandBuffer activeCommandBuffer;
 
         static bool interrupted;
         static bool isActive;
         static bool shouldReset;
 
         public static bool IsSetup => isSetup;
+        internal static RenderPipelineUtils.Pipeline CurrentPipeline => currentPipeline;
+
+        public static CommandBuffer CurrentCommandBuffer => drawBuffers?.Current();
 
 #if !UNITY_EDITOR
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -57,14 +69,53 @@ namespace ReGizmo.Core
         public static void SetActive(bool state)
         {
             isActive = state;
+
+            if (isActive)
+            {
+#if RG_URP
+                Core.URP.ReGizmoRenderFeature.OnPassExecute += OnPassExecute;
+#elif RG_HDRP
+                RenderPipelineManager.endCameraRendering += OnEndCameraRendering;
+#endif
+            }
+            else
+            {
+#if RG_URP
+                Core.URP.ReGizmoRenderFeature.OnPassExecute -= OnPassExecute;
+#else
+                foreach (var camera in activeCameras)
+                {
+#if RG_HDRP
+                    RenderPipelineManager.endCameraRendering -= OnEndCameraRendering;
+#else
+                    drawBuffers.DeAttach(camera);
+#endif
+                }
+
+                activeCameras.Clear();
+#endif
+            }
         }
 
         public static void Setup()
         {
             Dispose();
 
-            drawBuffers = new CommandBufferStack("ReGizmo");
+#if RG_LEGACY
+            drawBuffers = new LegacyCommandBufferStack("ReGizmo"); 
+#elif RG_URP
+            Core.URP.ReGizmoRenderFeature.OnPassExecute += OnPassExecute;
+#elif RG_HDRP
+            RenderPipelineManager.endCameraRendering += OnEndCameraRendering;
+#endif
+
+#if RG_SRP
+            drawBuffers = new SRPCommandBufferStack("ReGizmo");
+#endif
+
             ComputeBufferPool.Init();
+
+            DetectPipeline();
 
             drawers = new List<IReGizmoDrawer>()
             {
@@ -91,12 +142,10 @@ namespace ReGizmo.Core
                 ReGizmoResolver<ReGizmoCustomMeshWireframeDrawer>.Init(new ReGizmoCustomMeshWireframeDrawer()),
             };
 
-            //#if !UNITY_EDITOR
             if (Application.isPlaying)
             {
                 SetupProxyObject();
             }
-            //#endif
 
             isSetup = true;
             interrupted = false;
@@ -118,12 +167,71 @@ namespace ReGizmo.Core
 
             GameObject.DontDestroyOnLoad(proxyObject);
 
+#if RG_LEGACY
             proxyComp.inUpdate += OnUpdate;
-            proxyComp.inDestroy += Dispose;
+#endif
 
+            proxyComp.inDestroy += Dispose;
             proxyComp.inEnable += () => SetActive(true);
             proxyComp.inDisable += () => SetActive(false);
         }
+
+        public static void DetectPipeline()
+        {
+            currentPipeline = RenderPipelineUtils.DetectPipeline();
+
+            switch (currentPipeline)
+            {
+                case RenderPipelineUtils.Pipeline.Unknown:
+                    break;
+                case RenderPipelineUtils.Pipeline.Legacy:
+                    Shader.EnableKeyword(RenderPipelineUtils.LegacyKeyword);
+                    Shader.DisableKeyword(RenderPipelineUtils.SRPKeyword);
+                    break;
+                case RenderPipelineUtils.Pipeline.HDRP:
+                case RenderPipelineUtils.Pipeline.URP:
+                    Shader.EnableKeyword(RenderPipelineUtils.SRPKeyword);
+                    Shader.DisableKeyword(RenderPipelineUtils.LegacyKeyword);
+                    break;
+            }
+
+#if UNITY_EDITOR
+            UpdateScriptDefines();
+#endif
+        }
+
+#if UNITY_EDITOR
+        static void UpdateScriptDefines()
+        {
+            string defines = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(UnityEditor.BuildTargetGroup.Standalone);
+            if (defines.Contains(currentPipeline.GetDefine()))
+            {
+                return;
+            }
+
+            defines = defines
+                .Replace(RenderPipelineUtils.LegacyKeyword, "")
+                .Replace(RenderPipelineUtils.URPKeyword, "")
+                .Replace(RenderPipelineUtils.HDRPKeyword, "")
+                .Replace(RenderPipelineUtils.SRPKeyword, "");
+
+            defines += $";{currentPipeline.GetDefine()}";
+
+            UnityEditor.PlayerSettings.SetScriptingDefineSymbolsForGroup(UnityEditor.BuildTargetGroup.Standalone, defines);
+        }
+#endif
+
+#if RG_URP
+        private static void OnPassExecute(ScriptableRenderContext context, bool isGameView)
+        {
+            context.ExecuteCommandBuffer(drawBuffers.Current());
+        }
+#elif RG_HDRP
+        private static void OnEndCameraRendering(ScriptableRenderContext context, Camera arg2)
+        {
+            context.ExecuteCommandBuffer(drawBuffers.Current());
+        }
+#endif
 
         public static void OnUpdate()
         {
@@ -138,6 +246,7 @@ namespace ReGizmo.Core
             Profiler.BeginSample("ReGizmo::OnUpdate");
 #endif
 
+#if RG_LEGACY
             if (Application.isPlaying)
             {
                 var camera = Camera.main;
@@ -146,8 +255,9 @@ namespace ReGizmo.Core
                     drawBuffers.Attach(camera, CameraEvent.AfterForwardAlpha);
                 }
             }
+#endif
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR && RG_LEGACY
             if (UnityEditor.SceneView.lastActiveSceneView != null)
             {
                 var camera = UnityEditor.SceneView.lastActiveSceneView.camera;
@@ -159,6 +269,8 @@ namespace ReGizmo.Core
 #endif
 
             var cmd = drawBuffers.Current();
+            cmd.Clear();
+
             cmd.BeginSample("ReGizmo Draw Buffer");
 
             foreach (var drawer in drawers)
@@ -190,13 +302,23 @@ namespace ReGizmo.Core
 #endif
         }
 
+        public static void ClearAll()
+        {
+            foreach (var drawer in drawers)
+            {
+                drawer.Clear();
+            }
+        }
+
         public static void Dispose()
         {
             if (activeCameras != null)
             {
                 foreach (var camera in activeCameras)
                 {
+#if RG_LEGACY
                     drawBuffers.DeAttach(camera);
+#endif
                 }
 
                 activeCameras.Clear();

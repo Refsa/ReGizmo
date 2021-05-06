@@ -33,6 +33,8 @@ namespace ReGizmo.Editor
             BuildHook.onBeforeBuild += OnBeforeBuild;
 
             EditorSceneManager.activeSceneChangedInEditMode += OnSceneChanged;
+
+            EditorApplication.projectChanged += OnProjectChanged;
         }
 
         static void DeAttachEventHooks()
@@ -47,6 +49,13 @@ namespace ReGizmo.Editor
             EditorSceneManager.activeSceneChangedInEditMode -= OnSceneChanged;
 
             SceneView.duringSceneGui -= OnDuringSceneGUI;
+
+            EditorApplication.projectChanged -= OnProjectChanged;
+        }
+
+        private static void OnProjectChanged()
+        {
+            Core.ReGizmo.DetectPipeline();
         }
 
         static void OnBeforeBuild()

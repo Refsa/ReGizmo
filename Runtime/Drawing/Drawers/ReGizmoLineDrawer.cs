@@ -6,7 +6,7 @@ namespace ReGizmo.Drawing
 {
     internal struct LineData
     {
-        public Vector3 Position;
+        public Vector3 Position; 
         public Vector4 Color;
         public float Width;
     }
@@ -17,7 +17,7 @@ namespace ReGizmo.Drawing
         {
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Line_Screen");
             renderArguments[1] = 1;
-        }
+        } 
 
         protected override void RenderInternal(CommandBuffer cmd)
         {

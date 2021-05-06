@@ -15,8 +15,8 @@ public class DrawLines : MonoBehaviour
         {
             for (int i = 0; i < 32; i++)
             {
-                ReDraw.Ray(new Vector3(i, 0, 0), (Vector3.up + Vector3.right + Vector3.forward).normalized * (i + 1), Color.red, width);
-                ReDraw.Ray(new Vector3(i, 0, 0), (Vector3.up).normalized * (i + 1), Color.blue, width);
+                ReDraw.Ray(new Vector3(i, 0, 0), (Vector3.up + Vector3.right + Vector3.forward).normalized * (i + 1), Color.red, width + (i * 0.25f));
+                ReDraw.Ray(new Vector3(i, 0, 0), (Vector3.up).normalized * (i + 1), Color.blue, width + (i * 0.25f));
             }
 
             {

@@ -6,6 +6,11 @@
     - Sorting between drawers is kinda whack atm
         for example: Lines at -10f is drawing over sprites at 1f, but not at -1f
     - ortho scaling on Icon drawer
+    - Change font to scale in screenspace (like lines)
+    - Change icons to scale in screenspace (like lines)
+    - SDF Font Shader is fucked in HDRP, workd in SceneView but not in game view
+    - Legacy currently doesnt render in game view when outside of play mode, would be a nice thing but not a huge deal
+    - Scopes doesnt work on font drawers
     
 Sprite Drawer:
     - Make base for Sprite Drawer a texture drawer with UVs so the same drawer can be shared for each sprite

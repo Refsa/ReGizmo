@@ -1,6 +1,5 @@
 ﻿#include "UnityCG.cginc"
-// Upgrade NOTE: excluded shader from DX11 because it uses wrong array syntax (type[size] name)
-#pragma exclude_renderers d3d11
+#include "Utils/ReGizmoShaderUtils.cginc"
 
 #ifndef DEFAULT_SCALE_FACTOR
 #define DEFAULT_SCALE_FACTOR 0.142
@@ -66,6 +65,8 @@ float2 _AtlasDimensions;
 float _AtlasSize;
 static const float default_atlas_size = 128;
 static const float atlas_size_factor = _AtlasSize / default_atlas_size;
+const static float default_scale_factor_sqr = DEFAULT_SCALE_FACTOR * DEFAULT_SCALE_FACTOR;
+const static float aspect_ratio = _ScreenParams.y / _ScreenParams.x;
 
 // PROGRAMS
 font_v2g font_vert(font_appdata_t v, uint vid : SV_VertexID)
@@ -80,10 +81,7 @@ font_v2g font_vert(font_appdata_t v, uint vid : SV_VertexID)
     return o;
 }
 
-const static float default_scale_factor_sqr = DEFAULT_SCALE_FACTOR * DEFAULT_SCALE_FACTOR;
-const static float aspect_ratio = _ScreenParams.y / _ScreenParams.x;
-
-[maxvertexcount(6)]
+[maxvertexcount(4)]
 void font_geom(point font_v2g i[1], inout TriangleStream<font_g2f> triangleStream)
 {
     uint vid = i[0].vertexID;
@@ -105,6 +103,14 @@ void font_geom(point font_v2g i[1], inout TriangleStream<font_g2f> triangleStrea
     float4 c2 = float4(size.y * aspect_ratio, -size.w, 0, 0) * camDist * td.Scale + advanceOffset;
     float4 c3 = float4(size.y * aspect_ratio, -size.z, 0, 0) * camDist * td.Scale + advanceOffset;
     float4 c4 = float4(size.x * aspect_ratio, -size.z, 0, 0) * camDist * td.Scale + advanceOffset;
+
+    if (ProjectionFlipped())
+    {
+        c1.y = -c1.y;
+        c2.y = -c2.y;
+        c3.y = -c3.y;
+        c4.y = -c4.y;
+    }
 
     float4 p1 = centerClip + c4;
     float4 p2 = centerClip + c1;
@@ -137,11 +143,8 @@ void font_geom(point font_v2g i[1], inout TriangleStream<font_g2f> triangleStrea
 
     triangleStream.Append(vd1);
     triangleStream.Append(vd2);
-    triangleStream.Append(vd3);
-
-    triangleStream.Append(vd1);
-    triangleStream.Append(vd3);
     triangleStream.Append(vd4);
+    triangleStream.Append(vd3);
 
     triangleStream.RestartStrip();
 }

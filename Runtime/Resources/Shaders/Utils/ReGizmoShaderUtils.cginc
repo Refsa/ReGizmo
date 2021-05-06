@@ -160,6 +160,18 @@ float CamDistSampleFactorLine(float3 pos, float3 cameraPos)
     // return distance(cameraPos, pos) * lineWidth;
 }
 
+bool ProjectionFlipped()
+{
+#if UNITY_UV_STARTS_AT_TOP
+    if (_ProjectionParams.x > 0)
+    {
+        return true;
+    }
+#endif
+
+    return false;
+}
+
 float SincFilter(float2 uv, float radius)
 {
     return

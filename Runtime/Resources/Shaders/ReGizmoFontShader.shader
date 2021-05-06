@@ -14,7 +14,6 @@
         }
 
         CGINCLUDE
-        #include "Utils/ReGizmoShaderUtils.cginc"
         #include "Utils/ReGizmoFontUtils.cginc"
         #pragma target 4.6
         
@@ -33,7 +32,6 @@
             Blend SrcAlpha OneMinusSrcAlpha
             ZTest On
             ZWrite Off
-            Cull Front
 
             CGPROGRAM
             #pragma vertex font_vert
