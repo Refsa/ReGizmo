@@ -9,7 +9,6 @@ Shader "Hidden/ReGizmo/PolyLine_Screen" {
         CGINCLUDE
         #include "UnityCG.cginc"
         #include "Utils/ReGizmoShaderUtils.cginc"
-        //#include "Utils/ReGizmoLineUtils.cginc"
 
         #define START_FLAG 2
         #define END_FLAG 4
@@ -62,6 +61,7 @@ Shader "Hidden/ReGizmo/PolyLine_Screen" {
             Properties propP;
             Properties propN;
 
+            // Order points by depth
             if (p1.w > p2.w)
             {
                 float4 pos_temp = p1;
@@ -81,6 +81,7 @@ Shader "Hidden/ReGizmo/PolyLine_Screen" {
                 propN = _Properties[vidN];
             }
 
+            // fix near-clip
             if (p1.w < _ProjectionParams.w)
             {
                 float ratio = (_ProjectionParams.y - p1.w) / (p2.w - p1.w);
@@ -89,8 +90,6 @@ Shader "Hidden/ReGizmo/PolyLine_Screen" {
 
             float w1 = ceil(propA.Width + PixelSize);
             float w2 = ceil(propB.Width + PixelSize);
-
-            float2 dir = normalize(p2.xy - p1.xy);
 
             float2 a = p1.xy / p1.w;
             float2 b = p2.xy / p2.w;
