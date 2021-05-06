@@ -1,13 +1,8 @@
 ﻿General:
-    - Any GPU buffers are not cleared up atm
-        Reason is that the Editor has a tendency to crash when entering playmode/reloading assemblies because
-        the scene view is using them
     - figure out best way to do scaling/default scaling
     - Sorting between drawers is kinda whack atm
         for example: Lines at -10f is drawing over sprites at 1f, but not at -1f
-    - ortho scaling on Icon drawer
     - Change font to scale in screenspace (like lines)
-    - Change icons to scale in screenspace (like lines)
     - SDF Font Shader is fucked in HDRP, workd in SceneView but not in game view
     - Legacy currently doesnt render in game view when outside of play mode, would be a nice thing but not a huge deal
     - Scopes doesnt work on font drawers
@@ -23,5 +18,8 @@ Poly Line Drawer:
     - Currently not implemented
 
 Archive:
+  ✔ ortho scaling on Icon drawer @done(21-05-06 13:29) @project(General)
+  ✔ Change icons to scale in screenspace (like lines) @done(21-05-06 13:29) @project(General)
+  ✔ Any GPU buffers are not cleared up atm @done(21-05-06 13:17) @project(General)
   ✔ Should probably move Graphics calls to CommandBuffer instead @done(21-05-03 06:29) @project(General)
   ✔ event hooks are not attaching after exiting playmode outside of dev project @done(21-05-03 05:47) @project(General)

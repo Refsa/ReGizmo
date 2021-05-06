@@ -57,29 +57,23 @@ Shader "Hidden/ReGizmo/Icon"
         {
             DrawData bd = _DrawData[i[0].vertexID];
 
-            float halfOffset = bd.scale * 0.5;
+            float halfOffset = bd.scale;
 
             float4 clip = mul(UNITY_MATRIX_VP, i[0].pos);
 
-            float dx = -halfOffset * _IconAspect;
-            float dy = -halfOffset * aspect;
-
-            if (unity_OrthoParams.w == 1.0)
-            {
-                // TODO: get rid of magic number
-                dx = (dx / unity_OrthoParams.x) * 0.01;
-                dy = (dy / unity_OrthoParams.x) * 0.01;
-            }
+            float2 size = float2(-halfOffset * _IconAspect, -halfOffset);
+            size /= _ScreenParams.xy;
+            size *= clip.w;
 
             if (ProjectionFlipped())
             {
-                dy = -dy;
+                size.y = -size.y;
             }
 
-            float4 cp1 = float4(clip.x - dx, clip.y - dy, clip.z, clip.w);
-            float4 cp2 = float4(clip.x - dx, clip.y + dy, clip.z, clip.w);
-            float4 cp3 = float4(clip.x + dx, clip.y + dy, clip.z, clip.w);
-            float4 cp4 = float4(clip.x + dx, clip.y - dy, clip.z, clip.w);
+            float4 cp1 = float4(clip.x - size.x, clip.y - size.y, clip.z, clip.w);
+            float4 cp2 = float4(clip.x - size.x, clip.y + size.y, clip.z, clip.w);
+            float4 cp3 = float4(clip.x + size.x, clip.y + size.y, clip.z, clip.w);
+            float4 cp4 = float4(clip.x + size.x, clip.y - size.y, clip.z, clip.w);
 
             g2f g1;
             g1.pos = cp1;
