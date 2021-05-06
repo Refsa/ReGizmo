@@ -2,8 +2,7 @@
     - figure out best way to do scaling/default scaling
     - Sorting between drawers is kinda whack atm
         for example: Lines at -10f is drawing over sprites at 1f, but not at -1f
-    - Change font to scale in screenspace (like lines)
-    - SDF Font Shader is fucked in HDRP, workd in SceneView but not in game view
+    - SDF Font Shader is fucked in HDRP, might be some issue with mip sampling of MSDF texture
     - Legacy currently doesnt render in game view when outside of play mode, would be a nice thing but not a huge deal
     - Scopes doesnt work on font drawers
     - clean up some of the #pragma targets in shaders
@@ -11,14 +10,11 @@
 Sprite Drawer:
     - Make base for Sprite Drawer a texture drawer with UVs so the same drawer can be shared for each sprite
     
-Line Drawer:
-    - Gotta clean up the line drawer shaders
-    - World space lines
-
-Poly Line Drawer:
-    - Currently not implemented
-
 Archive:
+  ✔ Change font to scale in screenspace (like lines) @done(21-05-06 13:52) @project(General)
+  ✔ World space lines @done(21-05-06 13:51) @project(Line Drawer)
+  ✔ Currently not implemented @done(21-05-06 13:51) @project(Poly Line Drawer)
+  ✔ Gotta clean up the line drawer shaders @done(21-05-06 13:51) @project(Line Drawer)
   ✔ ortho scaling on Icon drawer @done(21-05-06 13:29) @project(General)
   ✔ Change icons to scale in screenspace (like lines) @done(21-05-06 13:29) @project(General)
   ✔ Any GPU buffers are not cleared up atm @done(21-05-06 13:17) @project(General)

@@ -25,16 +25,12 @@ namespace ReGizmo.Core
         static HashSet<Camera> activeCameras;
 
         static CommandBufferStack drawBuffers;
-        static CommandBuffer activeCommandBuffer;
 
         static bool interrupted;
         static bool isActive;
         static bool shouldReset;
 
         public static bool IsSetup => isSetup;
-        internal static RenderPipelineUtils.Pipeline CurrentPipeline => currentPipeline;
-
-        public static CommandBuffer CurrentCommandBuffer => drawBuffers?.Current();
 
 #if !UNITY_EDITOR
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
