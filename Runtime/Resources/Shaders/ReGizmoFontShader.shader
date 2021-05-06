@@ -15,14 +15,14 @@
 
         CGINCLUDE
         #include "Utils/ReGizmoFontUtils.cginc"
-        #pragma target 4.6
         
-        static const float2 pixelSize = 1.0 / _ProjectionParams.xy;
-
         float4 frag(font_g2f i) : SV_Target
         {
             float op = tex2D(_MainTex, i.uv).a;
             float4 col = float4(i.color, saturate(op));
+
+            clip(col.a == 0 ? -1 : 1);
+
             return col;
         }
         ENDCG
@@ -30,8 +30,8 @@
         Pass
         {
             Blend SrcAlpha OneMinusSrcAlpha
-            ZTest On
-            ZWrite Off
+            ZTest LEqual
+            ZWrite On
 
             CGPROGRAM
             #pragma vertex font_vert

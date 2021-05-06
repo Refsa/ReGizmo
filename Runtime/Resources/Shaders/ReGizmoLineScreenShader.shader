@@ -12,7 +12,7 @@ Shader "Hidden/ReGizmo/Line_Screen"
         CGINCLUDE
         #include "UnityCG.cginc"
         #include "Utils/ReGizmoLineUtils.cginc"
-        #pragma target 4.6
+        
         ENDCG
 
         Pass

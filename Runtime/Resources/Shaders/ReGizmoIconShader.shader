@@ -11,7 +11,7 @@ Shader "Hidden/ReGizmo/Icon"
 
         CGINCLUDE
         #include "Utils/ReGizmoShaderUtils.cginc"
-        #pragma target 4.6
+        
 
         struct v2g
         {
@@ -104,24 +104,11 @@ Shader "Hidden/ReGizmo/Icon"
             float4 tex_col = tex2D(_IconTexture, i.uv);
             color *= tex_col.a;
 
+            clip(color.a == 0 ? -1 : 1);
+
             return lerp(tex_col, color, 0.5);
         }
         ENDCG
-
-        Pass
-        {
-            Blend SrcAlpha OneMinusSrcAlpha
-            ZTest LEqual
-            ZWrite Off
-
-            CGPROGRAM
-            #pragma vertex vert
-            #pragma geometry geom
-            #pragma fragment frag
-            #pragma multi_compile_instancing
-            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
-            ENDCG
-        }
 
         Pass
         {

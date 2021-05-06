@@ -40,7 +40,6 @@
             return o;
         }
 
-        static const float2 PixelSize = 1.0 / _ScreenParams.xy;
         float4 frag (v2f i) : SV_Target
         {
             float centerDist = distance(i.uv, float2(0.5, 0.5));

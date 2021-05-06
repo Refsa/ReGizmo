@@ -96,14 +96,6 @@ namespace ReGizmo.Drawing
                 renderArgumentsBuffer, 0,
                 materialPropertyBlock
             );
-
-            cmd.DrawProceduralIndirect(
-                Matrix4x4.identity,
-                material, 1,
-                MeshTopology.Points,
-                renderArgumentsBuffer, 0,
-                materialPropertyBlock
-            );
         }
 
         protected override void SetMaterialPropertyBlockData()

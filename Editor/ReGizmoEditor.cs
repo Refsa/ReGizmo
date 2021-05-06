@@ -57,15 +57,15 @@ namespace ReGizmo.Editor
         {
             Core.ReGizmo.DetectPipeline();
         }
-
+ 
         static void OnBeforeBuild()
         {
+            Core.ReGizmo.Dispose();
         }
 
         static void OnAfterBuild()
         {
-            DeAttachEventHooks();
-            AttachEventHooks();
+            Init();
         }
 
         static void OnPlaymodeChanged(PlayModeStateChange change)
