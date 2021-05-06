@@ -14,7 +14,6 @@
         }
 
         CGINCLUDE
-        #include "Utils/ReGizmoShaderUtils.cginc"
         #include "Utils/ReGizmoFontUtils.cginc"
         #pragma target 4.6
         
