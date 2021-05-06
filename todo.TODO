@@ -6,6 +6,7 @@
     - SDF Font Shader is fucked in HDRP, workd in SceneView but not in game view
     - Legacy currently doesnt render in game view when outside of play mode, would be a nice thing but not a huge deal
     - Scopes doesnt work on font drawers
+    - clean up some of the #pragma targets in shaders
     
 Sprite Drawer:
     - Make base for Sprite Drawer a texture drawer with UVs so the same drawer can be shared for each sprite

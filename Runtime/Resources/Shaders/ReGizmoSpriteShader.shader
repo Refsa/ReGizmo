@@ -1,8 +1,6 @@
 ﻿Shader "Hidden/ReGizmo/Sprite"
 {
-    Properties
-    {
-    }
+    Properties { }
     SubShader
     {
         Tags
@@ -33,7 +31,6 @@
         };
 
         sampler2D _SpriteTexture;
-        float4 _SpriteTexture_TexelSize;
 
         StructuredBuffer<DrawData> _DrawData;
 
@@ -100,8 +97,7 @@
         Pass
         {
             Blend SrcAlpha OneMinusSrcAlpha
-            ColorMask RGB
-            ZTest On
+            ZTest LEqual
             ZWrite Off
 
             CGPROGRAM
@@ -116,7 +112,7 @@
         Pass
         {
             Blend SrcAlpha OneMinusSrcAlpha
-            ZTest On
+            ZTest LEqual
             ZWrite On
 
             CGPROGRAM
