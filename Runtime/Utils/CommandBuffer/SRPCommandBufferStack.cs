@@ -6,11 +6,11 @@ using UnityEngine.Rendering;
 namespace ReGizmo.Utils
 {
 #if RG_SRP
-    class URPCommandBufferStack : CommandBufferStack
+    class SRPCommandBufferStack : CommandBufferStack
     {
         CommandBuffer current;
 
-        public URPCommandBufferStack(string name) : base(name)
+        public SRPCommandBufferStack(string name) : base(name)
         {
             current = new CommandBuffer();
             current.name = name;

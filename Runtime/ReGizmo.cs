@@ -9,6 +9,8 @@ using Debug = UnityEngine.Debug;
 
 #if RG_URP
 using UnityEngine.Rendering.Universal;
+#elif RG_HDRP
+using UnityEngine.Rendering.HighDefinition;
 #endif
 
 namespace ReGizmo.Core
@@ -71,18 +73,27 @@ namespace ReGizmo.Core
             if (isActive)
             {
 #if RG_URP
-                Core.URP.ReGizmoRenderFeature.OnPassExecute -= OnPassExecute;
+                Core.URP.ReGizmoRenderFeature.OnPassExecute += OnPassExecute;
 #elif RG_HDRP
-            
+                RenderPipelineManager.endCameraRendering += OnEndCameraRendering;
 #endif
             }
             else
             {
 #if RG_URP
-                Core.URP.ReGizmoRenderFeature.OnPassExecute += OnPassExecute;
-#elif RG_HDRP
-            
-#endif          
+                Core.URP.ReGizmoRenderFeature.OnPassExecute -= OnPassExecute;
+#else
+                foreach (var camera in activeCameras)
+                {
+#if RG_HDRP
+                    RenderPipelineManager.endCameraRendering -= OnEndCameraRendering;
+#else
+                    drawBuffers.DeAttach(camera);
+#endif
+                }
+
+                activeCameras.Clear();
+#endif
             }
         }
 
@@ -99,7 +110,7 @@ namespace ReGizmo.Core
 #endif
 
 #if RG_SRP
-            drawBuffers = new URPCommandBufferStack("ReGizmo");
+            drawBuffers = new SRPCommandBufferStack("ReGizmo");
 #endif
 
             ComputeBufferPool.Init();
@@ -216,7 +227,7 @@ namespace ReGizmo.Core
             context.ExecuteCommandBuffer(drawBuffers.Current());
         }
 #elif RG_HDRP
-        private static void OnEndCameraRendering(ScriptableRenderContext context, Camera camera)
+        private static void OnEndCameraRendering(ScriptableRenderContext context, Camera arg2)
         {
             context.ExecuteCommandBuffer(drawBuffers.Current());
         }
@@ -301,17 +312,17 @@ namespace ReGizmo.Core
 
         public static void Dispose()
         {
-#if RG_LEGACY
             if (activeCameras != null)
             {
                 foreach (var camera in activeCameras)
                 {
+#if RG_LEGACY
                     drawBuffers.DeAttach(camera);
+#endif
                 }
 
                 activeCameras.Clear();
             }
-#endif
 
             drawBuffers?.Dispose();
 

@@ -21,8 +21,6 @@ namespace ReGizmo.Utils
         public abstract void Attach(Camera camera, CameraEvent cameraEvent);
         public abstract void DeAttach(Camera camera);
         public abstract void DeAttach(Camera camera, CameraEvent cameraEvent);
-#elif RG_HDRP
-        public abstract void OnEndFrameRendering(ScriptableRenderContext context, Camera[] cameras);
 #endif
 
         public virtual void Dispose() { }
