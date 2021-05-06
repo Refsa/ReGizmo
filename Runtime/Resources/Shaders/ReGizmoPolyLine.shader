@@ -122,10 +122,20 @@ Shader "Hidden/ReGizmo/PolyLine_Screen" {
             g2.width = w2;
             g3.width = w2;
 
-            triangleStream.Append(g0);
-            triangleStream.Append(g1);
-            triangleStream.Append(g2);
-            triangleStream.Append(g3);
+            if (ProjectionFlipped())
+            {
+                triangleStream.Append(g1);
+                triangleStream.Append(g0);
+                triangleStream.Append(g3);
+                triangleStream.Append(g2);
+            }
+            else
+            {
+                triangleStream.Append(g0);
+                triangleStream.Append(g1);
+                triangleStream.Append(g2);
+                triangleStream.Append(g3);
+            }
             triangleStream.RestartStrip();
         }
 

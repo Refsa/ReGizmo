@@ -50,11 +50,11 @@ void geom_line(line v2g_line i[2], inout TriangleStream<g2f_line> triangleStream
         p1 = lerp(p1, p2, ratio);
     }
     
-    if (ProjectionFlipped()) 
+    /* if (ProjectionFlipped()) 
     {
         p1.y = -p1.y;
         p2.y = -p2.y;
-    }
+    } */
 
     float w1 = ceil(prop1.Width + PixelSize);
     float w2 = ceil(prop2.Width + PixelSize);
@@ -89,10 +89,20 @@ void geom_line(line v2g_line i[2], inout TriangleStream<g2f_line> triangleStream
     g2.width = w2;
     g3.width = w2;
 
-    triangleStream.Append(g0);
-    triangleStream.Append(g1);
-    triangleStream.Append(g2);
-    triangleStream.Append(g3);
+    if (ProjectionFlipped())
+    {
+        triangleStream.Append(g1);
+        triangleStream.Append(g0);
+        triangleStream.Append(g3);
+        triangleStream.Append(g2);
+    }
+    else
+    {
+        triangleStream.Append(g0);
+        triangleStream.Append(g1);
+        triangleStream.Append(g2);
+        triangleStream.Append(g3);
+    }
     triangleStream.RestartStrip();
 }
 
