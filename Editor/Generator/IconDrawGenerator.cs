@@ -18,9 +18,9 @@ namespace ReGizmo.Generator
             {
                 ref var shaderData = ref drawer.GetShaderData(texture);
 
-                shaderData.Position = $PARAM_1;
+                shaderData.Position = currentPosition + $PARAM_1;
                 shaderData.Color = new Vector3($PARAM_2.r, $PARAM_2.g, $PARAM_2.b);
-                shaderData.Scale = $PARAM_3;
+                shaderData.Scale = currentScale.x + $PARAM_3;
             }
         }";
             variables = new Variable[] {

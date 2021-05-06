@@ -12,9 +12,9 @@ namespace ReGizmo.Drawing
             {
                 ref var shaderData = ref drawer.GetShaderData(texture);
 
-                shaderData.Position = position;
+                shaderData.Position = currentPosition + position;
                 shaderData.Color = new Vector3(color.r, color.g, color.b);
-                shaderData.Scale = scale;
+                shaderData.Scale = currentScale.x + scale;
             }
         }
         public static void Icon(Texture2D texture, UnityEngine.Vector3 position, UnityEngine.Color color)
@@ -23,9 +23,9 @@ namespace ReGizmo.Drawing
             {
                 ref var shaderData = ref drawer.GetShaderData(texture);
 
-                shaderData.Position = position;
+                shaderData.Position = currentPosition + position;
                 shaderData.Color = new Vector3(color.r, color.g, color.b);
-                shaderData.Scale = 1f;
+                shaderData.Scale = currentScale.x + 1f;
             }
         }
         public static void Icon(Texture2D texture, UnityEngine.Vector3 position, System.Single scale)
@@ -34,9 +34,9 @@ namespace ReGizmo.Drawing
             {
                 ref var shaderData = ref drawer.GetShaderData(texture);
 
-                shaderData.Position = position;
+                shaderData.Position = currentPosition + position;
                 shaderData.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
-                shaderData.Scale = scale;
+                shaderData.Scale = currentScale.x + scale;
             }
         }
         public static void Icon(Texture2D texture, UnityEngine.Color color, System.Single scale)
@@ -45,9 +45,9 @@ namespace ReGizmo.Drawing
             {
                 ref var shaderData = ref drawer.GetShaderData(texture);
 
-                shaderData.Position = currentPosition;
+                shaderData.Position = currentPosition + currentPosition;
                 shaderData.Color = new Vector3(color.r, color.g, color.b);
-                shaderData.Scale = scale;
+                shaderData.Scale = currentScale.x + scale;
             }
         }
         public static void Icon(Texture2D texture, UnityEngine.Vector3 position)
@@ -56,9 +56,9 @@ namespace ReGizmo.Drawing
             {
                 ref var shaderData = ref drawer.GetShaderData(texture);
 
-                shaderData.Position = position;
+                shaderData.Position = currentPosition + position;
                 shaderData.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
-                shaderData.Scale = 1f;
+                shaderData.Scale = currentScale.x + 1f;
             }
         }
         public static void Icon(Texture2D texture, UnityEngine.Color color)
@@ -67,9 +67,9 @@ namespace ReGizmo.Drawing
             {
                 ref var shaderData = ref drawer.GetShaderData(texture);
 
-                shaderData.Position = currentPosition;
+                shaderData.Position = currentPosition + currentPosition;
                 shaderData.Color = new Vector3(color.r, color.g, color.b);
-                shaderData.Scale = 1f;
+                shaderData.Scale = currentScale.x + 1f;
             }
         }
         public static void Icon(Texture2D texture, System.Single scale)
@@ -78,9 +78,9 @@ namespace ReGizmo.Drawing
             {
                 ref var shaderData = ref drawer.GetShaderData(texture);
 
-                shaderData.Position = currentPosition;
+                shaderData.Position = currentPosition + currentPosition;
                 shaderData.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
-                shaderData.Scale = scale;
+                shaderData.Scale = currentScale.x + scale;
             }
         }
         public static void Icon(Texture2D texture)
@@ -89,9 +89,9 @@ namespace ReGizmo.Drawing
             {
                 ref var shaderData = ref drawer.GetShaderData(texture);
 
-                shaderData.Position = currentPosition;
+                shaderData.Position = currentPosition + currentPosition;
                 shaderData.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
-                shaderData.Scale = 1f;
+                shaderData.Scale = currentScale.x + 1f;
             }
         }
     }
