@@ -24,9 +24,18 @@ namespace ReGizmo.Drawing
             renderArguments[0] = CurrentDrawCount();
             renderArgumentsBuffer.SetData(renderArguments);
 
+            // HACK: Doing "OIT" in two pass is a bad hack, but it works for now
+
             cmd.DrawProceduralIndirect(
                 Matrix4x4.identity,
                 material, 0,
+                MeshTopology.Lines,
+                renderArgumentsBuffer, 0,
+                materialPropertyBlock
+            );
+            cmd.DrawProceduralIndirect(
+                Matrix4x4.identity,
+                material, 1,
                 MeshTopology.Lines,
                 renderArgumentsBuffer, 0,
                 materialPropertyBlock

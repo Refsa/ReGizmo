@@ -7,11 +7,17 @@ namespace ReGizmo.Drawing
 {
     public static class PolyLineBuilder
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static PolyLine Point(this PolyLine self, Vector3 position, Vector4 color, float width = 1f)
+        {
+            self.Points.Add(new PolyLineData(position, color, width, self.ID));
+            return self;
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static PolyLine ClosedLoop(this PolyLine self)
         {
-            self.Looping = 1;
+            self.Looping = true;
             return self;
         }
 
@@ -23,23 +29,18 @@ namespace ReGizmo.Drawing
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static PolyLine WithLine(this PolyLine self, PolyLineData line)
-        {
-            self.Add(line);
-            return self;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Draw(this PolyLine self)
         {
-            // ReGizmo.DrawPolyLine(ref self, self.AutoDispose);
+            ReDraw.PolyLine(self);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static PolyLine Build(this PolyLine self)
         {
-            self.SetLastID();
-            self.SetStartID();
+            if (self.Looping)
+            {
+                self.Points.Add(self.Points[0]);
+            }
 
             return self;
         }

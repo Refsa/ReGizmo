@@ -84,17 +84,40 @@ namespace ReGizmo.Drawing
             }
         }
 
+        public static void PolyLine(in PolyLine polyLine)
+        {
+            polyLine.Build();
+
+            if (ReGizmoResolver<ReGizmoPolyLineDrawer>.TryGet(out var drawer))
+            {
+                foreach (var point in polyLine.Points)
+                {
+                    ref var shaderData = ref drawer.GetShaderData();
+
+                    shaderData.Position = point.Position + currentPosition;
+                    shaderData.Color = point.Color;
+                    shaderData.ID = point.ID;
+                    shaderData.Width = point.Width;
+                }
+            }
+
+            if (polyLine.AutoDispose)
+            {
+                polyLine.Dispose();
+            }
+        }
+
         public static void Raycast(Vector3 origin, Vector3 direction, float distance = float.MaxValue,
             int layerMask = ~0)
         {
             if (Physics.Raycast(origin, direction, out var hit, distance, layerMask))
             {
-                ReDraw.Line(origin, hit.point, Color.green, 2f);
-                ReDraw.Ray(hit.point, hit.normal * 0.2f, Color.blue, 2f);
+                ReDraw.Line(origin, hit.point, Color.green, 1f);
+                ReDraw.Ray(hit.point, hit.normal * 0.2f, Color.blue, 1f);
             }
             else
             {
-                ReDraw.Ray(origin, direction * distance, Color.red, 2f);
+                ReDraw.Ray(origin, direction * distance, Color.red, 1f);
             }
         }
 
@@ -103,13 +126,13 @@ namespace ReGizmo.Drawing
         {
             if (Physics.SphereCast(origin, radius, direction, out var hit, distance, layerMask))
             {
-                ReDraw.Ray(origin, direction * hit.distance, Color.green, 2f);
+                ReDraw.Ray(origin, direction * hit.distance, Color.green, 1f);
                 ReDraw.Sphere(origin + direction * hit.distance, Vector3.one * radius,
                     Color.green.WithAlpha(0.5f));
             }
             else
             {
-                ReDraw.Ray(origin, direction * distance, Color.red, 2f);
+                ReDraw.Ray(origin, direction * distance, Color.red, 1f);
             }
         }
 
@@ -118,13 +141,13 @@ namespace ReGizmo.Drawing
         {
             if (Physics.BoxCast(center, halfExtents, direction, out var hit, orientation, distance, layerMask))
             {
-                ReDraw.Ray(center, direction * hit.distance, Color.green, 2f);
+                ReDraw.Ray(center, direction * hit.distance, Color.green, 1f);
                 ReDraw.Cube(center + direction * hit.distance, orientation, halfExtents * 2,
                     Color.green.WithAlpha(0.5f));
             }
             else
             {
-                ReDraw.Ray(center, direction * distance, Color.red, 2f);
+                ReDraw.Ray(center, direction * distance, Color.red, 1f);
             }
         }
 

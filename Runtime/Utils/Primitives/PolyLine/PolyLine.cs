@@ -5,13 +5,13 @@ using UnityEngine;
 
 namespace ReGizmo.Drawing
 {
-    public struct PolyLine : System.IDisposable, IEnumerable
+    public struct PolyLine : System.IDisposable
     {
         const int StartFlag = 1 << 1;
         const int EndFlag = 1 << 2;
 
         public List<PolyLineData> Points;
-        public int Looping;
+        public bool Looping;
         /// <summary>
         /// Automatically Dispose after PolyLine has been drawn
         /// </summary>
@@ -21,12 +21,10 @@ namespace ReGizmo.Drawing
         /// </summary>
         public bool AutoDraw;
 
-        uint id;
-        bool startSet;
+        int id;
 
-        public int Count => Points.Count;
-        public uint ID => id;
-        public bool Initialized{get; private set;}
+        public bool Initialized { get; private set; }
+        public int ID => id;
 
         public PolyLineData this[int index]
         {
@@ -36,12 +34,11 @@ namespace ReGizmo.Drawing
 
         public PolyLine(bool looping = false)
         {
-            Looping = looping ? 1 : 0;
+            Looping = looping;
             Points = PolyLinePool.Get();
             Initialized = true;
             id = GenerateID();
-            startSet = false;
-            AutoDispose = false;
+            AutoDispose = true;
             AutoDraw = false;
         }
 
@@ -59,28 +56,25 @@ namespace ReGizmo.Drawing
 
         public void Dispose()
         {
-            if (Initialized)
-            {
-                // if (AutoDraw)
-                    // ReGizmo.DrawPolyLine(ref this, false);
+            this.AutoDispose = false;
+            if (!Initialized) return;
 
-                PolyLinePool.Release(Points);
+            if (Initialized && AutoDraw)
+            {
+                this.Draw();
             }
+
+            if (Points != null) PolyLinePool.Release(Points);
 
             Points = null;
             Initialized = false;
-        }
-
-        public IEnumerator GetEnumerator()
-        {
-            return Points.GetEnumerator();
         }
 
         public void Add(PolyLineData ld)
         {
             Initialize();
 
-            ld.ID.x = id;
+            ld.ID = id;
             Points.Add(ld);
         }
 
@@ -92,38 +86,16 @@ namespace ReGizmo.Drawing
                 Points = PolyLinePool.Get();
 
             id = GenerateID();
-            startSet = false;
             AutoDispose = true;
 
             Initialized = true;
             return true;
         }
 
-        internal void SetLastID()
-        {
-            var lastPoint = Points[Points.Count - 1];
-
-            lastPoint.ID.y = EndFlag;
-            lastPoint.ID.z = (Looping * (Points.Count - 2));
-
-            Points[Points.Count - 1] = lastPoint;
-        }
-
-        internal void SetStartID()
-        {
-            var start = Points[0];
-            start.ID.y = StartFlag;
-            start.ID.z = (Looping * (Points.Count - 2));
-
-            Points[0] = start;
-        }
-
         // TODO: This should generate a hash with lower chance of collision
-        static uint GenerateID()
+        static int GenerateID()
         {
-            uint ID = (uint)Random.Range(1000, 999999999);
-            while (ID < 999999999u) ID += (uint)Random.Range(1000, 999999999) % ID;
-
+            int ID = Random.Range(-999999999, 999999999);
             return ID;
         }
     }
