@@ -90,6 +90,8 @@
         {
             float4 tex_col = tex2D(_SpriteTexture, i.uv);
 
+            clip(tex_col.a == 0 ? -1 : 1);
+
             return tex_col;
         }
         ENDCG
@@ -99,21 +101,6 @@
             Blend SrcAlpha OneMinusSrcAlpha
             ZTest LEqual
             ZWrite Off
-
-            CGPROGRAM
-            #pragma vertex vert
-            #pragma geometry geom
-            #pragma fragment frag
-            #pragma multi_compile_instancing
-            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
-            ENDCG
-        }
-
-        Pass
-        {
-            Blend SrcAlpha OneMinusSrcAlpha
-            ZTest LEqual
-            ZWrite On
 
             CGPROGRAM
             #pragma vertex vert
