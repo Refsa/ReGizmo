@@ -84,7 +84,7 @@ void font_geom(point font_v2g i[1], inout TriangleStream<font_g2f> triangleStrea
     float4 centerClip = UnityObjectToClipPos(float4(td.Position, 1.0));
     float camDist = centerClip.w;
 
-    float4 advanceOffset = float4(cd.Advance, 0, 0, 0) * aspect_ratio * scale_factor;
+    float4 advanceOffset = float4(cd.Advance, 0, 0, 0) * scale_factor;
     float4 size = ci.Size * td.Scale * scale_factor;
 
     float4 c1 = (float4(size.x * aspect_ratio, -size.w, 0, 0) + advanceOffset) * camDist;
@@ -155,12 +155,9 @@ float median(float r, float g, float b)
     return max(min(r, g), min(max(r, g), b));
 }
 
-float screenPxRange(float4 pos, float2 uv)
+float screenPxRange(float scale)
 {
-    float2 unitRange = float2(_DistanceRange, _DistanceRange) / _AtlasDimensions;
-    float2 screenTexSize = rcp(fwidth(uv));
-
-    return max(0.5 * dot(unitRange, screenTexSize), 1.0);
+    return (scale / _AtlasSize) * _DistanceRange * 2;
 }
 
 // SDF SAMPLE METHODS
@@ -168,12 +165,12 @@ float sampleMSDF(float4 pos, float2 uv, float scale)
 {
     float mip = 1 - ((min(scale, 3)) / 3.0);
     float4 msd = tex2Dlod(_MainTex, float4(uv, 0.0, mip));
-
+    
     float sd = median(msd.r, msd.g, msd.b);
+    float spx = screenPxRange(scale) * (sd - 0.5);
+    float opacity = saturate(spx + 0.5);
 
-    float screenPxDist = screenPxRange(pos, uv) * (sd - 0.5);
-    float opacity = clamp(screenPxDist + 0.5, 0.0, 1.0);
-    return smoothstep(0.5 - opacity, 0.5 + opacity, opacity);
+    return opacity;
 }
 
 float sampleSDF(float4 pos, float2 uv)

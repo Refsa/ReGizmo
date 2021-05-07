@@ -27,8 +27,8 @@ namespace ReGizmo.Editor
         Font targetFont;
 
         MSDF.Format format;
-        int size = 128;
-        int pixelRange = 2;
+        int size = 64;
+        int pixelRange = 4;
 
         void OnGUI()
         {
@@ -131,6 +131,7 @@ namespace ReGizmo.Editor
             atlasImporter.filterMode = FilterMode.Trilinear;
             atlasImporter.compressionQuality = 100;
             atlasImporter.textureCompression = TextureImporterCompression.Uncompressed;
+            atlasImporter.mipmapEnabled = false;
             AssetDatabase.ImportAsset(atlasSavePath);
             AssetDatabase.Refresh();
 

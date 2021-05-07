@@ -7,27 +7,27 @@ namespace ReGizmo.Core.Fonts
     public class ReSDFData : ScriptableObject
     {
         [SerializeField] Texture2D image;
-        [SerializeField] ReSDF.Font font;
+        [SerializeField] MSDF.Font font;
 
-        public ReSDF.Font Font => font;
+        public MSDF.Font Font => font;
         public Texture2D Texture => image;
 
         public void Setup(Texture2D image, string jsonInfo)
         {
             this.image = image; 
 
-            font = JsonUtility.FromJson<ReSDF.Font>(jsonInfo);
+            font = JsonUtility.FromJson<MSDF.Font>(jsonInfo);
             font.glyphs = font.glyphs.OrderBy(e => e.unicode).ToArray();
         }
 
-        public bool TryGetGlyph(int unicode, out ReSDF.Glyph glyph)
+        public bool TryGetGlyph(int unicode, out MSDF.Glyph glyph)
         {
             glyph = font.glyphs.FirstOrDefault(e => e.unicode == unicode);
             return glyph != null;
         }
     }
 
-    namespace ReSDF
+    namespace MSDF
     {
         [System.Serializable]
         public class Font

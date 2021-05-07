@@ -12,7 +12,7 @@ namespace ReGizmo.Samples
     public class DrawSDFText : DrawBase
     {
         [SerializeField] string text = "Hello";
-        [SerializeField, Range(8f, 128f)] float fontSize = 1f;
+        [SerializeField, Range(8f, 1024f)] float fontSize = 1f;
 
         protected override void Draw()
         {
@@ -31,8 +31,7 @@ namespace ReGizmo.Samples
             }
 
 #if UNITY_EDITOR
-            Handles.Label(Vector3.left * 0.15f, text);
-            Handles.Label(Vector3.right * 0.15f, text);
+            Handles.Label(transform.position + Vector3.down * 5f, text);
 #endif
         }
     }
