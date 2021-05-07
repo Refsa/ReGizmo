@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 450c329e80e8ca44b8277c3d739c2965, type: 3}
   m_Name: ReGizmoSettings
   m_EditorClassIdentifier: 
-  font: {fileID: 12800000, guid: 09378beb3db3a164182d8ce36391afd9, type: 3}
-  sdfFont: {fileID: 11400000, guid: 75583b9702c83b6438227e836a097f9b, type: 2}
+  font: {fileID: 12800000, guid: 60ab3d788ab006448844ad2fc23179b1, type: 3}
+  sdfFont: {fileID: 11400000, guid: 09886c6624b4b9441b8c45f8ce385606, type: 2}

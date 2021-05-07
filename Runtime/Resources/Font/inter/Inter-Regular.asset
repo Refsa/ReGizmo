@@ -13,16 +13,13 @@ MonoBehaviour:
   m_Name: Inter-Regular
   m_EditorClassIdentifier: 
   image: {fileID: 2800000, guid: 5df1f921626703142bc51b242ad65be7, type: 3}
-  info: '{"atlas":{"type":"mtsdf","distanceRange":2,"size":128,"width":760,"height":760,"yOrigin":"bottom"},"metrics":{"lineHeight":1.2102272727272727,"ascender":0.96875,"descender":-0.24147727272727273,"underlineY":-0.19886363636363638,"underlineThickness":0.068181818181818177},"glyphs":[{"unicode":32,"advance":0.28125},{"unicode":33,"advance":0.27840909090909094,"planeBounds":{"left":0.064985795454545456,"bottom":-0.014204545454545419,"right":0.21342329545454547,"top":0.73579545454545459},"atlasBounds":{"left":729.5,"bottom":406.5,"right":748.5,"top":502.5}},{"unicode":34,"advance":0.40340909090909094,"planeBounds":{"left":0.060369318181818184,"bottom":0.46946022727272729,"right":0.34161931818181818,"top":0.73508522727272729},"atlasBounds":{"left":0.5,"bottom":3.5,"right":36.5,"top":37.5}},{"unicode":35,"advance":0.63068181818181823,"planeBounds":{"left":0.0067471590909090762,"bottom":-0.011363636363636354,"right":0.62393465909090906,"top":0.73863636363636365},"atlasBounds":{"left":577.5,"bottom":307.5,"right":656.5,"top":403.5}},{"unicode":36,"advance":0.63778409090909094,"planeBounds":{"left":0.045454545454545463,"bottom":-0.10120738636363633,"right":0.59232954545454553,"top":0.82848011363636365},"atlasBounds":{"left":41.5,"bottom":640.5,"right":111.5,"top":759.5}},{"unicode":37,"advance":0.8125,"planeBounds":{"left":0.07421875,"bottom":-0.01917613636363635,"right":0.73828125,"top":0.74644886363636365},"atlasBounds":{"left":196.5,"bottom":504.5,"right":281.5,"top":602.5}},{"unicode":38,"advance":0.63920454545454553,"planeBounds":{"left":0.040482954545454579,"bottom":-0.02059659090909088,"right":0.63423295454545459,"top":0.74502840909090906},"atlasBounds":{"left":282.5,"bottom":504.5,"right":358.5,"top":602.5}},{"unicode":39,"advance":0.22159090909090909,"planeBounds":{"left":0.063210227272727279,"bottom":0.46946022727272729,"right":0.15696022727272727,"top":0.73508522727272729},"atlasBounds":{"left":728.5,"bottom":232.5,"right":740.5,"top":266.5}},{"unicode":40,"advance":0.36221590909090912,"planeBounds":{"left":0.09765625,"bottom":-0.15802556818181815,"right":0.32421875,"top":0.77166193181818188},"atlasBounds":{"left":112.5,"bottom":640.5,"right":141.5,"top":759.5}},{"unicode":41,"advance":0.36221590909090912,"planeBounds":{"left":0.037997159090909095,"bottom":-0.15802556818181815,"right":0.26455965909090912,"top":0.77166193181818188},"atlasBounds":{"left":142.5,"bottom":640.5,"right":171.5,"top":759.5}},{"unicode":42,"advance":0.5,"planeBounds":{"left":0.046875000000000014,"bottom":0.30788352272727276,"right":0.453125,"top":0.73757102272727271},"atlasBounds":{"left":707.5,"bottom":704.5,"right":759.5,"top":759.5}},{"unicode":43,"advance":0.65909090909090906,"planeBounds":{"left":0.087357954545454544,"bottom":0.041903409090909095,"right":0.57173295454545459,"top":0.52627840909090906},"atlasBounds":{"left":584.5,"bottom":49.5,"right":646.5,"top":111.5}},{"unicode":44,"advance":0.27982954545454547,"planeBounds":{"left":0.056107954545454544,"bottom":-0.1875,"right":0.21235795454545456,"top":0.109375},"atlasBounds":{"left":728.5,"bottom":267.5,"right":748.5,"top":305.5}},{"unicode":45,"advance":0.46022727272727276,"planeBounds":{"left":0.062144886363636367,"bottom":0.26491477272727271,"right":0.39808238636363635,"top":0.35866477272727276},"atlasBounds":{"left":127.5,"bottom":621.5,"right":170.5,"top":633.5}},{"unicode":46,"advance":0.27556818181818182,"planeBounds":{"left":0.063565340909090912,"bottom":-0.015980113636363636,"right":0.21200284090909091,"top":0.13245738636363635},"atlasBounds":{"left":107.5,"bottom":614.5,"right":126.5,"top":633.5}},{"unicode":47,"advance":0.35653409090909094,"planeBounds":{"left":0.014204545454545463,"bottom":-0.11931818181818182,"right":0.34232954545454547,"top":0.77130681818181823},"atlasBounds":{"left":425.5,"bottom":645.5,"right":467.5,"top":759.5}},{"unicode":48,"advance":0.625,"planeBounds":{"left":0.050781250000000021,"bottom":-0.01917613636363635,"right":0.57421875,"top":0.74644886363636365},"atlasBounds":{"left":359.5,"bottom":504.5,"right":426.5,"top":602.5}},{"unicode":49,"advance":0.46448863636363635,"planeBounds":{"left":0.051491477272727272,"bottom":-0.011363636363636354,"right":0.34055397727272729,"top":0.73863636363636365},"atlasBounds":{"left":668.5,"bottom":209.5,"right":705.5,"top":305.5}},{"unicode":50,"advance":0.60511363636363635,"planeBounds":{"left":0.06640625,"bottom":-0.01029829545454547,"right":0.54296875,"top":0.74751420454545459},"atlasBounds":{"left":463.5,"bottom":405.5,"right":524.5,"top":502.5}},{"unicode":51,"advance":0.63636363636363635,"planeBounds":{"left":0.062500000000000014,"bottom":-0.01917613636363635,"right":0.578125,"top":0.74644886363636365},"atlasBounds":{"left":427.5,"bottom":504.5,"right":493.5,"top":602.5}},{"unicode":52,"advance":0.64204545454545459,"planeBounds":{"left":0.047585227272727307,"bottom":-0.011363636363636354,"right":0.59446022727272729,"top":0.73863636363636365},"atlasBounds":{"left":219.5,"bottom":112.5,"right":289.5,"top":208.5}},{"unicode":53,"advance":0.60795454545454553,"planeBounds":{"left":0.067471590909090925,"bottom":-0.020241477272727289,"right":0.55184659090909094,"top":0.73757102272727271},"atlasBounds":{"left":666.5,"bottom":405.5,"right":728.5,"top":502.5}},{"unicode":54,"advance":0.62357954545454553,"planeBounds":{"left":0.053977272727272728,"bottom":-0.01847346470019344,"right":0.56960227272727271,"top":0.74715153529980649},"atlasBounds":{"left":494.5,"bottom":504.5,"right":560.5,"top":602.5}},{"unicode":55,"advance":0.57102272727272729,"planeBounds":{"left":0.039062500000000014,"bottom":-0.011363636363636354,"right":0.5234375,"top":0.73863636363636365},"atlasBounds":{"left":156.5,"bottom":112.5,"right":218.5,"top":208.5}},{"unicode":56,"advance":0.61647727272727271,"planeBounds":{"left":0.050422786234991454,"bottom":-0.01917613636363635,"right":0.56604778623499152,"top":0.74644886363636365},"atlasBounds":{"left":561.5,"bottom":504.5,"right":627.5,"top":602.5}},{"unicode":57,"advance":0.62357954545454553,"planeBounds":{"left":0.053977272727272728,"bottom":-0.018458433014354066,"right":0.56960227272727271,"top":0.74716656698564599},"atlasBounds":{"left":628.5,"bottom":504.5,"right":694.5,"top":602.5}},{"unicode":58,"advance":0.27556818181818182,"planeBounds":{"left":0.063565340909090912,"bottom":-0.016690340909090891,"right":0.21200284090909091,"top":0.53799715909090906},"atlasBounds":{"left":440.5,"bottom":40.5,"right":459.5,"top":111.5}},{"unicode":59,"advance":0.27982954545454547,"planeBounds":{"left":0.05859375,"bottom":-0.18856534090909091,"right":0.22265625,"top":0.53799715909090906},"atlasBounds":{"left":706.5,"bottom":212.5,"right":727.5,"top":305.5}},{"unicode":60,"advance":0.65909090909090906,"planeBounds":{"left":0.091264204545454544,"bottom":0.014559659090909081,"right":0.56782670454545459,"top":0.55362215909090906},"atlasBounds":{"left":460.5,"bottom":42.5,"right":521.5,"top":111.5}},{"unicode":61,"advance":0.65909090909090906,"planeBounds":{"left":0.10298295454545454,"bottom":0.13174715909090909,"right":0.55610795454545459,"top":0.43643465909090912},"atlasBounds":{"left":647.5,"bottom":72.5,"right":705.5,"top":111.5}},{"unicode":62,"advance":0.65909090909090906,"planeBounds":{"left":0.091264204545454544,"bottom":0.014559659090909081,"right":0.56782670454545459,"top":0.55362215909090906},"atlasBounds":{"left":522.5,"bottom":42.5,"right":583.5,"top":111.5}},{"unicode":63,"advance":0.50710227272727271,"planeBounds":{"left":0.029829545454545449,"bottom":-0.017045454545454537,"right":0.46732954545454547,"top":0.74857954545454553},"atlasBounds":{"left":19.5,"bottom":404.5,"right":75.5,"top":502.5}},{"unicode":64,"advance":0.93607954545454553,"planeBounds":{"left":0.038352272727272721,"bottom":-0.20276988636363638,"right":0.89772727272727271,"top":0.71129261363636365},"atlasBounds":{"left":314.5,"bottom":642.5,"right":424.5,"top":759.5}},{"unicode":65,"advance":0.67613636363636365,"planeBounds":{"left":0.01775568181818182,"bottom":-0.011363636363636354,"right":0.65838068181818188,"top":0.73863636363636365},"atlasBounds":{"left":393.5,"bottom":209.5,"right":475.5,"top":305.5}},{"unicode":66,"advance":0.65056818181818188,"planeBounds":{"left":0.079190340909090925,"bottom":-0.011363636363636354,"right":0.60262784090909094,"top":0.73863636363636365},"atlasBounds":{"left":325.5,"bottom":209.5,"right":392.5,"top":305.5}},{"unicode":67,"advance":0.72727272727272729,"planeBounds":{"left":0.050071022727272728,"bottom":-0.01917613636363635,"right":0.68288352272727271,"top":0.74644886363636365},"atlasBounds":{"left":76.5,"bottom":404.5,"right":157.5,"top":502.5}},{"unicode":68,"advance":0.71875,"planeBounds":{"left":0.07670454545454547,"bottom":-0.011363636363636354,"right":0.67045454545454553,"top":0.73863636363636365},"atlasBounds":{"left":187.5,"bottom":209.5,"right":263.5,"top":305.5}},{"unicode":69,"advance":0.59801136363636365,"planeBounds":{"left":0.079900568181818205,"bottom":-0.011363636363636354,"right":0.54083806818181823,"top":0.73863636363636365},"atlasBounds":{"left":127.5,"bottom":209.5,"right":186.5,"top":305.5}},{"unicode":70,"advance":0.58664772727272729,"planeBounds":{"left":0.079545454545454558,"bottom":-0.011363636363636354,"right":0.53267045454545459,"top":0.73863636363636365},"atlasBounds":{"left":68.5,"bottom":209.5,"right":126.5,"top":305.5}},{"unicode":71,"advance":0.74289772727272729,"planeBounds":{"left":0.049715909090909095,"bottom":-0.01917613636363635,"right":0.69034090909090906,"top":0.74644886363636365},"atlasBounds":{"left":158.5,"bottom":404.5,"right":240.5,"top":502.5}},{"unicode":72,"advance":0.74005681818181823,"planeBounds":{"left":0.077059659090909116,"bottom":-0.011363636363636354,"right":0.66299715909090906,"top":0.73863636363636365},"atlasBounds":{"left":672.5,"bottom":307.5,"right":747.5,"top":403.5}},{"unicode":73,"advance":0.26420454545454547,"planeBounds":{"left":0.077414772727272735,"bottom":-0.011363636363636354,"right":0.18678977272727273,"top":0.73863636363636365},"atlasBounds":{"left":657.5,"bottom":307.5,"right":671.5,"top":403.5}},{"unicode":74,"advance":0.54261363636363635,"planeBounds":{"left":0.033025568181818205,"bottom":-0.020241477272727289,"right":0.46271306818181818,"top":0.73757102272727271},"atlasBounds":{"left":0.5,"bottom":306.5,"right":55.5,"top":403.5}},{"unicode":75,"advance":0.65198863636363635,"planeBounds":{"left":0.079900568181818177,"bottom":-0.011363636363636354,"right":0.63458806818181823,"top":0.73863636363636365},"atlasBounds":{"left":505.5,"bottom":307.5,"right":576.5,"top":403.5}},{"unicode":76,"advance":0.5625,"planeBounds":{"left":0.078480113636363633,"bottom":-0.011363636363636354,"right":0.52379261363636365,"top":0.73863636363636365},"atlasBounds":{"left":447.5,"bottom":307.5,"right":504.5,"top":403.5}},{"unicode":77,"advance":0.88920454545454553,"planeBounds":{"left":0.077414772727272763,"bottom":-0.011363636363636354,"right":0.81178977272727271,"top":0.73863636363636365},"atlasBounds":{"left":352.5,"bottom":307.5,"right":446.5,"top":403.5}},{"unicode":78,"advance":0.75284090909090906,"planeBounds":{"left":0.079545454545454586,"bottom":-0.011363636363636354,"right":0.67329545454545459,"top":0.73863636363636365},"atlasBounds":{"left":275.5,"bottom":307.5,"right":351.5,"top":403.5}},{"unicode":79,"advance":0.76136363636363635,"planeBounds":{"left":0.048650568181818205,"bottom":-0.01917613636363635,"right":0.71271306818181823,"top":0.74644886363636365},"atlasBounds":{"left":241.5,"bottom":404.5,"right":326.5,"top":502.5}},{"unicode":80,"advance":0.63494318181818188,"planeBounds":{"left":0.07670454545454547,"bottom":-0.011363636363636354,"right":0.59232954545454553,"top":0.73863636363636365},"atlasBounds":{"left":126.5,"bottom":307.5,"right":192.5,"top":403.5}},{"unicode":81,"advance":0.76136363636363635,"planeBounds":{"left":0.048650568181818205,"bottom":-0.079545454545454544,"right":0.71271306818181823,"top":0.74857954545454553},"atlasBounds":{"left":511.5,"bottom":653.5,"right":596.5,"top":759.5}},{"unicode":82,"advance":0.63920454545454553,"planeBounds":{"left":0.079190340909090925,"bottom":-0.011363636363636354,"right":0.61825284090909094,"top":0.73863636363636365},"atlasBounds":{"left":56.5,"bottom":307.5,"right":125.5,"top":403.5}},{"unicode":83,"advance":0.63778409090909094,"planeBounds":{"left":0.045454545454545463,"bottom":-0.020596590909090908,"right":0.59232954545454553,"top":0.74502840909090906},"atlasBounds":{"left":327.5,"bottom":404.5,"right":397.5,"top":502.5}},{"unicode":84,"advance":0.64204545454545459,"planeBounds":{"left":0.039772727272727307,"bottom":-0.011363636363636354,"right":0.60227272727272729,"top":0.73863636363636365},"atlasBounds":{"left":83.5,"bottom":112.5,"right":155.5,"top":208.5}},{"unicode":85,"advance":0.74147727272727271,"planeBounds":{"left":0.07776988636363634,"bottom":-0.021661931818181792,"right":0.66370738636363635,"top":0.73615056818181823},"atlasBounds":{"left":590.5,"bottom":405.5,"right":665.5,"top":502.5}},{"unicode":86,"advance":0.67613636363636365,"planeBounds":{"left":0.01775568181818182,"bottom":-0.011363636363636354,"right":0.65838068181818188,"top":0.73863636363636365},"atlasBounds":{"left":0.5,"bottom":112.5,"right":82.5,"top":208.5}},{"unicode":87,"advance":0.94886363636363635,"planeBounds":{"left":0.013494318181818182,"bottom":-0.011363636363636354,"right":0.93536931818181823,"top":0.73863636363636365},"atlasBounds":{"left":476.5,"bottom":209.5,"right":594.5,"top":305.5}},{"unicode":88,"advance":0.64204545454545459,"planeBounds":{"left":0.016335227272727303,"bottom":-0.011363636363636354,"right":0.62571022727272729,"top":0.73863636363636365},"atlasBounds":{"left":290.5,"bottom":112.5,"right":368.5,"top":208.5}},{"unicode":89,"advance":0.66477272727272729,"planeBounds":{"left":0.015980113636363643,"bottom":-0.011363636363636354,"right":0.64879261363636365,"top":0.73863636363636365},"atlasBounds":{"left":193.5,"bottom":307.5,"right":274.5,"top":403.5}},{"unicode":90,"advance":0.625,"planeBounds":{"left":0.050781250000000021,"bottom":-0.011363636363636354,"right":0.57421875,"top":0.73863636363636365},"atlasBounds":{"left":0.5,"bottom":209.5,"right":67.5,"top":305.5}},{"unicode":91,"advance":0.36221590909090912,"planeBounds":{"left":0.10973011363636363,"bottom":-0.15802556818181815,"right":0.33629261363636365,"top":0.77166193181818188},"atlasBounds":{"left":172.5,"bottom":640.5,"right":201.5,"top":759.5}},{"unicode":92,"advance":0.35653409090909094,"planeBounds":{"left":0.014204545454545463,"bottom":-0.11931818181818182,"right":0.34232954545454547,"top":0.77130681818181823},"atlasBounds":{"left":468.5,"bottom":645.5,"right":510.5,"top":759.5}},{"unicode":93,"advance":0.36221590909090912,"planeBounds":{"left":0.025923295454545459,"bottom":-0.15802556818181815,"right":0.25248579545454547,"top":0.77166193181818188},"atlasBounds":{"left":202.5,"bottom":640.5,"right":231.5,"top":759.5}},{"unicode":94,"advance":0.46875,"planeBounds":{"left":0.031250000000000014,"bottom":0.38707386363636365,"right":0.4375,"top":0.71519886363636365},"atlasBounds":{"left":707.5,"bottom":661.5,"right":759.5,"top":703.5}},{"unicode":95,"advance":0.45170454545454547,"planeBounds":{"left":-0.012428977272727253,"bottom":-0.0859375,"right":0.46413352272727276,"top":0.0078125},"atlasBounds":{"left":171.5,"bottom":621.5,"right":232.5,"top":633.5}},{"unicode":96,"advance":0.49715909090909094,"planeBounds":{"left":0.14701704545454547,"bottom":0.60795454545454553,"right":0.35014204545454547,"top":0.79545454545454553},"atlasBounds":{"left":80.5,"bottom":609.5,"right":106.5,"top":633.5}},{"unicode":97,"advance":0.56392045454545459,"planeBounds":{"left":0.042613636363636374,"bottom":-0.023082386363636378,"right":0.49573863636363635,"top":0.56285511363636365},"atlasBounds":{"left":467.5,"bottom":133.5,"right":525.5,"top":208.5}},{"unicode":98,"advance":0.62073863636363635,"planeBounds":{"left":0.078835227272727293,"bottom":-0.020951704545454541,"right":0.57883522727272729,"top":0.73686079545454553},"atlasBounds":{"left":525.5,"bottom":405.5,"right":589.5,"top":502.5}},{"unicode":99,"advance":0.55823863636363635,"planeBounds":{"left":0.039772727272727286,"bottom":-0.022372159090909071,"right":0.52414772727272729,"top":0.56356534090909094},"atlasBounds":{"left":593.5,"bottom":133.5,"right":655.5,"top":208.5}},{"unicode":100,"advance":0.62073863636363635,"planeBounds":{"left":0.041903409090909109,"bottom":-0.020951704545454541,"right":0.54190340909090906,"top":0.73686079545454553},"atlasBounds":{"left":398.5,"bottom":405.5,"right":462.5,"top":502.5}},{"unicode":101,"advance":0.58238636363636365,"planeBounds":{"left":0.041193181818181816,"bottom":-0.022372159090909071,"right":0.54119318181818188,"top":0.56356534090909094},"atlasBounds":{"left":695.5,"bottom":527.5,"right":759.5,"top":602.5}},{"unicode":102,"advance":0.36079545454545453,"planeBounds":{"left":0.014204545454545464,"bottom":-0.0099431818181818232,"right":0.35795454545454547,"top":0.77130681818181823},"atlasBounds":{"left":662.5,"bottom":659.5,"right":706.5,"top":759.5}},{"unicode":103,"advance":0.609375,"planeBounds":{"left":0.041903409090909109,"bottom":-0.22620738636363638,"right":0.54190340909090906,"top":0.56285511363636365},"atlasBounds":{"left":597.5,"bottom":658.5,"right":661.5,"top":759.5}},{"unicode":104,"advance":0.59090909090909094,"planeBounds":{"left":0.068892045454545456,"bottom":-0.011363636363636354,"right":0.52201704545454541,"top":0.73863636363636365},"atlasBounds":{"left":609.5,"bottom":209.5,"right":667.5,"top":305.5}},{"unicode":105,"advance":0.23721590909090909,"planeBounds":{"left":0.049005681818181816,"bottom":-0.0078125,"right":0.18963068181818182,"top":0.7578125},"atlasBounds":{"left":0.5,"bottom":404.5,"right":18.5,"top":502.5}},{"unicode":106,"advance":0.23721590909090909,"planeBounds":{"left":-0.023082386363636364,"bottom":-0.21555397727272727,"right":0.18785511363636365,"top":0.76100852272727271},"atlasBounds":{"left":13.5,"bottom":634.5,"right":40.5,"top":759.5}},{"unicode":107,"advance":0.54403409090909094,"planeBounds":{"left":0.068892045454545456,"bottom":-0.011363636363636354,"right":0.53764204545454541,"top":0.73863636363636365},"atlasBounds":{"left":264.5,"bottom":209.5,"right":324.5,"top":305.5}},{"unicode":108,"advance":0.23721590909090909,"planeBounds":{"left":0.067826704545454544,"bottom":-0.011363636363636354,"right":0.16938920454545456,"top":0.73863636363636365},"atlasBounds":{"left":595.5,"bottom":209.5,"right":608.5,"top":305.5}},{"unicode":109,"advance":0.86931818181818188,"planeBounds":{"left":0.067471590909090925,"bottom":-0.0088778409090908839,"right":0.80184659090909094,"top":0.56143465909090906},"atlasBounds":{"left":656.5,"bottom":135.5,"right":750.5,"top":208.5}},{"unicode":110,"advance":0.58522727272727271,"planeBounds":{"left":0.066051136363636367,"bottom":-0.0088778409090908839,"right":0.51917613636363635,"top":0.56143465909090906},"atlasBounds":{"left":96.5,"bottom":38.5,"right":154.5,"top":111.5}},{"unicode":111,"advance":0.59659090909090906,"planeBounds":{"left":0.040482954545454579,"bottom":-0.022372159090909071,"right":0.55610795454545459,"top":0.56356534090909094},"atlasBounds":{"left":526.5,"bottom":133.5,"right":592.5,"top":208.5}},{"unicode":112,"advance":0.609375,"planeBounds":{"left":0.067471590909090925,"bottom":-0.21271306818181818,"right":0.56747159090909094,"top":0.56072443181818188},"atlasBounds":{"left":65.5,"bottom":503.5,"right":129.5,"top":602.5}},{"unicode":113,"advance":0.609375,"planeBounds":{"left":0.041903409090909109,"bottom":-0.21271306818181818,"right":0.54190340909090906,"top":0.56072443181818188},"atlasBounds":{"left":0.5,"bottom":503.5,"right":64.5,"top":602.5}},{"unicode":114,"advance":0.37215909090909094,"planeBounds":{"left":0.068536931818181837,"bottom":-0.0081676136363636465,"right":0.35759943181818182,"top":0.56214488636363635},"atlasBounds":{"left":0.5,"bottom":38.5,"right":37.5,"top":111.5}},{"unicode":115,"advance":0.52272727272727271,"planeBounds":{"left":0.044034090909090919,"bottom":-0.022372159090909071,"right":0.48153409090909094,"top":0.56356534090909094},"atlasBounds":{"left":410.5,"bottom":133.5,"right":466.5,"top":208.5}},{"unicode":116,"advance":0.36363636363636365,"planeBounds":{"left":0.021306818181818177,"bottom":-0.017045454545454551,"right":0.33380681818181818,"top":0.68607954545454553},"atlasBounds":{"left":369.5,"bottom":118.5,"right":409.5,"top":208.5}},{"unicode":117,"advance":0.58096590909090906,"planeBounds":{"left":0.067826704545454544,"bottom":-0.015980113636363612,"right":0.51313920454545459,"top":0.55433238636363635},"atlasBounds":{"left":38.5,"bottom":38.5,"right":95.5,"top":111.5}},{"unicode":118,"advance":0.55681818181818188,"planeBounds":{"left":0.024502840909090915,"bottom":-0.0085227272727272374,"right":0.53231534090909094,"top":0.55397727272727271},"atlasBounds":{"left":213.5,"bottom":39.5,"right":278.5,"top":111.5}},{"unicode":119,"advance":0.8125,"planeBounds":{"left":0.023437500000000031,"bottom":-0.0085227272727272374,"right":0.7890625,"top":0.55397727272727271},"atlasBounds":{"left":279.5,"bottom":39.5,"right":377.5,"top":111.5}},{"unicode":120,"advance":0.53977272727272729,"planeBounds":{"left":0.03160511363636366,"bottom":-0.0085227272727272374,"right":0.50816761363636365,"top":0.55397727272727271},"atlasBounds":{"left":378.5,"bottom":39.5,"right":439.5,"top":111.5}},{"unicode":121,"advance":0.55752840909090906,"planeBounds":{"left":0.024857954545454562,"bottom":-0.21164772727272724,"right":0.53267045454545459,"top":0.55397727272727271},"atlasBounds":{"left":130.5,"bottom":504.5,"right":195.5,"top":602.5}},{"unicode":122,"advance":0.54119318181818188,"planeBounds":{"left":0.052201704545454544,"bottom":-0.0085227272727272374,"right":0.49751420454545459,"top":0.55397727272727271},"atlasBounds":{"left":155.5,"bottom":39.5,"right":212.5,"top":111.5}},{"unicode":123,"advance":0.36221590909090912,"planeBounds":{"left":0.026278409090909092,"bottom":-0.15802556818181815,"right":0.33877840909090912,"top":0.77166193181818188},"atlasBounds":{"left":232.5,"bottom":640.5,"right":272.5,"top":759.5}},{"unicode":124,"advance":0.32670454545454547,"planeBounds":{"left":0.11647727272727273,"bottom":-0.24573863636363638,"right":0.21022727272727273,"top":0.97301136363636365},"atlasBounds":{"left":0.5,"bottom":603.5,"right":12.5,"top":759.5}},{"unicode":125,"advance":0.36221590909090912,"planeBounds":{"left":0.0234375,"bottom":-0.15802556818181815,"right":0.3359375,"top":0.77166193181818188},"atlasBounds":{"left":273.5,"bottom":640.5,"right":313.5,"top":759.5}},{"unicode":126,"advance":0.65909090909090906,"planeBounds":{"left":0.071732954545454516,"bottom":0.18607954545454547,"right":0.58735795454545459,"top":0.38920454545454547},"atlasBounds":{"left":13.5,"bottom":607.5,"right":79.5,"top":633.5}}],"kerning":[]}
-
-'
   font:
     atlas:
       type: mtsdf
       distanceRange: 2
       size: 128
-      width: 760
-      height: 760
+      width: 1024
+      height: 1024
       yOrigin: bottom
     metrics:
       lineHeight: 1.2102273
@@ -51,10 +48,10 @@ MonoBehaviour:
         right: 0.2134233
         top: 0.73579544
       atlasBounds:
-        left: 729.5
-        bottom: 406.5
-        right: 748.5
-        top: 502.5
+        left: 984.5
+        bottom: 770.5
+        right: 1003.5
+        top: 866.5
     - unicode: 34
       advance: 0.4034091
       planeBounds:
@@ -63,10 +60,10 @@ MonoBehaviour:
         right: 0.3416193
         top: 0.73508525
       atlasBounds:
-        left: 0.5
-        bottom: 3.5
-        right: 36.5
-        top: 37.5
+        left: 178.5
+        bottom: 444.5
+        right: 214.5
+        top: 478.5
     - unicode: 35
       advance: 0.6306818
       planeBounds:
@@ -75,10 +72,10 @@ MonoBehaviour:
         right: 0.6239347
         top: 0.7386364
       atlasBounds:
-        left: 577.5
-        bottom: 307.5
-        right: 656.5
-        top: 403.5
+        left: 278.5
+        bottom: 671.5
+        right: 357.5
+        top: 767.5
     - unicode: 36
       advance: 0.63778406
       planeBounds:
@@ -88,9 +85,9 @@ MonoBehaviour:
         top: 0.8284801
       atlasBounds:
         left: 41.5
-        bottom: 640.5
+        bottom: 904.5
         right: 111.5
-        top: 759.5
+        top: 1023.5
     - unicode: 37
       advance: 0.8125
       planeBounds:
@@ -99,10 +96,10 @@ MonoBehaviour:
         right: 0.73828125
         top: 0.7464489
       atlasBounds:
-        left: 196.5
-        bottom: 504.5
-        right: 281.5
-        top: 602.5
+        left: 903.5
+        bottom: 925.5
+        right: 988.5
+        top: 1023.5
     - unicode: 38
       advance: 0.63920456
       planeBounds:
@@ -111,10 +108,10 @@ MonoBehaviour:
         right: 0.63423294
         top: 0.74502844
       atlasBounds:
-        left: 282.5
-        bottom: 504.5
-        right: 358.5
-        top: 602.5
+        left: 0.5
+        bottom: 768.5
+        right: 76.5
+        top: 866.5
     - unicode: 39
       advance: 0.2215909
       planeBounds:
@@ -123,10 +120,10 @@ MonoBehaviour:
         right: 0.15696023
         top: 0.73508525
       atlasBounds:
-        left: 728.5
-        bottom: 232.5
-        right: 740.5
-        top: 266.5
+        left: 165.5
+        bottom: 444.5
+        right: 177.5
+        top: 478.5
     - unicode: 40
       advance: 0.3622159
       planeBounds:
@@ -136,9 +133,9 @@ MonoBehaviour:
         top: 0.77166194
       atlasBounds:
         left: 112.5
-        bottom: 640.5
+        bottom: 904.5
         right: 141.5
-        top: 759.5
+        top: 1023.5
     - unicode: 41
       advance: 0.3622159
       planeBounds:
@@ -148,9 +145,9 @@ MonoBehaviour:
         top: 0.77166194
       atlasBounds:
         left: 142.5
-        bottom: 640.5
+        bottom: 904.5
         right: 171.5
-        top: 759.5
+        top: 1023.5
     - unicode: 42
       advance: 0.5
       planeBounds:
@@ -159,10 +156,10 @@ MonoBehaviour:
         right: 0.453125
         top: 0.737571
       atlasBounds:
-        left: 707.5
-        bottom: 704.5
-        right: 759.5
-        top: 759.5
+        left: 0.5
+        bottom: 423.5
+        right: 52.5
+        top: 478.5
     - unicode: 43
       advance: 0.65909094
       planeBounds:
@@ -171,10 +168,10 @@ MonoBehaviour:
         right: 0.57173294
         top: 0.52627844
       atlasBounds:
-        left: 584.5
-        bottom: 49.5
-        right: 646.5
-        top: 111.5
+        left: 938.5
+        bottom: 510.5
+        right: 1000.5
+        top: 572.5
     - unicode: 44
       advance: 0.27982953
       planeBounds:
@@ -183,10 +180,10 @@ MonoBehaviour:
         right: 0.21235795
         top: 0.109375
       atlasBounds:
-        left: 728.5
-        bottom: 267.5
-        right: 748.5
-        top: 305.5
+        left: 1001.5
+        bottom: 534.5
+        right: 1021.5
+        top: 572.5
     - unicode: 45
       advance: 0.46022728
       planeBounds:
@@ -196,9 +193,9 @@ MonoBehaviour:
         top: 0.35866478
       atlasBounds:
         left: 127.5
-        bottom: 621.5
+        bottom: 885.5
         right: 170.5
-        top: 633.5
+        top: 897.5
     - unicode: 46
       advance: 0.2755682
       planeBounds:
@@ -208,9 +205,9 @@ MonoBehaviour:
         top: 0.13245739
       atlasBounds:
         left: 107.5
-        bottom: 614.5
+        bottom: 878.5
         right: 126.5
-        top: 633.5
+        top: 897.5
     - unicode: 47
       advance: 0.3565341
       planeBounds:
@@ -220,9 +217,9 @@ MonoBehaviour:
         top: 0.7713068
       atlasBounds:
         left: 425.5
-        bottom: 645.5
+        bottom: 909.5
         right: 467.5
-        top: 759.5
+        top: 1023.5
     - unicode: 48
       advance: 0.625
       planeBounds:
@@ -231,10 +228,10 @@ MonoBehaviour:
         right: 0.57421875
         top: 0.7464489
       atlasBounds:
-        left: 359.5
-        bottom: 504.5
-        right: 426.5
-        top: 602.5
+        left: 77.5
+        bottom: 768.5
+        right: 144.5
+        top: 866.5
     - unicode: 49
       advance: 0.46448863
       planeBounds:
@@ -243,10 +240,10 @@ MonoBehaviour:
         right: 0.34055397
         top: 0.7386364
       atlasBounds:
-        left: 668.5
-        bottom: 209.5
-        right: 705.5
-        top: 305.5
+        left: 566.5
+        bottom: 573.5
+        right: 603.5
+        top: 669.5
     - unicode: 50
       advance: 0.6051136
       planeBounds:
@@ -255,10 +252,10 @@ MonoBehaviour:
         right: 0.54296875
         top: 0.7475142
       atlasBounds:
-        left: 463.5
-        bottom: 405.5
-        right: 524.5
-        top: 502.5
+        left: 857.5
+        bottom: 769.5
+        right: 918.5
+        top: 866.5
     - unicode: 51
       advance: 0.6363636
       planeBounds:
@@ -267,10 +264,10 @@ MonoBehaviour:
         right: 0.578125
         top: 0.7464489
       atlasBounds:
-        left: 427.5
-        bottom: 504.5
-        right: 493.5
-        top: 602.5
+        left: 145.5
+        bottom: 768.5
+        right: 211.5
+        top: 866.5
     - unicode: 52
       advance: 0.64204544
       planeBounds:
@@ -279,10 +276,10 @@ MonoBehaviour:
         right: 0.59446025
         top: 0.7386364
       atlasBounds:
-        left: 219.5
-        bottom: 112.5
-        right: 289.5
-        top: 208.5
+        left: 802.5
+        bottom: 573.5
+        right: 872.5
+        top: 669.5
     - unicode: 53
       advance: 0.60795456
       planeBounds:
@@ -291,10 +288,10 @@ MonoBehaviour:
         right: 0.55184656
         top: 0.737571
       atlasBounds:
-        left: 666.5
-        bottom: 405.5
-        right: 728.5
-        top: 502.5
+        left: 76.5
+        bottom: 670.5
+        right: 138.5
+        top: 767.5
     - unicode: 54
       advance: 0.62357956
       planeBounds:
@@ -303,10 +300,10 @@ MonoBehaviour:
         right: 0.56960225
         top: 0.74715155
       atlasBounds:
-        left: 494.5
-        bottom: 504.5
-        right: 560.5
-        top: 602.5
+        left: 212.5
+        bottom: 768.5
+        right: 278.5
+        top: 866.5
     - unicode: 55
       advance: 0.57102275
       planeBounds:
@@ -315,10 +312,10 @@ MonoBehaviour:
         right: 0.5234375
         top: 0.7386364
       atlasBounds:
-        left: 156.5
-        bottom: 112.5
-        right: 218.5
-        top: 208.5
+        left: 941.5
+        bottom: 573.5
+        right: 1003.5
+        top: 669.5
     - unicode: 56
       advance: 0.61647725
       planeBounds:
@@ -327,10 +324,10 @@ MonoBehaviour:
         right: 0.5660478
         top: 0.7464489
       atlasBounds:
-        left: 561.5
-        bottom: 504.5
-        right: 627.5
-        top: 602.5
+        left: 279.5
+        bottom: 768.5
+        right: 345.5
+        top: 866.5
     - unicode: 57
       advance: 0.62357956
       planeBounds:
@@ -339,10 +336,10 @@ MonoBehaviour:
         right: 0.56960225
         top: 0.7471666
       atlasBounds:
-        left: 628.5
-        bottom: 504.5
-        right: 694.5
-        top: 602.5
+        left: 346.5
+        bottom: 768.5
+        right: 412.5
+        top: 866.5
     - unicode: 58
       advance: 0.2755682
       planeBounds:
@@ -351,10 +348,10 @@ MonoBehaviour:
         right: 0.21200284
         top: 0.5379972
       atlasBounds:
-        left: 440.5
-        bottom: 40.5
-        right: 459.5
-        top: 111.5
+        left: 1004.5
+        bottom: 598.5
+        right: 1023.5
+        top: 669.5
     - unicode: 59
       advance: 0.27982953
       planeBounds:
@@ -363,10 +360,10 @@ MonoBehaviour:
         right: 0.22265625
         top: 0.5379972
       atlasBounds:
-        left: 706.5
-        bottom: 212.5
-        right: 727.5
-        top: 305.5
+        left: 0.5
+        bottom: 479.5
+        right: 21.5
+        top: 572.5
     - unicode: 60
       advance: 0.65909094
       planeBounds:
@@ -375,10 +372,10 @@ MonoBehaviour:
         right: 0.5678267
         top: 0.5536222
       atlasBounds:
-        left: 460.5
-        bottom: 42.5
-        right: 521.5
-        top: 111.5
+        left: 876.5
+        bottom: 503.5
+        right: 937.5
+        top: 572.5
     - unicode: 61
       advance: 0.65909094
       planeBounds:
@@ -387,10 +384,10 @@ MonoBehaviour:
         right: 0.55610794
         top: 0.43643466
       atlasBounds:
-        left: 647.5
-        bottom: 72.5
-        right: 705.5
-        top: 111.5
+        left: 106.5
+        bottom: 439.5
+        right: 164.5
+        top: 478.5
     - unicode: 62
       advance: 0.65909094
       planeBounds:
@@ -399,10 +396,10 @@ MonoBehaviour:
         right: 0.5678267
         top: 0.5536222
       atlasBounds:
-        left: 522.5
-        bottom: 42.5
-        right: 583.5
-        top: 111.5
+        left: 814.5
+        bottom: 503.5
+        right: 875.5
+        top: 572.5
     - unicode: 63
       advance: 0.50710225
       planeBounds:
@@ -411,10 +408,10 @@ MonoBehaviour:
         right: 0.46732953
         top: 0.74857956
       atlasBounds:
-        left: 19.5
-        bottom: 404.5
-        right: 75.5
-        top: 502.5
+        left: 413.5
+        bottom: 768.5
+        right: 469.5
+        top: 866.5
     - unicode: 64
       advance: 0.93607956
       planeBounds:
@@ -424,9 +421,9 @@ MonoBehaviour:
         top: 0.7112926
       atlasBounds:
         left: 314.5
-        bottom: 642.5
+        bottom: 906.5
         right: 424.5
-        top: 759.5
+        top: 1023.5
     - unicode: 65
       advance: 0.6761364
       planeBounds:
@@ -435,10 +432,10 @@ MonoBehaviour:
         right: 0.6583807
         top: 0.7386364
       atlasBounds:
-        left: 393.5
-        bottom: 209.5
-        right: 475.5
-        top: 305.5
+        left: 401.5
+        bottom: 573.5
+        right: 483.5
+        top: 669.5
     - unicode: 66
       advance: 0.6505682
       planeBounds:
@@ -447,10 +444,10 @@ MonoBehaviour:
         right: 0.6026278
         top: 0.7386364
       atlasBounds:
-        left: 325.5
-        bottom: 209.5
-        right: 392.5
-        top: 305.5
+        left: 333.5
+        bottom: 573.5
+        right: 400.5
+        top: 669.5
     - unicode: 67
       advance: 0.72727275
       planeBounds:
@@ -459,10 +456,10 @@ MonoBehaviour:
         right: 0.6828835
         top: 0.7464489
       atlasBounds:
-        left: 76.5
-        bottom: 404.5
-        right: 157.5
-        top: 502.5
+        left: 470.5
+        bottom: 768.5
+        right: 551.5
+        top: 866.5
     - unicode: 68
       advance: 0.71875
       planeBounds:
@@ -471,10 +468,10 @@ MonoBehaviour:
         right: 0.67045456
         top: 0.7386364
       atlasBounds:
-        left: 187.5
-        bottom: 209.5
-        right: 263.5
-        top: 305.5
+        left: 180.5
+        bottom: 573.5
+        right: 256.5
+        top: 669.5
     - unicode: 69
       advance: 0.5980114
       planeBounds:
@@ -483,10 +480,10 @@ MonoBehaviour:
         right: 0.54083806
         top: 0.7386364
       atlasBounds:
-        left: 127.5
-        bottom: 209.5
-        right: 186.5
-        top: 305.5
+        left: 120.5
+        bottom: 573.5
+        right: 179.5
+        top: 669.5
     - unicode: 70
       advance: 0.58664775
       planeBounds:
@@ -495,10 +492,10 @@ MonoBehaviour:
         right: 0.53267044
         top: 0.7386364
       atlasBounds:
-        left: 68.5
-        bottom: 209.5
-        right: 126.5
-        top: 305.5
+        left: 61.5
+        bottom: 573.5
+        right: 119.5
+        top: 669.5
     - unicode: 71
       advance: 0.74289775
       planeBounds:
@@ -507,10 +504,10 @@ MonoBehaviour:
         right: 0.69034094
         top: 0.7464489
       atlasBounds:
-        left: 158.5
-        bottom: 404.5
-        right: 240.5
-        top: 502.5
+        left: 552.5
+        bottom: 768.5
+        right: 634.5
+        top: 866.5
     - unicode: 72
       advance: 0.7400568
       planeBounds:
@@ -519,10 +516,10 @@ MonoBehaviour:
         right: 0.6629972
         top: 0.7386364
       atlasBounds:
-        left: 672.5
-        bottom: 307.5
-        right: 747.5
-        top: 403.5
+        left: 257.5
+        bottom: 573.5
+        right: 332.5
+        top: 669.5
     - unicode: 73
       advance: 0.26420453
       planeBounds:
@@ -531,10 +528,10 @@ MonoBehaviour:
         right: 0.18678977
         top: 0.7386364
       atlasBounds:
-        left: 657.5
-        bottom: 307.5
-        right: 671.5
-        top: 403.5
+        left: 1008.5
+        bottom: 927.5
+        right: 1022.5
+        top: 1023.5
     - unicode: 74
       advance: 0.5426136
       planeBounds:
@@ -543,10 +540,10 @@ MonoBehaviour:
         right: 0.46271306
         top: 0.737571
       atlasBounds:
-        left: 0.5
-        bottom: 306.5
-        right: 55.5
-        top: 403.5
+        left: 139.5
+        bottom: 670.5
+        right: 194.5
+        top: 767.5
     - unicode: 75
       advance: 0.6519886
       planeBounds:
@@ -555,10 +552,10 @@ MonoBehaviour:
         right: 0.63458806
         top: 0.7386364
       atlasBounds:
-        left: 505.5
-        bottom: 307.5
-        right: 576.5
-        top: 403.5
+        left: 714.5
+        bottom: 671.5
+        right: 785.5
+        top: 767.5
     - unicode: 76
       advance: 0.5625
       planeBounds:
@@ -567,10 +564,10 @@ MonoBehaviour:
         right: 0.5237926
         top: 0.7386364
       atlasBounds:
-        left: 447.5
-        bottom: 307.5
-        right: 504.5
-        top: 403.5
+        left: 656.5
+        bottom: 671.5
+        right: 713.5
+        top: 767.5
     - unicode: 77
       advance: 0.88920456
       planeBounds:
@@ -579,10 +576,10 @@ MonoBehaviour:
         right: 0.81178975
         top: 0.7386364
       atlasBounds:
-        left: 352.5
-        bottom: 307.5
-        right: 446.5
-        top: 403.5
+        left: 561.5
+        bottom: 671.5
+        right: 655.5
+        top: 767.5
     - unicode: 78
       advance: 0.75284094
       planeBounds:
@@ -591,10 +588,10 @@ MonoBehaviour:
         right: 0.67329544
         top: 0.7386364
       atlasBounds:
-        left: 275.5
-        bottom: 307.5
-        right: 351.5
-        top: 403.5
+        left: 484.5
+        bottom: 671.5
+        right: 560.5
+        top: 767.5
     - unicode: 79
       advance: 0.7613636
       planeBounds:
@@ -603,10 +600,10 @@ MonoBehaviour:
         right: 0.71271306
         top: 0.7464489
       atlasBounds:
-        left: 241.5
-        bottom: 404.5
-        right: 326.5
-        top: 502.5
+        left: 635.5
+        bottom: 768.5
+        right: 720.5
+        top: 866.5
     - unicode: 80
       advance: 0.6349432
       planeBounds:
@@ -615,10 +612,10 @@ MonoBehaviour:
         right: 0.59232956
         top: 0.7386364
       atlasBounds:
-        left: 126.5
-        bottom: 307.5
-        right: 192.5
-        top: 403.5
+        left: 358.5
+        bottom: 671.5
+        right: 424.5
+        top: 767.5
     - unicode: 81
       advance: 0.7613636
       planeBounds:
@@ -628,9 +625,9 @@ MonoBehaviour:
         top: 0.74857956
       atlasBounds:
         left: 511.5
-        bottom: 653.5
+        bottom: 917.5
         right: 596.5
-        top: 759.5
+        top: 1023.5
     - unicode: 82
       advance: 0.63920456
       planeBounds:
@@ -639,10 +636,10 @@ MonoBehaviour:
         right: 0.6182528
         top: 0.7386364
       atlasBounds:
-        left: 56.5
-        bottom: 307.5
-        right: 125.5
-        top: 403.5
+        left: 786.5
+        bottom: 671.5
+        right: 855.5
+        top: 767.5
     - unicode: 83
       advance: 0.63778406
       planeBounds:
@@ -651,10 +648,10 @@ MonoBehaviour:
         right: 0.59232956
         top: 0.74502844
       atlasBounds:
-        left: 327.5
-        bottom: 404.5
-        right: 397.5
-        top: 502.5
+        left: 721.5
+        bottom: 768.5
+        right: 791.5
+        top: 866.5
     - unicode: 84
       advance: 0.64204544
       planeBounds:
@@ -663,10 +660,10 @@ MonoBehaviour:
         right: 0.60227275
         top: 0.7386364
       atlasBounds:
-        left: 83.5
-        bottom: 112.5
-        right: 155.5
-        top: 208.5
+        left: 856.5
+        bottom: 671.5
+        right: 928.5
+        top: 767.5
     - unicode: 85
       advance: 0.74147725
       planeBounds:
@@ -675,10 +672,10 @@ MonoBehaviour:
         right: 0.6637074
         top: 0.73615056
       atlasBounds:
-        left: 590.5
-        bottom: 405.5
-        right: 665.5
-        top: 502.5
+        left: 0.5
+        bottom: 670.5
+        right: 75.5
+        top: 767.5
     - unicode: 86
       advance: 0.6761364
       planeBounds:
@@ -687,10 +684,10 @@ MonoBehaviour:
         right: 0.6583807
         top: 0.7386364
       atlasBounds:
-        left: 0.5
-        bottom: 112.5
-        right: 82.5
-        top: 208.5
+        left: 195.5
+        bottom: 671.5
+        right: 277.5
+        top: 767.5
     - unicode: 87
       advance: 0.9488636
       planeBounds:
@@ -699,10 +696,10 @@ MonoBehaviour:
         right: 0.9353693
         top: 0.7386364
       atlasBounds:
-        left: 476.5
-        bottom: 209.5
-        right: 594.5
-        top: 305.5
+        left: 683.5
+        bottom: 573.5
+        right: 801.5
+        top: 669.5
     - unicode: 88
       advance: 0.64204544
       planeBounds:
@@ -711,10 +708,10 @@ MonoBehaviour:
         right: 0.62571025
         top: 0.7386364
       atlasBounds:
-        left: 290.5
-        bottom: 112.5
-        right: 368.5
-        top: 208.5
+        left: 604.5
+        bottom: 573.5
+        right: 682.5
+        top: 669.5
     - unicode: 89
       advance: 0.66477275
       planeBounds:
@@ -723,10 +720,10 @@ MonoBehaviour:
         right: 0.6487926
         top: 0.7386364
       atlasBounds:
-        left: 193.5
-        bottom: 307.5
-        right: 274.5
-        top: 403.5
+        left: 484.5
+        bottom: 573.5
+        right: 565.5
+        top: 669.5
     - unicode: 90
       advance: 0.625
       planeBounds:
@@ -735,10 +732,10 @@ MonoBehaviour:
         right: 0.57421875
         top: 0.7386364
       atlasBounds:
-        left: 0.5
-        bottom: 209.5
-        right: 67.5
-        top: 305.5
+        left: 873.5
+        bottom: 573.5
+        right: 940.5
+        top: 669.5
     - unicode: 91
       advance: 0.3622159
       planeBounds:
@@ -748,9 +745,9 @@ MonoBehaviour:
         top: 0.77166194
       atlasBounds:
         left: 172.5
-        bottom: 640.5
+        bottom: 904.5
         right: 201.5
-        top: 759.5
+        top: 1023.5
     - unicode: 92
       advance: 0.3565341
       planeBounds:
@@ -760,9 +757,9 @@ MonoBehaviour:
         top: 0.7713068
       atlasBounds:
         left: 468.5
-        bottom: 645.5
+        bottom: 909.5
         right: 510.5
-        top: 759.5
+        top: 1023.5
     - unicode: 93
       advance: 0.3622159
       planeBounds:
@@ -772,9 +769,9 @@ MonoBehaviour:
         top: 0.77166194
       atlasBounds:
         left: 202.5
-        bottom: 640.5
+        bottom: 904.5
         right: 231.5
-        top: 759.5
+        top: 1023.5
     - unicode: 94
       advance: 0.46875
       planeBounds:
@@ -783,10 +780,10 @@ MonoBehaviour:
         right: 0.4375
         top: 0.7151989
       atlasBounds:
-        left: 707.5
-        bottom: 661.5
-        right: 759.5
-        top: 703.5
+        left: 53.5
+        bottom: 436.5
+        right: 105.5
+        top: 478.5
     - unicode: 95
       advance: 0.45170453
       planeBounds:
@@ -796,9 +793,9 @@ MonoBehaviour:
         top: 0.0078125
       atlasBounds:
         left: 171.5
-        bottom: 621.5
+        bottom: 885.5
         right: 232.5
-        top: 633.5
+        top: 897.5
     - unicode: 96
       advance: 0.4971591
       planeBounds:
@@ -808,9 +805,9 @@ MonoBehaviour:
         top: 0.79545456
       atlasBounds:
         left: 80.5
-        bottom: 609.5
+        bottom: 873.5
         right: 106.5
-        top: 633.5
+        top: 897.5
     - unicode: 97
       advance: 0.56392044
       planeBounds:
@@ -819,10 +816,10 @@ MonoBehaviour:
         right: 0.49573863
         top: 0.5628551
       atlasBounds:
-        left: 467.5
-        bottom: 133.5
-        right: 525.5
-        top: 208.5
+        left: 128.5
+        bottom: 497.5
+        right: 186.5
+        top: 572.5
     - unicode: 98
       advance: 0.6207386
       planeBounds:
@@ -831,10 +828,10 @@ MonoBehaviour:
         right: 0.57883525
         top: 0.7368608
       atlasBounds:
-        left: 525.5
-        bottom: 405.5
-        right: 589.5
-        top: 502.5
+        left: 919.5
+        bottom: 769.5
+        right: 983.5
+        top: 866.5
     - unicode: 99
       advance: 0.5582386
       planeBounds:
@@ -843,10 +840,10 @@ MonoBehaviour:
         right: 0.52414775
         top: 0.5635653
       atlasBounds:
-        left: 593.5
-        bottom: 133.5
-        right: 655.5
-        top: 208.5
+        left: 311.5
+        bottom: 497.5
+        right: 373.5
+        top: 572.5
     - unicode: 100
       advance: 0.6207386
       planeBounds:
@@ -855,10 +852,10 @@ MonoBehaviour:
         right: 0.54190344
         top: 0.7368608
       atlasBounds:
-        left: 398.5
-        bottom: 405.5
-        right: 462.5
-        top: 502.5
+        left: 792.5
+        bottom: 769.5
+        right: 856.5
+        top: 866.5
     - unicode: 101
       advance: 0.5823864
       planeBounds:
@@ -867,10 +864,10 @@ MonoBehaviour:
         right: 0.5411932
         top: 0.5635653
       atlasBounds:
-        left: 695.5
-        bottom: 527.5
-        right: 759.5
-        top: 602.5
+        left: 63.5
+        bottom: 497.5
+        right: 127.5
+        top: 572.5
     - unicode: 102
       advance: 0.36079547
       planeBounds:
@@ -880,9 +877,9 @@ MonoBehaviour:
         top: 0.7713068
       atlasBounds:
         left: 662.5
-        bottom: 659.5
+        bottom: 923.5
         right: 706.5
-        top: 759.5
+        top: 1023.5
     - unicode: 103
       advance: 0.609375
       planeBounds:
@@ -892,9 +889,9 @@ MonoBehaviour:
         top: 0.5628551
       atlasBounds:
         left: 597.5
-        bottom: 658.5
+        bottom: 922.5
         right: 661.5
-        top: 759.5
+        top: 1023.5
     - unicode: 104
       advance: 0.59090906
       planeBounds:
@@ -903,10 +900,10 @@ MonoBehaviour:
         right: 0.52201706
         top: 0.7386364
       atlasBounds:
-        left: 609.5
-        bottom: 209.5
-        right: 667.5
-        top: 305.5
+        left: 425.5
+        bottom: 671.5
+        right: 483.5
+        top: 767.5
     - unicode: 105
       advance: 0.2372159
       planeBounds:
@@ -915,10 +912,10 @@ MonoBehaviour:
         right: 0.18963069
         top: 0.7578125
       atlasBounds:
-        left: 0.5
-        bottom: 404.5
-        right: 18.5
-        top: 502.5
+        left: 989.5
+        bottom: 925.5
+        right: 1007.5
+        top: 1023.5
     - unicode: 106
       advance: 0.2372159
       planeBounds:
@@ -928,9 +925,9 @@ MonoBehaviour:
         top: 0.7610085
       atlasBounds:
         left: 13.5
-        bottom: 634.5
+        bottom: 898.5
         right: 40.5
-        top: 759.5
+        top: 1023.5
     - unicode: 107
       advance: 0.54403406
       planeBounds:
@@ -939,10 +936,10 @@ MonoBehaviour:
         right: 0.53764206
         top: 0.7386364
       atlasBounds:
-        left: 264.5
-        bottom: 209.5
-        right: 324.5
-        top: 305.5
+        left: 0.5
+        bottom: 573.5
+        right: 60.5
+        top: 669.5
     - unicode: 108
       advance: 0.2372159
       planeBounds:
@@ -951,10 +948,10 @@ MonoBehaviour:
         right: 0.1693892
         top: 0.7386364
       atlasBounds:
-        left: 595.5
-        bottom: 209.5
-        right: 608.5
-        top: 305.5
+        left: 1004.5
+        bottom: 770.5
+        right: 1017.5
+        top: 866.5
     - unicode: 109
       advance: 0.8693182
       planeBounds:
@@ -963,10 +960,10 @@ MonoBehaviour:
         right: 0.80184656
         top: 0.5614347
       atlasBounds:
-        left: 656.5
-        bottom: 135.5
-        right: 750.5
-        top: 208.5
+        left: 929.5
+        bottom: 694.5
+        right: 1023.5
+        top: 767.5
     - unicode: 110
       advance: 0.58522725
       planeBounds:
@@ -975,10 +972,10 @@ MonoBehaviour:
         right: 0.5191761
         top: 0.5614347
       atlasBounds:
-        left: 96.5
-        bottom: 38.5
-        right: 154.5
-        top: 111.5
+        left: 432.5
+        bottom: 499.5
+        right: 490.5
+        top: 572.5
     - unicode: 111
       advance: 0.59659094
       planeBounds:
@@ -987,10 +984,10 @@ MonoBehaviour:
         right: 0.55610794
         top: 0.5635653
       atlasBounds:
-        left: 526.5
-        bottom: 133.5
-        right: 592.5
-        top: 208.5
+        left: 187.5
+        bottom: 497.5
+        right: 253.5
+        top: 572.5
     - unicode: 112
       advance: 0.609375
       planeBounds:
@@ -999,10 +996,10 @@ MonoBehaviour:
         right: 0.56747156
         top: 0.56072444
       atlasBounds:
-        left: 65.5
-        bottom: 503.5
-        right: 129.5
-        top: 602.5
+        left: 772.5
+        bottom: 924.5
+        right: 836.5
+        top: 1023.5
     - unicode: 113
       advance: 0.609375
       planeBounds:
@@ -1011,10 +1008,10 @@ MonoBehaviour:
         right: 0.54190344
         top: 0.56072444
       atlasBounds:
-        left: 0.5
-        bottom: 503.5
-        right: 64.5
-        top: 602.5
+        left: 707.5
+        bottom: 924.5
+        right: 771.5
+        top: 1023.5
     - unicode: 114
       advance: 0.3721591
       planeBounds:
@@ -1023,10 +1020,10 @@ MonoBehaviour:
         right: 0.35759944
         top: 0.5621449
       atlasBounds:
-        left: 0.5
-        bottom: 38.5
-        right: 37.5
-        top: 111.5
+        left: 491.5
+        bottom: 499.5
+        right: 528.5
+        top: 572.5
     - unicode: 115
       advance: 0.52272725
       planeBounds:
@@ -1035,10 +1032,10 @@ MonoBehaviour:
         right: 0.4815341
         top: 0.5635653
       atlasBounds:
-        left: 410.5
-        bottom: 133.5
-        right: 466.5
-        top: 208.5
+        left: 254.5
+        bottom: 497.5
+        right: 310.5
+        top: 572.5
     - unicode: 116
       advance: 0.36363637
       planeBounds:
@@ -1047,10 +1044,10 @@ MonoBehaviour:
         right: 0.3338068
         top: 0.68607956
       atlasBounds:
-        left: 369.5
-        bottom: 118.5
-        right: 409.5
-        top: 208.5
+        left: 22.5
+        bottom: 482.5
+        right: 62.5
+        top: 572.5
     - unicode: 117
       advance: 0.58096594
       planeBounds:
@@ -1059,10 +1056,10 @@ MonoBehaviour:
         right: 0.5131392
         top: 0.5543324
       atlasBounds:
-        left: 38.5
-        bottom: 38.5
-        right: 95.5
-        top: 111.5
+        left: 374.5
+        bottom: 499.5
+        right: 431.5
+        top: 572.5
     - unicode: 118
       advance: 0.5568182
       planeBounds:
@@ -1071,10 +1068,10 @@ MonoBehaviour:
         right: 0.5323153
         top: 0.55397725
       atlasBounds:
-        left: 213.5
-        bottom: 39.5
-        right: 278.5
-        top: 111.5
+        left: 529.5
+        bottom: 500.5
+        right: 594.5
+        top: 572.5
     - unicode: 119
       advance: 0.8125
       planeBounds:
@@ -1083,10 +1080,10 @@ MonoBehaviour:
         right: 0.7890625
         top: 0.55397725
       atlasBounds:
-        left: 279.5
-        bottom: 39.5
-        right: 377.5
-        top: 111.5
+        left: 715.5
+        bottom: 500.5
+        right: 813.5
+        top: 572.5
     - unicode: 120
       advance: 0.53977275
       planeBounds:
@@ -1095,10 +1092,10 @@ MonoBehaviour:
         right: 0.5081676
         top: 0.55397725
       atlasBounds:
-        left: 378.5
-        bottom: 39.5
-        right: 439.5
-        top: 111.5
+        left: 653.5
+        bottom: 500.5
+        right: 714.5
+        top: 572.5
     - unicode: 121
       advance: 0.55752844
       planeBounds:
@@ -1107,10 +1104,10 @@ MonoBehaviour:
         right: 0.53267044
         top: 0.55397725
       atlasBounds:
-        left: 130.5
-        bottom: 504.5
-        right: 195.5
-        top: 602.5
+        left: 837.5
+        bottom: 925.5
+        right: 902.5
+        top: 1023.5
     - unicode: 122
       advance: 0.5411932
       planeBounds:
@@ -1119,10 +1116,10 @@ MonoBehaviour:
         right: 0.49751422
         top: 0.55397725
       atlasBounds:
-        left: 155.5
-        bottom: 39.5
-        right: 212.5
-        top: 111.5
+        left: 595.5
+        bottom: 500.5
+        right: 652.5
+        top: 572.5
     - unicode: 123
       advance: 0.3622159
       planeBounds:
@@ -1132,9 +1129,9 @@ MonoBehaviour:
         top: 0.77166194
       atlasBounds:
         left: 232.5
-        bottom: 640.5
+        bottom: 904.5
         right: 272.5
-        top: 759.5
+        top: 1023.5
     - unicode: 124
       advance: 0.32670453
       planeBounds:
@@ -1144,9 +1141,9 @@ MonoBehaviour:
         top: 0.9730114
       atlasBounds:
         left: 0.5
-        bottom: 603.5
+        bottom: 867.5
         right: 12.5
-        top: 759.5
+        top: 1023.5
     - unicode: 125
       advance: 0.3622159
       planeBounds:
@@ -1156,9 +1153,9 @@ MonoBehaviour:
         top: 0.77166194
       atlasBounds:
         left: 273.5
-        bottom: 640.5
+        bottom: 904.5
         right: 313.5
-        top: 759.5
+        top: 1023.5
     - unicode: 126
       advance: 0.65909094
       planeBounds:
@@ -1168,6 +1165,6 @@ MonoBehaviour:
         top: 0.38920453
       atlasBounds:
         left: 13.5
-        bottom: 607.5
+        bottom: 871.5
         right: 79.5
-        top: 633.5
+        top: 897.5

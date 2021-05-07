@@ -35,12 +35,17 @@ namespace ReGizmo.Drawing
             characterInfos = new CharacterInfoShader[200];
             for (int i = 0; i < 200; i++)
             {
-                if (!font.TryGetGlyph((char) i, out var glyph)) continue;
+                if (!font.TryGetGlyph((char)i, out var glyph)) continue;
 
                 Vector4 size = new Vector4(
                     glyph.planeBounds.left, glyph.planeBounds.right,
                     glyph.planeBounds.bottom, glyph.planeBounds.top
                 );
+
+                /* Vector4 size = new Vector4(
+                    (glyph.planeBounds.left + glyph.planeBounds.right) * 0.5f,
+                    (glyph.planeBounds.top + glyph.planeBounds.bottom) * 0.5f,
+                    0f, 0f); */
 
                 Vector2 bottomLeftUV = new Vector2(glyph.atlasBounds.left, glyph.atlasBounds.bottom) /
                                        atlasTextureSize;
@@ -48,7 +53,7 @@ namespace ReGizmo.Drawing
                     new Vector2(glyph.atlasBounds.right, glyph.atlasBounds.bottom) / atlasTextureSize;
                 Vector2 topLeftUV = new Vector2(glyph.atlasBounds.left, glyph.atlasBounds.top) / atlasTextureSize;
                 Vector2 topRightUV = new Vector2(glyph.atlasBounds.right, glyph.atlasBounds.top) / atlasTextureSize;
-                
+
                 var ci = new CharacterInfoShader
                 {
                     BottomLeft = bottomLeftUV,
@@ -80,10 +85,10 @@ namespace ReGizmo.Drawing
 
         public ref TextData GetTextShaderData(out uint id)
         {
-            id = (uint) textDataBuffers.Count();
+            id = (uint)textDataBuffers.Count();
             return ref textDataBuffers.Get();
         }
- 
+
         protected override void RenderInternal(CommandBuffer cmd)
         {
             renderArguments[0] = CurrentDrawCount();

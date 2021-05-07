@@ -25,7 +25,7 @@ namespace ReGizmo.Drawing
 
                 shaderData.Position = currentPosition + position;
                 shaderData.Color = new Vector3(color.r, color.g, color.b);
-                shaderData.Scale = currentScale.x + 1f;
+                shaderData.Scale = currentScale.x + 32f;
             }
         }
         public static void Icon(Texture2D texture, UnityEngine.Vector3 position, System.Single scale)
@@ -58,7 +58,7 @@ namespace ReGizmo.Drawing
 
                 shaderData.Position = currentPosition + position;
                 shaderData.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
-                shaderData.Scale = currentScale.x + 1f;
+                shaderData.Scale = currentScale.x + 32f;
             }
         }
         public static void Icon(Texture2D texture, UnityEngine.Color color)
@@ -69,7 +69,7 @@ namespace ReGizmo.Drawing
 
                 shaderData.Position = currentPosition + currentPosition;
                 shaderData.Color = new Vector3(color.r, color.g, color.b);
-                shaderData.Scale = currentScale.x + 1f;
+                shaderData.Scale = currentScale.x + 32f;
             }
         }
         public static void Icon(Texture2D texture, System.Single scale)
@@ -91,7 +91,7 @@ namespace ReGizmo.Drawing
 
                 shaderData.Position = currentPosition + currentPosition;
                 shaderData.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
-                shaderData.Scale = currentScale.x + 1f;
+                shaderData.Scale = currentScale.x + 32f;
             }
         }
     }

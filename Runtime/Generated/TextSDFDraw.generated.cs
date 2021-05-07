@@ -64,7 +64,7 @@ namespace ReGizmo.Drawing
             {
                 ref var textData = ref drawer.GetTextShaderData(out uint id);
                 textData.Position = currentPosition + position;
-                textData.Scale = 1f;
+                textData.Scale = 16f;
                 textData.Color = new Vector3(color.r, color.g, color.b);
                 
                 float totalAdvance = 0f;
@@ -78,7 +78,7 @@ namespace ReGizmo.Drawing
                     uint charIndex = (uint)text[i];
                     charData.CharIndex = charIndex;
 
-                    totalAdvance += 1f * drawer.GetCharacterInfo(charIndex).Advance;
+                    totalAdvance += 16f * drawer.GetCharacterInfo(charIndex).Advance;
                 }
 
                 textData.CenterOffset = totalAdvance / 2.0f;
@@ -116,7 +116,7 @@ namespace ReGizmo.Drawing
             {
                 ref var textData = ref drawer.GetTextShaderData(out uint id);
                 textData.Position = currentPosition + position;
-                textData.Scale = 1f;
+                textData.Scale = 16f;
                 textData.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
                 
                 float totalAdvance = 0f;
@@ -130,7 +130,7 @@ namespace ReGizmo.Drawing
                     uint charIndex = (uint)text[i];
                     charData.CharIndex = charIndex;
 
-                    totalAdvance += 1f * drawer.GetCharacterInfo(charIndex).Advance;
+                    totalAdvance += 16f * drawer.GetCharacterInfo(charIndex).Advance;
                 }
 
                 textData.CenterOffset = totalAdvance / 2.0f;
@@ -168,7 +168,7 @@ namespace ReGizmo.Drawing
             {
                 ref var textData = ref drawer.GetTextShaderData(out uint id);
                 textData.Position = currentPosition;
-                textData.Scale = 1f;
+                textData.Scale = 16f;
                 textData.Color = new Vector3(color.r, color.g, color.b);
                 
                 float totalAdvance = 0f;
@@ -182,7 +182,7 @@ namespace ReGizmo.Drawing
                     uint charIndex = (uint)text[i];
                     charData.CharIndex = charIndex;
 
-                    totalAdvance += 1f * drawer.GetCharacterInfo(charIndex).Advance;
+                    totalAdvance += 16f * drawer.GetCharacterInfo(charIndex).Advance;
                 }
 
                 textData.CenterOffset = totalAdvance / 2.0f;
@@ -194,7 +194,7 @@ namespace ReGizmo.Drawing
             {
                 ref var textData = ref drawer.GetTextShaderData(out uint id);
                 textData.Position = currentPosition;
-                textData.Scale = 1f;
+                textData.Scale = 16f;
                 textData.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
                 
                 float totalAdvance = 0f;
@@ -208,7 +208,7 @@ namespace ReGizmo.Drawing
                     uint charIndex = (uint)text[i];
                     charData.CharIndex = charIndex;
 
-                    totalAdvance += 1f * drawer.GetCharacterInfo(charIndex).Advance;
+                    totalAdvance += 16f * drawer.GetCharacterInfo(charIndex).Advance;
                 }
 
                 textData.CenterOffset = totalAdvance / 2.0f;

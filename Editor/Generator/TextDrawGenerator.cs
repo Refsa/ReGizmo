@@ -40,7 +40,7 @@ namespace ReGizmo.Generator
             variables = new Variable[]
             {
                 new Variable(typeof(Vector3), "position", "currentPosition", "currentPosition + position", 255),
-                new Variable(typeof(float), "scale", "1f", "scale"),
+                new Variable(typeof(float), "scale", "16f", "scale"),
                 new Variable(typeof(Color), "color", "currentColor", "color")
             };
         }

@@ -5,15 +5,8 @@
 #define DEFAULT_SCALE_FACTOR 0.142
 #endif
 
-struct font_appdata_t
-{
-    float4 vertex : POSITION;
-    float4 color : COLOR;
-};
-
 struct font_v2g
 {
-    float4 vertex : SV_POSITION;
     uint vertexID : TEXCOORD0;
 };
 
@@ -69,15 +62,10 @@ const static float default_scale_factor_sqr = DEFAULT_SCALE_FACTOR * DEFAULT_SCA
 const static float aspect_ratio = _ScreenParams.y / _ScreenParams.x;
 
 // PROGRAMS
-font_v2g font_vert(font_appdata_t v, uint vid : SV_VertexID)
+font_v2g font_vert(uint vid : SV_VertexID)
 {
-    CharData cd = _CharData[vid];
-    TextData td = _TextData[cd.TextID];
-
     font_v2g o;
-    o.vertex = float4(td.Position, 1.0);
     o.vertexID = vid;
-
     return o;
 }
 
@@ -90,19 +78,24 @@ void font_geom(point font_v2g i[1], inout TriangleStream<font_g2f> triangleStrea
     TextData td = _TextData[cd.TextID];
     CharacterInfo ci = _CharacterInfos[cd.CharIndex];
 
-    float4 centerClip = UnityObjectToClipPos(i[0].vertex);
+    // HACK: Move along, just another magic number because math below is wrong
+    static const float scale_factor = 2.7;
+
+    float4 centerClip = UnityObjectToClipPos(float4(td.Position, 1.0));
     float camDist = centerClip.w;
 
-    camDist = clamp(camDist, td.Scale, camDist);
-    camDist = unity_OrthoParams.w == 1 ? td.Scale * default_scale_factor_sqr : camDist * default_scale_factor_sqr;
+    float4 advanceOffset = float4(cd.Advance, 0, 0, 0) * aspect_ratio * scale_factor;
+    float4 size = ci.Size * td.Scale * scale_factor;
 
-    float4 advanceOffset = float4(cd.Advance, 0, 0, 0) * aspect_ratio * camDist;
-    float4 size = ci.Size;
+    float4 c1 = (float4(size.x * aspect_ratio, -size.w, 0, 0) + advanceOffset) * camDist;
+    float4 c2 = (float4(size.y * aspect_ratio, -size.w, 0, 0) + advanceOffset) * camDist;
+    float4 c3 = (float4(size.y * aspect_ratio, -size.z, 0, 0) + advanceOffset) * camDist;
+    float4 c4 = (float4(size.x * aspect_ratio, -size.z, 0, 0) + advanceOffset) * camDist;
 
-    float4 c1 = float4(size.x * aspect_ratio, -size.w, 0, 0) * camDist * td.Scale + advanceOffset;
-    float4 c2 = float4(size.y * aspect_ratio, -size.w, 0, 0) * camDist * td.Scale + advanceOffset;
-    float4 c3 = float4(size.y * aspect_ratio, -size.z, 0, 0) * camDist * td.Scale + advanceOffset;
-    float4 c4 = float4(size.x * aspect_ratio, -size.z, 0, 0) * camDist * td.Scale + advanceOffset;
+    c1.xy /= _ScreenParams.xy;
+    c2.xy /= _ScreenParams.xy;
+    c3.xy /= _ScreenParams.xy;
+    c4.xy /= _ScreenParams.xy;
 
     if (ProjectionFlipped())
     {

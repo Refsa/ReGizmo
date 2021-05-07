@@ -38,6 +38,11 @@ namespace ReGizmo.Drawing
                     characterInfo.minX, characterInfo.maxX,
                     characterInfo.minY, characterInfo.maxY);
 
+                /* Vector4 size = new Vector4(
+                    (characterInfo.minX + characterInfo.maxX) * 0.5f,
+                    (characterInfo.minY + characterInfo.maxY) * 0.5f,
+                    0f, 0f); */
+
                 var ci = new CharacterInfoShader
                 {
                     BottomLeft = characterInfo.uvBottomLeft,
