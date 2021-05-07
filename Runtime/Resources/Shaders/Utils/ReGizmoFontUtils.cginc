@@ -52,6 +52,9 @@ sampler2D _MainTex;
 float4 _MainTex_ST;
 float4 _MainTex_TexelSize;
 
+UNITY_DECLARE_TEX2DARRAY(_FontTexArray);
+static const int mip_scales[] = {1, 0.5, 0.25, 0.25};
+
 // SDF INPUTS
 float _DistanceRange;
 float2 _AtlasDimensions;
@@ -163,9 +166,12 @@ float screenPxRange(float scale)
 // SDF SAMPLE METHODS
 float sampleMSDF(float4 pos, float2 uv, float scale)
 {
-    float mip = (1 - (rcp(fwidth(uv)) / 1024)) * 4;
-    float4 msd = tex2Dlod(_MainTex, float4(uv, 0.0, mip));
+    int mip = floor(1 - (rcp(fwidth(uv)) / 1024)) * 4;
+    float2 suv = uv / exp2(mip_scales[mip]);
 
+    float4 msd = UNITY_SAMPLE_TEX2DARRAY(_FontTexArray, float3(uv * 0.5, 1));
+
+    //float4 msd = tex2Dlod(_MainTex, float4(uv, 0.0, mip));
     /* float4 msd = tex2D(_MainTex, uv); */
     
     float sd = median(msd.r, msd.g, msd.b);

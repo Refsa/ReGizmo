@@ -200,9 +200,9 @@ namespace ReGizmo.Editor
             AssetDatabase.Refresh();
 
             TextureImporter atlasImporter = (TextureImporter)AssetImporter.GetAtPath(atlasPath);
-            atlasImporter.npotScale = TextureImporterNPOTScale.ToLarger;
+            atlasImporter.npotScale = TextureImporterNPOTScale.ToNearest;
             atlasImporter.wrapMode = TextureWrapMode.Clamp;
-            atlasImporter.filterMode = FilterMode.Trilinear;
+            atlasImporter.filterMode = FilterMode.Bilinear;
             atlasImporter.compressionQuality = 100;
             atlasImporter.textureCompression = TextureImporterCompression.Uncompressed;
             atlasImporter.isReadable = true;

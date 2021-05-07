@@ -11,7 +11,8 @@ namespace ReGizmo.Drawing
         protected override string PropertiesName { get; } = "_CharData";
 
         ReSDFData font;
-        Texture runtimeTexture;
+        Texture2D runtimeTexture;
+        Texture2DArray runtimeTextureArray;
 
         ComputeBuffer characterInfoBuffer;
         CharacterInfoShader[] characterInfos;
@@ -27,6 +28,7 @@ namespace ReGizmo.Drawing
             renderArguments[1] = 1;
 
             runtimeTexture = font.GetTexture();
+            runtimeTextureArray = font.GetTextureArray();
 
             SetupCharacterData();
         }
@@ -115,12 +117,20 @@ namespace ReGizmo.Drawing
                 runtimeTexture = font.GetTexture();
             }
 
-            material.SetFloat("_DistanceRange", font.Font.atlas.distanceRange);
-            material.SetVector("_AtlasDimensions", new Vector2(font.Font.atlas.width, font.Font.atlas.height));
-            material.SetFloat("_AtlasSize", font.Font.atlas.size);
-            material.SetTexture("_MainTex", runtimeTexture);
-            material.SetBuffer("_CharacterInfos", characterInfoBuffer);
+            if (runtimeTextureArray == null)
+            {
+                runtimeTextureArray = font.GetTextureArray();
+            }
+
+            materialPropertyBlock.SetBuffer("_CharacterInfos", characterInfoBuffer);
             textDataBuffers.PushData(materialPropertyBlock, "_TextData");
+
+            materialPropertyBlock.SetFloat("_DistanceRange", font.Font.atlas.distanceRange);
+            materialPropertyBlock.SetVector("_AtlasDimensions", new Vector2(font.Font.atlas.width, font.Font.atlas.height));
+            materialPropertyBlock.SetFloat("_AtlasSize", font.Font.atlas.size);
+
+            materialPropertyBlock.SetTexture("_MainTex", runtimeTexture);
+            materialPropertyBlock.SetTexture("_FontTexArray", runtimeTextureArray);
         }
 
         public override void Dispose()

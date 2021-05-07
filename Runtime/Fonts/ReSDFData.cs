@@ -12,6 +12,7 @@ namespace ReGizmo.Core.Fonts
         [SerializeField] MSDF.Font font;
 
         Texture2D runtimeTexture;
+        Texture2DArray runtimeTextureArray;
 
         public MSDF.Font Font => font;
 
@@ -52,6 +53,8 @@ namespace ReGizmo.Core.Fonts
 
         public Texture2D GetTexture()
         {
+            //return image;
+
             runtimeTexture = new Texture2D(image.width, image.height, TextureFormat.RGBA32, mipmaps.Count + 1, true);
             runtimeTexture.SetPixels(image.GetPixels(), 0);
             for (int i = 0; i < mipmaps.Count; i++)
@@ -61,6 +64,36 @@ namespace ReGizmo.Core.Fonts
             runtimeTexture.Apply(true, true);
 
             return runtimeTexture;
+        }
+
+        public Texture2DArray GetTextureArray()
+        {
+            Material scaler = new Material(Shader.Find("Hidden/ReGizmo/TextureScaler"));
+            var rt = RenderTexture.GetTemporary(image.width, image.height, 0, RenderTextureFormat.ARGB32);
+            rt.enableRandomWrite = true;
+            rt.Create();
+
+            runtimeTextureArray = new Texture2DArray(image.width, image.height, mipmaps.Count + 1, TextureFormat.RGBA32, false, true);
+            Graphics.CopyTexture(
+                image, 0, 0, 0, 0, image.width, image.height,
+                runtimeTextureArray, 0, 0, 0, 0);
+
+            var activeRT = RenderTexture.active;
+
+            for (int i = 0; i < mipmaps.Count; i++)
+            {
+                //Graphics.CopyTexture(mipmaps[i], 0, runtimeTextureArray, i + 1);
+
+                Graphics.CopyTexture(
+                    mipmaps[i], 0, 0, 0, 0, mipmaps[i].width, mipmaps[i].height,
+                    runtimeTextureArray, i + 1, 0, 0, 0
+                );
+            }
+
+            RenderTexture.active = activeRT;
+            RenderTexture.ReleaseTemporary(rt);
+            runtimeTextureArray.Apply();
+            return runtimeTextureArray;
         }
     }
 
