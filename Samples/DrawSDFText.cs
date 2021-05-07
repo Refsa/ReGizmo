@@ -18,8 +18,8 @@ namespace ReGizmo.Samples
         {
             using (new TransformScope(transform))
             {
-                ReDraw.TextSDF("SDF: " + text, Vector3.zero, fontSize, Color.green);
-                ReDraw.Text("Regular: " + text, Vector3.up * 5, fontSize, Color.blue);
+                ReDraw.TextSDF("SDF: " + text, Vector3.zero, fontSize, Color.white);
+                ReDraw.Text("Regular: " + text, Vector3.up * 5, fontSize, Color.white);
             }
         }
 

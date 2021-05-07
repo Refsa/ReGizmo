@@ -157,18 +157,22 @@ float median(float r, float g, float b)
 
 float screenPxRange(float scale)
 {
-    return (scale / _AtlasSize) * _DistanceRange * 2;
+    return (scale / _AtlasSize) * _DistanceRange;
 }
 
 // SDF SAMPLE METHODS
 float sampleMSDF(float4 pos, float2 uv, float scale)
 {
-    float mip = 1 - ((min(scale, 3)) / 3.0);
+    float mip = (1 - (rcp(fwidth(uv)) / 1024)) * 4;
     float4 msd = tex2Dlod(_MainTex, float4(uv, 0.0, mip));
+
+    /* float4 msd = tex2D(_MainTex, uv); */
     
     float sd = median(msd.r, msd.g, msd.b);
     float spx = screenPxRange(scale) * (sd - 0.5);
     float opacity = saturate(spx + 0.5);
+
+    opacity = smoothstep(0, 1, opacity);
 
     return opacity;
 }

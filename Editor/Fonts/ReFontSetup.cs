@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime;
@@ -25,10 +26,13 @@ namespace ReGizmo.Editor
         }
 
         Font targetFont;
+        ReSDFData targetData;
 
         MSDF.Format format;
         int size = 64;
         int pixelRange = 4;
+
+        static int minGlyphSize = 16;
 
         void OnGUI()
         {
@@ -36,17 +40,17 @@ namespace ReGizmo.Editor
 
             GUILayout.Space(24);
 
-            targetFont = (Font) EditorGUILayout.ObjectField("Target Font", targetFont, typeof(Font), false);
+            targetFont = (Font)EditorGUILayout.ObjectField("Target Font", targetFont, typeof(Font), false);
 
             if (targetFont == null) return;
 
-            format = (MSDF.Format) EditorGUILayout.EnumPopup("Type", format);
+            format = (MSDF.Format)EditorGUILayout.EnumPopup("Type", format);
             size = EditorGUILayout.IntSlider("Size", size, 1, 1024);
             pixelRange = EditorGUILayout.IntSlider("Pixel Range", pixelRange, 1, 128);
 
             if (GUILayout.Button("Generate"))
             {
-                CreateSDFAsset(targetFont, format, size, pixelRange);
+                targetData = CreateSDFAsset(targetFont, format, size, pixelRange);
             }
         }
 
@@ -61,7 +65,7 @@ namespace ReGizmo.Editor
         }
 
         [MenuItem("Assets/Create/Create SDF", validate = false)]
-        public static void CreateSDFAsset()
+        public static void RunCreateSDFAsset()
         {
             int instanceID = Selection.activeInstanceID;
             string assetPath = AssetDatabase.GetAssetPath(instanceID);
@@ -69,7 +73,7 @@ namespace ReGizmo.Editor
 
             if (obj is Font font)
             {
-                CreateSDFAsset(font, Format.mtsdf, 128, 2);
+                CreateSDFAsset(font, Format.mtsdf, 64, 4);
             }
             else
             {
@@ -77,7 +81,7 @@ namespace ReGizmo.Editor
             }
         }
 
-        static void CreateSDFAsset(Font targetFont, MSDF.Format format, int size, int pxRange)
+        static ReSDFData CreateSDFAsset(Font targetFont, MSDF.Format format, int size, int pxRange)
         {
             string savePath =
                 EditorUtility.SaveFolderPanel("Font Save Path", "SDF", "");
@@ -85,16 +89,74 @@ namespace ReGizmo.Editor
 
             if (string.IsNullOrEmpty(savePath))
             {
-                return;
+                throw new DirectoryNotFoundException(savePath);
             }
 
-            string atlasName = targetFont.name.Replace(" ", "_") + "_Atlas.png";
-            string atlasDataName = targetFont.name.Replace(" ", "_") + "_Atlas_Data.json";
+            string atlasFileName = targetFont.name.Replace(" ", "_") + "_Atlas.png";
+            string dataFileName = targetFont.name.Replace(" ", "_") + "_Atlas_Data.json";
 
-            string atlasSavePath = localSavePath + atlasName;
-            string atlasDataSavePath = localSavePath + atlasDataName;
+            string atlasSavePath = localSavePath + atlasFileName;
+            string atlasDataSavePath = localSavePath + dataFileName;
             string sdfAssetPath = localSavePath + targetFont.name.Replace(" ", "_") + ".asset";
 
+            (Texture2D mainTex, TextAsset mainJson) = Generate(
+                targetFont, format, size, pxRange,
+                savePath, atlasFileName, dataFileName);
+
+            string jsonData = mainJson.text;
+            AssetDatabase.DeleteAsset(atlasDataSavePath);
+
+            List<Texture2D> mips = new List<Texture2D>();
+
+            int mipLevel = 1;
+            do
+            {
+                size /= 2;
+                string mipSuffix = $"mip_{mipLevel++}";
+                string dataPath = dataFileName.Replace(".json", "_" + mipSuffix + ".json");
+
+                (Texture2D mipTex, TextAsset json) = Generate(
+                    targetFont, format, size, pxRange,
+                    savePath,
+                    atlasFileName.Replace(".png", "_" + mipSuffix + ".png"),
+                    dataPath);
+
+                AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(json));
+
+                mips.Add(mipTex);
+            } while (size > minGlyphSize);
+
+            //CleanupOldAssets(atlasSavePath, atlasDataSavePath);
+
+            ReSDFData sdfAsset = null;
+
+            if (AssetDatabase.LoadAssetAtPath<ReSDFData>(sdfAssetPath) is ReSDFData current)
+            {
+                sdfAsset = current;
+                sdfAsset.Setup(mainTex, jsonData);
+                ReGizmoEditorUtils.SaveAsset(sdfAsset);
+            }
+            else
+            {
+                sdfAsset = ScriptableObject.CreateInstance<ReSDFData>();
+                sdfAsset.Setup(mainTex, jsonData);
+                AssetDatabase.CreateAsset(sdfAsset, sdfAssetPath);
+            }
+
+            sdfAsset.ClearMips();
+            foreach (var mip in mips)
+            {
+                sdfAsset.AddMipTexture(mip);
+            }
+            AssetDatabase.Refresh();
+
+            Core.ReGizmo.Reload();
+
+            return sdfAsset;
+        }
+
+        static void CleanupOldAssets(string atlasSavePath, string atlasDataSavePath)
+        {
             if (AssetDatabase.LoadAssetAtPath<Texture2D>(atlasSavePath) != null)
             {
                 AssetDatabase.DeleteAsset(atlasSavePath);
@@ -104,11 +166,24 @@ namespace ReGizmo.Editor
             {
                 AssetDatabase.DeleteAsset(atlasDataSavePath);
             }
+        }
 
+        static (Texture2D, TextAsset) Generate(
+            Font targetFont, MSDF.Format format, int size, int pxRange,
+            string savePath, string atlasFileName, string dataFileName
+            )
+        {
+            string atlasPath = savePath + "/" + atlasFileName;
+            atlasPath = atlasPath.Replace(Application.dataPath, "Assets");
+            string dataPath = savePath + "/" + dataFileName;
+            dataPath = dataPath.Replace(Application.dataPath, "Assets");
+
+            // TODO: Paths used in this needs to be changed
             using (var process = new Process())
             {
                 process.StartInfo.UseShellExecute = false;
                 process.StartInfo.WorkingDirectory = savePath;
+                // TODO: Hardcoded path
                 process.StartInfo.FileName =
                     Application.dataPath.Replace("Assets", "Assets/ReGizmo/Editor/Fonts/msdf/msdf-atlas-gen.exe");
                 process.StartInfo.CreateNoWindow = true;
@@ -116,7 +191,7 @@ namespace ReGizmo.Editor
                 string fontAssetPath =
                     Application.dataPath.Replace("Assets", AssetDatabase.GetAssetPath(targetFont));
                 process.StartInfo.Arguments =
-                    $"-font \"{fontAssetPath}\" -type {format.ToString()} -pots -format png -size {size} -pxrange {pxRange} -imageout {atlasName} -json {atlasDataName}";
+                    $"-font \"{fontAssetPath}\" -type {format.ToString()} -pots -format png -size {size} -pxrange {pxRange} -imageout {atlasFileName} -json {dataFileName}";
 
                 process.Start();
                 process.WaitForExit();
@@ -124,39 +199,21 @@ namespace ReGizmo.Editor
 
             AssetDatabase.Refresh();
 
-
-            TextureImporter atlasImporter = (TextureImporter) AssetImporter.GetAtPath(atlasSavePath);
+            TextureImporter atlasImporter = (TextureImporter)AssetImporter.GetAtPath(atlasPath);
             atlasImporter.npotScale = TextureImporterNPOTScale.ToLarger;
             atlasImporter.wrapMode = TextureWrapMode.Clamp;
             atlasImporter.filterMode = FilterMode.Trilinear;
             atlasImporter.compressionQuality = 100;
             atlasImporter.textureCompression = TextureImporterCompression.Uncompressed;
+            atlasImporter.isReadable = true;
             atlasImporter.mipmapEnabled = false;
-            AssetDatabase.ImportAsset(atlasSavePath);
+            AssetDatabase.ImportAsset(atlasPath);
             AssetDatabase.Refresh();
 
-            var atlasImage = AssetDatabase.LoadAssetAtPath<Texture2D>(atlasSavePath);
-            var atlasData = AssetDatabase.LoadAssetAtPath<TextAsset>(atlasDataSavePath);
+            var atlasImage = AssetDatabase.LoadAssetAtPath<Texture2D>(atlasPath);
+            var atlasData = AssetDatabase.LoadAssetAtPath<TextAsset>(dataPath);
 
-            ReSDFData sdfAsset = null;
-
-            if (AssetDatabase.LoadAssetAtPath<ReSDFData>(sdfAssetPath) is ReSDFData current)
-            {
-                sdfAsset = current;
-                sdfAsset.Setup(atlasImage, atlasData.text);
-                ReGizmoEditorUtils.SaveAsset(sdfAsset);
-            }
-            else
-            {
-                sdfAsset = ScriptableObject.CreateInstance<ReSDFData>();
-                sdfAsset.Setup(atlasImage, atlasData.text);
-                AssetDatabase.CreateAsset(sdfAsset, sdfAssetPath);
-            }
-
-            AssetDatabase.DeleteAsset(atlasDataSavePath);
-            AssetDatabase.Refresh();
-
-            Core.ReGizmo.Reload();
+            return (atlasImage, atlasData);
         }
     }
 }
