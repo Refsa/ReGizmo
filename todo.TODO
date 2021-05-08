@@ -2,15 +2,18 @@
     - figure out best way to do scaling/default scaling
     - Sorting between drawers is kinda whack atm
         for example: Lines at -10f is drawing over sprites at 1f, but not at -1f
-    - SDF Font Shader is fucked in in general, seems like the sampling is off for thinner fonts
-    - font should scale by pixels
     - Legacy currently doesnt render in game view when outside of play mode, would be a nice thing but not a huge deal
     - clean up some of the #pragma targets in shaders
     
 Sprite Drawer:
     - Make base for Sprite Drawer a texture drawer with UVs so the same drawer can be shared for each sprite
     
+2D Drawing:
+    - One option is to use SDF for everything, although it is expensive it's probably the easiest way to support 2D shapes
+
 Archive:
+  ✔ font should scale by pixels @done(21-05-08 13:06) @project(General)
+  ✔ SDF Font Shader is fucked in in general, seems like the sampling is off for thinner fonts @done(21-05-08 13:06) @project(General)
   ✘ Scopes doesnt work on font drawers @cancelled(21-05-06 14:33) @project(General)
   ✔ Change font to scale in screenspace (like lines) @done(21-05-06 13:52) @project(General)
   ✔ World space lines @done(21-05-06 13:51) @project(Line Drawer)
