@@ -98,7 +98,7 @@ namespace ReGizmo.Core
             Dispose();
 
 #if RG_LEGACY
-            drawBuffers = new LegacyCommandBufferStack("ReGizmo"); 
+            drawBuffers = new LegacyCommandBufferStack("ReGizmo");
 #elif RG_URP
             Core.URP.ReGizmoRenderFeature.OnPassExecute += OnPassExecute;
 #elif RG_HDRP
@@ -115,15 +115,19 @@ namespace ReGizmo.Core
 
             drawers = new List<IReGizmoDrawer>()
             {
+                // Lines
                 ReGizmoResolver<ReGizmoLineDrawer>.Init(new ReGizmoLineDrawer()),
                 ReGizmoResolver<ReGizmoPolyLineDrawer>.Init(new ReGizmoPolyLineDrawer()),
 
+                // Textures
                 ReGizmoResolver<ReGizmoIconsDrawer>.Init(new ReGizmoIconsDrawer()),
                 ReGizmoResolver<ReGizmoSpritesDrawer>.Init(new ReGizmoSpritesDrawer()),
 
+                // Fonts
                 ReGizmoResolver<ReGizmoFontDrawer>.Init(new ReGizmoFontDrawer(ReGizmoSettings.Font)),
                 ReGizmoResolver<ReGizmoSDFFontDrawer>.Init(new ReGizmoSDFFontDrawer(ReGizmoSettings.SDFFont)),
 
+                // 3D
                 ReGizmoResolver<ReGizmoCubeDrawer>.Init(new ReGizmoCubeDrawer()),
                 ReGizmoResolver<ReGizmoSphereDrawer>.Init(new ReGizmoSphereDrawer()),
                 ReGizmoResolver<ReGizmoConeDrawer>.Init(new ReGizmoConeDrawer()),
@@ -136,6 +140,10 @@ namespace ReGizmo.Core
 
                 ReGizmoResolver<ReGizmoCustomMeshDrawer>.Init(new ReGizmoCustomMeshDrawer()),
                 ReGizmoResolver<ReGizmoCustomMeshWireframeDrawer>.Init(new ReGizmoCustomMeshWireframeDrawer()),
+
+                // 2D
+                ReGizmoResolver<ReGizmoCircleDrawer>.Init(new ReGizmoCircleDrawer()),
+                ReGizmoResolver<ReGizmoTriangleDrawer>.Init(new ReGizmoTriangleDrawer()),
             };
 
             if (Application.isPlaying)
@@ -244,7 +252,7 @@ namespace ReGizmo.Core
 
 #if RG_LEGACY
             if (Application.isPlaying)
-            { 
+            {
                 var camera = Camera.main;
                 if (activeCameras.Add(camera))
                 {

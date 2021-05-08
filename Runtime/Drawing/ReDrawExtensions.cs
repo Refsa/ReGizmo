@@ -183,5 +183,33 @@ namespace ReGizmo.Drawing
             Line(p3, p4, color, 1f);
             Line(p4, p1, color, 1f);
         }
+
+        public static void Circle(Vector3 position, Vector3 normal, float radius, float thickness, Color color)
+        {
+            if (ReGizmoResolver<ReGizmoCircleDrawer>.TryGet(out var drawer))
+            {
+                ref var data = ref drawer.GetShaderData();
+
+                data.Position = position;
+                data.Normal = normal;
+                data.Radius = radius;
+                data.Thickness = thickness;
+                data.Color = new Vector3(color.r, color.g, color.b);
+            }
+        }
+
+        public static void Triangle(Vector3 position, Vector3 normal, float width, float thickness, Color color)
+        {
+            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            {
+                ref var data = ref drawer.GetShaderData();
+
+                data.Position = position;
+                data.Normal = normal;
+                data.Width = width;
+                data.Thickness = thickness;
+                data.Color = new Vector3(color.r, color.g, color.b);
+            }
+        }
     }
 }
