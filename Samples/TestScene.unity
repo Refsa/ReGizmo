@@ -636,7 +636,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: Hello World
-  fontSize: 39
+  fontSize: 8
 --- !u!4 &1919104112
 Transform:
   m_ObjectHideFlags: 0

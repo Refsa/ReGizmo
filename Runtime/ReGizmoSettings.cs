@@ -16,9 +16,11 @@ namespace ReGizmo
 
         [SerializeField] Font font;
         [SerializeField] ReSDFData sdfFont;
+        [SerializeField] bool fontSuperSample;
 
         public static Font Font => instance.font;
         public static ReSDFData SDFFont => instance.sdfFont;
+        public static bool FontSuperSample => instance.fontSuperSample;
 
         public static void SetFont(Font font)
         {
@@ -36,6 +38,11 @@ namespace ReGizmo
             }
         }
 
+        public static void ToggleFontSuperSampling()
+        {
+            instance.fontSuperSample = !instance.fontSuperSample;
+        }
+
         public static void Load()
         {
             if (instance != null) return;
@@ -49,12 +56,12 @@ namespace ReGizmo
         {
             if (font == null)
             {
-                font = ReGizmoHelpers.LoadAssetByName<Font>("secrcode");
+                font = ReGizmoHelpers.LoadAssetByName<Font>("Inter-Medium");
             }
 
             if (sdfFont == null)
             {
-                sdfFont = ReGizmoHelpers.LoadAssetByName<ReSDFData>("secrcode");
+                sdfFont = ReGizmoHelpers.LoadAssetByName<ReSDFData>("Inter-Medium");
             }
         }
     }

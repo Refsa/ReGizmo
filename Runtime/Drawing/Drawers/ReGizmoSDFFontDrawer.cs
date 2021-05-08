@@ -11,8 +11,6 @@ namespace ReGizmo.Drawing
         protected override string PropertiesName { get; } = "_CharData";
 
         ReSDFData font;
-        Texture2D runtimeTexture;
-        Texture2DArray runtimeTextureArray;
 
         ComputeBuffer characterInfoBuffer;
         CharacterInfoShader[] characterInfos;
@@ -26,9 +24,6 @@ namespace ReGizmo.Drawing
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Font_SDF");
             this.font = font;
             renderArguments[1] = 1;
-
-            runtimeTexture = font.GetTexture();
-            runtimeTextureArray = font.GetTextureArray();
 
             SetupCharacterData();
         }
@@ -112,14 +107,13 @@ namespace ReGizmo.Drawing
         {
             base.SetMaterialPropertyBlockData();
 
-            if (runtimeTexture == null)
+            if (ReGizmoSettings.FontSuperSample)
             {
-                runtimeTexture = font.GetTexture();
+                material.EnableKeyword("SDF_SS");
             }
-
-            if (runtimeTextureArray == null)
+            else
             {
-                runtimeTextureArray = font.GetTextureArray();
+                material.DisableKeyword("SDF_SS");
             }
 
             materialPropertyBlock.SetBuffer("_CharacterInfos", characterInfoBuffer);
@@ -129,8 +123,7 @@ namespace ReGizmo.Drawing
             materialPropertyBlock.SetVector("_AtlasDimensions", new Vector2(font.Font.atlas.width, font.Font.atlas.height));
             materialPropertyBlock.SetFloat("_AtlasSize", font.Font.atlas.size);
 
-            materialPropertyBlock.SetTexture("_MainTex", runtimeTexture);
-            materialPropertyBlock.SetTexture("_FontTexArray", runtimeTextureArray);
+            materialPropertyBlock.SetTexture("_MainTex", font.GetTexture());
         }
 
         public override void Dispose()

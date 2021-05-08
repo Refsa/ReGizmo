@@ -23,14 +23,14 @@ namespace ReGizmo.Editor.Preferences
                 new SettingsProvider("Preferences/ReGizmo", SettingsScope.User)
                 {
                     label = "ReGizmo",
-                    keywords = new HashSet<string>(new[] {"ReGizmo", "Gizmos"}),
+                    keywords = new HashSet<string>(new[] { "ReGizmo", "Gizmos" }),
                     activateHandler = PreferencedTabUI
                 };
 
             return provider;
         }
 
-        static readonly VisualElement smallSpace = new VisualElement {style = {height = 25f}};
+        static readonly VisualElement smallSpace = new VisualElement { style = { height = 25f } };
 
         static void PreferencedTabUI(string context, VisualElement root)
         {
@@ -96,7 +96,7 @@ namespace ReGizmo.Editor.Preferences
                         return;
                     }
 
-                    ReGizmoSettings.SetFont((Font) ce.newValue);
+                    ReGizmoSettings.SetFont((Font)ce.newValue);
                     ReGizmoEditorUtils.SaveAsset(ReGizmoSettings.Instance);
                     Core.ReGizmo.Reload();
                 });
@@ -115,9 +115,18 @@ namespace ReGizmo.Editor.Preferences
                         return;
                     }
 
-                    ReGizmoSettings.SetSDFFont((ReSDFData) ce.newValue);
+                    ReGizmoSettings.SetSDFFont((ReSDFData)ce.newValue);
                     ReGizmoEditorUtils.SaveAsset(ReGizmoSettings.Instance);
                     Core.ReGizmo.Reload();
+                });
+            }
+
+            var fontSuperSampleToggle = new Toggle("Font Super Sampling");
+            {
+                fontSuperSampleToggle.value = ReGizmoSettings.FontSuperSample;
+                fontSuperSampleToggle.RegisterValueChangedCallback(ce =>
+                {
+                    ReGizmo.ReGizmoSettings.ToggleFontSuperSampling();
                 });
             }
 
@@ -128,6 +137,7 @@ namespace ReGizmo.Editor.Preferences
             contentContainer.Add(enableRuntimeToggle);
             contentContainer.Add(defaultFontSelection);
             contentContainer.Add(defaultSDFFontSelection);
+            contentContainer.Add(fontSuperSampleToggle);
             contentContainer.Add(openSDFFontWindow);
         }
 
