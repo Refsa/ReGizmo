@@ -73,7 +73,7 @@ namespace ReGizmo.Editor
 
             if (obj is Font font)
             {
-                CreateSDFAsset(font, Format.mtsdf, 64, 4);
+                CreateSDFAsset(font, Format.mtsdf, 128, 4);
             }
             else
             {
@@ -87,7 +87,7 @@ namespace ReGizmo.Editor
                 EditorUtility.SaveFolderPanel("Font Save Path", "SDF", "");
             string localSavePath = savePath.Replace(Application.dataPath, "Assets/") + "/";
 
-            if (string.IsNullOrEmpty(savePath))
+            if (string.IsNullOrEmpty(savePath)) 
             {
                 throw new DirectoryNotFoundException(savePath);
             }
@@ -103,53 +103,23 @@ namespace ReGizmo.Editor
                 targetFont, format, size, pxRange,
                 savePath, atlasFileName, dataFileName);
 
-            string jsonData = mainJson.text;
-            AssetDatabase.DeleteAsset(atlasDataSavePath);
-
-            List<Texture2D> mips = new List<Texture2D>();
-
-            int mipLevel = 1;
-            do
-            {
-                size /= 2;
-                string mipSuffix = $"mip_{mipLevel++}";
-                string dataPath = dataFileName.Replace(".json", "_" + mipSuffix + ".json");
-
-                (Texture2D mipTex, TextAsset json) = Generate(
-                    targetFont, format, size, pxRange,
-                    savePath,
-                    atlasFileName.Replace(".png", "_" + mipSuffix + ".png"),
-                    dataPath);
-
-                AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(json));
-
-                mips.Add(mipTex);
-            } while (size > minGlyphSize);
-
-            //CleanupOldAssets(atlasSavePath, atlasDataSavePath);
-
             ReSDFData sdfAsset = null;
 
             if (AssetDatabase.LoadAssetAtPath<ReSDFData>(sdfAssetPath) is ReSDFData current)
             {
-                sdfAsset = current;
-                sdfAsset.Setup(mainTex, jsonData);
+                sdfAsset = current; 
+                sdfAsset.Setup(mainTex, mainJson.text);
                 ReGizmoEditorUtils.SaveAsset(sdfAsset);
             }
             else
             {
                 sdfAsset = ScriptableObject.CreateInstance<ReSDFData>();
-                sdfAsset.Setup(mainTex, jsonData);
+                sdfAsset.Setup(mainTex, mainJson.text);
                 AssetDatabase.CreateAsset(sdfAsset, sdfAssetPath);
             }
 
-            sdfAsset.ClearMips();
-            foreach (var mip in mips)
-            {
-                sdfAsset.AddMipTexture(mip);
-            }
+            AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(mainJson));
             AssetDatabase.Refresh();
-
             Core.ReGizmo.Reload();
 
             return sdfAsset;

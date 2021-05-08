@@ -8,35 +8,14 @@ namespace ReGizmo.Core.Fonts
     public class ReSDFData : ScriptableObject
     {
         [SerializeField] Texture2D image;
-        [SerializeField] List<Texture2D> mipmaps;
         [SerializeField] MSDF.Font font;
-
-        Texture2D runtimeTexture;
-        Texture2DArray runtimeTextureArray;
 
         public MSDF.Font Font => font;
 
         public void Setup(Texture2D image, string jsonInfo)
         {
-            if (mipmaps == null) mipmaps = new List<Texture2D>();
-
             this.image = image;
             ParseJson(jsonInfo);
-        }
-
-        public void SetMipTexture(int mip, Texture2D texture)
-        {
-            mipmaps[mip] = texture;
-        }
-
-        public void AddMipTexture(Texture2D texture)
-        {
-            mipmaps.Add(texture);
-        }
-
-        public void ClearMips()
-        {
-            mipmaps.Clear();
         }
 
         void ParseJson(string jsonInfo)
@@ -51,50 +30,7 @@ namespace ReGizmo.Core.Fonts
             return glyph != null;
         }
 
-        public Texture2D GetTexture()
-        {
-            //return image;
-
-            runtimeTexture = new Texture2D(image.width, image.height, TextureFormat.RGBA32, mipmaps.Count + 1, true);
-            runtimeTexture.SetPixels(image.GetPixels(), 0);
-            for (int i = 0; i < mipmaps.Count; i++)
-            {
-                runtimeTexture.SetPixels(mipmaps[i].GetPixels(), i + 1);
-            }
-            runtimeTexture.Apply(true, true);
-
-            return runtimeTexture;
-        }
-
-        public Texture2DArray GetTextureArray()
-        {
-            Material scaler = new Material(Shader.Find("Hidden/ReGizmo/TextureScaler"));
-            var rt = RenderTexture.GetTemporary(image.width, image.height, 0, RenderTextureFormat.ARGB32);
-            rt.enableRandomWrite = true;
-            rt.Create();
-
-            runtimeTextureArray = new Texture2DArray(image.width, image.height, mipmaps.Count + 1, TextureFormat.RGBA32, false, true);
-            Graphics.CopyTexture(
-                image, 0, 0, 0, 0, image.width, image.height,
-                runtimeTextureArray, 0, 0, 0, 0);
-
-            var activeRT = RenderTexture.active;
-
-            for (int i = 0; i < mipmaps.Count; i++)
-            {
-                //Graphics.CopyTexture(mipmaps[i], 0, runtimeTextureArray, i + 1);
-
-                Graphics.CopyTexture(
-                    mipmaps[i], 0, 0, 0, 0, mipmaps[i].width, mipmaps[i].height,
-                    runtimeTextureArray, i + 1, 0, 0, 0
-                );
-            }
-
-            RenderTexture.active = activeRT;
-            RenderTexture.ReleaseTemporary(rt);
-            runtimeTextureArray.Apply();
-            return runtimeTextureArray;
-        }
+        public Texture2D GetTexture() => image;
     }
 
     namespace MSDF

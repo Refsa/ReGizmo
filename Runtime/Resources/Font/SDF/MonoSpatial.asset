@@ -13,17 +13,13 @@ MonoBehaviour:
   m_Name: MonoSpatial
   m_EditorClassIdentifier: 
   image: {fileID: 2800000, guid: e07640dff1da4f84f9b32fb34f63de75, type: 3}
-  mipmaps:
-  - {fileID: 2800000, guid: eaaaa6271eaaff5448375c8af4fa3b29, type: 3}
-  - {fileID: 2800000, guid: cd7a3e82626715d4eae7c4e3d4d57880, type: 3}
-  - {fileID: 2800000, guid: 9900095151fa6194a80b13abd11e8d77, type: 3}
   font:
     atlas:
       type: mtsdf
-      distanceRange: 4
-      size: 128
-      width: 1024
-      height: 1024
+      distanceRange: 2
+      size: 32
+      width: 256
+      height: 256
       yOrigin: bottom
     metrics:
       lineHeight: 1.178
@@ -47,1128 +43,1128 @@ MonoBehaviour:
     - unicode: 33
       advance: 0.488
       planeBounds:
-        left: 0.1736875
-        bottom: -0.0291875
-        right: 0.3143125
-        top: 0.7051875
+        left: 0.15025
+        bottom: -0.052625
+        right: 0.33775
+        top: 0.728625
       atlasBounds:
-        left: 424.5
-        bottom: 808.5
-        right: 442.5
-        top: 902.5
+        left: 183.5
+        bottom: 230.5
+        right: 189.5
+        top: 255.5
     - unicode: 34
       advance: 0.488
       planeBounds:
-        left: 0.11509375
-        bottom: 0.425375
-        right: 0.37290624
-        top: 0.706625
+        left: 0.08775
+        bottom: 0.40975
+        right: 0.40025
+        top: 0.72225
       atlasBounds:
-        left: 253.5
-        bottom: 581.5
-        right: 286.5
-        top: 617.5
+        left: 23.5
+        bottom: 113.5
+        right: 33.5
+        top: 123.5
     - unicode: 35
       advance: 0.488
       planeBounds:
-        left: -0.00209375
-        bottom: -0.01878125
-        right: 0.49009374
-        top: 0.70778126
+        left: -0.021625
+        bottom: -0.046125
+        right: 0.509625
+        top: 0.735125
       atlasBounds:
-        left: 839.5
-        bottom: 809.5
-        right: 902.5
-        top: 902.5
+        left: 190.5
+        bottom: 230.5
+        right: 207.5
+        top: 255.5
     - unicode: 36
       advance: 0.488
       planeBounds:
-        left: 0.0565
-        bottom: -0.080375
-        right: 0.4315
-        top: 0.763375
+        left: 0.040875
+        bottom: -0.096
+        right: 0.447125
+        top: 0.779
       atlasBounds:
-        left: 301.5
-        bottom: 915.5
-        right: 349.5
-        top: 1023.5
+        left: 95.5
+        bottom: 227.5
+        right: 108.5
+        top: 255.5
     - unicode: 37
       advance: 0.488
       planeBounds:
-        left: -0.01771875
-        bottom: -0.0305
-        right: 0.50571877
-        top: 0.7195
+        left: -0.03725
+        bottom: -0.046125
+        right: 0.52525
+        top: 0.735125
       atlasBounds:
-        left: 608.5
-        bottom: 927.5
-        right: 675.5
-        top: 1023.5
+        left: 208.5
+        bottom: 230.5
+        right: 226.5
+        top: 255.5
     - unicode: 38
       advance: 0.488
       planeBounds:
-        left: -0.021125
-        bottom: -0.0305
-        right: 0.510125
-        top: 0.7195
+        left: -0.03675
+        bottom: -0.046125
+        right: 0.52575
+        top: 0.735125
       atlasBounds:
-        left: 676.5
-        bottom: 927.5
-        right: 744.5
-        top: 1023.5
+        left: 227.5
+        bottom: 230.5
+        right: 245.5
+        top: 255.5
     - unicode: 39
       advance: 0.488
       planeBounds:
-        left: 0.19321875
-        bottom: 0.425375
-        right: 0.29478124
-        top: 0.706625
+        left: 0.165875
+        bottom: 0.40975
+        right: 0.322125
+        top: 0.72225
       atlasBounds:
-        left: 1007.5
-        bottom: 987.5
-        right: 1020.5
-        top: 1023.5
+        left: 17.5
+        bottom: 113.5
+        right: 22.5
+        top: 123.5
     - unicode: 40
       advance: 0.488
       planeBounds:
-        left: 0.11559375
-        bottom: -0.1595
-        right: 0.37340626
-        top: 0.7155
+        left: 0.08825
+        bottom: -0.175125
+        right: 0.40075
+        top: 0.731125
       atlasBounds:
-        left: 178.5
-        bottom: 911.5
-        right: 211.5
-        top: 1023.5
+        left: 55.5
+        bottom: 226.5
+        right: 65.5
+        top: 255.5
     - unicode: 41
       advance: 0.488
       planeBounds:
-        left: 0.11559375
-        bottom: -0.159
-        right: 0.37340626
-        top: 0.716
+        left: 0.08825
+        bottom: -0.174625
+        right: 0.40075
+        top: 0.731625
       atlasBounds:
-        left: 212.5
-        bottom: 911.5
-        right: 245.5
-        top: 1023.5
+        left: 66.5
+        bottom: 226.5
+        right: 76.5
+        top: 255.5
     - unicode: 42
       advance: 0.488
       planeBounds:
-        left: 0.07653125
-        bottom: 0.299375
-        right: 0.41246876
-        top: 0.705625
+        left: 0.057
+        bottom: 0.28375
+        right: 0.432
+        top: 0.72125
       atlasBounds:
-        left: 151.5
-        bottom: 565.5
-        right: 194.5
-        top: 617.5
+        left: 224.5
+        bottom: 131.5
+        right: 236.5
+        top: 145.5
     - unicode: 43
       advance: 0.488
       planeBounds:
-        left: 0.02134375
-        bottom: 0.10740625
-        right: 0.46665624
-        top: 0.59959376
+        left: -0.006
+        bottom: 0.087875
+        right: 0.494
+        top: 0.619125
       atlasBounds:
-        left: 93.5
-        bottom: 554.5
-        right: 150.5
-        top: 617.5
+        left: 190.5
+        bottom: 128.5
+        right: 206.5
+        top: 145.5
     - unicode: 44
       advance: 0.488
       planeBounds:
-        left: 0.1741875
-        bottom: -0.1325
-        right: 0.3148125
-        top: 0.1175
+        left: 0.15075
+        bottom: -0.148125
+        right: 0.33825
+        top: 0.133125
       atlasBounds:
-        left: 287.5
-        bottom: 585.5
-        right: 305.5
-        top: 617.5
+        left: 246.5
+        bottom: 238.5
+        right: 252.5
+        top: 247.5
     - unicode: 45
       advance: 0.488
       planeBounds:
-        left: 0.05146875
-        bottom: 0.22421876
-        right: 0.34053126
-        top: 0.32578126
+        left: 0.024125
+        bottom: 0.196875
+        right: 0.367875
+        top: 0.353125
       atlasBounds:
-        left: 979.5
-        bottom: 647.5
-        right: 1016.5
-        top: 660.5
+        left: 237.5
+        bottom: 132.5
+        right: 248.5
+        top: 137.5
     - unicode: 46
       advance: 0.488
       planeBounds:
-        left: 0.0581875
-        bottom: -0.032125
-        right: 0.1988125
-        top: 0.124125
+        left: 0.03475
+        bottom: -0.04775
+        right: 0.22225
+        top: 0.13975
       atlasBounds:
-        left: 960.5
-        bottom: 640.5
-        right: 978.5
-        top: 660.5
+        left: 246.5
+        bottom: 231.5
+        right: 252.5
+        top: 237.5
     - unicode: 47
       advance: 0.488
       planeBounds:
-        left: 0.0643125
-        bottom: -0.0305
-        right: 0.4236875
-        top: 0.7195
+        left: 0.040875
+        bottom: -0.046125
+        right: 0.447125
+        top: 0.735125
       atlasBounds:
-        left: 745.5
-        bottom: 927.5
-        right: 791.5
-        top: 1023.5
+        left: 59.5
+        bottom: 198.5
+        right: 72.5
+        top: 223.5
     - unicode: 48
       advance: 0.488
       planeBounds:
-        left: 0.02525
-        bottom: -0.0305
-        right: 0.46275
-        top: 0.7195
+        left: 0.009625
+        bottom: -0.046125
+        right: 0.478375
+        top: 0.735125
       atlasBounds:
-        left: 792.5
-        bottom: 927.5
-        right: 848.5
-        top: 1023.5
+        left: 88.5
+        bottom: 198.5
+        right: 103.5
+        top: 223.5
     - unicode: 49
       advance: 0.488
       planeBounds:
-        left: 0.06821875
-        bottom: -0.01678125
-        right: 0.41978124
-        top: 0.7097812
+        left: 0.040875
+        bottom: -0.044125
+        right: 0.447125
+        top: 0.737125
       atlasBounds:
-        left: 912.5
-        bottom: 712.5
-        right: 957.5
-        top: 805.5
+        left: 119.5
+        bottom: 198.5
+        right: 132.5
+        top: 223.5
     - unicode: 50
       advance: 0.488
       planeBounds:
-        left: 0.0565
-        bottom: -0.0161875
-        right: 0.4315
-        top: 0.7181875
+        left: 0.040875
+        bottom: -0.039625
+        right: 0.447125
+        top: 0.741625
       atlasBounds:
-        left: 443.5
-        bottom: 808.5
-        right: 491.5
-        top: 902.5
+        left: 149.5
+        bottom: 198.5
+        right: 162.5
+        top: 223.5
     - unicode: 51
       advance: 0.488
       planeBounds:
-        left: 0.0565
-        bottom: -0.0305
-        right: 0.4315
-        top: 0.7195
+        left: 0.040875
+        bottom: -0.046125
+        right: 0.447125
+        top: 0.735125
       atlasBounds:
-        left: 849.5
-        bottom: 927.5
-        right: 897.5
-        top: 1023.5
+        left: 163.5
+        bottom: 198.5
+        right: 176.5
+        top: 223.5
     - unicode: 52
       advance: 0.488
       planeBounds:
-        left: 0.02184375
-        bottom: -0.01878125
-        right: 0.46715626
-        top: 0.70778126
+        left: -0.0055
+        bottom: -0.046125
+        right: 0.4945
+        top: 0.735125
       atlasBounds:
-        left: 122.5
-        bottom: 618.5
-        right: 179.5
-        top: 711.5
+        left: 177.5
+        bottom: 198.5
+        right: 193.5
+        top: 223.5
     - unicode: 53
       advance: 0.488
       planeBounds:
-        left: 0.06090625
-        bottom: -0.0291875
-        right: 0.42809376
-        top: 0.7051875
+        left: 0.041375
+        bottom: -0.052625
+        right: 0.447625
+        top: 0.728625
       atlasBounds:
-        left: 492.5
-        bottom: 808.5
-        right: 539.5
-        top: 902.5
+        left: 208.5
+        bottom: 198.5
+        right: 221.5
+        top: 223.5
     - unicode: 54
       advance: 0.488
       planeBounds:
-        left: 0.03696875
-        bottom: -0.0305
-        right: 0.45103124
-        top: 0.7195
+        left: 0.009625
+        bottom: -0.046125
+        right: 0.478375
+        top: 0.735125
       atlasBounds:
-        left: 898.5
-        bottom: 927.5
-        right: 951.5
-        top: 1023.5
+        left: 120.5
+        bottom: 172.5
+        right: 135.5
+        top: 197.5
     - unicode: 55
       advance: 0.488
       planeBounds:
-        left: 0.04478125
-        bottom: -0.01878125
-        right: 0.44321874
-        top: 0.70778126
+        left: 0.02525
+        bottom: -0.046125
+        right: 0.46275
+        top: 0.735125
       atlasBounds:
-        left: 180.5
-        bottom: 618.5
-        right: 231.5
-        top: 711.5
+        left: 152.5
+        bottom: 146.5
+        right: 166.5
+        top: 171.5
     - unicode: 56
       advance: 0.488
       planeBounds:
-        left: 0.0330625
-        bottom: -0.0305
-        right: 0.4549375
-        top: 0.7195
+        left: 0.009625
+        bottom: -0.046125
+        right: 0.478375
+        top: 0.735125
       atlasBounds:
-        left: 952.5
-        bottom: 927.5
-        right: 1006.5
-        top: 1023.5
+        left: 167.5
+        bottom: 146.5
+        right: 182.5
+        top: 171.5
     - unicode: 57
       advance: 0.488
       planeBounds:
-        left: 0.03696875
-        bottom: -0.0295
-        right: 0.45103124
-        top: 0.7205
+        left: 0.009625
+        bottom: -0.045125
+        right: 0.478375
+        top: 0.736125
       atlasBounds:
-        left: 0.5
-        bottom: 806.5
-        right: 53.5
-        top: 902.5
+        left: 183.5
+        bottom: 146.5
+        right: 198.5
+        top: 171.5
     - unicode: 58
       advance: 0.488
       planeBounds:
-        left: 0.1736875
-        bottom: -0.02725
-        right: 0.3143125
-        top: 0.53525
+        left: 0.15025
+        bottom: -0.042875
+        right: 0.33775
+        top: 0.550875
       atlasBounds:
-        left: 941.5
-        bottom: 639.5
-        right: 959.5
-        top: 711.5
+        left: 155.5
+        bottom: 126.5
+        right: 161.5
+        top: 145.5
     - unicode: 59
       advance: 0.488
       planeBounds:
-        left: 0.1736875
-        bottom: -0.13103124
-        right: 0.3143125
-        top: 0.5330312
+        left: 0.15025
+        bottom: -0.158375
+        right: 0.33775
+        top: 0.560375
       atlasBounds:
-        left: 232.5
-        bottom: 626.5
-        right: 250.5
-        top: 711.5
+        left: 199.5
+        bottom: 148.5
+        right: 205.5
+        top: 171.5
     - unicode: 60
       advance: 0.488
       planeBounds:
-        left: 0.0643125
-        bottom: 0.0946875
-        right: 0.4236875
-        top: 0.6103125
+        left: 0.040875
+        bottom: 0.07125
+        right: 0.447125
+        top: 0.63375
       atlasBounds:
-        left: 0.5
-        bottom: 551.5
-        right: 46.5
-        top: 617.5
+        left: 162.5
+        bottom: 127.5
+        right: 175.5
+        top: 145.5
     - unicode: 61
       advance: 0.488
       planeBounds:
-        left: 0.02134375
-        bottom: 0.20846875
-        right: 0.46665624
-        top: 0.49753124
+        left: -0.006
+        bottom: 0.181125
+        right: 0.494
+        top: 0.524875
       atlasBounds:
-        left: 195.5
-        bottom: 580.5
-        right: 252.5
-        top: 617.5
+        left: 0.5
+        bottom: 112.5
+        right: 16.5
+        top: 123.5
     - unicode: 62
       advance: 0.488
       planeBounds:
-        left: 0.06821875
-        bottom: 0.0946875
-        right: 0.41978124
-        top: 0.6103125
+        left: 0.040875
+        bottom: 0.07125
+        right: 0.447125
+        top: 0.63375
       atlasBounds:
-        left: 47.5
-        bottom: 551.5
-        right: 92.5
-        top: 617.5
+        left: 176.5
+        bottom: 127.5
+        right: 189.5
+        top: 145.5
     - unicode: 63
       advance: 0.488
       planeBounds:
-        left: 0.07653125
-        bottom: -0.0305
-        right: 0.41246876
-        top: 0.7195
+        left: 0.057
+        bottom: -0.046125
+        right: 0.432
+        top: 0.735125
       atlasBounds:
-        left: 54.5
-        bottom: 806.5
-        right: 97.5
-        top: 902.5
+        left: 139.5
+        bottom: 146.5
+        right: 151.5
+        top: 171.5
     - unicode: 64
       advance: 0.488
       planeBounds:
-        left: 0.0018125
-        bottom: -0.12284375
-        right: 0.4861875
-        top: 0.68184376
+        left: -0.021625
+        bottom: -0.142375
+        right: 0.509625
+        top: 0.701375
       atlasBounds:
-        left: 350.5
-        bottom: 920.5
-        right: 412.5
-        top: 1023.5
+        left: 109.5
+        bottom: 228.5
+        right: 126.5
+        top: 255.5
     - unicode: 65
       advance: 0.488
       planeBounds:
-        left: -0.0138125
-        bottom: -0.01878125
-        right: 0.5018125
-        top: 0.70778126
+        left: -0.03725
+        bottom: -0.046125
+        right: 0.52525
+        top: 0.735125
       atlasBounds:
-        left: 0.5
-        bottom: 618.5
-        right: 66.5
-        top: 711.5
+        left: 237.5
+        bottom: 198.5
+        right: 255.5
+        top: 223.5
     - unicode: 66
       advance: 0.488
       planeBounds:
-        left: 0.03696875
-        bottom: -0.01878125
-        right: 0.45103124
-        top: 0.70778126
+        left: 0.009625
+        bottom: -0.046125
+        right: 0.478375
+        top: 0.735125
       atlasBounds:
-        left: 970.5
-        bottom: 809.5
-        right: 1023.5
-        top: 902.5
+        left: 91.5
+        bottom: 146.5
+        right: 106.5
+        top: 171.5
     - unicode: 67
       advance: 0.488
       planeBounds:
-        left: 0.02525
-        bottom: -0.0305
-        right: 0.46275
-        top: 0.7195
+        left: 0.009625
+        bottom: -0.046125
+        right: 0.478375
+        top: 0.735125
       atlasBounds:
-        left: 98.5
-        bottom: 806.5
-        right: 154.5
-        top: 902.5
+        left: 75.5
+        bottom: 146.5
+        right: 90.5
+        top: 171.5
     - unicode: 68
       advance: 0.488
       planeBounds:
-        left: 0.0335625
-        bottom: -0.01878125
-        right: 0.4554375
-        top: 0.70778126
+        left: 0.010125
+        bottom: -0.046125
+        right: 0.478875
+        top: 0.735125
       atlasBounds:
-        left: 857.5
-        bottom: 712.5
-        right: 911.5
-        top: 805.5
+        left: 59.5
+        bottom: 146.5
+        right: 74.5
+        top: 171.5
     - unicode: 69
       advance: 0.488
       planeBounds:
-        left: 0.06821875
-        bottom: -0.01878125
-        right: 0.41978124
-        top: 0.70778126
+        left: 0.040875
+        bottom: -0.046125
+        right: 0.447125
+        top: 0.735125
       atlasBounds:
-        left: 811.5
-        bottom: 712.5
-        right: 856.5
-        top: 805.5
+        left: 45.5
+        bottom: 146.5
+        right: 58.5
+        top: 171.5
     - unicode: 70
       advance: 0.488
       planeBounds:
-        left: 0.0648125
-        bottom: -0.01878125
-        right: 0.4241875
-        top: 0.70778126
+        left: 0.041375
+        bottom: -0.046125
+        right: 0.447625
+        top: 0.735125
       atlasBounds:
-        left: 764.5
-        bottom: 712.5
-        right: 810.5
-        top: 805.5
+        left: 31.5
+        bottom: 146.5
+        right: 44.5
+        top: 171.5
     - unicode: 71
       advance: 0.488
       planeBounds:
-        left: 0.02575
-        bottom: -0.0305
-        right: 0.46325
-        top: 0.7195
+        left: 0.010125
+        bottom: -0.046125
+        right: 0.478875
+        top: 0.735125
       atlasBounds:
-        left: 155.5
-        bottom: 806.5
-        right: 211.5
-        top: 902.5
+        left: 15.5
+        bottom: 146.5
+        right: 30.5
+        top: 171.5
     - unicode: 72
       advance: 0.488
       planeBounds:
-        left: 0.05259375
-        bottom: -0.01878125
-        right: 0.43540624
-        top: 0.70778126
+        left: 0.02525
+        bottom: -0.046125
+        right: 0.46275
+        top: 0.735125
       atlasBounds:
-        left: 661.5
-        bottom: 712.5
-        right: 710.5
-        top: 805.5
+        left: 0.5
+        bottom: 146.5
+        right: 14.5
+        top: 171.5
     - unicode: 73
       advance: 0.488
       planeBounds:
-        left: 0.08825
-        bottom: -0.01878125
-        right: 0.40075
-        top: 0.70778126
+        left: 0.072625
+        bottom: -0.046125
+        right: 0.416375
+        top: 0.735125
       atlasBounds:
-        left: 620.5
-        bottom: 712.5
-        right: 660.5
-        top: 805.5
+        left: 244.5
+        bottom: 172.5
+        right: 255.5
+        top: 197.5
     - unicode: 74
       advance: 0.488
       planeBounds:
-        left: 0.07653125
-        bottom: -0.0291875
-        right: 0.41246876
-        top: 0.7051875
+        left: 0.057
+        bottom: -0.052625
+        right: 0.432
+        top: 0.728625
       atlasBounds:
-        left: 692.5
-        bottom: 808.5
-        right: 735.5
-        top: 902.5
+        left: 231.5
+        bottom: 172.5
+        right: 243.5
+        top: 197.5
     - unicode: 75
       advance: 0.488
       planeBounds:
-        left: 0.009625
-        bottom: -0.01878125
-        right: 0.478375
-        top: 0.70778126
+        left: -0.006
+        bottom: -0.046125
+        right: 0.494
+        top: 0.735125
       atlasBounds:
-        left: 496.5
-        bottom: 712.5
-        right: 556.5
-        top: 805.5
+        left: 214.5
+        bottom: 172.5
+        right: 230.5
+        top: 197.5
     - unicode: 76
       advance: 0.488
       planeBounds:
-        left: 0.06040625
-        bottom: -0.01878125
-        right: 0.42759374
-        top: 0.70778126
+        left: 0.040875
+        bottom: -0.046125
+        right: 0.447125
+        top: 0.735125
       atlasBounds:
-        left: 448.5
-        bottom: 712.5
-        right: 495.5
-        top: 805.5
+        left: 200.5
+        bottom: 172.5
+        right: 213.5
+        top: 197.5
     - unicode: 77
       advance: 0.488
       planeBounds:
-        left: 0.01353125
-        bottom: -0.01878125
-        right: 0.47446874
-        top: 0.70778126
+        left: -0.006
+        bottom: -0.046125
+        right: 0.494
+        top: 0.735125
       atlasBounds:
-        left: 388.5
-        bottom: 712.5
-        right: 447.5
-        top: 805.5
+        left: 183.5
+        bottom: 172.5
+        right: 199.5
+        top: 197.5
     - unicode: 78
       advance: 0.488
       planeBounds:
-        left: 0.040875
-        bottom: -0.01878125
-        right: 0.447125
-        top: 0.70778126
+        left: 0.02525
+        bottom: -0.046125
+        right: 0.46275
+        top: 0.735125
       atlasBounds:
-        left: 335.5
-        bottom: 712.5
-        right: 387.5
-        top: 805.5
+        left: 168.5
+        bottom: 172.5
+        right: 182.5
+        top: 197.5
     - unicode: 79
       advance: 0.488
       planeBounds:
-        left: 0.0174375
-        bottom: -0.0305
-        right: 0.4705625
-        top: 0.7195
+        left: -0.006
+        bottom: -0.046125
+        right: 0.494
+        top: 0.735125
       atlasBounds:
-        left: 212.5
-        bottom: 806.5
-        right: 270.5
-        top: 902.5
+        left: 151.5
+        bottom: 172.5
+        right: 167.5
+        top: 197.5
     - unicode: 80
       advance: 0.488
       planeBounds:
-        left: 0.05259375
-        bottom: -0.01878125
-        right: 0.43540624
-        top: 0.70778126
+        left: 0.02525
+        bottom: -0.046125
+        right: 0.46275
+        top: 0.735125
       atlasBounds:
-        left: 241.5
-        bottom: 712.5
-        right: 290.5
-        top: 805.5
+        left: 136.5
+        bottom: 172.5
+        right: 150.5
+        top: 197.5
     - unicode: 81
       advance: 0.488
       planeBounds:
-        left: 0.0184375
-        bottom: -0.20934375
-        right: 0.4715625
-        top: 0.72034377
+        left: -0.005
+        bottom: -0.228875
+        right: 0.495
+        top: 0.739875
       atlasBounds:
-        left: 33.5
-        bottom: 904.5
-        right: 91.5
-        top: 1023.5
+        left: 0.5
+        bottom: 224.5
+        right: 16.5
+        top: 255.5
     - unicode: 82
       advance: 0.488
       planeBounds:
-        left: 0.0179375
-        bottom: -0.01878125
-        right: 0.4710625
-        top: 0.70778126
+        left: -0.0055
+        bottom: -0.046125
+        right: 0.4945
+        top: 0.735125
       atlasBounds:
-        left: 132.5
-        bottom: 712.5
-        right: 190.5
-        top: 805.5
+        left: 103.5
+        bottom: 172.5
+        right: 119.5
+        top: 197.5
     - unicode: 83
       advance: 0.488
       planeBounds:
-        left: 0.0565
-        bottom: -0.0305
-        right: 0.4315
-        top: 0.7195
+        left: 0.040875
+        bottom: -0.046125
+        right: 0.447125
+        top: 0.735125
       atlasBounds:
-        left: 271.5
-        bottom: 806.5
-        right: 319.5
-        top: 902.5
+        left: 89.5
+        bottom: 172.5
+        right: 102.5
+        top: 197.5
     - unicode: 84
       advance: 0.488
       planeBounds:
-        left: 0.0023125
-        bottom: -0.01878125
-        right: 0.4866875
-        top: 0.70778126
+        left: -0.021125
+        bottom: -0.046125
+        right: 0.510125
+        top: 0.735125
       atlasBounds:
-        left: 958.5
-        bottom: 712.5
-        right: 1020.5
-        top: 805.5
+        left: 71.5
+        bottom: 172.5
+        right: 88.5
+        top: 197.5
     - unicode: 85
       advance: 0.488
       planeBounds:
-        left: 0.05309375
-        bottom: -0.0291875
-        right: 0.43590626
-        top: 0.7051875
+        left: 0.02575
+        bottom: -0.052625
+        right: 0.46325
+        top: 0.728625
       atlasBounds:
-        left: 789.5
-        bottom: 808.5
-        right: 838.5
-        top: 902.5
+        left: 56.5
+        bottom: 172.5
+        right: 70.5
+        top: 197.5
     - unicode: 86
       advance: 0.488
       planeBounds:
-        left: -0.0138125
-        bottom: -0.01878125
-        right: 0.5018125
-        top: 0.70778126
+        left: -0.03725
+        bottom: -0.046125
+        right: 0.52525
+        top: 0.735125
       atlasBounds:
-        left: 903.5
-        bottom: 809.5
-        right: 969.5
-        top: 902.5
+        left: 37.5
+        bottom: 172.5
+        right: 55.5
+        top: 197.5
     - unicode: 87
       advance: 0.488
       planeBounds:
-        left: -0.0138125
-        bottom: -0.01878125
-        right: 0.5018125
-        top: 0.70778126
+        left: -0.03725
+        bottom: -0.046125
+        right: 0.52525
+        top: 0.735125
       atlasBounds:
-        left: 0.5
-        bottom: 712.5
-        right: 66.5
-        top: 805.5
+        left: 18.5
+        bottom: 172.5
+        right: 36.5
+        top: 197.5
     - unicode: 88
       advance: 0.488
       planeBounds:
-        left: -0.006
-        bottom: -0.01878125
-        right: 0.494
-        top: 0.70778126
+        left: -0.021625
+        bottom: -0.046125
+        right: 0.509625
+        top: 0.735125
       atlasBounds:
-        left: 67.5
-        bottom: 712.5
-        right: 131.5
-        top: 805.5
+        left: 107.5
+        bottom: 146.5
+        right: 124.5
+        top: 171.5
     - unicode: 89
       advance: 0.488
       planeBounds:
-        left: 0.0018125
-        bottom: -0.01878125
-        right: 0.4861875
-        top: 0.70778126
+        left: -0.021625
+        bottom: -0.046125
+        right: 0.509625
+        top: 0.735125
       atlasBounds:
-        left: 557.5
-        bottom: 712.5
-        right: 619.5
-        top: 805.5
+        left: 0.5
+        bottom: 172.5
+        right: 17.5
+        top: 197.5
     - unicode: 90
       advance: 0.488
       planeBounds:
-        left: 0.040875
-        bottom: -0.01878125
-        right: 0.447125
-        top: 0.70778126
+        left: 0.02525
+        bottom: -0.046125
+        right: 0.46275
+        top: 0.735125
       atlasBounds:
-        left: 711.5
-        bottom: 712.5
-        right: 763.5
-        top: 805.5
+        left: 222.5
+        bottom: 198.5
+        right: 236.5
+        top: 223.5
     - unicode: 91
       advance: 0.488
       planeBounds:
-        left: 0.1424375
-        bottom: -0.1511875
-        right: 0.3455625
-        top: 0.7081875
+        left: 0.119
+        bottom: -0.174625
+        right: 0.369
+        top: 0.731625
       atlasBounds:
-        left: 246.5
-        bottom: 913.5
-        right: 272.5
-        top: 1023.5
+        left: 77.5
+        bottom: 226.5
+        right: 85.5
+        top: 255.5
     - unicode: 92
       advance: 0.488
       planeBounds:
-        left: 0.0643125
-        bottom: -0.0305
-        right: 0.4236875
-        top: 0.7195
+        left: 0.040875
+        bottom: -0.046125
+        right: 0.447125
+        top: 0.735125
       atlasBounds:
-        left: 320.5
-        bottom: 806.5
-        right: 366.5
-        top: 902.5
+        left: 194.5
+        bottom: 198.5
+        right: 207.5
+        top: 223.5
     - unicode: 93
       advance: 0.488
       planeBounds:
-        left: 0.13853125
-        bottom: -0.14628126
-        right: 0.34946874
-        top: 0.70528126
+        left: 0.119
+        bottom: -0.173625
+        right: 0.369
+        top: 0.732625
       atlasBounds:
-        left: 273.5
-        bottom: 914.5
-        right: 300.5
-        top: 1023.5
+        left: 86.5
+        bottom: 226.5
+        right: 94.5
+        top: 255.5
     - unicode: 94
       advance: 0.488
       planeBounds:
-        left: 0.01403125
-        bottom: 0.3711875
-        right: 0.47496876
-        top: 0.7618125
+        left: -0.0055
+        bottom: 0.34775
+        right: 0.4945
+        top: 0.78525
       atlasBounds:
-        left: 960.5
-        bottom: 661.5
-        right: 1019.5
-        top: 711.5
+        left: 207.5
+        bottom: 131.5
+        right: 223.5
+        top: 145.5
     - unicode: 95
       advance: 0.488
       planeBounds:
-        left: -0.03675
-        bottom: -0.232375
-        right: 0.52575
-        top: -0.138625
+        left: -0.052375
+        bottom: -0.248
+        right: 0.541375
+        top: -0.123
       atlasBounds:
-        left: 195.5
-        bottom: 567.5
-        right: 267.5
-        top: 579.5
+        left: 34.5
+        bottom: 119.5
+        right: 53.5
+        top: 123.5
     - unicode: 96
       advance: 0.488
       planeBounds:
-        left: 0.13853125
-        bottom: 0.5560625
-        right: 0.34946874
-        top: 0.7279375
+        left: 0.119
+        bottom: 0.532625
+        right: 0.369
+        top: 0.751375
       atlasBounds:
-        left: 372.5
-        bottom: 595.5
-        right: 399.5
-        top: 617.5
+        left: 246.5
+        bottom: 248.5
+        right: 254.5
+        top: 255.5
     - unicode: 97
       advance: 0.488
       planeBounds:
-        left: 0.0491875
-        bottom: -0.0331875
-        right: 0.4398125
-        top: 0.5761875
+        left: 0.02575
+        bottom: -0.056625
+        right: 0.46325
+        top: 0.599625
       atlasBounds:
-        left: 251.5
-        bottom: 633.5
-        right: 301.5
-        top: 711.5
+        left: 15.5
+        bottom: 124.5
+        right: 29.5
+        top: 145.5
     - unicode: 98
       advance: 0.488
       planeBounds:
-        left: 0.040875
-        bottom: -0.0296875
-        right: 0.447125
-        top: 0.7046875
+        left: 0.02525
+        bottom: -0.053125
+        right: 0.46275
+        top: 0.728125
       atlasBounds:
-        left: 736.5
-        bottom: 808.5
-        right: 788.5
-        top: 902.5
+        left: 104.5
+        bottom: 198.5
+        right: 118.5
+        top: 223.5
     - unicode: 99
       advance: 0.488
       planeBounds:
-        left: 0.04478125
-        bottom: -0.02978125
-        right: 0.44321874
-        top: 0.5717813
+        left: 0.02525
+        bottom: -0.057125
+        right: 0.46275
+        top: 0.599125
       atlasBounds:
-        left: 359.5
-        bottom: 634.5
-        right: 410.5
-        top: 711.5
+        left: 0.5
+        bottom: 124.5
+        right: 14.5
+        top: 145.5
     - unicode: 100
       advance: 0.488
       planeBounds:
-        left: 0.040875
-        bottom: -0.0296875
-        right: 0.447125
-        top: 0.7046875
+        left: 0.02525
+        bottom: -0.053125
+        right: 0.46275
+        top: 0.728125
       atlasBounds:
-        left: 639.5
-        bottom: 808.5
-        right: 691.5
-        top: 902.5
+        left: 73.5
+        bottom: 198.5
+        right: 87.5
+        top: 223.5
     - unicode: 101
       advance: 0.488
       planeBounds:
-        left: 0.03746875
-        bottom: -0.02978125
-        right: 0.45153126
-        top: 0.5717813
+        left: 0.010125
+        bottom: -0.057125
+        right: 0.478875
+        top: 0.599125
       atlasBounds:
-        left: 411.5
-        bottom: 634.5
-        right: 464.5
-        top: 711.5
+        left: 236.5
+        bottom: 150.5
+        right: 251.5
+        top: 171.5
     - unicode: 102
       advance: 0.488
       planeBounds:
-        left: 0.05309375
-        bottom: -0.0166875
-        right: 0.43590626
-        top: 0.7176875
+        left: 0.02575
+        bottom: -0.040125
+        right: 0.46325
+        top: 0.741125
       atlasBounds:
-        left: 540.5
-        bottom: 808.5
-        right: 589.5
-        top: 902.5
+        left: 44.5
+        bottom: 198.5
+        right: 58.5
+        top: 223.5
     - unicode: 103
       advance: 0.488
       planeBounds:
-        left: 0.02915625
-        bottom: -0.18240625
-        right: 0.45884374
-        top: 0.57540625
+        left: 0.009625
+        bottom: -0.20975
+        right: 0.478375
+        top: 0.60275
       atlasBounds:
-        left: 446.5
-        bottom: 926.5
-        right: 501.5
-        top: 1023.5
+        left: 127.5
+        bottom: 229.5
+        right: 142.5
+        top: 255.5
     - unicode: 104
       advance: 0.488
       planeBounds:
-        left: 0.05259375
-        bottom: -0.01878125
-        right: 0.43540624
-        top: 0.70778126
+        left: 0.02525
+        bottom: -0.046125
+        right: 0.46275
+        top: 0.735125
       atlasBounds:
-        left: 191.5
-        bottom: 712.5
-        right: 240.5
-        top: 805.5
+        left: 13.5
+        bottom: 198.5
+        right: 27.5
+        top: 223.5
     - unicode: 105
       advance: 0.488
       planeBounds:
-        left: 0.12
-        bottom: -0.01671875
-        right: 0.37
-        top: 0.75671875
+        left: 0.104375
+        bottom: -0.03625
+        right: 0.385625
+        top: 0.77625
       atlasBounds:
-        left: 413.5
-        bottom: 924.5
-        right: 445.5
-        top: 1023.5
+        left: 143.5
+        bottom: 229.5
+        right: 152.5
+        top: 255.5
     - unicode: 106
       advance: 0.488
       planeBounds:
-        left: 0.1205
-        bottom: -0.18075
-        right: 0.3705
-        top: 0.75675
+        left: 0.104875
+        bottom: -0.196375
+        right: 0.386125
+        top: 0.772375
       atlasBounds:
-        left: 0.5
-        bottom: 903.5
-        right: 32.5
-        top: 1023.5
+        left: 17.5
+        bottom: 224.5
+        right: 26.5
+        top: 255.5
     - unicode: 107
       advance: 0.488
       planeBounds:
-        left: 0.0330625
-        bottom: -0.01878125
-        right: 0.4549375
-        top: 0.70778126
+        left: 0.009625
+        bottom: -0.046125
+        right: 0.478375
+        top: 0.735125
       atlasBounds:
-        left: 67.5
-        bottom: 618.5
-        right: 121.5
-        top: 711.5
+        left: 133.5
+        bottom: 198.5
+        right: 148.5
+        top: 223.5
     - unicode: 108
       advance: 0.488
       planeBounds:
-        left: 0.07603125
-        bottom: -0.01878125
-        right: 0.41196874
-        top: 0.70778126
+        left: 0.0565
+        bottom: -0.046125
+        right: 0.4315
+        top: 0.735125
       atlasBounds:
-        left: 291.5
-        bottom: 712.5
-        right: 334.5
-        top: 805.5
+        left: 0.5
+        bottom: 198.5
+        right: 12.5
+        top: 223.5
     - unicode: 109
       advance: 0.488
       planeBounds:
-        left: 0.0179375
-        bottom: -0.017875
-        right: 0.4710625
-        top: 0.575875
+        left: -0.0055
+        bottom: -0.0335
+        right: 0.4945
+        top: 0.5915
       atlasBounds:
-        left: 607.5
-        bottom: 635.5
-        right: 665.5
-        top: 711.5
+        left: 94.5
+        bottom: 125.5
+        right: 110.5
+        top: 145.5
     - unicode: 110
       advance: 0.488
       planeBounds:
-        left: 0.05259375
-        bottom: -0.018375
-        right: 0.43540624
-        top: 0.575375
+        left: 0.02525
+        bottom: -0.034
+        right: 0.46275
+        top: 0.591
       atlasBounds:
-        left: 513.5
-        bottom: 635.5
-        right: 562.5
-        top: 711.5
+        left: 30.5
+        bottom: 125.5
+        right: 44.5
+        top: 145.5
     - unicode: 111
       advance: 0.488
       planeBounds:
-        left: 0.02525
-        bottom: -0.02978125
-        right: 0.46275
-        top: 0.5717813
+        left: 0.009625
+        bottom: -0.057125
+        right: 0.478375
+        top: 0.599125
       atlasBounds:
-        left: 302.5
-        bottom: 634.5
-        right: 358.5
-        top: 711.5
+        left: 206.5
+        bottom: 150.5
+        right: 221.5
+        top: 171.5
     - unicode: 112
       advance: 0.488
       planeBounds:
-        left: 0.041375
-        bottom: -0.18190625
-        right: 0.447625
-        top: 0.5759063
+        left: 0.02575
+        bottom: -0.20925
+        right: 0.46325
+        top: 0.60325
       atlasBounds:
-        left: 502.5
-        bottom: 926.5
-        right: 554.5
-        top: 1023.5
+        left: 153.5
+        bottom: 229.5
+        right: 167.5
+        top: 255.5
     - unicode: 113
       advance: 0.488
       planeBounds:
-        left: 0.040875
-        bottom: -0.18290626
-        right: 0.447125
-        top: 0.57490623
+        left: 0.02525
+        bottom: -0.21025
+        right: 0.46275
+        top: 0.60225
       atlasBounds:
-        left: 555.5
-        bottom: 926.5
-        right: 607.5
-        top: 1023.5
+        left: 168.5
+        bottom: 229.5
+        right: 182.5
+        top: 255.5
     - unicode: 114
       advance: 0.488
       planeBounds:
-        left: 0.07653125
-        bottom: -0.018875
-        right: 0.41246876
-        top: 0.574875
+        left: 0.057
+        bottom: -0.0345
+        right: 0.432
+        top: 0.5905
       atlasBounds:
-        left: 563.5
-        bottom: 635.5
-        right: 606.5
-        top: 711.5
+        left: 142.5
+        bottom: 125.5
+        right: 154.5
+        top: 145.5
     - unicode: 115
       advance: 0.488
       planeBounds:
-        left: 0.06040625
-        bottom: -0.02978125
-        right: 0.42759374
-        top: 0.5717813
+        left: 0.040875
+        bottom: -0.057125
+        right: 0.447125
+        top: 0.599125
       atlasBounds:
-        left: 465.5
-        bottom: 634.5
-        right: 512.5
-        top: 711.5
+        left: 222.5
+        bottom: 150.5
+        right: 235.5
+        top: 171.5
     - unicode: 116
       advance: 0.488
       planeBounds:
-        left: 0.0565
-        bottom: -0.0301875
-        right: 0.4315
-        top: 0.7041875
+        left: 0.040875
+        bottom: -0.053625
+        right: 0.447125
+        top: 0.727625
       atlasBounds:
-        left: 590.5
-        bottom: 808.5
-        right: 638.5
-        top: 902.5
+        left: 125.5
+        bottom: 146.5
+        right: 138.5
+        top: 171.5
     - unicode: 117
       advance: 0.488
       planeBounds:
-        left: 0.05259375
-        bottom: -0.02896875
-        right: 0.43540624
-        top: 0.55696875
+        left: 0.02525
+        bottom: -0.0485
+        right: 0.46275
+        top: 0.5765
       atlasBounds:
-        left: 666.5
-        bottom: 636.5
-        right: 715.5
-        top: 711.5
+        left: 79.5
+        bottom: 125.5
+        right: 93.5
+        top: 145.5
     - unicode: 118
       advance: 0.488
       planeBounds:
-        left: 0.02575
-        bottom: -0.01615625
-        right: 0.46325
-        top: 0.55415624
+        left: 0.010125
+        bottom: -0.0435
+        right: 0.478875
+        top: 0.5815
       atlasBounds:
-        left: 884.5
-        bottom: 638.5
-        right: 940.5
-        top: 711.5
+        left: 63.5
+        bottom: 125.5
+        right: 78.5
+        top: 145.5
     - unicode: 119
       advance: 0.488
       planeBounds:
-        left: 0.00571875
-        bottom: -0.0190625
-        right: 0.48228124
-        top: 0.5590625
+        left: -0.021625
+        bottom: -0.0425
+        right: 0.509625
+        top: 0.5825
       atlasBounds:
-        left: 822.5
-        bottom: 637.5
-        right: 883.5
-        top: 711.5
+        left: 45.5
+        bottom: 125.5
+        right: 62.5
+        top: 145.5
     - unicode: 120
       advance: 0.488
       planeBounds:
-        left: 0.02965625
-        bottom: -0.0190625
-        right: 0.45934376
-        top: 0.5590625
+        left: 0.010125
+        bottom: -0.0425
+        right: 0.478875
+        top: 0.5825
       atlasBounds:
-        left: 766.5
-        bottom: 637.5
-        right: 821.5
-        top: 711.5
+        left: 111.5
+        bottom: 125.5
+        right: 126.5
+        top: 145.5
     - unicode: 121
       advance: 0.488
       planeBounds:
-        left: 0.02525
-        bottom: -0.18159375
-        right: 0.46275
-        top: 0.5605937
+        left: 0.009625
+        bottom: -0.201125
+        right: 0.478375
+        top: 0.580125
       atlasBounds:
-        left: 367.5
-        bottom: 807.5
-        right: 423.5
-        top: 902.5
+        left: 28.5
+        bottom: 198.5
+        right: 43.5
+        top: 223.5
     - unicode: 122
       advance: 0.488
       planeBounds:
-        left: 0.05259375
-        bottom: -0.0180625
-        right: 0.43540624
-        top: 0.5600625
+        left: 0.02525
+        bottom: -0.0415
+        right: 0.46275
+        top: 0.5835
       atlasBounds:
-        left: 716.5
-        bottom: 637.5
-        right: 765.5
-        top: 711.5
+        left: 127.5
+        bottom: 125.5
+        right: 141.5
+        top: 145.5
     - unicode: 123
       advance: 0.488
       planeBounds:
-        left: 0.10778125
-        bottom: -0.1828125
-        right: 0.38121876
-        top: 0.7078125
+        left: 0.08825
+        bottom: -0.20625
+        right: 0.40075
+        top: 0.73125
       atlasBounds:
-        left: 106.5
-        bottom: 909.5
-        right: 141.5
-        top: 1023.5
+        left: 44.5
+        bottom: 225.5
+        right: 54.5
+        top: 255.5
     - unicode: 124
       advance: 0.488
       planeBounds:
-        left: 0.19321875
-        bottom: -0.20603125
-        right: 0.29478124
-        top: 0.70803124
+        left: 0.165875
+        bottom: -0.233375
+        right: 0.322125
+        top: 0.735375
       atlasBounds:
-        left: 92.5
-        bottom: 906.5
-        right: 105.5
-        top: 1023.5
+        left: 27.5
+        bottom: 224.5
+        right: 32.5
+        top: 255.5
     - unicode: 125
       advance: 0.488
       planeBounds:
-        left: 0.10728125
-        bottom: -0.17790624
-        right: 0.38071874
-        top: 0.7049062
+        left: 0.08775
+        bottom: -0.20525
+        right: 0.40025
+        top: 0.73225
       atlasBounds:
-        left: 142.5
-        bottom: 910.5
-        right: 177.5
-        top: 1023.5
+        left: 33.5
+        bottom: 225.5
+        right: 43.5
+        top: 255.5
     - unicode: 126
       advance: 0.488
       planeBounds:
-        left: -0.00990625
-        bottom: 0.1715625
-        right: 0.49790624
-        top: 0.3434375
+        left: -0.03725
+        bottom: 0.148125
+        right: 0.52525
+        top: 0.366875
       atlasBounds:
-        left: 306.5
-        bottom: 595.5
-        right: 371.5
-        top: 617.5
+        left: 237.5
+        bottom: 138.5
+        right: 255.5
+        top: 145.5
