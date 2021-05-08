@@ -15,7 +15,7 @@ struct font_g2f
     float4 pos: SV_POSITION;
     float2 uv: TEXCOORD0;
     float3 color: TEXCOORD1;
-    float scale: TEXCOORD2;
+    float2 scale: TEXCOORD2;
 };
 
 struct CharacterInfo
@@ -51,9 +51,6 @@ StructuredBuffer<TextData> _TextData;
 sampler2D _MainTex;
 float4 _MainTex_ST;
 float4 _MainTex_TexelSize;
-
-UNITY_DECLARE_TEX2DARRAY(_FontTexArray);
-static const int mip_scales[] = {1, 0.5, 0.25, 0.25};
 
 // SDF INPUTS
 float _DistanceRange;
@@ -117,25 +114,25 @@ void font_geom(point font_v2g i[1], inout TriangleStream<font_g2f> triangleStrea
     vd1.pos = p1;
     vd1.uv = ci.BottomLeft;
     vd1.color = td.Color;
-    vd1.scale = td.Scale;
+    vd1.scale = float2(td.Scale * aspect_ratio, td.Scale);
 
     font_g2f vd2;
     vd2.pos = p2;
     vd2.uv = ci.TopLeft;
     vd2.color = td.Color;
-    vd2.scale = td.Scale;
+    vd2.scale = float2(td.Scale * aspect_ratio, td.Scale);
 
     font_g2f vd3;
     vd3.pos = p3;
     vd3.uv = ci.TopRight;
     vd3.color = td.Color;
-    vd3.scale = td.Scale;
+    vd3.scale = float2(td.Scale * aspect_ratio, td.Scale);
 
     font_g2f vd4;
     vd4.pos = p4;
     vd4.uv = ci.BottomRight;
     vd4.color = td.Color;
-    vd4.scale = td.Scale;
+    vd4.scale = float2(td.Scale * aspect_ratio, td.Scale);
 
     triangleStream.Append(vd1);
     triangleStream.Append(vd2);
@@ -153,6 +150,7 @@ float aastep(float4 pos, float value, float step)
     return smoothstep(0.5 - afwidth, 0.5 + afwidth, value);
 }
 
+// MSDF SAMPLE METHODS
 float median(float r, float g, float b)
 {
     return max(min(r, g), min(max(r, g), b));
@@ -163,27 +161,45 @@ float screenPxRange(float scale)
     return (scale / _AtlasSize) * _DistanceRange;
 }
 
-// SDF SAMPLE METHODS
-float sampleMSDF(float4 pos, float2 uv, float scale)
+float calculate_msdf(float3 msd, float scale)
 {
-    int mip = floor(1 - (rcp(fwidth(uv)) / 1024)) * 4;
-    float2 suv = uv / exp2(mip_scales[mip]);
-
-    float4 msd = UNITY_SAMPLE_TEX2DARRAY(_FontTexArray, float3(uv * 0.5, 1));
-
-    //float4 msd = tex2Dlod(_MainTex, float4(uv, 0.0, mip));
-    /* float4 msd = tex2D(_MainTex, uv); */
-    
     float sd = median(msd.r, msd.g, msd.b);
     float spx = screenPxRange(scale) * (sd - 0.5);
     float opacity = saturate(spx + 0.5);
 
-    opacity = smoothstep(0, 1, opacity);
-
-    return opacity;
+    return smoothstep(0, 1, opacity);
 }
 
-float sampleSDF(float4 pos, float2 uv)
+float sample_msdf(float4 pos, float2 uv, float2 scale)
+{
+    float4 msd = tex2D(_MainTex, uv);
+    return calculate_msdf(msd, scale);    
+}
+
+float calculate_msdf_ss(float2 uv)
+{
+    float3 sample = tex2D(_MainTex, uv).rgb;
+    float d = 2.0 * median(sample.r, sample.g, sample.b) - 1.0;
+
+    return step(-d, 0.0);
+}
+
+float sample_msdf_ss(float4 pos, float2 uv, float2 scale)
+{
+    float2 fw = fwidth(uv);
+    
+    float msd = calculate_msdf_ss(uv);
+    msd += calculate_msdf_ss(uv - float2(0.125 * fw.x, 0.0));
+    msd += calculate_msdf_ss(uv + float2(0.125 * fw.x, 0.0));
+    msd += calculate_msdf_ss(uv - float2(0.0, 0.375 * fw.y));
+    msd += calculate_msdf_ss(uv + float2(0.0, 0.375 * fw.y));
+
+    return msd * rcp(3.0);
+}
+
+
+// SDF SAMPLE METHODS
+float sample_sdf(float4 pos, float2 uv)
 {
     float sd = tex2D(_MainTex, uv).a;
     float smoothing = aastep(pos, sd, 0.1);

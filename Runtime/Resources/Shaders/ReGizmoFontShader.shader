@@ -19,7 +19,7 @@
         float4 frag(font_g2f i) : SV_Target
         {
             float op = tex2D(_MainTex, i.uv).a;
-            float4 col = float4(i.color, saturate(op));
+            float4 col = float4(i.color, smoothstep(0, 1, op));
 
             clip(col.a == 0 ? -1 : 1);
 

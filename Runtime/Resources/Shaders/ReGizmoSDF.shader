@@ -18,7 +18,11 @@
 
         float4 frag(font_g2f i) : SV_Target
         {
-            float opacity = sampleMSDF(i.pos, i.uv, i.scale);
+            #if SDF_SS
+            float opacity = sample_msdf_ss(i.pos, i.uv, i.scale);
+            #else
+            float opacity = sample_msdf(i.pos, i.uv, i.scale);
+            #endif
 
             clip(opacity == 0 ? -1 : 1);
 
@@ -37,6 +41,7 @@
             #pragma geometry font_geom
             #pragma fragment frag
             #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+            #pragma multi_compile _ SDF_SS
             ENDCG
         }
     }
