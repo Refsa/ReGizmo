@@ -10,6 +10,13 @@ Sprite Drawer:
     
 2D Drawing:
     - One option is to use SDF for everything, although it is expensive it's probably the easiest way to support 2D shapes
+        SDFs also has the huge benefit of easily producing nice AA, so the cost might be worth it
+
+Lines:
+    - Poly lines needs proper miters, mostly a requirements for thicker lines
+    - Need a system for adding end-caps to lines, this will be easier when 2D drawers are added
+        It can be as simple as adding an enum for all the end cap types that is used together with the Line call
+        and then calling the draw method for the 2D shapes
 
 Archive:
   ✔ font should scale by pixels @done(21-05-08 13:06) @project(General)

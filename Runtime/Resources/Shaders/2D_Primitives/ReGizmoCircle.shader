@@ -14,9 +14,9 @@
             sdf *= sdCircle(i.uv - 0.51, 0.5 - i.inner_radius);
             sdf = sample_sdf(sdf);
 
+            //return lerp(float4(1,1,1,0.2), float4(i.color, sdf), sdf);
+            
             clip(sdf == 0 ? -1 : 1);
-
-            //return lerp(float4(0,0,0,0.2), float4(i.color, sdf), sdf);
             return float4(i.color, sdf);
         }
         ENDCG
@@ -26,6 +26,7 @@
             Blend SrcAlpha OneMinusSrcAlpha
             ZTest LEqual
             ZWrite On
+            Cull Off
 
             CGPROGRAM
             #pragma vertex vert_2d

@@ -14,7 +14,7 @@ namespace ReGizmo.Samples
         [SerializeField] Mesh[] customMeshes;
         [SerializeField] Texture2D[] customIcons;
 
-        Color[] colors = new Color[] {Color.red, Color.green, Color.blue};
+        Color[] colors = new Color[] { Color.red, Color.green, Color.blue };
 
         Vector3[] someMeshVertices;
         int[] someMeshIndices;
@@ -37,7 +37,7 @@ namespace ReGizmo.Samples
 #if UNITY_EDITOR
             if (!Application.isPlaying)
             {
-                time = (float) EditorApplication.timeSinceStartup;
+                time = (float)EditorApplication.timeSinceStartup;
             }
 #endif
 
@@ -45,16 +45,44 @@ namespace ReGizmo.Samples
             cubeColor.a = 1f;
             for (int i = 0; i < 16; i++)
             {
-                cubeColor.r = (float) i / 16f;
+                cubeColor.r = (float)i / 16f;
                 for (int j = 0; j < 16; j++)
                 {
-                    cubeColor.g = (float) j / 16f;
-                    ReDraw.Cube(new Vector3(10 + i * 2, 0f, 10 + j * 2),
-                        Quaternion.Euler(
-                            (i * Mathf.Sin(time) * 5.625f),
-                            0f,
-                            (j * Mathf.Sin(time) * 5.625f)),
-                        Vector3.one, cubeColor);
+                    cubeColor.g = (float)j / 16f;
+
+                    Vector3 pos = new Vector3(10 + i * 2, 0f, 10 + j * 2);
+                    Quaternion rot = Quaternion.Euler(
+                                    (i * Mathf.Sin(time) * 5.625f),
+                                    0f,
+                                    (j * Mathf.Sin(time) * 5.625f));
+
+                    switch (i)
+                    {
+                        case 0:
+                            ReDraw.Sphere(pos, rot, Vector3.one, cubeColor);
+                            break;
+                        case 1:
+                            ReDraw.Octahedron(pos, rot, Vector3.one, cubeColor);
+                            break;
+                        case 2:
+                            ReDraw.Pyramid(pos, rot, Vector3.one, cubeColor);
+                            break;
+                        case 3:
+                            ReDraw.Icosahedron(pos, rot, Vector3.one, cubeColor);
+                            break;
+                        case 4:
+                            ReDraw.Capsule(pos, rot, Vector3.one, cubeColor);
+                            break;
+                        case 5:
+                            ReDraw.Cylinder(pos, rot, Vector3.one, cubeColor);
+                            break;
+                        case 6:
+                            ReDraw.Cone(pos, rot, Vector3.one, cubeColor);
+                            break;
+                        default:
+                            ReDraw.Cube(pos, rot, Vector3.one, cubeColor);
+                            break;
+                    }
                 }
             }
 
@@ -93,13 +121,13 @@ namespace ReGizmo.Samples
             {
                 string text = "Hello From ReGizmo";
 
-                ReDraw.Text(text, Vector3.back * 5, 1f, Color.green);
-                ReDraw.TextSDF(text, Vector3.back * 7, 1f, Color.green);
+                ReDraw.Text(text, Vector3.back * 5, 16f, Color.green);
+                ReDraw.TextSDF(text, Vector3.back * 7, 16f, Color.green);
 
                 text = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890!#{}[]()";
 
-                ReDraw.TextSDF("SDF: " + text, Vector3.up * 10f + Vector3.right * 15f, 2f, Color.blue);
-                ReDraw.Text("REG: " + text, Vector3.up * 8f + Vector3.right * 15f, 2f, Color.blue);
+                ReDraw.TextSDF("SDF: " + text, Vector3.up * 10f + Vector3.right * 15f, 16f, Color.blue);
+                ReDraw.Text("REG: " + text, Vector3.up * 8f + Vector3.right * 15f, 16f, Color.blue);
             }
 
             // Lines
@@ -110,7 +138,7 @@ namespace ReGizmo.Samples
 
             // Poly-Lines
             {
-                
+
             }
 
             // Ray
@@ -152,7 +180,7 @@ namespace ReGizmo.Samples
             {
                 for (int i = 0; i < customIcons.Length; i++)
                 {
-                    ReDraw.Icon(customIcons[i], Vector3.left * 5 + Vector3.up * 2 * i, Color.black, 64f);
+                    ReDraw.Icon(customIcons[i], Vector3.left * 5 + Vector3.up * 2 * i, Color.black, 32f);
                 }
             }
 
@@ -194,6 +222,12 @@ namespace ReGizmo.Samples
                         ReDraw.Line(p3, p1, Color.green, 2f);
                     }
                 }
+            }
+
+            // 2D Shapes
+            {
+                ReDraw.Circle(Vector3.back * 20f, Vector3.up, 32f, 4f, Color.red);
+                ReDraw.Triangle(Vector3.back * 23f, Vector3.up, 32f, 0f, Color.green);
             }
         }
     }
