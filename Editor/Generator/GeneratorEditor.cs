@@ -25,6 +25,9 @@ namespace ReGizmo.Generator
 
             new IconDrawGenerator().Generate(OUTPUT_PATH);
 
+            new CircleDrawGenerator().Generate(OUTPUT_PATH);
+            new TriangleDrawGenerator().Generate(OUTPUT_PATH);
+
             AssetDatabase.Refresh();
         }
 
