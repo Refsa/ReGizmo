@@ -10,8 +10,8 @@
 
         float4 frag (g2f_2d i) : SV_Target
         {
-            float sdf = sdCircle(i.uv - 0.51, 0.5);
-            sdf *= sdCircle(i.uv - 0.51, 0.5 - i.inner_radius);
+            float sdf = sdCircle(i.uv - 0.51, 0.51);
+            sdf *= sdCircle(i.uv - 0.51, 0.51 - i.inner_radius);
             sdf = sample_sdf(sdf);
 
             //return lerp(float4(1,1,1,0.2), float4(i.color, sdf), sdf);

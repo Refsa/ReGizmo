@@ -12,6 +12,10 @@ Sprite Drawer:
     - One option is to use SDF for everything, although it is expensive it's probably the easiest way to support 2D shapes
         SDFs also has the huge benefit of easily producing nice AA, so the cost might be worth it
 
+3D Outline:
+    - Another mode for wireframe is just the general outline or shape, this is needed for all the basic shapes, at least those present for Physics
+        Should probably replace all the current wireframe drawers with this, except the custom mesh / mesh wireframes
+
 Lines:
     - Poly lines needs proper miters, mostly a requirements for thicker lines
     - Need a system for adding end-caps to lines, this will be easier when 2D drawers are added

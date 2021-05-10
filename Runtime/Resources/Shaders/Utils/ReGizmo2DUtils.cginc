@@ -48,17 +48,48 @@ float3x3 angle_axis(float angle, float3 axis)
     );
 }
 
+float cos_sim(float3 a, float3 b)
+{
+    float d = dot(a, b);
+    float l = dot(a, a) * dot(b, b);
+    float s = clamp(d / l, -1, 1);
+
+    return d / l;
+}
+
 [maxvertexcount(4)]
 void geom_2d(point v2g_2d i[1], inout TriangleStream<g2f_2d> triangleStream)
 {
     Data bd = _Properties[i[0].vertexID];
 
+    float4 clip = UnityObjectToClipPos(float4(bd.position, 1.0));
     float4 cp1, cp2, cp3, cp4;
-    float inner_radius = 0.0;
+    float inner_radius = (bd.thickness / bd.radius) / _ScreenParams.x * clip.w;
 
-    if (dot(bd.normal, bd.normal) != 0.0)
+    float norm_len = dot(bd.normal, bd.normal);
+    
+    if (norm_len > 1.1)
     {
-        float3 normal = bd.normal;
+        float3 normal = normalize(bd.normal);
+
+        float3 leftright = float3(0,1,0), updown = float3(0,0,1);
+        leftright = normalize(cross(leftright, normal));
+        updown = normalize(cross(normal, leftright)) * bd.radius;
+        leftright *= bd.radius;
+
+        float3 top_left = bd.position - updown - leftright;
+        float3 top_right = bd.position - updown + leftright;
+        float3 bottom_right = bd.position + updown + leftright;
+        float3 bottom_left = bd.position + updown - leftright;
+
+        cp1 = UnityObjectToClipPos(float4(top_left, 1.0));
+        cp2 = UnityObjectToClipPos(float4(top_right, 1.0));
+        cp4 = UnityObjectToClipPos(float4(bottom_left, 1.0));
+        cp3 = UnityObjectToClipPos(float4(bottom_right, 1.0));
+    }
+    else if (norm_len != 0.0)
+    {
+        float3 normal = normalize(bd.normal);
         float3 view_dir = normalize(ObjSpaceViewDir(float4(bd.position, 1.0)));
 
         float3 leftright = normal;
@@ -83,12 +114,9 @@ void geom_2d(point v2g_2d i[1], inout TriangleStream<g2f_2d> triangleStream)
         cp2 = UnityObjectToClipPos(float4(top_right, 1.0));
         cp4 = UnityObjectToClipPos(float4(bottom_left, 1.0));
         cp3 = UnityObjectToClipPos(float4(bottom_right, 1.0));
-
-        inner_radius = (bd.thickness / bd.radius);
     }
     else
     {
-        float4 clip = UnityObjectToClipPos(float4(bd.position, 1.0));
         float halfOffset = bd.radius;
         float2 size = float2(-halfOffset, -halfOffset);
 
@@ -106,8 +134,6 @@ void geom_2d(point v2g_2d i[1], inout TriangleStream<g2f_2d> triangleStream)
         cp2 = float4(clip.x - size.x, clip.y + size.y, clip.zw);
         cp3 = float4(clip.x + size.x, clip.y + size.y, clip.zw);
         cp4 = float4(clip.x + size.x, clip.y - size.y, clip.zw);
-
-        inner_radius = (bd.thickness / bd.radius);
     }
 
 
