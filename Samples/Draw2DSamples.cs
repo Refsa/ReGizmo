@@ -64,8 +64,7 @@ public class Draw2DSamples : MonoBehaviour
         {
             Vector3 arrowDir = dirs[i];
 
-            ReDraw.Line(center, center + arrowDir * 3f, Color.red, 1f);
-            ReDraw.Triangle(center + arrowDir * 3f, arrowDir, DrawMode.BillboardAligned, Size.Pixels(8f), 0f, Color.red);
+            ReDraw.Arrow(center, arrowDir, 3f, Size.Pixels(8f), 1f, Color.red);
         }
 
         ReDraw.Line(Vector3.left * 14f, Vector3.left * 14f + Vector3.up * 3f, Color.red, 1f);
