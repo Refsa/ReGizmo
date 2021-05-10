@@ -4,38 +4,38 @@ using UnityEngine;
 
 namespace ReGizmo.Drawing
 {
-    public enum DrawMode : byte
+    public enum DrawMode : int
     {
-        BillboardFree,
-        BillboardAligned,
-        AxisAligned,
+        BillboardFree = 1 << 0,
+        BillboardAligned = 1 << 1,
+        AxisAligned = 1 << 2,
     }
 
-    internal enum ScaleType : byte
+    internal enum SizeMode : int
     {
-        Pixel = 0,
-        Percent = 1,
-        Unit = 2,
+        Pixel = 1 << 11,
+        Percent = 1 << 12,
+        Unit = 1 << 13,
     }
 
-    public struct Scale
+    public struct Size
     {
-        public byte ScaleMode;
+        public int SizeMode;
         public float Value;
 
-        public static Scale Pixels(float pixels)
+        public static Size Pixels(float pixels)
         {
-            return new Scale { ScaleMode = (byte)ScaleType.Pixel, Value = pixels };
+            return new Size { SizeMode = (int)Drawing.SizeMode.Pixel, Value = pixels };
         }
 
-        public static Scale Percent(float percent)
+        public static Size Percent(float percent)
         {
-            return new Scale { ScaleMode = (byte)ScaleType.Percent, Value = Mathf.Clamp01(percent) };
+            return new Size { SizeMode = (int)Drawing.SizeMode.Percent, Value = Mathf.Clamp01(percent) };
         }
 
-        public static Scale Units(float units)
+        public static Size Units(float units)
         {
-            return new Scale { ScaleMode = (byte)ScaleType.Unit, Value = units };
+            return new Size { SizeMode = (int)Drawing.SizeMode.Unit, Value = units };
         }
     }
 

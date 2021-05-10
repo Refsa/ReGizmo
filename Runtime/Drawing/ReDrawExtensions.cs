@@ -184,7 +184,7 @@ namespace ReGizmo.Drawing
             Line(p4, p1, color, 1f);
         }
 
-        public static void Circle(Vector3 position, Vector3 normal, float radius, float thickness, Color color)
+        public static void Circle(Vector3 position, Vector3 normal, DrawMode drawMode, Size radius, float thickness, Color color)
         {
             if (ReGizmoResolver<ReGizmoCircleDrawer>.TryGet(out var drawer))
             {
@@ -192,13 +192,14 @@ namespace ReGizmo.Drawing
 
                 data.Position = position;
                 data.Normal = normal;
-                data.Radius = radius;
+                data.Radius = radius.Value;
                 data.Thickness = thickness;
                 data.Color = new Vector3(color.r, color.g, color.b);
+                data.Flags = (int)drawMode | radius.SizeMode;
             }
         }
 
-        public static void Triangle(Vector3 position, Vector3 normal, float width, float thickness, Color color)
+        public static void Triangle(Vector3 position, Vector3 normal, DrawMode drawMode, Size width, float thickness, Color color)
         {
             if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
             {
@@ -206,9 +207,10 @@ namespace ReGizmo.Drawing
 
                 data.Position = position;
                 data.Normal = normal;
-                data.Width = width;
+                data.Width = width.Value;
                 data.Thickness = thickness;
                 data.Color = new Vector3(color.r, color.g, color.b);
+                data.Flags = width.SizeMode | (int)drawMode;
             }
         }
     }
