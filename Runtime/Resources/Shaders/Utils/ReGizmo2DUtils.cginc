@@ -2,12 +2,21 @@
 #include "ReGizmoShaderUtils.cginc"
 #include "SDF_Utils.cginc"
 
+static const int DRAW_MODE_BILLBOARD_FREE = 1 << 0;
+static const int DRAW_MODE_BILLBOARD_ALIGNED = 1 << 1;
+static const int DRAW_MODE_AXIS_ALIGNED = 1 << 2;
+
+static const int SIZE_MODE_PIXEL = 1 << 11;
+static const int SIZE_MODE_PERCENT = 1 << 12;
+static const int SIZE_MODE_UNIT = 1 << 13;
+
 struct Data {
     float3 position;
     float3 normal;
     float radius;
     float thickness;
     float3 color;
+    int flags;
 };
 StructuredBuffer<Data> _Properties;
 
@@ -57,6 +66,11 @@ float cos_sim(float3 a, float3 b)
     return d / l;
 }
 
+bool has_flag(int mask, int flag)
+{
+    return (mask & flag) != 0;
+}
+
 [maxvertexcount(4)]
 void geom_2d(point v2g_2d i[1], inout TriangleStream<g2f_2d> triangleStream)
 {
@@ -66,9 +80,7 @@ void geom_2d(point v2g_2d i[1], inout TriangleStream<g2f_2d> triangleStream)
     float4 cp1, cp2, cp3, cp4;
     float inner_radius = (bd.thickness / bd.radius) / _ScreenParams.x * clip.w;
 
-    float norm_len = dot(bd.normal, bd.normal);
-    
-    if (norm_len > 1.1)
+    if (has_flag(bd.flags, DRAW_MODE_AXIS_ALIGNED))
     {
         float3 normal = normalize(bd.normal);
 
@@ -87,7 +99,7 @@ void geom_2d(point v2g_2d i[1], inout TriangleStream<g2f_2d> triangleStream)
         cp4 = UnityObjectToClipPos(float4(bottom_left, 1.0));
         cp3 = UnityObjectToClipPos(float4(bottom_right, 1.0));
     }
-    else if (norm_len != 0.0)
+    else if (has_flag(bd.flags, DRAW_MODE_BILLBOARD_ALIGNED))
     {
         float3 normal = normalize(bd.normal);
         float3 view_dir = normalize(ObjSpaceViewDir(float4(bd.position, 1.0)));
@@ -102,8 +114,15 @@ void geom_2d(point v2g_2d i[1], inout TriangleStream<g2f_2d> triangleStream)
         }
         updown = normalize(updown);
 
-        updown *= bd.radius;
-        leftright *= bd.radius;
+        float size = bd.radius;
+        if (has_flag(bd.flags, SIZE_MODE_PIXEL))
+        {
+            size /= _ScreenParams.x;
+            size *= clip.w;
+        }
+
+        updown *= size;
+        leftright *= size;
 
         float3 top_left = bd.position - updown - leftright;
         float3 top_right = bd.position - updown + leftright;
@@ -121,8 +140,11 @@ void geom_2d(point v2g_2d i[1], inout TriangleStream<g2f_2d> triangleStream)
         float2 size = float2(-halfOffset, -halfOffset);
 
         // Scale the size to screen coords
-        size /= _ScreenParams.xy;
-        size *= clip.w;
+        if (has_flag(bd.flags, SIZE_MODE_PIXEL))
+        {
+            size /= _ScreenParams.xy;
+            size *= clip.w;
+        }
 
         if (ProjectionFlipped())
         {
