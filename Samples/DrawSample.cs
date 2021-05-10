@@ -226,8 +226,8 @@ namespace ReGizmo.Samples
 
             // 2D Shapes
             {
-                ReDraw.Circle(Vector3.back * 20f, Vector3.up, 32f, 4f, Color.red);
-                ReDraw.Triangle(Vector3.back * 23f, Vector3.up, 32f, 0f, Color.green);
+                /* ReDraw.Circle(Vector3.back * 20f, Vector3.up, 32f, 4f, Color.red);
+                ReDraw.Triangle(Vector3.back * 23f, Vector3.up, 32f, 0f, Color.green); */
             }
         }
     }

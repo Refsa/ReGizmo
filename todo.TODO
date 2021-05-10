@@ -1,26 +1,29 @@
 ﻿General:
-    - figure out best way to do scaling/default scaling
-    - Sorting between drawers is kinda whack atm
+    - @high figure out best way to do scaling/default scaling
+    - @low Sorting between drawers is kinda whack atm
         for example: Lines at -10f is drawing over sprites at 1f, but not at -1f
-    - Legacy currently doesnt render in game view when outside of play mode, would be a nice thing but not a huge deal
-    - clean up some of the #pragma targets in shaders
+    - @high Legacy currently doesnt render in game view when outside of play mode, would be a nice thing but not a huge deal
+    - @low clean up some of the #pragma targets in shaders
     
 Sprite Drawer:
-    - Make base for Sprite Drawer a texture drawer with UVs so the same drawer can be shared for each sprite
+    - @low Make base for Sprite Drawer a texture drawer with UVs so the same drawer can be shared for each sprite
     
 2D Drawing:
-    - One option is to use SDF for everything, although it is expensive it's probably the easiest way to support 2D shapes
+    - @high One option is to use SDF for everything, although it is expensive it's probably the easiest way to support 2D shapes
         SDFs also has the huge benefit of easily producing nice AA, so the cost might be worth it
 
 3D Outline:
-    - Another mode for wireframe is just the general outline or shape, this is needed for all the basic shapes, at least those present for Physics
+    - @high Another mode for wireframe is just the general outline or shape, this is needed for all the basic shapes, at least those present for Physics
         Should probably replace all the current wireframe drawers with this, except the custom mesh / mesh wireframes
 
 Lines:
-    - Poly lines needs proper miters, mostly a requirements for thicker lines
-    - Need a system for adding end-caps to lines, this will be easier when 2D drawers are added
+    - @low  Poly lines needs proper miters, mostly a requirements for thicker lines
+    - @high Need a system for adding end-caps to lines, this will be easier when 2D drawers are added
         It can be as simple as adding an enum for all the end cap types that is used together with the Line call
         and then calling the draw method for the 2D shapes
+
+Generator:
+    - @low Code Generator is extremely hard-coded atm, so some work here would be nice
 
 Archive:
   ✔ font should scale by pixels @done(21-05-08 13:06) @project(General)

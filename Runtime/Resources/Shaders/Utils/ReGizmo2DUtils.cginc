@@ -84,7 +84,11 @@ void geom_2d(point v2g_2d i[1], inout TriangleStream<g2f_2d> triangleStream)
     {
         float3 normal = normalize(bd.normal);
 
-        float3 leftright = float3(0,1,0), updown = float3(0,0,1);
+        float3 leftright = float3(0,1,0), updown = float3(1,0,0);
+        if (abs(dot(leftright, normal)) == 1.0)
+        {
+            leftright = float3(1,0,0);
+        }
         leftright = normalize(cross(leftright, normal));
         updown = normalize(cross(normal, leftright)) * bd.radius;
         leftright *= bd.radius;
