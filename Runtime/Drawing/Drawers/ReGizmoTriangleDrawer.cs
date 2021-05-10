@@ -11,6 +11,7 @@ namespace ReGizmo.Drawing
         public float Width;
         public float Thickness;
         public Vector3 Color;
+        public int Flags;
     }
 
     internal class ReGizmoTriangleDrawer : ReGizmoDrawer<TriangleDrawData>

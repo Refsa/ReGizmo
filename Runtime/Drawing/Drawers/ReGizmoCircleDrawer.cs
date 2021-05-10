@@ -12,6 +12,7 @@ namespace ReGizmo.Drawing
         public float Radius;
         public float Thickness;
         public Vector3 Color;
+        public int Flags;
     }
 
     internal class ReGizmoCircleDrawer : ReGizmoDrawer<CircleDrawData>
