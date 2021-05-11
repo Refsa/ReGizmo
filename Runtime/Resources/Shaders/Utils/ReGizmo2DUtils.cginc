@@ -10,11 +10,13 @@ static const int SIZE_MODE_PIXEL = 1 << 11;
 static const int SIZE_MODE_PERCENT = 1 << 12;
 static const int SIZE_MODE_UNIT = 1 << 13;
 
+static const int FILL_MODE_FILL = 1 << 20;
+static const int FILL_MODE_OUTLINE = 1 << 21;
+
 struct Data {
     float3 position;
     float3 normal;
     float radius;
-    float thickness;
     float3 color;
     int flags;
 };
@@ -80,9 +82,9 @@ void geom_2d(point v2g_2d i[1], inout TriangleStream<g2f_2d> triangleStream)
 
     float4 clip = UnityObjectToClipPos(float4(bd.position, 1.0));
     float4 cp1, cp2, cp3, cp4;
-    float inner_radius = (bd.radius == bd.thickness) ? 
+    float inner_radius = (has_flag(bd.flags, FILL_MODE_FILL)) ? 
         -1 : 
-        (bd.thickness / bd.radius) / _ScreenParams.x * clip.w * 0.5;
+        0.1 / _ScreenParams.x * clip.w * 0.5;
         
     float size = bd.radius * 1.05;
 

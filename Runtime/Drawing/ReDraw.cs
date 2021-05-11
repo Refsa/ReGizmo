@@ -11,11 +11,17 @@ namespace ReGizmo.Drawing
         AxisAligned = 1 << 2,
     }
 
-    internal enum SizeMode : int
+    public enum SizeMode : int
     {
         Pixel = 1 << 11,
         Percent = 1 << 12,
         Unit = 1 << 13,
+    }
+
+    public enum FillMode : int
+    {
+        Fill = 1 << 20,
+        Outline = 1 << 21,
     }
 
     public struct Size

@@ -9,7 +9,6 @@ namespace ReGizmo.Drawing
         public Vector3 Position;
         public Vector3 Normal;
         public float Width;
-        public float Thickness;
         public Vector3 Color;
         public int Flags;
     }
