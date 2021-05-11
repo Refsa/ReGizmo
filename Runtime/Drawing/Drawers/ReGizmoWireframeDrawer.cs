@@ -33,7 +33,6 @@ namespace ReGizmo.Drawing
             base.SetMaterialPropertyBlockData();
             materialPropertyBlock.SetFloat("_Shaded", 0.35f);
             materialPropertyBlock.SetFloat("_FresnelFactor", 1f);
-            materialPropertyBlock.SetFloat("_ZWrite", 0f);
         }
     }
 }

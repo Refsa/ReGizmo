@@ -19,33 +19,28 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
 
         struct vertex
         {
-            float4 loc : POSITION;
+            float4 pos : POSITION;
+            float3 normal : NORMAL;
         };
 
         struct fragment
         {
-            float4 loc : SV_POSITION;
+            float4 pos                : SV_POSITION;
             float4 worldSpacePosition : TEXCOORD0;
-            uint instanceID: TEXCOORD1;
+            uint instanceID           : TEXCOORD1;
+            float dir                : TEXCOORD2;
         };
 
         struct g2f
         {
-            float4 loc : SV_POSITION;
-            float3 dist : TEXCOORD0;
-            float4 color: TEXCOORD2;
-        };
-
-        struct Properties
-        {
-            float3 Position;
-            float3 Rotation;
-            float3 Scale;
-            float4 Color;
+            float4 pos   : SV_POSITION;
+            float3 dist  : TEXCOORD0;
+            float4 color : TEXCOORD2;
+            float dir    : TEXCOORD3;
         };
 
         #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
-        StructuredBuffer<Properties> _Properties;
+        StructuredBuffer<MeshProperties> _Properties;
         #endif
 
         void setup()
@@ -57,13 +52,14 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
             fragment f;
 
             #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
-            Properties prop = _Properties[instanceID];
-            f.worldSpacePosition = TRS(prop.Position, prop.Rotation, prop.Scale, v.loc);
+            MeshProperties prop = _Properties[instanceID];
+            f.worldSpacePosition = TRS(prop.Position, prop.Rotation, prop.Scale, v.pos);
             #else
-            f.worldSpacePosition = mul(unity_ObjectToWorld, v.loc);
+            f.worldSpacePosition = mul(unity_ObjectToWorld, v.pos);
             #endif
 
-            f.loc = UnityObjectToClipPos(f.worldSpacePosition);
+            f.pos = UnityObjectToClipPos(f.worldSpacePosition);
+            f.dir = dot(WorldSpaceViewDir(f.worldSpacePosition), v.normal);
             f.instanceID = instanceID;
 
             return f;
@@ -72,9 +68,9 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
         [maxvertexcount(3)]
         void geom(triangle fragment i[3], inout TriangleStream<g2f> triangleStream)
         {
-            float2 p0 = _ScreenParams.xy * i[0].loc.xy / i[0].loc.w;
-            float2 p1 = _ScreenParams.xy * i[1].loc.xy / i[1].loc.w;
-            float2 p2 = _ScreenParams.xy * i[2].loc.xy / i[2].loc.w;
+            float2 p0 = _ScreenParams.xy * i[0].pos.xy / i[0].pos.w;
+            float2 p1 = _ScreenParams.xy * i[1].pos.xy / i[1].pos.w;
+            float2 p2 = _ScreenParams.xy * i[2].pos.xy / i[2].pos.w;
 
             float2 edge0 = p2 - p1;
             float2 edge1 = p2 - p0;
@@ -91,20 +87,23 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
             g2f o;
             o.color = color;
 
-            o.loc = i[0].loc;
+            o.pos = i[0].pos;
             o.dist = float3(area / length(edge0), 0, 0);
+            o.dir = i[0].dir;
             triangleStream.Append(o);
 
-            o.loc = i[1].loc;
+            o.pos = i[1].pos;
             o.dist = float3(0, area / length(edge1), 0);
+            o.dir = i[1].dir;
             triangleStream.Append(o);
 
-            o.loc = i[2].loc;
+            o.pos = i[2].pos;
             o.dist = float3(0, 0, area / length(edge2));
+            o.dir = i[2].dir;
             triangleStream.Append(o);
         }
 
-        float4 frag(g2f i) : SV_Target
+        float4 _frag(g2f i, float color_scale)
         {
             float d = min(i.dist[0], min(i.dist[1], i.dist[2]));
             float I = exp2(-0.5 * d * d * d * d);
@@ -112,9 +111,14 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
             float4 fillColor = float4(i.color.rgb, 0);
             float4 wireColor = float4(i.color.rgb, 1);
 
-            clip(I == 0 ? -1 : 1);
+            return lerp(fillColor, wireColor * color_scale, I);
+        }
 
-            return lerp(fillColor, wireColor, I);
+        float4 frag(g2f i) : SV_Target
+        {
+            float4 color = _frag(i, i.dir < -0.5 ? 0.33 : 1.0);
+            clip(color.a == 0 ? -1 : 1);
+            return color;
         }
         ENDCG
 
@@ -123,6 +127,7 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
             Blend SrcAlpha OneMinusSrcAlpha
             ZTest LEqual
             ZWrite On
+            Cull Off
 
             CGPROGRAM
             #pragma vertex vert
