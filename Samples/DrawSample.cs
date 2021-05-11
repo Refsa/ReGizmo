@@ -18,6 +18,8 @@ namespace ReGizmo.Samples
 
         Vector3[] someMeshVertices;
         int[] someMeshIndices;
+        List<Vector3> arrowDirs;
+
 
 #if UNITY_EDITOR
         void OnDrawGizmos()
@@ -226,8 +228,49 @@ namespace ReGizmo.Samples
 
             // 2D Shapes
             {
-                /* ReDraw.Circle(Vector3.back * 20f, Vector3.up, 32f, 4f, Color.red);
-                ReDraw.Triangle(Vector3.back * 23f, Vector3.up, 32f, 0f, Color.green); */
+                ReDraw.Circle(Vector3.back * 20f, Vector3.up, DrawMode.BillboardFree, Size.Pixels(32f), Color.red);
+                ReDraw.Triangle(Vector3.back * 24f, Vector3.up, DrawMode.BillboardFree, Size.Pixels(32f), Color.green);
+
+                ReDraw.Circle(Vector3.down * 2f + Vector3.back * 20f, Vector3.up, DrawMode.BillboardAligned, Size.Pixels(32f), Color.red);
+                ReDraw.Triangle(Vector3.down * 2f + Vector3.back * 24f, Vector3.up, DrawMode.BillboardAligned, Size.Pixels(32f), Color.green);
+
+                ReDraw.Circle(Vector3.down * 4f + Vector3.back * 20f, Vector3.up, DrawMode.AxisAligned, Size.Units(2f), Color.red);
+                ReDraw.Triangle(Vector3.down * 4f + Vector3.back * 24f, Vector3.up, DrawMode.AxisAligned, Size.Units(2f), Color.green);
+            }
+
+            for (int x = 0; x < 16; x++)
+            {
+                ReDraw.Circle2(new Vector3(-30f, Mathf.Sin(x + (float)UnityEditor.EditorApplication.timeSinceStartup * 0.1f) * 5f, 0f), Vector3.up, 3f, 36);
+            }
+
+            for (int x = 0; x < 16; x++)
+            {
+                ReDraw.Circle(new Vector3(-40f, Mathf.Sin(x + (float)UnityEditor.EditorApplication.timeSinceStartup * 0.1f) * 5f, 0f), Vector3.up, DrawMode.AxisAligned, Size.Units(3f), FillMode.Outline, Color.red);
+            }
+
+            // Arrows
+            {
+                if (arrowDirs == null || arrowDirs.Count != 64)
+                {
+                    arrowDirs = new List<Vector3>();
+                    for (int i = 0; i < 64; i++)
+                    {
+                        arrowDirs.Add(Random.insideUnitSphere);
+                    }
+                }
+
+                Vector3 center = Vector3.left * 18f;
+                for (int i = 0; i < 64; i++)
+                {
+                    Vector3 arrowDir = arrowDirs[i];
+
+                    float upDot = Mathf.Abs(Vector3.Dot(arrowDir, Vector3.up));
+                    float rightDot = Mathf.Abs(Vector3.Dot(arrowDir, Vector3.right));
+                    float forwardDot = Mathf.Abs(Vector3.Dot(arrowDir, Vector3.forward));
+                    Color color = new Color(Mathf.Lerp(0f, 1f, rightDot), Mathf.Lerp(0f, 1f, upDot), Mathf.Lerp(0f, 1f, forwardDot), 1f);
+
+                    ReDraw.Arrow(center, arrowDir, 3f, Size.Pixels(8f), 1f, color);
+                }
             }
         }
     }

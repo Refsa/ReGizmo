@@ -466,7 +466,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   circleOuterRadus: 2
   circleInnerRadius: 1
-  rotation: 220
+  rotation: 0
   regen: 0
 --- !u!4 &1473542643
 Transform:

@@ -183,5 +183,24 @@ namespace ReGizmo.Drawing
             Line(p3, p4, color, 1f);
             Line(p4, p1, color, 1f);
         }
+
+        public static void Circle2(Vector3 center, Vector3 normal, float radius, int resolution)
+        {
+            float theta = 0f;
+            float step = 360f / (float)resolution;
+            Vector3 dir = Vector3.right;
+            if (Mathf.Abs(Vector3.Dot(dir, normal)) == 1.0) dir = Vector3.up;
+            dir = Vector3.Cross(dir, normal);
+
+            Vector3 prevPoint = center + Quaternion.Euler(normal * theta) * dir * radius;
+            for (int i = 1; i < resolution + 2; i++)
+            {
+                Vector3 point = center + Quaternion.Euler(normal * theta) * dir * radius;
+
+                Line(prevPoint, point, Color.red, 1f);
+                prevPoint = point;
+                theta += step;
+            }
+        }
     }
 }
