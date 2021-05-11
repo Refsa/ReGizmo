@@ -43,7 +43,7 @@ namespace ReGizmo.Drawing
                 data.Position = position;
                 data.Normal = normal;
                 data.Radius = radius.Value;
-                data.Thickness = 1f;
+                data.Thickness = data.Radius;
                 data.Color = new Vector3(color.r, color.g, color.b);
                 data.Flags = (int)drawMode | radius.SizeMode;
             }
@@ -99,7 +99,7 @@ namespace ReGizmo.Drawing
                 data.Position = position;
                 data.Normal = normal;
                 data.Radius = radius.Value;
-                data.Thickness = 1f;
+                data.Thickness = data.Radius;
                 data.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
                 data.Flags = (int)drawMode | radius.SizeMode;
             }
@@ -127,7 +127,7 @@ namespace ReGizmo.Drawing
                 data.Position = position;
                 data.Normal = normal;
                 data.Radius = Size.Pixels(32f).Value;
-                data.Thickness = 1f;
+                data.Thickness = data.Radius;
                 data.Color = new Vector3(color.r, color.g, color.b);
                 data.Flags = (int)drawMode | Size.Pixels(32f).SizeMode;
             }
@@ -155,7 +155,7 @@ namespace ReGizmo.Drawing
                 data.Position = position;
                 data.Normal = normal;
                 data.Radius = radius.Value;
-                data.Thickness = 1f;
+                data.Thickness = data.Radius;
                 data.Color = new Vector3(color.r, color.g, color.b);
                 data.Flags = (int)DrawMode.BillboardFree | radius.SizeMode;
             }
@@ -197,7 +197,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = normal;
                 data.Radius = radius.Value;
-                data.Thickness = 1f;
+                data.Thickness = data.Radius;
                 data.Color = new Vector3(color.r, color.g, color.b);
                 data.Flags = (int)drawMode | radius.SizeMode;
             }
@@ -253,7 +253,7 @@ namespace ReGizmo.Drawing
                 data.Position = position;
                 data.Normal = normal;
                 data.Radius = Size.Pixels(32f).Value;
-                data.Thickness = 1f;
+                data.Thickness = data.Radius;
                 data.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
                 data.Flags = (int)drawMode | Size.Pixels(32f).SizeMode;
             }
@@ -267,7 +267,7 @@ namespace ReGizmo.Drawing
                 data.Position = position;
                 data.Normal = normal;
                 data.Radius = radius.Value;
-                data.Thickness = 1f;
+                data.Thickness = data.Radius;
                 data.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
                 data.Flags = (int)DrawMode.BillboardFree | radius.SizeMode;
             }
@@ -295,7 +295,7 @@ namespace ReGizmo.Drawing
                 data.Position = position;
                 data.Normal = normal;
                 data.Radius = Size.Pixels(32f).Value;
-                data.Thickness = 1f;
+                data.Thickness = data.Radius;
                 data.Color = new Vector3(color.r, color.g, color.b);
                 data.Flags = (int)DrawMode.BillboardFree | Size.Pixels(32f).SizeMode;
             }
@@ -309,7 +309,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = normal;
                 data.Radius = radius.Value;
-                data.Thickness = 1f;
+                data.Thickness = data.Radius;
                 data.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
                 data.Flags = (int)drawMode | radius.SizeMode;
             }
@@ -337,7 +337,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = normal;
                 data.Radius = Size.Pixels(32f).Value;
-                data.Thickness = 1f;
+                data.Thickness = data.Radius;
                 data.Color = new Vector3(color.r, color.g, color.b);
                 data.Flags = (int)drawMode | Size.Pixels(32f).SizeMode;
             }
@@ -365,7 +365,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = normal;
                 data.Radius = radius.Value;
-                data.Thickness = 1f;
+                data.Thickness = data.Radius;
                 data.Color = new Vector3(color.r, color.g, color.b);
                 data.Flags = (int)DrawMode.BillboardFree | radius.SizeMode;
             }
@@ -407,7 +407,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = Vector3.up;
                 data.Radius = radius.Value;
-                data.Thickness = 1f;
+                data.Thickness = data.Radius;
                 data.Color = new Vector3(color.r, color.g, color.b);
                 data.Flags = (int)drawMode | radius.SizeMode;
             }
@@ -449,7 +449,7 @@ namespace ReGizmo.Drawing
                 data.Position = position;
                 data.Normal = normal;
                 data.Radius = Size.Pixels(32f).Value;
-                data.Thickness = 1f;
+                data.Thickness = data.Radius;
                 data.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
                 data.Flags = (int)DrawMode.BillboardFree | Size.Pixels(32f).SizeMode;
             }
@@ -463,7 +463,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = normal;
                 data.Radius = Size.Pixels(32f).Value;
-                data.Thickness = 1f;
+                data.Thickness = data.Radius;
                 data.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
                 data.Flags = (int)drawMode | Size.Pixels(32f).SizeMode;
             }
@@ -477,7 +477,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = normal;
                 data.Radius = radius.Value;
-                data.Thickness = 1f;
+                data.Thickness = data.Radius;
                 data.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
                 data.Flags = (int)DrawMode.BillboardFree | radius.SizeMode;
             }
@@ -505,7 +505,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = normal;
                 data.Radius = Size.Pixels(32f).Value;
-                data.Thickness = 1f;
+                data.Thickness = data.Radius;
                 data.Color = new Vector3(color.r, color.g, color.b);
                 data.Flags = (int)DrawMode.BillboardFree | Size.Pixels(32f).SizeMode;
             }
@@ -519,7 +519,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = Vector3.up;
                 data.Radius = radius.Value;
-                data.Thickness = 1f;
+                data.Thickness = data.Radius;
                 data.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
                 data.Flags = (int)drawMode | radius.SizeMode;
             }
@@ -547,7 +547,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = Vector3.up;
                 data.Radius = Size.Pixels(32f).Value;
-                data.Thickness = 1f;
+                data.Thickness = data.Radius;
                 data.Color = new Vector3(color.r, color.g, color.b);
                 data.Flags = (int)drawMode | Size.Pixels(32f).SizeMode;
             }
@@ -575,7 +575,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = Vector3.up;
                 data.Radius = radius.Value;
-                data.Thickness = 1f;
+                data.Thickness = data.Radius;
                 data.Color = new Vector3(color.r, color.g, color.b);
                 data.Flags = (int)DrawMode.BillboardFree | radius.SizeMode;
             }
@@ -603,7 +603,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = normal;
                 data.Radius = Size.Pixels(32f).Value;
-                data.Thickness = 1f;
+                data.Thickness = data.Radius;
                 data.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
                 data.Flags = (int)DrawMode.BillboardFree | Size.Pixels(32f).SizeMode;
             }
@@ -617,7 +617,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = Vector3.up;
                 data.Radius = Size.Pixels(32f).Value;
-                data.Thickness = 1f;
+                data.Thickness = data.Radius;
                 data.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
                 data.Flags = (int)drawMode | Size.Pixels(32f).SizeMode;
             }
@@ -631,7 +631,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = Vector3.up;
                 data.Radius = radius.Value;
-                data.Thickness = 1f;
+                data.Thickness = data.Radius;
                 data.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
                 data.Flags = (int)DrawMode.BillboardFree | radius.SizeMode;
             }
@@ -659,7 +659,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = Vector3.up;
                 data.Radius = Size.Pixels(32f).Value;
-                data.Thickness = 1f;
+                data.Thickness = data.Radius;
                 data.Color = new Vector3(color.r, color.g, color.b);
                 data.Flags = (int)DrawMode.BillboardFree | Size.Pixels(32f).SizeMode;
             }
@@ -673,7 +673,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = Vector3.up;
                 data.Radius = Size.Pixels(32f).Value;
-                data.Thickness = 1f;
+                data.Thickness = data.Radius;
                 data.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
                 data.Flags = (int)DrawMode.BillboardFree | Size.Pixels(32f).SizeMode;
             }

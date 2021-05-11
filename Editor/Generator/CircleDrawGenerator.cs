@@ -32,7 +32,7 @@ namespace ReGizmo.Generator
                 new Variable(typeof(Vector3), "normal", "Vector3.up", "normal"),
                 new Variable(typeof(DrawMode), "drawMode", "DrawMode.BillboardFree", "drawMode"),
                 new Variable(typeof(Size), "radius", "Size.Pixels(32f)", "radius"),
-                new Variable(typeof(float), "thickness", "1f", "thickness"),
+                new Variable(typeof(float), "thickness", "data.Radius", "thickness"),
                 new Variable(typeof(Color), "color", "currentColor", "color"),
             };
         }
