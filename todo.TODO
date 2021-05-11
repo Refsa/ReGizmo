@@ -3,9 +3,7 @@
     - @low Sorting between drawers is kinda whack atm
         for example: Lines at -10f is drawing over sprites at 1f, but not at -1f
     - @high Legacy currently doesnt render in game view when outside of play mode, would be a nice thing but not a huge deal
-    - @low clean up some of the #pragma targets in shaders
-    - @low backface culling on wireframe shader
-    - @critical ensure proper culling is done
+    - @critical ensure proper frustum culling is done
         This is mostly ignore now, need to set up proper render bounds in the draw call and
         offset the vertices in the shader
         Probably wont find a "perfect" solution as one instance might be several times larger than another
@@ -15,23 +13,33 @@ Sprite Drawer:
     
 2D Drawing:
     - @high Pixel scaling doesnt work for axis aligned and billboard aligned drawing modes
+    - @low Polygon drawing
+        SDF is an option here to avoid having to generate a mesh on the CPU side,
+        but the generated mesh can be cached
     Circles:
         - @high Requires some more work on the sampling side with smaller inner radius
+        - @low for some reason culling needs to be off for it to render, probably related to the normal the quad is generated around
 
 3D Outline:
     - @high Another mode for wireframe is just the general outline or shape, this is needed for all the basic shapes, at least those present for Physics
         Should probably replace all the current wireframe drawers with this, except the custom mesh / mesh wireframes
+        Can either be done with SDF or by using Lines
+            Lines requires more work on CPU side to offload generating the vertices (Burst/Threading)
+            SDF is very cheap on the CPU side, but can get expensive to do on the GPU with many instances
 
 Lines:
     - @low  Poly lines needs proper miters, mostly a requirements for thicker lines
-    - @high Need a system for adding end-caps to lines, this will be easier when 2D drawers are added
-        It can be as simple as adding an enum for all the end cap types that is used together with the Line call
-        and then calling the draw method for the 2D shapes
 
 Generator:
     - @low Code Generator is extremely hard-coded atm, so some work here would be nice
 
 Archive:
+  ✔ @high Need a system for adding end-caps to lines, this will be easier when 2D drawers are added @done(21-05-11 17:18) @project(Lines)
+    It can be as simple as adding an enum for all the end cap types that is used together with the Line call
+    and then calling the draw method for the 2D shapes
+    For now only Arrows are used, might expand on this in the future but it's largely uncessessary
+  ✔ @low clean up some of the #pragma targets in shaders @done(21-05-11 17:16) @project(General)
+  ✔ @low backface culling on wireframe shader @done(21-05-11 17:16) @project(General)
   ✔ @high One option is to use SDF for everything, although it is expensive it's probably the easiest way to support 2D shapes @done(21-05-11 11:21) @project(2D Drawing)
     SDFs also has the huge benefit of easily producing nice AA, so the cost might be worth it
   ✔ font should scale by pixels @done(21-05-08 13:06) @project(General)

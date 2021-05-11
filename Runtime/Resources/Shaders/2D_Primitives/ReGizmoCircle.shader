@@ -44,6 +44,7 @@
             Blend SrcAlpha OneMinusSrcAlpha
             ZTest LEqual
             ZWrite On
+            Cull Off
 
             CGPROGRAM
             #pragma vertex vert_2d
