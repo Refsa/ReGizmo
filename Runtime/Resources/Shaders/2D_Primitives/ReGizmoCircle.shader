@@ -8,71 +8,31 @@
         CGINCLUDE
         #include "../Utils/ReGizmo2DUtils.cginc"
 
-        // Compute the inverse of a 2-by-2 matrix  
-        float2x2 inverse (float2x2 M)  {    
-            return float2x2(M[1][1], -M[0][1], -M[1][0], M[0][0]) / determinant(M); 
-        }  
+        float calc_sdf(float2 uv, float radius, float inner_radius)
+        {
+            float sdf = sdCircle(uv, radius);
+            if (inner_radius > 0)
+            {
+                sdf = (abs(sdf) - inner_radius);
+            }
+            sdf = sample_sdf(sdf);
+            return sdf;
+        }
 
         float4 frag (g2f_2d i) : SV_Target
         {
-            /* static const int start_sample = -1;
-            static const int samples = 3;
-
             float2 fw = fwidth(i.uv);
-            float2 step = fw / (float)samples;
+            float2 pos = i.uv - 0.55;
 
-            float2 pos = start_sample * step;
-            float2x2 J = transpose(float2x2(ddx(i.uv), ddy(i.uv)));
-            float2x2 J_inv = inverse(J);
+            float sdf = calc_sdf(pos, 0.52, i.inner_radius);
+            sdf += calc_sdf(pos - float2(0.5 * fw.x, 0.0), 0.52, i.inner_radius);
+            sdf += calc_sdf(pos + float2(0.5 * fw.x, 0.0), 0.52, i.inner_radius);
+            sdf += calc_sdf(pos - float2(0.0, 0.5 * fw.y), 0.52, i.inner_radius);
+            sdf += calc_sdf(pos + float2(0.0, 0.5 * fw.y), 0.52, i.inner_radius);
 
-            float4 color = float4(i.color, 0.0);
+            sdf = 1 - exp2(-3 * sdf * sdf);
 
-            for (int x = 0; x < samples; x++, pos.x += step.x)
-            {
-                pos.y = start_sample * step.y;
-                for (int y = 0; y < samples; y++, pos.y += step.y)
-                {
-                    float2 test = abs(mul(J_inv, pos));
-                    if (test.x < 0.5 && test.y < 0.5)
-                    {
-                        float sdf = sdCircle((i.uv - 0.51) + pos, 0.5);
-                        sdf *= sdCircle((i.uv - 0.51) + pos, 0.5 - i.inner_radius);
-                        sdf = sample_sdf(sdf);
-                        color.a += sdf;
-                    }
-                }
-            }
-
-            color.a *= rcp(24);
-            color.a += pow(color.a, 0.3);
-            color.a = pow(color.a, 2);
-            clip(color.a == 0 ? -1 : 1);
-            return color; */
-            
-            float2 fw = fwidth(i.uv);
-            float2 pos = i.uv - 0.51;
-            float sdf = sdCircle(pos, 0.5);
-            sdf *= sdCircle(pos, 0.5 - (i.inner_radius + length(fw)));
-            sdf = sample_sdf(sdf);
-            sdf += pow(sdf, 2);
-
-            /* float sdf = 0;
-            for (int x = -3; x <= 3; x++)
-            {
-                for (int y = -3; y <= 3; y++)
-                {
-                    float2 p = pos + float2(x, y) * fw;
-                    float _sdf = sdCircle(pos, 0.51);
-                    _sdf *= sdCircle(pos, 0.51 - (i.inner_radius));
-                    _sdf = sample_sdf(_sdf);
-
-                    sdf += _sdf;
-                }
-            } 
-            sdf *= rcp(36);
-            */
-
-            //return lerp(float4(1,1,1,0.2), float4(i.color, sdf), sdf);
+            //return float4(lerp(1, i.color, sdf), 1.0);
             
             clip(sdf == 0 ? -1 : 1);
             return float4(i.color, sdf);

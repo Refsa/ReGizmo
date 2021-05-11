@@ -1,7 +1,7 @@
 
 float sample_sdf(float sd)
 {
-    float dc = fwidth(sd) * 0.75;
+    float dc = fwidth(sd) * 0.5;
     return smoothstep(dc, -dc, sd);
 }
 

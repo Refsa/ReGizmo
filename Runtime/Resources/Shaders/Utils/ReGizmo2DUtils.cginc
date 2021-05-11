@@ -71,6 +71,8 @@ bool has_flag(int mask, int flag)
     return (mask & flag) != 0;
 }
 
+static const float aspect_ratio = _ScreenParams.x / _ScreenParams.y;
+
 [maxvertexcount(4)]
 void geom_2d(point v2g_2d i[1], inout TriangleStream<g2f_2d> triangleStream)
 {
@@ -78,7 +80,11 @@ void geom_2d(point v2g_2d i[1], inout TriangleStream<g2f_2d> triangleStream)
 
     float4 clip = UnityObjectToClipPos(float4(bd.position, 1.0));
     float4 cp1, cp2, cp3, cp4;
-    float inner_radius = (bd.thickness / bd.radius) / _ScreenParams.x * clip.w;
+    float inner_radius = (bd.radius == bd.thickness) ? 
+        -1 : 
+        (bd.thickness / bd.radius) / _ScreenParams.x * clip.w * 0.5;
+        
+    float size = bd.radius * 1.05;
 
     if (has_flag(bd.flags, DRAW_MODE_AXIS_ALIGNED))
     {
@@ -90,8 +96,8 @@ void geom_2d(point v2g_2d i[1], inout TriangleStream<g2f_2d> triangleStream)
             leftright = float3(1,0,0);
         }
         leftright = normalize(cross(leftright, normal));
-        updown = normalize(cross(normal, leftright)) * bd.radius;
-        leftright *= bd.radius;
+        updown = normalize(cross(normal, leftright)) * size;
+        leftright *= size;
 
         float3 top_left = bd.position - updown - leftright;
         float3 top_right = bd.position - updown + leftright;
@@ -118,11 +124,9 @@ void geom_2d(point v2g_2d i[1], inout TriangleStream<g2f_2d> triangleStream)
         }
         updown = normalize(updown);
 
-        float size = bd.radius;
         if (has_flag(bd.flags, SIZE_MODE_PIXEL))
         {
-            size /= _ScreenParams.x;
-            size *= clip.w;
+            size *= 0.016;
         }
 
         updown *= size;
@@ -140,7 +144,7 @@ void geom_2d(point v2g_2d i[1], inout TriangleStream<g2f_2d> triangleStream)
     }
     else
     {
-        float halfOffset = bd.radius;
+        float halfOffset = size;
         float2 size = float2(-halfOffset, -halfOffset);
 
         // Scale the size to screen coords
@@ -161,23 +165,24 @@ void geom_2d(point v2g_2d i[1], inout TriangleStream<g2f_2d> triangleStream)
         cp3 = float4(clip.x + size.x, clip.y + size.y, clip.zw);
         cp4 = float4(clip.x + size.x, clip.y - size.y, clip.zw);
     }
-
+    
+    static const float uv_width = 1.1;
 
     g2f_2d g1;
     g1.pos = cp1;
-    g1.uv = float2(1.02, 0);
+    g1.uv = float2(uv_width, 0);
     g1.color = bd.color;
     g1.inner_radius = inner_radius;
 
     g2f_2d g2;
     g2.pos = cp2;
-    g2.uv = float2(1.02, 1.02);
+    g2.uv = float2(uv_width, uv_width);
     g2.color = bd.color;
     g2.inner_radius = inner_radius;
 
     g2f_2d g3;
     g3.pos = cp3;
-    g3.uv = float2(0, 1.02);
+    g3.uv = float2(0, uv_width);
     g3.color = bd.color;
     g3.inner_radius = inner_radius;
 
