@@ -119,7 +119,7 @@ float4 frag_line(g2f_line g) : SV_Target
     static const float sharpness = 2;
 
     float x = pow(dist, g.width * smoothing);
-    col.a = exp2(-3.5 * pow(x, sharpness));
+    col.a = exp2(-4 * pow(x, sharpness));
 
     return col;
 }

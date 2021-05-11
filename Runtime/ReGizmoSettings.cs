@@ -16,7 +16,7 @@ namespace ReGizmo
 
         [SerializeField] Font font;
         [SerializeField] ReSDFData sdfFont;
-        [SerializeField] bool fontSuperSample;
+        [SerializeField] bool fontSuperSample = true;
 
         public static Font Font => instance.font;
         public static ReSDFData SDFFont => instance.sdfFont;

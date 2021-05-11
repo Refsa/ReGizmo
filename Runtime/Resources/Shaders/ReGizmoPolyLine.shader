@@ -150,7 +150,7 @@ Shader "Hidden/ReGizmo/PolyLine_Screen" {
             static const float sharpness = 2;
 
             float x = pow(dist, g.width * smoothing);
-            col.a = exp2(-2.7 * pow(x, sharpness));
+            col.a = exp2(-4 * pow(x, sharpness));
 
             return col;
         }

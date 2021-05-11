@@ -7,6 +7,8 @@
         This is mostly ignore now, need to set up proper render bounds in the draw call and
         offset the vertices in the shader
         Probably wont find a "perfect" solution as one instance might be several times larger than another
+    - @low Wireframe shader highlights faces on the back that has normals towards the camera
+        probably need another heuristic to also account for depth and not just surface normal against view direction
     
 Sprite Drawer:
     - @low Make base for Sprite Drawer a texture drawer with UVs so the same drawer can be shared for each sprite
@@ -19,6 +21,12 @@ Sprite Drawer:
     Circles:
         - @high Requires some more work on the sampling side with smaller inner radius
         - @low for some reason culling needs to be off for it to render, probably related to the normal the quad is generated around
+    Triangle:
+        - @high Triangles are now centered on the Quad
+    Arrows:
+        - @high Line overlaps with arrow, should probably reduce length of line to start of triangle base
+    Lines:
+        - @low move some of the unique stuff for screenspace line from LineUtils into Line shader
 
 3D Outline:
     - @high Another mode for wireframe is just the general outline or shape, this is needed for all the basic shapes, at least those present for Physics
