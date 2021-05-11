@@ -1,16 +1,41 @@
 ﻿General:
-    - figure out best way to do scaling/default scaling
-    - Sorting between drawers is kinda whack atm
+    - @high figure out best way to do scaling/default scaling
+    - @low Sorting between drawers is kinda whack atm
         for example: Lines at -10f is drawing over sprites at 1f, but not at -1f
-    - SDF Font Shader is fucked in in general, seems like the sampling is off for thinner fonts
-    - font should scale by pixels
-    - Legacy currently doesnt render in game view when outside of play mode, would be a nice thing but not a huge deal
-    - clean up some of the #pragma targets in shaders
+    - @high Legacy currently doesnt render in game view when outside of play mode, would be a nice thing but not a huge deal
+    - @low clean up some of the #pragma targets in shaders
+    - @low backface culling on wireframe shader
+    - @critical ensure proper culling is done
+        This is mostly ignore now, need to set up proper render bounds in the draw call and
+        offset the vertices in the shader
+        Probably wont find a "perfect" solution as one instance might be several times larger than another
     
 Sprite Drawer:
-    - Make base for Sprite Drawer a texture drawer with UVs so the same drawer can be shared for each sprite
+    - @low Make base for Sprite Drawer a texture drawer with UVs so the same drawer can be shared for each sprite
     
+2D Drawing:
+    - @high Pixel scaling doesnt work for axis aligned and billboard aligned drawing modes
+    Circles:
+        - @high Requires some more work on the sampling side with smaller inner radius
+
+3D Outline:
+    - @high Another mode for wireframe is just the general outline or shape, this is needed for all the basic shapes, at least those present for Physics
+        Should probably replace all the current wireframe drawers with this, except the custom mesh / mesh wireframes
+
+Lines:
+    - @low  Poly lines needs proper miters, mostly a requirements for thicker lines
+    - @high Need a system for adding end-caps to lines, this will be easier when 2D drawers are added
+        It can be as simple as adding an enum for all the end cap types that is used together with the Line call
+        and then calling the draw method for the 2D shapes
+
+Generator:
+    - @low Code Generator is extremely hard-coded atm, so some work here would be nice
+
 Archive:
+  ✔ @high One option is to use SDF for everything, although it is expensive it's probably the easiest way to support 2D shapes @done(21-05-11 11:21) @project(2D Drawing)
+    SDFs also has the huge benefit of easily producing nice AA, so the cost might be worth it
+  ✔ font should scale by pixels @done(21-05-08 13:06) @project(General)
+  ✔ SDF Font Shader is fucked in in general, seems like the sampling is off for thinner fonts @done(21-05-08 13:06) @project(General)
   ✘ Scopes doesnt work on font drawers @cancelled(21-05-06 14:33) @project(General)
   ✔ Change font to scale in screenspace (like lines) @done(21-05-06 13:52) @project(General)
   ✔ World space lines @done(21-05-06 13:51) @project(Line Drawer)
