@@ -115,11 +115,11 @@ float4 frag_line(g2f_line g) : SV_Target
     const float2 center_uv = float2(0.5, g.uv.y);
     const float dist = distance(g.uv, center_uv) * 2;
 
-    static const float smoothing = 0.3;
+    static const float smoothing = 0.25;
     static const float sharpness = 2;
 
     float x = pow(dist, g.width * smoothing);
-    col.a = exp2(-2.7 * pow(x, sharpness));
+    col.a = exp2(-3.5 * pow(x, sharpness));
 
     return col;
 }
