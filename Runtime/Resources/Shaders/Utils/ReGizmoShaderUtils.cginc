@@ -5,7 +5,7 @@ static const float HalfE = 2.71828 * 0.5;
 static const float2 PixelSize = 1.0 / _ScreenParams.xy;
 static const float PixelArea = length(PixelSize);
 
-struct DMIIProperties
+struct MeshProperties
 {
     float3 Position;
     float3 Rotation;

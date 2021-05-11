@@ -1,8 +1,6 @@
 Shader "Hidden/ReGizmo/Mesh"
 {
-    Properties
-    {
-    }
+    Properties { }
     SubShader
     {
         Tags
@@ -17,20 +15,20 @@ Shader "Hidden/ReGizmo/Mesh"
 
         struct vertex
         {
-            float4 vertex : POSITION;
+            float4 pos : POSITION;
             float3 normal : NORMAL;
         };
 
-        struct fragment
+        struct v2f
         {
-            float4 loc : SV_POSITION;
+            float4 pos : SV_POSITION;
             float4 col : TEXCOORD1;
             float strength : TEXCOORD3;
         };
 
-        #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
-			StructuredBuffer<DMIIProperties> _Properties;
-        #endif
+    #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
+        StructuredBuffer<MeshProperties> _Properties;
+    #endif
         float _Shaded;
         float _FresnelFactor;
 
@@ -38,31 +36,31 @@ Shader "Hidden/ReGizmo/Mesh"
         {
         }
 
-        fragment vert(vertex v, uint instanceID: SV_InstanceID)
+        v2f vert(vertex v, uint instanceID: SV_InstanceID)
         {
-            fragment f = (fragment)0;
+            v2f f = (v2f)0;
 
-            #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
-                DMIIProperties prop = _Properties[instanceID]; 
-                float4 cloc = TRS(prop.Position, prop.Rotation, prop.Scale, v.vertex);
-				f.loc = UnityObjectToClipPos(cloc);
-                f.col = prop.Color; 
+        #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
+            MeshProperties prop = _Properties[instanceID]; 
+            float4 cloc = TRS(prop.Position, prop.Rotation, prop.Scale, v.pos);
+            f.pos = UnityObjectToClipPos(cloc);
+            f.col = prop.Color; 
 
-                float3 normal = normalize(UnityObjectToWorldNormal(v.normal));
-                float3 viewDir = normalize(WorldSpaceViewDir(cloc));
-                f.strength = 1.0 - pow((1.0 - saturate(dot(normal, viewDir))), _FresnelFactor);
-                f.strength = smoothstep(0, 1, f.strength);
-            #else
-            float4 cloc = float4(v.vertex.xyz, 1);
-            f.loc = UnityObjectToClipPos(cloc);
+            float3 normal = normalize(UnityObjectToWorldNormal(v.normal));
+            float3 viewDir = normalize(WorldSpaceViewDir(cloc));
+            f.strength = 1.0 - pow((1.0 - saturate(dot(normal, viewDir))), _FresnelFactor);
+            f.strength = smoothstep(0, 1, f.strength);
+        #else
+            float4 cloc = float4(v.pos.xyz, 1);
+            f.pos = UnityObjectToClipPos(cloc);
             f.col = float4(1, 0, 1, 1);
             f.strength = 1;
-            #endif
+        #endif
 
             return f;
         }
 
-        float4 frag(fragment f) : SV_Target
+        float4 frag(v2f f) : SV_Target
         {
             float4 c = f.col;
             float3 shade = lerp(c.rgb, 0, _Shaded);
