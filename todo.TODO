@@ -14,6 +14,7 @@ Sprite Drawer:
     - @low Make base for Sprite Drawer a texture drawer with UVs so the same drawer can be shared for each sprite
     
 2D Drawing:
+    - @critical Make sure 2D shapes works for HDRP/URP
     - @high Pixel scaling doesnt work for axis aligned and billboard aligned drawing modes
     - @low Polygon drawing
         SDF is an option here to avoid having to generate a mesh on the CPU side,
@@ -43,6 +44,10 @@ Generator:
     - @low Code Generator is extremely hard-coded atm, so some work here would be nice
         f.ex. Lines are currently not generated, since they require a more sophisticated generator to work
         In general, this work is mostly unecessary since it's a utility only used in development and not in production
+
+Testing:
+    - ShaderDataBuffer should have test cases
+    - ComputeBufferPool should have test cases
 
 Archive:
   ✔ @high Need a system for adding end-caps to lines, this will be easier when 2D drawers are added @done(21-05-11 17:18) @project(Lines)

@@ -63,10 +63,9 @@ public class DrawLines : MonoBehaviour
 
 
         {
-            if (cachedPolyLine.Points == null || cachedPolyLine.Points.Count == 0)
+            if (!cachedPolyLine.Initialized || cachedPolyLine.Count == 0)
             {
-                cachedPolyLine = new PolyLine(false);
-                cachedPolyLine.AutoDispose = false;
+                cachedPolyLine = new PolyLine(false).DontDispose();
 
                 Vector3 point = Random.insideUnitSphere * 0.001f;
                 float maxTheta = 10f;
