@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ReGizmo.Utils
 {
-    public class ComputeArray<T>
+    internal class ComputeArray<T>
         where T : unmanaged
     {
         T[] data;
