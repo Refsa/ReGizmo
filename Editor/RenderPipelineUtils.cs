@@ -1,8 +1,6 @@
-using UnityEngine;
-using UnityEditor;
 using UnityEngine.Rendering;
 
-namespace ReGizmo.Utils
+namespace ReGizmo.Editor
 {
     internal static class RenderPipelineUtils
     {

@@ -10,12 +10,15 @@ namespace ReGizmo.Editor
 {
     static class ReGizmoEditor
     {
+        static RenderPipelineUtils.Pipeline currentPipeline;
         static double startTime;
         static bool isSetup;
 
         [InitializeOnLoadMethod]
         static void Init()
         {
+            DetectPipeline();
+
             DeAttachEventHooks();
             AttachEventHooks();
 
@@ -55,7 +58,7 @@ namespace ReGizmo.Editor
 
         private static void OnProjectChanged()
         {
-            Core.ReGizmo.DetectPipeline();
+            DetectPipeline();
         }
  
         static void OnBeforeBuild()
@@ -125,6 +128,47 @@ namespace ReGizmo.Editor
             if (!isSetup) return;
 
             Core.ReGizmo.OnUpdate();
+        }
+
+        public static void DetectPipeline()
+        {
+            currentPipeline = RenderPipelineUtils.DetectPipeline();
+
+            switch (currentPipeline)
+            {
+                case RenderPipelineUtils.Pipeline.Unknown:
+                    break;
+                case RenderPipelineUtils.Pipeline.Legacy:
+                    Shader.EnableKeyword(RenderPipelineUtils.LegacyKeyword);
+                    Shader.DisableKeyword(RenderPipelineUtils.SRPKeyword);
+                    break;
+                case RenderPipelineUtils.Pipeline.HDRP:
+                case RenderPipelineUtils.Pipeline.URP:
+                    Shader.EnableKeyword(RenderPipelineUtils.SRPKeyword);
+                    Shader.DisableKeyword(RenderPipelineUtils.LegacyKeyword);
+                    break;
+            }
+
+            UpdateScriptDefines();
+        }
+
+        static void UpdateScriptDefines()
+        {
+            string defines = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(UnityEditor.BuildTargetGroup.Standalone);
+            if (defines.Contains(currentPipeline.GetDefine()))
+            {
+                return;
+            }
+
+            defines = defines
+                .Replace(RenderPipelineUtils.LegacyKeyword, "")
+                .Replace(RenderPipelineUtils.URPKeyword, "")
+                .Replace(RenderPipelineUtils.HDRPKeyword, "")
+                .Replace(RenderPipelineUtils.SRPKeyword, "");
+
+            defines += $";{currentPipeline.GetDefine()}";
+
+            UnityEditor.PlayerSettings.SetScriptingDefineSymbolsForGroup(UnityEditor.BuildTargetGroup.Standalone, defines);
         }
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using ReGizmo.Core.Fonts;
-using UnityEditor;
+﻿using ReGizmo.Core.Fonts;
 using UnityEngine;
 
 namespace ReGizmo
@@ -48,8 +44,6 @@ namespace ReGizmo
             if (instance != null) return;
 
             instance = ReGizmoHelpers.LoadAssetByName<ReGizmoSettings>("ReGizmoSettings");
-
-            Core.ReGizmo.DetectPipeline();
         }
 
         void OnValidate()

@@ -20,7 +20,6 @@ namespace ReGizmo.Core
         static bool isSetup = false;
         static GameObject proxyObject;
 
-        static RenderPipelineUtils.Pipeline currentPipeline;
         static List<IReGizmoDrawer> drawers;
         static HashSet<Camera> activeCameras;
 
@@ -111,8 +110,6 @@ namespace ReGizmo.Core
 
             ComputeBufferPool.Init();
 
-            DetectPipeline();
-
             drawers = new List<IReGizmoDrawer>()
             {
                 // Lines
@@ -179,51 +176,6 @@ namespace ReGizmo.Core
             proxyComp.inEnable += () => SetActive(true);
             proxyComp.inDisable += () => SetActive(false);
         }
-
-        public static void DetectPipeline()
-        {
-            currentPipeline = RenderPipelineUtils.DetectPipeline();
-
-            switch (currentPipeline)
-            {
-                case RenderPipelineUtils.Pipeline.Unknown:
-                    break;
-                case RenderPipelineUtils.Pipeline.Legacy:
-                    Shader.EnableKeyword(RenderPipelineUtils.LegacyKeyword);
-                    Shader.DisableKeyword(RenderPipelineUtils.SRPKeyword);
-                    break;
-                case RenderPipelineUtils.Pipeline.HDRP:
-                case RenderPipelineUtils.Pipeline.URP:
-                    Shader.EnableKeyword(RenderPipelineUtils.SRPKeyword);
-                    Shader.DisableKeyword(RenderPipelineUtils.LegacyKeyword);
-                    break;
-            }
-
-#if UNITY_EDITOR
-            UpdateScriptDefines();
-#endif
-        }
-
-#if UNITY_EDITOR
-        static void UpdateScriptDefines()
-        {
-            string defines = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(UnityEditor.BuildTargetGroup.Standalone);
-            if (defines.Contains(currentPipeline.GetDefine()))
-            {
-                return;
-            }
-
-            defines = defines
-                .Replace(RenderPipelineUtils.LegacyKeyword, "")
-                .Replace(RenderPipelineUtils.URPKeyword, "")
-                .Replace(RenderPipelineUtils.HDRPKeyword, "")
-                .Replace(RenderPipelineUtils.SRPKeyword, "");
-
-            defines += $";{currentPipeline.GetDefine()}";
-
-            UnityEditor.PlayerSettings.SetScriptingDefineSymbolsForGroup(UnityEditor.BuildTargetGroup.Standalone, defines);
-        }
-#endif
 
 #if RG_URP
         private static void OnPassExecute(ScriptableRenderContext context, bool isGameView)
