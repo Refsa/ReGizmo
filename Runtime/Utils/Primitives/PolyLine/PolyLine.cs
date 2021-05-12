@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using ReGizmo.Utils;
 using UnityEngine;
 
 namespace ReGizmo.Drawing
@@ -10,7 +11,7 @@ namespace ReGizmo.Drawing
         const int StartFlag = 1 << 1;
         const int EndFlag = 1 << 2;
 
-        public List<PolyLineData> Points;
+        public ComputeArray<PolyLineData> Points;
         public bool Looping;
         /// <summary>
         /// Automatically Dispose after PolyLine has been drawn
@@ -25,12 +26,6 @@ namespace ReGizmo.Drawing
 
         public bool Initialized { get; private set; }
         public int ID => id;
-
-        public PolyLineData this[int index]
-        {
-            get => Points[index];
-            set => Points[index] = value;
-        }
 
         public PolyLine(bool looping = false)
         {

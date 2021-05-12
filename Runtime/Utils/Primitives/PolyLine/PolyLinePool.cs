@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using ReGizmo.Utils;
 using UnityEngine;
 
 namespace ReGizmo.Drawing
@@ -9,22 +10,22 @@ namespace ReGizmo.Drawing
     {
         const int InitialPoolSize = 100;
 
-        static Queue<List<PolyLineData>> openPool = new Queue<List<PolyLineData>>();
-        static HashSet<List<PolyLineData>> closedPool = new HashSet<List<PolyLineData>>();
+        static Queue<ComputeArray<PolyLineData>> openPool = new Queue<ComputeArray<PolyLineData>>();
+        static HashSet<ComputeArray<PolyLineData>> closedPool = new HashSet<ComputeArray<PolyLineData>>();
 
         internal static void SetupPool()
         {
             for (int i = 0; i < InitialPoolSize; i++)
             {
-                openPool.Enqueue(new List<PolyLineData>());
+                openPool.Enqueue(new ComputeArray<PolyLineData>());
             }
         }
 
-        internal static List<PolyLineData> Get()
+        internal static ComputeArray<PolyLineData> Get()
         {
             if (openPool.Count == 0)
             {
-                openPool.Enqueue(new List<PolyLineData>());
+                openPool.Enqueue(new ComputeArray<PolyLineData>());
                 UnityEngine.Debug.Log($"expand");
             }
 
@@ -34,7 +35,7 @@ namespace ReGizmo.Drawing
             return target;
         }
 
-        internal static void Release(List<PolyLineData> target)
+        internal static void Release(ComputeArray<PolyLineData> target)
         {
             target.Clear();
 

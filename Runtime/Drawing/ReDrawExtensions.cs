@@ -90,15 +90,7 @@ namespace ReGizmo.Drawing
 
             if (ReGizmoResolver<ReGizmoPolyLineDrawer>.TryGet(out var drawer))
             {
-                foreach (var point in polyLine.Points)
-                {
-                    ref var shaderData = ref drawer.GetShaderData();
-
-                    shaderData.Position = point.Position + currentPosition;
-                    shaderData.Color = point.Color;
-                    shaderData.ID = point.ID;
-                    shaderData.Width = point.Width;
-                }
+                drawer.GetShaderDataBuffer().Copy(polyLine.Points);
             }
 
             if (polyLine.AutoDispose)
