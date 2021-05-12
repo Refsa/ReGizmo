@@ -1,9 +1,22 @@
 #include "UnityCG.cginc"
 
+// ## MATH CONSTANTS ##
 static const float E = 2.71828;
 static const float HalfE = 2.71828 * 0.5;
 static const float2 PixelSize = 1.0 / _ScreenParams.xy;
 static const float PixelArea = length(PixelSize);
+
+// ## FLAGS ##
+static const int DRAW_MODE_BILLBOARD_FREE = 1 << 0;
+static const int DRAW_MODE_BILLBOARD_ALIGNED = 1 << 1;
+static const int DRAW_MODE_AXIS_ALIGNED = 1 << 2;
+
+static const int SIZE_MODE_PIXEL = 1 << 11;
+static const int SIZE_MODE_PERCENT = 1 << 12;
+static const int SIZE_MODE_UNIT = 1 << 13;
+
+static const int FILL_MODE_FILL = 1 << 20;
+static const int FILL_MODE_OUTLINE = 1 << 21;
 
 struct MeshProperties
 {
@@ -138,6 +151,11 @@ float4x4 inverse(float4x4 input)
     );
     #undef minor
     return transpose(cofactors) / determinant(input);
+}
+
+bool has_flag(int mask, int flag)
+{
+    return (mask & flag) != 0;
 }
 
 float ConstantWidth(float camDist, float invCenterDist, float distance)
