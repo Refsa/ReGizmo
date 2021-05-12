@@ -36,10 +36,13 @@ Sprite Drawer:
             SDF is very cheap on the CPU side, but can get expensive to do on the GPU with many instances
 
 Lines:
-    - @low  Poly lines needs proper miters, mostly a requirements for thicker lines
+    - @low Poly lines needs proper miters, mostly a requirements for thicker lines
+    - @low Can probably slightly optimize the data transfer from PolyLine into the Drawer by storing an internal struct in the PolyLine equal to the shader data
 
 Generator:
     - @low Code Generator is extremely hard-coded atm, so some work here would be nice
+        f.ex. Lines are currently not generated, since they require a more sophisticated generator to work
+        In general, this work is mostly unecessary since it's a utility only used in development and not in production
 
 Archive:
   ✔ @high Need a system for adding end-caps to lines, this will be easier when 2D drawers are added @done(21-05-11 17:18) @project(Lines)
