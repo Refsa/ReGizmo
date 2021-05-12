@@ -1,0 +1,15 @@
+{
+    "name": "ReGizmo.Samples",
+    "references": [
+        "GUID:6afc6f943b2232447afb72516ae9fddc"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
