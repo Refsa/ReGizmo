@@ -99,8 +99,14 @@ namespace ReGizmo.Drawing
             }
         }
 
-        public static void Raycast(Vector3 origin, Vector3 direction, float distance = float.MaxValue,
-            int layerMask = ~0)
+        /// <summary>
+        /// Visualizes a raycast
+        /// </summary>
+        /// <param name="origin"></param>
+        /// <param name="direction"></param>
+        /// <param name="distance"></param>
+        /// <param name="layerMask"></param>
+        public static void Raycast(Vector3 origin, Vector3 direction, float distance = float.MaxValue, int layerMask = ~0)
         {
             if (Physics.Raycast(origin, direction, out var hit, distance, layerMask))
             {
@@ -113,14 +119,24 @@ namespace ReGizmo.Drawing
             }
         }
 
-        public static void SphereCast(Vector3 origin, Vector3 direction, float radius, float distance = float.MaxValue,
-            int layerMask = ~0)
+        /// <summary>
+        /// Visualizes a SphereCast
+        /// 
+        /// A blue sphere is shown at the intersection point
+        /// </summary>
+        /// <param name="origin">center of sphere in world space</param>
+        /// <param name="direction">direction to cast in</param>
+        /// <param name="radius">radius of sphere</param>
+        /// <param name="distance">max distance to check</param>
+        /// <param name="layerMask">LayerMask to check against</param>
+        public static void SphereCast(Vector3 origin, Vector3 direction, float radius, float distance = float.MaxValue, int layerMask = ~0)
         {
             if (Physics.SphereCast(origin, radius, direction, out var hit, distance, layerMask))
             {
                 ReDraw.Ray(origin, direction * hit.distance, Color.green, 1f);
                 ReDraw.Sphere(origin + direction * hit.distance, Vector3.one * radius,
                     Color.green.WithAlpha(0.5f));
+                ReDraw.Sphere(hit.point, Vector3.one * 0.05f, Color.blue);
             }
             else
             {
@@ -128,14 +144,56 @@ namespace ReGizmo.Drawing
             }
         }
 
-        public static void BoxCast(Vector3 center, Vector3 direction, Vector3 halfExtents, Quaternion orientation,
-            float distance = float.MaxValue, int layerMask = ~0)
+        /// <summary>
+        /// Visualizes a BoxCast
+        /// 
+        /// A blue sphere is shown at the intersection point
+        /// </summary>
+        /// <param name="center">Center of box in world space</param>
+        /// <param name="direction">direction to cast in</param>
+        /// <param name="halfExtents">extents of box</param>
+        /// <param name="orientation">orientation of box</param>
+        /// <param name="distance">max distance to check</param>
+        /// <param name="layerMask">LayerMask to check against</param>
+        public static void BoxCast(Vector3 center, Vector3 direction, Vector3 halfExtents, Quaternion orientation, float distance = float.MaxValue, int layerMask = ~0)
         {
             if (Physics.BoxCast(center, halfExtents, direction, out var hit, orientation, distance, layerMask))
             {
                 ReDraw.Ray(center, direction * hit.distance, Color.green, 1f);
                 ReDraw.Cube(center + direction * hit.distance, orientation, halfExtents * 2,
                     Color.green.WithAlpha(0.5f));
+                ReDraw.Sphere(hit.point, Vector3.one * 0.05f, Color.blue);
+            }
+            else
+            {
+                ReDraw.Ray(center, direction * distance, Color.red, 1f);
+            }
+        }
+
+        /// <summary>
+        /// Visualizes a CapsuleCast
+        /// 
+        /// A blue sphere is shown at the intersection point
+        /// </summary>
+        /// <param name="point1">center of bottom section</param>
+        /// <param name="point2">center of top section</param>
+        /// <param name="radius">radius of capsule</param>
+        /// <param name="direction">direction to cast capsule in</param>
+        /// <param name="distance">max distance to cast capsule</param>
+        /// <param name="layerMask">LayerMask to test against</param>
+        public static void CapsuleCast(Vector3 point1, Vector3 point2, float radius, Vector3 direction, float distance = float.MaxValue, int layerMask = ~0)
+        {
+            Vector3 center = (point1 + point2) * 0.5f;
+            if (Physics.CapsuleCast(point1, point2, radius, direction, out var hit, distance, layerMask))
+            {
+                Vector3 orientation = (point2 - point1).normalized;
+                Quaternion rotation = Quaternion.FromToRotation(Vector3.up, orientation);
+
+                ReDraw.Ray(center, direction * hit.distance, Color.green, 1f);
+
+                ReDraw.Capsule(center + direction * hit.distance, rotation, Vector3.one * radius * 2, Color.green.WithAlpha(0.5f));
+
+                ReDraw.Sphere(hit.point, Vector3.one * 0.05f, Color.blue);
             }
             else
             {
