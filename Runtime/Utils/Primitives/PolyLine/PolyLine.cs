@@ -11,26 +11,21 @@ namespace ReGizmo.Drawing
         const int StartFlag = 1 << 1;
         const int EndFlag = 1 << 2;
 
-        public ComputeArray<PolyLineData> Points;
-        public bool Looping;
-        /// <summary>
-        /// Automatically Dispose after PolyLine has been drawn
-        /// </summary>
-        public bool AutoDispose;
-        /// <summary>
-        /// Draw when Dispose is called
-        /// </summary>
-        public bool AutoDraw;
+        internal ComputeArray<PolyLineData> Points;
+        internal bool Looping;
+        internal bool AutoDispose;
+        internal bool AutoDraw;
 
         int id;
 
         public bool Initialized { get; private set; }
         public int ID => id;
+        public int Count => Points.Count;
 
         public PolyLine(bool looping = false)
         {
             Looping = looping;
-            Points = PolyLinePool.Get();
+            Points = ComputeArrayPool<PolyLineData>.Get();
             Initialized = true;
             id = GenerateID();
             AutoDispose = true;
@@ -59,7 +54,7 @@ namespace ReGizmo.Drawing
                 this.Draw();
             }
 
-            if (Points != null) PolyLinePool.Release(Points);
+            if (Points != null) ComputeArrayPool<PolyLineData>.Release(Points);
 
             Points = null;
             Initialized = false;
@@ -78,7 +73,7 @@ namespace ReGizmo.Drawing
             if (Initialized) return false;
 
             if (Points == null)
-                Points = PolyLinePool.Get();
+                Points = ComputeArrayPool<PolyLineData>.Get();
 
             id = GenerateID();
             AutoDispose = true;
