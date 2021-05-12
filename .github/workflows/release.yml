@@ -6,24 +6,23 @@ on:
       - v*
 
 jobs:
-  extract_unity_package:
+  echo:
     runs-on: ubuntu-latest
-    name: extract_unity_package
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Extract unity package
-      id: extract_unity_package
-      uses: FrostBanditTeam/extract-unity-package-action@1
+    - uses: actions/checkout@v2
+    - run: |
+        echo "Editor.meta Runtime.meta Samples.meta" > metaList
+        find Editor/ -name \*.meta >> metaList
+        find Runtime/ -name \*.meta >> metaList
+        find Samples/ -name \*.meta >> metaList
+
+    - run: mkdir unitypkg
+
+    - uses: pCYSl5EDgo/create-unitypackage@master
       with:
-        #Specify the unity project path, relative to the repo root.
-        unityProjectPath: './'
-        #Optional: Set the directory to package, relative to the project.
-        #packagePath: 'Assets'
-        #Optional: Set the output path for the package.
-        #outputPackagePath: './artifacts/output.unitypackage'
-    - name: Upload artifact
-      uses: actions/upload-artifact@v2
+        package-path: 'unitypkg/regizmo.unitypackage'
+        include-files: metaList
+    - uses: actions/upload-artifact@master
       with:
-        name: Output package
-        path: ${{ steps.extract_unity_package.outputs.artifactsPath }}
+        path: unitypkg
+        name: package
