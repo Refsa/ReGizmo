@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace ReGizmo.Generator
 {
-    public struct Variable
+    internal struct Variable
     {
         public System.Type ValueType;
         public string ArgName;
@@ -26,7 +26,7 @@ namespace ReGizmo.Generator
         }
     }
 
-    public static class Permutation
+    internal static class Permutation
     {
         static VariableComparer variableComparer = new VariableComparer();
         static VariableArrayComparer variableArrayComparer = new VariableArrayComparer();

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ReGizmo.Editor
 {
-    public static class ReGizmoEditorUtils
+    internal static class ReGizmoEditorUtils
     {
         public const string RuntimeDefineSymbol = "REGIZMO_RUNTIME";
 

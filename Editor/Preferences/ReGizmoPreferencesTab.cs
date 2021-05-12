@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Xml;
-using ReGizmo.Core.Fonts;
+﻿using ReGizmo.Core.Fonts;
 using ReGizmo.Drawing;
+using ReGizmo.Core;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -11,7 +9,7 @@ using UnityEngine.UIElements;
 
 namespace ReGizmo.Editor.Preferences
 {
-    public static class ReGizmoPreferencesTab
+    internal static class ReGizmoPreferencesTab
     {
         [MenuItem("Window/ReGizmo/Preferences", false, 1)]
         public static void ReGizmoPreferences() => SettingsService.OpenUserPreferences("Preferences/ReGizmo");
@@ -126,7 +124,7 @@ namespace ReGizmo.Editor.Preferences
                 fontSuperSampleToggle.value = ReGizmoSettings.FontSuperSample;
                 fontSuperSampleToggle.RegisterValueChangedCallback(ce =>
                 {
-                    ReGizmo.ReGizmoSettings.ToggleFontSuperSampling();
+                    ReGizmoSettings.ToggleFontSuperSampling();
                 });
             }
 

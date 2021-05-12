@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace ReGizmo.Samples
 {
-    public class DrawSprites : MonoBehaviour
+    internal class DrawSprites : MonoBehaviour
     {
         [SerializeField] List<Sprite> sprites;
 

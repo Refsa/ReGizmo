@@ -8,7 +8,7 @@ namespace ReGizmo.Samples
 #if !REGIZMO_DEV
     [AddComponentMenu("")]
 #endif
-    public class RotateAround : MonoBehaviour
+    internal class RotateAround : MonoBehaviour
     {
         void Update()
         {

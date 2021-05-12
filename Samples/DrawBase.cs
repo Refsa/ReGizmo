@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace ReGizmo.Samples
 {
-    public abstract class DrawBase : MonoBehaviour
+    internal abstract class DrawBase : MonoBehaviour
     {
         void Update()
         {

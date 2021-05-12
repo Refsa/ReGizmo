@@ -1,7 +1,7 @@
 ﻿using ReGizmo.Core.Fonts;
 using UnityEngine;
 
-namespace ReGizmo
+namespace ReGizmo.Core
 {
     public class ReGizmoSettings : ScriptableObject
     {

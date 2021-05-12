@@ -14,7 +14,7 @@ using Debug = UnityEngine.Debug;
 
 namespace ReGizmo.Editor
 {
-    public class ReFontSetup : EditorWindow
+    internal class ReFontSetup : EditorWindow
     {
         [MenuItem("Window/ReGizmo/SDF Font Setup")]
         public static void Open()
@@ -31,8 +31,6 @@ namespace ReGizmo.Editor
         MSDF.Format format;
         int size = 64;
         int pixelRange = 4;
-
-        static int minGlyphSize = 16;
 
         void OnGUI()
         {

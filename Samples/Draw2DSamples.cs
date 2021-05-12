@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using ReGizmo.Drawing;
 using UnityEngine;
 
-public class Draw2DSamples : MonoBehaviour
+internal class Draw2DSamples : MonoBehaviour
 {
     [SerializeField, Range(1f, 1024f)] float circleOuterRadus = 128f;
     [SerializeField, Range(1f, 1024f)] float circleInnerRadius = 6f;

@@ -9,7 +9,7 @@ namespace ReGizmo.Samples
 #if !REGIZMO_DEV
     [AddComponentMenu("")]
 #endif
-    public class FrameTimeDebug : MonoBehaviour
+    internal class FrameTimeDebug : MonoBehaviour
     {
         Stopwatch totalFrameTimeSW = new Stopwatch();
         Queue<long> avgFrameTime = new Queue<long>();

@@ -6,7 +6,7 @@ using ReGizmo.Drawing;
 namespace ReGizmo.Samples
 {
     [AddComponentMenu("ReGizmo Samples/Draw Line")]
-    public class DrawLine : MonoBehaviour
+    internal class DrawLine : MonoBehaviour
     {
         [SerializeField] Transform point1;
         [SerializeField] Transform point2;

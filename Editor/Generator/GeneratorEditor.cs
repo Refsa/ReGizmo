@@ -5,7 +5,7 @@ using System.IO;
 
 namespace ReGizmo.Generator
 {
-    public static class GeneratorEditor
+    internal static class GeneratorEditor
     {
         static readonly string OUTPUT_PATH = GetOutputPath();
 

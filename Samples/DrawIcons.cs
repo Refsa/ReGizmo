@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace ReGizmo.Samples
 {
-    public class DrawIcons : MonoBehaviour
+    internal class DrawIcons : MonoBehaviour
     {
         [SerializeField] List<Texture2D> icons;
 

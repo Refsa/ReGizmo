@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ReGizmo.Runtime.Utils
 {
-    public static class MathUtils
+    internal static class MathUtils
     {
         public static Vector2 Round(this in Vector2 self, int digits)
         {

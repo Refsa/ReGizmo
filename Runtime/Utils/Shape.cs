@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ReGizmo.Utils
 {
-    public class Shape
+    internal class Shape
     {
         List<Vector3> vertices;
         List<Vector3> normals;
@@ -80,7 +80,7 @@ namespace ReGizmo.Utils
         }
     }
 
-    public class Triangle
+    internal class Triangle
     {
         public int Index0;
         public int Index1;

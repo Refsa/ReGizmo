@@ -9,7 +9,7 @@ using UnityEngine.XR;
 namespace ReGizmo.Samples
 {
     [AddComponentMenu("ReGizmo Samples/Draw SDF Text")]
-    public class DrawSDFText : DrawBase
+    internal class DrawSDFText : DrawBase
     {
         [SerializeField] string text = "Hello";
         [SerializeField, Range(8f, 1024f)] float fontSize = 1f;

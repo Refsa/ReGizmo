@@ -7,7 +7,7 @@ using UnityEditor;
 namespace ReGizmo.Samples
 {
     [AddComponentMenu("ReGizmo Samples/Draw Sample")]
-    public class DrawSample : MonoBehaviour
+    internal class DrawSample : MonoBehaviour
     {
         [SerializeField] Mesh someMesh;
 
@@ -272,8 +272,6 @@ namespace ReGizmo.Samples
                     ReDraw.Arrow(center, arrowDir, 3f, Size.Pixels(8f), 1f, color);
                 }
             }
-
-               
         }
     }
 }
