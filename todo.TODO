@@ -9,6 +9,7 @@
     - @low Wireframe shader highlights faces on the back that has normals towards the camera
         probably need another heuristic to also account for depth and not just surface normal against view direction
     - @low Persisting draw-calls, where the user can define a time/duration it will be active for
+    - @high comments on public facing methods/types
 
 Sprite Drawer:
     - @low Make base for Sprite Drawer a texture drawer with UVs so the same drawer can be shared for each sprite texture
@@ -48,10 +49,16 @@ Generator:
         f.ex. Lines are currently not generated, since they require a more sophisticated generator to work
         In general, this work is mostly unecessary since it's a utility only used in development and not in production
 
+Samples:
+    - @high need to clean up a lot of the samples
+
 Testing:
     - ShaderDataBuffer should have test cases
     - ComputeBufferPool should have test cases
     - ComputeArray should have test cases
+
+Readme:
+    - Add a Known Issues section
 
 Archive:
   ✔ @high figure out best way to do scaling/default scaling @done(21-05-12 09:18) @project(General)
