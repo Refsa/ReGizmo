@@ -1,0 +1,18 @@
+{
+    "name": "com.refsa.regizmo",
+    "version": "1.0.0",
+    "displayName": "ReGizmo",
+    "description": "Immediate-Mode Gizmos for unity",
+    "unity": "2019.4",
+    "unityRelease": "22f1",
+    "dependencies": { },
+   "keywords": [
+      "gizmos",
+      "immediate-mode"
+    ],
+    "author": {
+      "name": "Refsa",
+      "email": "refsa.dev@gmail.com",
+      "url": "https://refsa.github.io"
+    }
+  }

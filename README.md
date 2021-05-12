@@ -12,6 +12,10 @@
     Comes with tool to generate MSDF/SDF from your own font
 - Visualize Raycast, Boxcast, etc.
 
+## Installation
+This package is configured as a Unity UPM Package so you can install it through the Package Manager with this URL:  
+``` https://github.com/Refsa/ReGizmo.git#v1.0.0 ```
+
 ## General Usage
 Since ReGizmo is available from anywhere it can be called from Update, OnDrawGizmos, an Editor Window or anywhere else. Just make sure it is called every frame/repaint event since your draw calls dont persist.
 
