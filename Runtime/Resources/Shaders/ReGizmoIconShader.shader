@@ -30,6 +30,7 @@ Shader "Hidden/ReGizmo/Icon"
             float3 position;
             float3 color;
             float scale;
+            int flags;
         };
 
         sampler2D _IconTexture;
@@ -56,8 +57,11 @@ Shader "Hidden/ReGizmo/Icon"
             float2 size = float2(-halfOffset * _IconAspect, -halfOffset);
 
             // Scale the size to screen coords
-            size /= _ScreenParams.xy;
-            size *= clip.w;
+            if (has_flag(bd.flags, SIZE_MODE_PIXEL))
+            {
+                size /= _ScreenParams.xy;
+                size *= clip.w;
+            }
 
             if (ProjectionFlipped())
             {

@@ -1,4 +1,5 @@
 
+using ReGizmo.Drawing;
 using UnityEngine;
 
 namespace ReGizmo.Generator
@@ -20,13 +21,14 @@ namespace ReGizmo.Generator
 
                 shaderData.Position = currentPosition + $PARAM_1;
                 shaderData.Color = new Vector3($PARAM_2.r, $PARAM_2.g, $PARAM_2.b);
-                shaderData.Scale = currentScale.x + $PARAM_3;
+                shaderData.Scale = currentScale.x + $PARAM_3.Value;
+                shaderData.Flags = $PARAM_3.SizeMode;
             }
         }";
             variables = new Variable[] {
                 new Variable(typeof(Vector3), "position", "currentPosition", "position"),
                 new Variable(typeof(Color), "color", "currentColor", "color"),
-                new Variable(typeof(float), "scale", "32f", "scale"),
+                new Variable(typeof(Size), "size", "Size.Pixels(32f)", "size"),
             };
         }
 
