@@ -1,5 +1,4 @@
-
-using ReGizmo.Utility;
+using ReGizmo.Utils;
 
 namespace ReGizmo.Drawing
 {

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace ReGizmo.Utility
+namespace ReGizmo.Utils
 {
     internal static class ReGizmoPrimitives
     {

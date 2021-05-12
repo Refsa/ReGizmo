@@ -11,7 +11,7 @@
         probably need another heuristic to also account for depth and not just surface normal against view direction
     
 Sprite Drawer:
-    - @low Make base for Sprite Drawer a texture drawer with UVs so the same drawer can be shared for each sprite
+    - @low Make base for Sprite Drawer a texture drawer with UVs so the same drawer can be shared for each sprite texture
     
 2D Drawing:
     - @critical Make sure 2D shapes works for HDRP/URP
@@ -38,7 +38,6 @@ Sprite Drawer:
 
 Lines:
     - @low Poly lines needs proper miters, mostly a requirements for thicker lines
-    - @low Can probably slightly optimize the data transfer from PolyLine into the Drawer by storing an internal struct in the PolyLine equal to the shader data
 
 Generator:
     - @low Code Generator is extremely hard-coded atm, so some work here would be nice
@@ -48,8 +47,10 @@ Generator:
 Testing:
     - ShaderDataBuffer should have test cases
     - ComputeBufferPool should have test cases
+    - ComputeArray should have test cases
 
 Archive:
+  ✔ @low Can probably slightly optimize the data transfer from PolyLine into the Drawer by storing an internal struct in the PolyLine equal to the shader data @done(21-05-12 08:10) @project(Lines)
   ✔ @high Need a system for adding end-caps to lines, this will be easier when 2D drawers are added @done(21-05-11 17:18) @project(Lines)
     It can be as simple as adding an enum for all the end cap types that is used together with the Line call
     and then calling the draw method for the 2D shapes
