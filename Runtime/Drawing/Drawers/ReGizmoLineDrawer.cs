@@ -31,13 +31,6 @@ namespace ReGizmo.Drawing
                 renderArgumentsBuffer, 0,
                 materialPropertyBlock
             );
-            cmd.DrawProceduralIndirect(
-                Matrix4x4.identity,
-                material, 1,
-                MeshTopology.Lines,
-                renderArgumentsBuffer, 0,
-                materialPropertyBlock
-            );
         }
     }
 }

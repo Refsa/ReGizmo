@@ -22,6 +22,13 @@ struct g2f_line
     nointerpolation float width: TEXCOORD2;
 };
 
+v2g_line vert_line(uint vertexID: SV_VertexID)
+{
+    v2g_line f = (v2g_line)0;
+    f.vertexID = vertexID;
+    return f;
+}
+
 [maxvertexcount(6)]
 void geom_line(line v2g_line i[2], inout TriangleStream<g2f_line> triangleStream)
 {
@@ -98,13 +105,6 @@ void geom_line(line v2g_line i[2], inout TriangleStream<g2f_line> triangleStream
         triangleStream.Append(g3);
     }
     triangleStream.RestartStrip();
-}
-
-v2g_line vert_line(uint vertexID: SV_VertexID)
-{
-    v2g_line f = (v2g_line)0;
-    f.vertexID = vertexID;
-    return f;
 }
 
 float4 frag_line(g2f_line g) : SV_Target

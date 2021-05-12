@@ -10,9 +10,6 @@ Shader "Hidden/ReGizmo/PolyLine_Screen" {
         #include "UnityCG.cginc"
         #include "Utils/ReGizmoShaderUtils.cginc"
 
-        #define START_FLAG 2
-        #define END_FLAG 4
-
         struct v2g {
             uint vertexID: TEXCOORD0;
             uint instanceID: TEXCOORD1;
@@ -157,19 +154,6 @@ Shader "Hidden/ReGizmo/PolyLine_Screen" {
         ENDCG
 
 		Pass {
-            Blend SrcAlpha OneMinusSrcAlpha
-            ZWrite Off
-            ZTest LEqual
-
-			CGPROGRAM
-			#pragma vertex vert
-            #pragma geometry geom
-			#pragma fragment frag
-            #pragma multi_compile_instancing
-            ENDCG
-		}
-
-        Pass {
             Blend SrcAlpha OneMinusSrcAlpha
             ZWrite On
             ZTest LEqual
