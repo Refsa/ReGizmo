@@ -1,10 +1,8 @@
-
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using ReGizmo.Core;
 using UnityEngine;
 
-namespace ReGizmo.Drawing
+namespace ReGizmo.Utils
 {
     internal class ShaderDataBuffer<T> : System.IDisposable
         where T : unmanaged
@@ -18,6 +16,7 @@ namespace ReGizmo.Drawing
 
         public ShaderDataBuffer(int capacity = 1024)
         {
+            shaderDataPool = new T[0];
             Expand(capacity);
 
             writeCursor = 0;
@@ -27,9 +26,7 @@ namespace ReGizmo.Drawing
         {
             if (writeCursor >= shaderDataPool.Length)
             {
-                var oldPool = shaderDataPool;
                 Expand(128);
-                System.Array.Copy(oldPool, shaderDataPool, writeCursor);
             }
 
             return ref shaderDataPool[writeCursor++];
@@ -45,6 +42,17 @@ namespace ReGizmo.Drawing
             return writeCursor;
         }
 
+        public void Copy(ComputeArray<T> computeArray)
+        {
+            if (writeCursor + computeArray.Count >= shaderDataPool.Length)
+            {
+                Expand(computeArray.Count);
+            }
+
+            int count = computeArray.Copy(shaderDataPool, writeCursor);
+            writeCursor += count;
+        }
+
         public void PushData(MaterialPropertyBlock mpb, string name)
         {
             shaderDataBuffer.SetData(shaderDataPool, 0, 0, writeCursor);
@@ -53,11 +61,15 @@ namespace ReGizmo.Drawing
 
         void Expand(int amount)
         {
+            var oldPool = shaderDataPool;
+
             int currentLength = shaderDataPool == null ? 0 : shaderDataPool.Length;
             shaderDataPool = new T[currentLength + amount];
 
             ComputeBufferPool.Free(shaderDataBuffer);
             shaderDataBuffer = ComputeBufferPool.Get(shaderDataPool.Length, Marshal.SizeOf<T>());
+
+            System.Array.Copy(oldPool, shaderDataPool, writeCursor);
         }
 
         public void Dispose()

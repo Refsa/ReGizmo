@@ -1,5 +1,5 @@
-
 using ReGizmo.Core;
+using ReGizmo.Utils;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -57,6 +57,11 @@ namespace ReGizmo.Drawing
         {
             renderArgumentsBuffer = ComputeBufferPool.Free(renderArgumentsBuffer);
             shaderDataBuffer?.Dispose();
+        }
+
+        internal virtual ShaderDataBuffer<TShaderData> GetShaderDataBuffer()
+        {
+            return shaderDataBuffer;
         }
 
         public void Render(CommandBuffer cmd)
