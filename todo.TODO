@@ -15,15 +15,14 @@
         material.SetInt("_ZTest", (int)UnityEngine.Rendering.CompareFunction.Always);
         As such a different queue/drawer is needed for each ZTest mode, for this library it's either LEqual or Always, so two drawers per draw type is needed
 
-
 Sprite Drawer:
     - @low Make base for Sprite Drawer a texture drawer with UVs so the same drawer can be shared for each sprite texture
     
 2D Drawing:
     - @critical Make sure 2D shapes works for HDRP/URP
     - @high Unit scaling doesnt work for free billboard drawing mode
-    - @high input color alpha support
     - @high Pixel scaling doesnt work for axis aligned and billboard aligned drawing modes
+    - @low visible Z fighting when <1 alpha
     - @low Polygon drawing
         SDF is an option here to avoid having to generate a mesh on the CPU side,
         but the generated mesh can be cached
@@ -51,7 +50,6 @@ Physics:
 
 Lines:
     - @low Poly lines needs proper miters, mostly a requirements for thicker lines
-    - @high smoothing is set a bit high
 
 Generator:
     - @low Code Generator is extremely hard-coded atm, so some work here would be nice
@@ -71,6 +69,9 @@ Readme:
     - Add a third-party library section
 
 Archive:
+  ✔ @high input color alpha support @done(21-05-13 11:16) @project(2D Drawing)
+  ✔ @high smoothing is set a bit high @done(21-05-13 10:16) @project(Lines)
+  ✔ SDF Text doesnt scale correctly with aspect ratio @done(21-05-13 10:09) @project(Text)
   ✔ @high figure out best way to do scaling/default scaling @done(21-05-12 09:18) @project(General)
   ✔ @low Can probably slightly optimize the data transfer from PolyLine into the Drawer by storing an internal struct in the PolyLine equal to the shader data @done(21-05-12 08:10) @project(Lines)
   ✔ @high Need a system for adding end-caps to lines, this will be easier when 2D drawers are added @done(21-05-11 17:18) @project(Lines)

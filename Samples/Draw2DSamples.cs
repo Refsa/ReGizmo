@@ -48,6 +48,9 @@ internal class Draw2DSamples : MonoBehaviour
             ReDraw.Ray(Vector3.back * 15f, Quaternion.Euler(rotationX, 0f, rotationZ) * Vector3.forward * circleOuterRadus, Color.blue, 1f);
 
             ReDraw.Triangle(Vector3.right * 12f, Vector3.up, DrawMode.AxisAligned, Size.Pixels(circleOuterRadus), FillMode.Fill, Color.red);
+
+            ReDraw.Circle(Vector3.back * 5f, Vector3.up, DrawMode.AxisAligned, Size.Units(2f), FillMode.Fill, Color.green.WithAlpha(0.5f));
+            ReDraw.Circle(Vector3.back * 6f, Vector3.up, DrawMode.AxisAligned, Size.Units(2f), FillMode.Fill, Color.green.WithAlpha(0.5f));
         }
 
         if (dirs == null || dirs.Count != 64)
