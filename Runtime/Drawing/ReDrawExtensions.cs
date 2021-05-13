@@ -1,3 +1,4 @@
+using ReGizmo.Utils;
 using UnityEngine;
 
 namespace ReGizmo.Drawing
@@ -108,6 +109,7 @@ namespace ReGizmo.Drawing
         /// <param name="layerMask"></param>
         public static void Raycast(Vector3 origin, Vector3 direction, float distance = float.MaxValue, int layerMask = ~0)
         {
+            origin += currentPosition;
             if (Physics.Raycast(origin, direction, out var hit, distance, layerMask))
             {
                 ReDraw.Line(origin, hit.point, Color.green, 1f);
@@ -131,6 +133,7 @@ namespace ReGizmo.Drawing
         /// <param name="layerMask">LayerMask to check against</param>
         public static void SphereCast(Vector3 origin, Vector3 direction, float radius, float distance = float.MaxValue, int layerMask = ~0)
         {
+            origin += currentPosition;
             if (Physics.SphereCast(origin, radius, direction, out var hit, distance, layerMask))
             {
                 ReDraw.Ray(origin, direction * hit.distance, Color.green, 1f);
@@ -157,6 +160,7 @@ namespace ReGizmo.Drawing
         /// <param name="layerMask">LayerMask to check against</param>
         public static void BoxCast(Vector3 center, Vector3 direction, Vector3 halfExtents, Quaternion orientation, float distance = float.MaxValue, int layerMask = ~0)
         {
+            center += currentPosition;
             if (Physics.BoxCast(center, halfExtents, direction, out var hit, orientation, distance, layerMask))
             {
                 ReDraw.Ray(center, direction * hit.distance, Color.green, 1f);
@@ -183,6 +187,8 @@ namespace ReGizmo.Drawing
         /// <param name="layerMask">LayerMask to test against</param>
         public static void CapsuleCast(Vector3 point1, Vector3 point2, float radius, Vector3 direction, float distance = float.MaxValue, int layerMask = ~0)
         {
+            point1 += currentPosition;
+            point2 += currentPosition;
             Vector3 center = (point1 + point2) * 0.5f;
             if (Physics.CapsuleCast(point1, point2, radius, direction, out var hit, distance, layerMask))
             {
@@ -210,6 +216,7 @@ namespace ReGizmo.Drawing
         /// <param name="layerMask">LayerMask to check against</param>
         public static void Raycast2D(Vector2 origin, Vector2 direction, float distance = float.MaxValue, int layerMask = ~0)
         {
+            origin += currentPosition.ToVector2();
             var hit = Physics2D.Raycast(origin, direction, distance, layerMask);
             if (hit.collider != null)
             {
@@ -233,6 +240,7 @@ namespace ReGizmo.Drawing
         /// <param name="layerMask">LayerMask to check against</param>
         public static void BoxCast2D(Vector2 origin, Vector2 size, float angle, Vector2 direction, float distance = float.MaxValue, int layerMask = ~0)
         {
+            origin += currentPosition.ToVector2();
             var hit = Physics2D.BoxCast(origin, size, angle, direction, distance, layerMask);
             if (hit.collider != null)
             {
@@ -256,6 +264,7 @@ namespace ReGizmo.Drawing
         /// <param name="layerMask">LayerMask to test against</param>
         public static void CircleCast2D(Vector2 origin, float radius, Vector2 direction, float distance = float.MaxValue, int layerMask = ~0)
         {
+            origin += currentPosition.ToVector2();
             var hit = Physics2D.CircleCast(origin, radius, direction, distance, layerMask);
             if (hit.collider != null)
             {
@@ -281,6 +290,7 @@ namespace ReGizmo.Drawing
         /// <param name="layerMask">LayerMask to test against</param>
         public static void CapsuleCast2D(Vector2 origin, Vector2 size, CapsuleDirection2D capsuleDirection, float angle, Vector2 direction, float distance = float.MaxValue, int layerMask = ~0)
         {
+            origin += currentPosition.ToVector2();
             var hit = Physics2D.CapsuleCast(origin, size, capsuleDirection, angle, direction, distance, layerMask);
             if (hit.collider != null)
             {
