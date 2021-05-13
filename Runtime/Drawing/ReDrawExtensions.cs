@@ -222,6 +222,15 @@ namespace ReGizmo.Drawing
             }
         }
 
+        /// <summary>
+        /// Visualize a 2D BoxCast
+        /// </summary>
+        /// <param name="origin">center point of box</param>
+        /// <param name="size">size of box</param>
+        /// <param name="angle">rotation of box on Z-axis</param>
+        /// <param name="direction">direction to cast box in</param>
+        /// <param name="distance">max distance to check</param>
+        /// <param name="layerMask">LayerMask to check against</param>
         public static void BoxCast2D(Vector2 origin, Vector2 size, float angle, Vector2 direction, float distance = float.MaxValue, int layerMask = ~0)
         {
             var hit = Physics2D.BoxCast(origin, size, angle, direction, distance, layerMask);
@@ -229,6 +238,60 @@ namespace ReGizmo.Drawing
             {
                 ReDraw.Ray(origin, direction * hit.distance, Color.green, 1f);
                 ReDraw.Quad(origin + direction * hit.distance, Quaternion.Euler(0f, 180f, angle), size, Color.green.WithAlpha(0.5f));
+                ReDraw.Circle(hit.point, Vector3.back, DrawMode.BillboardFree, Size.Pixels(6f), FillMode.Fill, Color.blue);
+            }
+            else
+            {
+                ReDraw.Ray(origin, direction * distance, Color.red, 1f);
+            }
+        }
+
+        /// <summary>
+        /// visualize a 2D circlecast
+        /// </summary>
+        /// <param name="origin">center of circle in world space</param>
+        /// <param name="radius">radius of circle</param>
+        /// <param name="direction">direction of cast</param>
+        /// <param name="distance">max distance to cast</param>
+        /// <param name="layerMask">LayerMask to test against</param>
+        public static void CircleCast2D(Vector2 origin, float radius, Vector2 direction, float distance = float.MaxValue, int layerMask = ~0)
+        {
+            var hit = Physics2D.CircleCast(origin, radius, direction, distance, layerMask);
+            if (hit.collider != null)
+            {
+                ReDraw.Ray(origin, direction * hit.distance, Color.green, 1f);
+                ReDraw.Circle(origin + direction * hit.distance, Vector3.back, DrawMode.AxisAligned, Size.Units(radius), FillMode.Fill, Color.green.WithAlpha(0.5f));
+                ReDraw.Circle(hit.point, Vector3.back, DrawMode.BillboardFree, Size.Pixels(6f), FillMode.Fill, Color.blue);
+            }
+            else
+            {
+                ReDraw.Ray(origin, direction * distance, Color.red, 1f);
+            }
+        }
+
+        /// <summary>
+        /// Visualize a 2D CapsuleCast
+        /// </summary>
+        /// <param name="origin">Center of capsule in world space</param>
+        /// <param name="size">Dimensions of capsule</param>
+        /// <param name="capsuleDirection">Orientation of capsule</param>
+        /// <param name="angle">rotation of capsule</param>
+        /// <param name="direction">direction to cast in</param>
+        /// <param name="distance">max distance to cast</param>
+        /// <param name="layerMask">LayerMask to test against</param>
+        public static void CapsuleCast2D(Vector2 origin, Vector2 size, CapsuleDirection2D capsuleDirection, float angle, Vector2 direction, float distance = float.MaxValue, int layerMask = ~0)
+        {
+            var hit = Physics2D.CapsuleCast(origin, size, capsuleDirection, angle, direction, distance, layerMask);
+            if (hit.collider != null)
+            {
+                ReDraw.Ray(origin, direction * hit.distance, Color.green, 1f);
+
+                Vector3 normal = capsuleDirection == CapsuleDirection2D.Vertical ? Vector2.up : Vector2.right;
+                Vector3 dir = Quaternion.Euler(0f, 0f, angle) * normal;
+                Quaternion rotation = Quaternion.FromToRotation(normal, dir);
+
+                ReDraw.Capsule(origin + direction * hit.distance, rotation, size, Color.green.WithAlpha(0.5f));
+
                 ReDraw.Circle(hit.point, Vector3.back, DrawMode.BillboardFree, Size.Pixels(6f), FillMode.Fill, Color.blue);
             }
             else
