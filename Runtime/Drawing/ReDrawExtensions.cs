@@ -202,6 +202,42 @@ namespace ReGizmo.Drawing
         }
 
         /// <summary>
+        /// Visualize a 2D Raycast
+        /// </summary>
+        /// <param name="origin">Start point of ray</param>
+        /// <param name="direction">direction of ray</param>
+        /// <param name="distance">distance to check</param>
+        /// <param name="layerMask">LayerMask to check against</param>
+        public static void Raycast2D(Vector2 origin, Vector2 direction, float distance = float.MaxValue, int layerMask = ~0)
+        {
+            var hit = Physics2D.Raycast(origin, direction, distance, layerMask);
+            if (hit.collider != null)
+            {
+                ReDraw.Line(origin, hit.point, Color.green, 1f);
+                ReDraw.Ray(hit.point, hit.normal * 0.2f, Color.blue, 1f);
+            }
+            else
+            {
+                ReDraw.Ray(origin, direction * distance, Color.red, 1f);
+            }
+        }
+
+        public static void BoxCast2D(Vector2 origin, Vector2 size, float angle, Vector2 direction, float distance = float.MaxValue, int layerMask = ~0)
+        {
+            var hit = Physics2D.BoxCast(origin, size, angle, direction, distance, layerMask);
+            if (hit.collider != null)
+            {
+                ReDraw.Ray(origin, direction * hit.distance, Color.green, 1f);
+                ReDraw.Quad(origin + direction * hit.distance, Quaternion.Euler(0f, 180f, angle), size, Color.green.WithAlpha(0.5f));
+                ReDraw.Circle(hit.point, Vector3.back, DrawMode.BillboardFree, Size.Pixels(6f), FillMode.Fill, Color.blue);
+            }
+            else
+            {
+                ReDraw.Ray(origin, direction * distance, Color.red, 1f);
+            }
+        }
+
+        /// <summary>
         /// Draws a sprite at the given position
         /// 
         /// Uses the sprites PixelsPerUnit mutliplied by the given scale as size in pixels
