@@ -47,6 +47,7 @@ Sprite Drawer:
 Physics:
     - @high Helpers for 2D Physics
     - @high more Helpers for 3D Physics
+    - @high need a different Capsule to visualize Physics Capsules, since the current ones dont scale correctly
 
 Lines:
     - @low Poly lines needs proper miters, mostly a requirements for thicker lines
@@ -67,6 +68,7 @@ Testing:
 
 Readme:
     - Add a Known Issues section
+    - Add a third-party library section
 
 Archive:
   ✔ @high figure out best way to do scaling/default scaling @done(21-05-12 09:18) @project(General)

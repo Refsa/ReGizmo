@@ -95,9 +95,9 @@ ReDraw.SphereCast(Vector3 origin, Vector3 direction, float radius, float distanc
 ReDraw.CapsuleCast(Vector3 point1, Vector3 point2, float radius, Vector3 direction, float distance = float.MaxValue, int layerMask = ~0);
 
 // These will also display text with the number of hits
-ReDraw.OverlapBox(...);
-ReDraw.OverlapSphere(...);
-ReDraw.OverlapCapsule(...);
+ReDraw.OverlapBox(Vector3 center, Vector3 halfExtents, Quaternion orientation, int layerMask = ~0);
+ReDraw.OverlapSphere(Vector3 origin, float radius, int layerMask = ~0);
+ReDraw.OverlapCapsule(Vector3 point1, Vector3 point2, float radius, int layerMask = ~0);
 
 // 2D Physics
 ReDraw.Raycast2D(Vector2 origin, Vector2 direction, float distance = float.MaxValue, int layerMask = ~0);
@@ -109,9 +109,9 @@ ReDraw.CapsuleCast2D(Vector2 origin, Vector2 size, CapsuleDirection2D capsuleDir
                      float distance = float.MaxValue, int layerMask = ~0);
 
 // These will also display text with the number of hits
-ReDraw.OverlapBox2D(...);
-ReDraw.OverlapCircle2D(...);
-ReDraw.OverlapCapsule2D(...);
+ReDraw.OverlapBox2D(Vector2 origin, Vector2 size, float angle, int layerMask = ~0);
+ReDraw.OverlapCircle2D(Vector2 origin, float radius, int layerMask = ~0);
+ReDraw.OverlapCapsule2D(Vector2 origin, Vector2 size, CapsuleDirection2D capsuleDirection, float angle, int layerMask = ~0);
 ```
 
 ### Poly Lines
