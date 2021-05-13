@@ -9,12 +9,20 @@
     - @low Wireframe shader highlights faces on the back that has normals towards the camera
         probably need another heuristic to also account for depth and not just surface normal against view direction
     - @low Persisting draw-calls, where the user can define a time/duration it will be active for
+    - @high comments on public facing methods/types
+    - @high allow drawers to overlay other objects
+        Has to be set per material, cant be set via MaterialPropertyBlock
+        material.SetInt("_ZTest", (int)UnityEngine.Rendering.CompareFunction.Always);
+        As such a different queue/drawer is needed for each ZTest mode, for this library it's either LEqual or Always, so two drawers per draw type is needed
+
 
 Sprite Drawer:
     - @low Make base for Sprite Drawer a texture drawer with UVs so the same drawer can be shared for each sprite texture
     
 2D Drawing:
     - @critical Make sure 2D shapes works for HDRP/URP
+    - @high Unit scaling doesnt work for free billboard drawing mode
+    - @high input color alpha support
     - @high Pixel scaling doesnt work for axis aligned and billboard aligned drawing modes
     - @low Polygon drawing
         SDF is an option here to avoid having to generate a mesh on the CPU side,
@@ -39,19 +47,28 @@ Sprite Drawer:
 Physics:
     - @high Helpers for 2D Physics
     - @high more Helpers for 3D Physics
+    - @high need a different Capsule to visualize Physics Capsules, since the current ones dont scale correctly
 
 Lines:
     - @low Poly lines needs proper miters, mostly a requirements for thicker lines
+    - @high smoothing is set a bit high
 
 Generator:
     - @low Code Generator is extremely hard-coded atm, so some work here would be nice
         f.ex. Lines are currently not generated, since they require a more sophisticated generator to work
         In general, this work is mostly unecessary since it's a utility only used in development and not in production
 
+Samples:
+    - @high need to clean up a lot of the samples
+
 Testing:
     - ShaderDataBuffer should have test cases
     - ComputeBufferPool should have test cases
     - ComputeArray should have test cases
+
+Readme:
+    - Add a Known Issues section
+    - Add a third-party library section
 
 Archive:
   ✔ @high figure out best way to do scaling/default scaling @done(21-05-12 09:18) @project(General)
