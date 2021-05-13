@@ -97,8 +97,8 @@ namespace ReGizmo.Drawing
         {
             base.SetMaterialPropertyBlockData();
 
-            material.SetTexture("_MainTex", font.material.mainTexture);
-            material.SetBuffer("_CharacterInfos", characterInfoBuffer);
+            materialPropertyBlock.SetTexture("_MainTex", font.material.mainTexture);
+            materialPropertyBlock.SetBuffer("_CharacterInfos", characterInfoBuffer);
             textDataBuffers.PushData(materialPropertyBlock, "_TextData");
         }
 

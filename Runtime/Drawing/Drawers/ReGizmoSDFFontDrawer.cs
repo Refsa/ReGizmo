@@ -108,15 +108,6 @@ namespace ReGizmo.Drawing
         {
             base.SetMaterialPropertyBlockData();
 
-            if (ReGizmoSettings.FontSuperSample)
-            {
-                material.EnableKeyword("SDF_SS");
-            }
-            else
-            {
-                material.DisableKeyword("SDF_SS");
-            }
-
             materialPropertyBlock.SetBuffer("_CharacterInfos", characterInfoBuffer);
             textDataBuffers.PushData(materialPropertyBlock, "_TextData");
 

@@ -227,6 +227,15 @@ namespace ReGizmo.Core
             var cmd = drawBuffers.Current();
             cmd.Clear();
 
+            if (ReGizmoSettings.FontSuperSample)
+            {
+                cmd.EnableShaderKeyword("SDF_SS");
+            }
+            else
+            {
+                cmd.DisableShaderKeyword("SDF_SS");
+            }
+
             cmd.BeginSample("ReGizmo Draw Buffer");
 
             foreach (var drawer in drawers)
