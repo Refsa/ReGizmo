@@ -15,7 +15,7 @@ namespace ReGizmo.Drawing
                 data.Position = position;
                 data.Normal = normal;
                 data.Width = width.Value;
-                data.Color = new Vector3(color.r, color.g, color.b);
+                data.Color = color;
                 data.Flags = (int)drawMode | width.SizeMode | (int)fillMode;
             }
         }
@@ -28,7 +28,7 @@ namespace ReGizmo.Drawing
                 data.Position = position;
                 data.Normal = normal;
                 data.Width = width.Value;
-                data.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
+                data.Color = currentColor;
                 data.Flags = (int)drawMode | width.SizeMode | (int)fillMode;
             }
         }
@@ -41,7 +41,7 @@ namespace ReGizmo.Drawing
                 data.Position = position;
                 data.Normal = normal;
                 data.Width = width.Value;
-                data.Color = new Vector3(color.r, color.g, color.b);
+                data.Color = color;
                 data.Flags = (int)drawMode | width.SizeMode | (int)FillMode.Fill;
             }
         }
@@ -54,7 +54,7 @@ namespace ReGizmo.Drawing
                 data.Position = position;
                 data.Normal = normal;
                 data.Width = Size.Pixels(32f).Value;
-                data.Color = new Vector3(color.r, color.g, color.b);
+                data.Color = color;
                 data.Flags = (int)drawMode | Size.Pixels(32f).SizeMode | (int)fillMode;
             }
         }
@@ -67,7 +67,7 @@ namespace ReGizmo.Drawing
                 data.Position = position;
                 data.Normal = normal;
                 data.Width = width.Value;
-                data.Color = new Vector3(color.r, color.g, color.b);
+                data.Color = color;
                 data.Flags = (int)DrawMode.BillboardFree | width.SizeMode | (int)fillMode;
             }
         }
@@ -80,7 +80,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = normal;
                 data.Width = width.Value;
-                data.Color = new Vector3(color.r, color.g, color.b);
+                data.Color = color;
                 data.Flags = (int)drawMode | width.SizeMode | (int)fillMode;
             }
         }
@@ -93,7 +93,7 @@ namespace ReGizmo.Drawing
                 data.Position = position;
                 data.Normal = normal;
                 data.Width = width.Value;
-                data.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
+                data.Color = currentColor;
                 data.Flags = (int)drawMode | width.SizeMode | (int)FillMode.Fill;
             }
         }
@@ -106,7 +106,7 @@ namespace ReGizmo.Drawing
                 data.Position = position;
                 data.Normal = normal;
                 data.Width = Size.Pixels(32f).Value;
-                data.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
+                data.Color = currentColor;
                 data.Flags = (int)drawMode | Size.Pixels(32f).SizeMode | (int)fillMode;
             }
         }
@@ -119,7 +119,7 @@ namespace ReGizmo.Drawing
                 data.Position = position;
                 data.Normal = normal;
                 data.Width = Size.Pixels(32f).Value;
-                data.Color = new Vector3(color.r, color.g, color.b);
+                data.Color = color;
                 data.Flags = (int)drawMode | Size.Pixels(32f).SizeMode | (int)FillMode.Fill;
             }
         }
@@ -132,7 +132,7 @@ namespace ReGizmo.Drawing
                 data.Position = position;
                 data.Normal = normal;
                 data.Width = width.Value;
-                data.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
+                data.Color = currentColor;
                 data.Flags = (int)DrawMode.BillboardFree | width.SizeMode | (int)fillMode;
             }
         }
@@ -145,7 +145,7 @@ namespace ReGizmo.Drawing
                 data.Position = position;
                 data.Normal = normal;
                 data.Width = width.Value;
-                data.Color = new Vector3(color.r, color.g, color.b);
+                data.Color = color;
                 data.Flags = (int)DrawMode.BillboardFree | width.SizeMode | (int)FillMode.Fill;
             }
         }
@@ -158,7 +158,7 @@ namespace ReGizmo.Drawing
                 data.Position = position;
                 data.Normal = normal;
                 data.Width = Size.Pixels(32f).Value;
-                data.Color = new Vector3(color.r, color.g, color.b);
+                data.Color = color;
                 data.Flags = (int)DrawMode.BillboardFree | Size.Pixels(32f).SizeMode | (int)fillMode;
             }
         }
@@ -171,7 +171,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = normal;
                 data.Width = width.Value;
-                data.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
+                data.Color = currentColor;
                 data.Flags = (int)drawMode | width.SizeMode | (int)fillMode;
             }
         }
@@ -184,7 +184,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = normal;
                 data.Width = width.Value;
-                data.Color = new Vector3(color.r, color.g, color.b);
+                data.Color = color;
                 data.Flags = (int)drawMode | width.SizeMode | (int)FillMode.Fill;
             }
         }
@@ -197,7 +197,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = normal;
                 data.Width = Size.Pixels(32f).Value;
-                data.Color = new Vector3(color.r, color.g, color.b);
+                data.Color = color;
                 data.Flags = (int)drawMode | Size.Pixels(32f).SizeMode | (int)fillMode;
             }
         }
@@ -210,7 +210,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = normal;
                 data.Width = width.Value;
-                data.Color = new Vector3(color.r, color.g, color.b);
+                data.Color = color;
                 data.Flags = (int)DrawMode.BillboardFree | width.SizeMode | (int)fillMode;
             }
         }
@@ -223,7 +223,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = Vector3.up;
                 data.Width = width.Value;
-                data.Color = new Vector3(color.r, color.g, color.b);
+                data.Color = color;
                 data.Flags = (int)drawMode | width.SizeMode | (int)fillMode;
             }
         }
@@ -236,7 +236,7 @@ namespace ReGizmo.Drawing
                 data.Position = position;
                 data.Normal = normal;
                 data.Width = Size.Pixels(32f).Value;
-                data.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
+                data.Color = currentColor;
                 data.Flags = (int)drawMode | Size.Pixels(32f).SizeMode | (int)FillMode.Fill;
             }
         }
@@ -249,7 +249,7 @@ namespace ReGizmo.Drawing
                 data.Position = position;
                 data.Normal = normal;
                 data.Width = width.Value;
-                data.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
+                data.Color = currentColor;
                 data.Flags = (int)DrawMode.BillboardFree | width.SizeMode | (int)FillMode.Fill;
             }
         }
@@ -262,7 +262,7 @@ namespace ReGizmo.Drawing
                 data.Position = position;
                 data.Normal = normal;
                 data.Width = Size.Pixels(32f).Value;
-                data.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
+                data.Color = currentColor;
                 data.Flags = (int)DrawMode.BillboardFree | Size.Pixels(32f).SizeMode | (int)fillMode;
             }
         }
@@ -275,7 +275,7 @@ namespace ReGizmo.Drawing
                 data.Position = position;
                 data.Normal = normal;
                 data.Width = Size.Pixels(32f).Value;
-                data.Color = new Vector3(color.r, color.g, color.b);
+                data.Color = color;
                 data.Flags = (int)DrawMode.BillboardFree | Size.Pixels(32f).SizeMode | (int)FillMode.Fill;
             }
         }
@@ -288,7 +288,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = normal;
                 data.Width = width.Value;
-                data.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
+                data.Color = currentColor;
                 data.Flags = (int)drawMode | width.SizeMode | (int)FillMode.Fill;
             }
         }
@@ -301,7 +301,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = normal;
                 data.Width = Size.Pixels(32f).Value;
-                data.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
+                data.Color = currentColor;
                 data.Flags = (int)drawMode | Size.Pixels(32f).SizeMode | (int)fillMode;
             }
         }
@@ -314,7 +314,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = normal;
                 data.Width = Size.Pixels(32f).Value;
-                data.Color = new Vector3(color.r, color.g, color.b);
+                data.Color = color;
                 data.Flags = (int)drawMode | Size.Pixels(32f).SizeMode | (int)FillMode.Fill;
             }
         }
@@ -327,7 +327,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = normal;
                 data.Width = width.Value;
-                data.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
+                data.Color = currentColor;
                 data.Flags = (int)DrawMode.BillboardFree | width.SizeMode | (int)fillMode;
             }
         }
@@ -340,7 +340,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = normal;
                 data.Width = width.Value;
-                data.Color = new Vector3(color.r, color.g, color.b);
+                data.Color = color;
                 data.Flags = (int)DrawMode.BillboardFree | width.SizeMode | (int)FillMode.Fill;
             }
         }
@@ -353,7 +353,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = normal;
                 data.Width = Size.Pixels(32f).Value;
-                data.Color = new Vector3(color.r, color.g, color.b);
+                data.Color = color;
                 data.Flags = (int)DrawMode.BillboardFree | Size.Pixels(32f).SizeMode | (int)fillMode;
             }
         }
@@ -366,7 +366,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = Vector3.up;
                 data.Width = width.Value;
-                data.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
+                data.Color = currentColor;
                 data.Flags = (int)drawMode | width.SizeMode | (int)fillMode;
             }
         }
@@ -379,7 +379,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = Vector3.up;
                 data.Width = width.Value;
-                data.Color = new Vector3(color.r, color.g, color.b);
+                data.Color = color;
                 data.Flags = (int)drawMode | width.SizeMode | (int)FillMode.Fill;
             }
         }
@@ -392,7 +392,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = Vector3.up;
                 data.Width = Size.Pixels(32f).Value;
-                data.Color = new Vector3(color.r, color.g, color.b);
+                data.Color = color;
                 data.Flags = (int)drawMode | Size.Pixels(32f).SizeMode | (int)fillMode;
             }
         }
@@ -405,7 +405,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = Vector3.up;
                 data.Width = width.Value;
-                data.Color = new Vector3(color.r, color.g, color.b);
+                data.Color = color;
                 data.Flags = (int)DrawMode.BillboardFree | width.SizeMode | (int)fillMode;
             }
         }
@@ -418,7 +418,7 @@ namespace ReGizmo.Drawing
                 data.Position = position;
                 data.Normal = normal;
                 data.Width = Size.Pixels(32f).Value;
-                data.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
+                data.Color = currentColor;
                 data.Flags = (int)DrawMode.BillboardFree | Size.Pixels(32f).SizeMode | (int)FillMode.Fill;
             }
         }
@@ -431,7 +431,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = normal;
                 data.Width = Size.Pixels(32f).Value;
-                data.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
+                data.Color = currentColor;
                 data.Flags = (int)drawMode | Size.Pixels(32f).SizeMode | (int)FillMode.Fill;
             }
         }
@@ -444,7 +444,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = normal;
                 data.Width = width.Value;
-                data.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
+                data.Color = currentColor;
                 data.Flags = (int)DrawMode.BillboardFree | width.SizeMode | (int)FillMode.Fill;
             }
         }
@@ -457,7 +457,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = normal;
                 data.Width = Size.Pixels(32f).Value;
-                data.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
+                data.Color = currentColor;
                 data.Flags = (int)DrawMode.BillboardFree | Size.Pixels(32f).SizeMode | (int)fillMode;
             }
         }
@@ -470,7 +470,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = normal;
                 data.Width = Size.Pixels(32f).Value;
-                data.Color = new Vector3(color.r, color.g, color.b);
+                data.Color = color;
                 data.Flags = (int)DrawMode.BillboardFree | Size.Pixels(32f).SizeMode | (int)FillMode.Fill;
             }
         }
@@ -483,7 +483,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = Vector3.up;
                 data.Width = width.Value;
-                data.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
+                data.Color = currentColor;
                 data.Flags = (int)drawMode | width.SizeMode | (int)FillMode.Fill;
             }
         }
@@ -496,7 +496,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = Vector3.up;
                 data.Width = Size.Pixels(32f).Value;
-                data.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
+                data.Color = currentColor;
                 data.Flags = (int)drawMode | Size.Pixels(32f).SizeMode | (int)fillMode;
             }
         }
@@ -509,7 +509,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = Vector3.up;
                 data.Width = Size.Pixels(32f).Value;
-                data.Color = new Vector3(color.r, color.g, color.b);
+                data.Color = color;
                 data.Flags = (int)drawMode | Size.Pixels(32f).SizeMode | (int)FillMode.Fill;
             }
         }
@@ -522,7 +522,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = Vector3.up;
                 data.Width = width.Value;
-                data.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
+                data.Color = currentColor;
                 data.Flags = (int)DrawMode.BillboardFree | width.SizeMode | (int)fillMode;
             }
         }
@@ -535,7 +535,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = Vector3.up;
                 data.Width = width.Value;
-                data.Color = new Vector3(color.r, color.g, color.b);
+                data.Color = color;
                 data.Flags = (int)DrawMode.BillboardFree | width.SizeMode | (int)FillMode.Fill;
             }
         }
@@ -548,7 +548,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = Vector3.up;
                 data.Width = Size.Pixels(32f).Value;
-                data.Color = new Vector3(color.r, color.g, color.b);
+                data.Color = color;
                 data.Flags = (int)DrawMode.BillboardFree | Size.Pixels(32f).SizeMode | (int)fillMode;
             }
         }
@@ -561,7 +561,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = normal;
                 data.Width = Size.Pixels(32f).Value;
-                data.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
+                data.Color = currentColor;
                 data.Flags = (int)DrawMode.BillboardFree | Size.Pixels(32f).SizeMode | (int)FillMode.Fill;
             }
         }
@@ -574,7 +574,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = Vector3.up;
                 data.Width = Size.Pixels(32f).Value;
-                data.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
+                data.Color = currentColor;
                 data.Flags = (int)drawMode | Size.Pixels(32f).SizeMode | (int)FillMode.Fill;
             }
         }
@@ -587,7 +587,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = Vector3.up;
                 data.Width = width.Value;
-                data.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
+                data.Color = currentColor;
                 data.Flags = (int)DrawMode.BillboardFree | width.SizeMode | (int)FillMode.Fill;
             }
         }
@@ -600,7 +600,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = Vector3.up;
                 data.Width = Size.Pixels(32f).Value;
-                data.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
+                data.Color = currentColor;
                 data.Flags = (int)DrawMode.BillboardFree | Size.Pixels(32f).SizeMode | (int)fillMode;
             }
         }
@@ -613,7 +613,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = Vector3.up;
                 data.Width = Size.Pixels(32f).Value;
-                data.Color = new Vector3(color.r, color.g, color.b);
+                data.Color = color;
                 data.Flags = (int)DrawMode.BillboardFree | Size.Pixels(32f).SizeMode | (int)FillMode.Fill;
             }
         }
@@ -626,7 +626,7 @@ namespace ReGizmo.Drawing
                 data.Position = currentPosition;
                 data.Normal = Vector3.up;
                 data.Width = Size.Pixels(32f).Value;
-                data.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
+                data.Color = currentColor;
                 data.Flags = (int)DrawMode.BillboardFree | Size.Pixels(32f).SizeMode | (int)FillMode.Fill;
             }
         }

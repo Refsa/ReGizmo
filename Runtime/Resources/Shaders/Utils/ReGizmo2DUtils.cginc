@@ -6,7 +6,7 @@ struct Data {
     float3 position;
     float3 normal;
     float radius;
-    float3 color;
+    float4 color;
     int flags;
 };
 StructuredBuffer<Data> _Properties;
@@ -20,7 +20,7 @@ struct g2f_2d
 {
     float4 pos: SV_POSITION;
     float2 uv: TEXCOORD0;
-    nointerpolation float3 color: TEXCOORD1;
+    nointerpolation float4 color: TEXCOORD1;
     nointerpolation float inner_radius: TEXCOORD2;
 };
 

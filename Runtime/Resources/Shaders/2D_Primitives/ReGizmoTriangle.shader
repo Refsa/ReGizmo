@@ -16,7 +16,7 @@ Shader "Hidden/ReGizmo/TriangleShader"
             //return lerp(float4(0,0,0,0.2), float4(i.color, sdf), sdf);
 
             clip(sdf == 0 ? -1 : 1);
-            return float4(i.color, sdf);
+            return lerp(float4(i.color.rgb, 0), i.color, sdf);
         }
         ENDCG
 

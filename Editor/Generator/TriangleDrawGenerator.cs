@@ -22,7 +22,7 @@ namespace ReGizmo.Generator
                 data.Position = $PARAM_1;
                 data.Normal = $PARAM_2;
                 data.Width = $PARAM_4.Value;
-                data.Color = new Vector3($PARAM_6.r, $PARAM_6.g, $PARAM_6.b);
+                data.Color = $PARAM_6;
                 data.Flags = (int)$PARAM_3 | $PARAM_4.SizeMode | (int)$PARAM_5;
             }
         }";

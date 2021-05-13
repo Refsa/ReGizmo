@@ -33,9 +33,9 @@
             sdf = 1 - exp2(-3 * sdf * sdf);
 
             //return float4(lerp(1, i.color, sdf), 1.0);
-            
+
             clip(sdf == 0 ? -1 : 1);
-            return float4(i.color, sdf);
+            return lerp(float4(i.color.rgb, 0), i.color, sdf);
         }
         ENDCG
 
