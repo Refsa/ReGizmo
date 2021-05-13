@@ -324,6 +324,27 @@ namespace ReGizmo.Drawing
         }
 
         /// <summary>
+        /// Visualize an OverlapBoxAll2D
+        /// </summary>
+        /// <param name="origin">world position of box</param>
+        /// <param name="size">size of box</param>
+        /// <param name="angle">rotation of box on Z-Axis</param>
+        /// <param name="layerMask">LayerMask to check against</param>
+        public static void OverlapBox2D(Vector2 origin, Vector2 size, float angle, int layerMask = ~0)
+        {
+            var hits = Physics2D.OverlapBoxAll(origin, size, angle, layerMask);
+            if (hits.Length > 0)
+            {
+                ReDraw.Quad(origin, Quaternion.Euler(0f, 180f, angle), size, Color.green.WithAlpha(0.5f));
+                ReDraw.TextSDF($"{hits.Length}", origin, 12f, Color.white);
+            }
+            else
+            {
+                ReDraw.Quad(origin, Quaternion.Euler(0f, 180f, angle), size, Color.red.WithAlpha(0.5f));
+            }
+        }
+
+        /// <summary>
         /// visualize a 2D circlecast
         /// </summary>
         /// <param name="origin">center of circle in world space</param>
@@ -344,6 +365,26 @@ namespace ReGizmo.Drawing
             else
             {
                 ReDraw.Ray(origin, direction * distance, Color.red, 1f);
+            }
+        }
+
+        /// <summary>
+        /// Visualize an OverlapCircleAll2D
+        /// </summary>
+        /// <param name="origin">world position of circle</param>
+        /// <param name="radius">size of circle</param>
+        /// <param name="layerMask">LayerMask to check against</param>
+        public static void OverlapCircle2D(Vector2 origin, float radius, float angle, int layerMask = ~0)
+        {
+            var hits = Physics2D.OverlapCircleAll(origin, radius, layerMask);
+            if (hits.Length > 0)
+            {
+                ReDraw.TextSDF($"{hits.Length}", origin, 12f, Color.white);
+                ReDraw.Circle(origin, Vector3.back, DrawMode.AxisAligned, Size.Units(radius), FillMode.Fill, Color.green.WithAlpha(0.5f));
+            }
+            else
+            {
+                ReDraw.Circle(origin, Vector3.back, DrawMode.AxisAligned, Size.Units(radius), FillMode.Fill, Color.red.WithAlpha(0.5f));
             }
         }
 
@@ -376,6 +417,31 @@ namespace ReGizmo.Drawing
             else
             {
                 ReDraw.Ray(origin, direction * distance, Color.red, 1f);
+            }
+        }
+
+        /// <summary>
+        /// Visualize an OverlapCapsuleAll2D
+        /// </summary>
+        /// <param name="origin">world position of capsule</param>
+        /// <param name="size">size of capsule</param>
+        /// <param name="angle">rotation of capsule on Z-Axis</param>
+        /// <param name="layerMask">LayerMask to check against</param>
+        public static void OverlapCapsule2D(Vector2 origin, Vector2 size, CapsuleDirection2D capsuleDirection, float angle, int layerMask = ~0)
+        {
+            Vector3 normal = capsuleDirection == CapsuleDirection2D.Vertical ? Vector2.up : Vector2.right;
+            Vector3 dir = Quaternion.Euler(0f, 0f, angle) * normal;
+            Quaternion rotation = Quaternion.FromToRotation(normal, dir);
+
+            var hits = Physics2D.OverlapCapsuleAll(origin, size, capsuleDirection, angle, layerMask);
+            if (hits.Length > 0)
+            {
+                ReDraw.Capsule(origin, rotation, size, Color.green.WithAlpha(0.5f));
+                ReDraw.TextSDF($"{hits.Length}", origin, 12f, Color.white);
+            }
+            else
+            {
+                ReDraw.Capsule(origin, rotation, size, Color.red.WithAlpha(0.5f));
             }
         }
 
