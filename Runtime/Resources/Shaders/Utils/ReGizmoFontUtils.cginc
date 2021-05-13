@@ -87,10 +87,10 @@ void font_geom(point font_v2g i[1], inout TriangleStream<font_g2f> triangleStrea
     float4 advanceOffset = float4(cd.Advance, 0, 0, 0) * scale_factor;
     float4 size = ci.Size * td.Scale * scale_factor;
 
-    float4 c1 = (float4(size.x * aspect_ratio, -size.w, 0, 0) + advanceOffset) * camDist;
-    float4 c2 = (float4(size.y * aspect_ratio, -size.w, 0, 0) + advanceOffset) * camDist;
-    float4 c3 = (float4(size.y * aspect_ratio, -size.z, 0, 0) + advanceOffset) * camDist;
-    float4 c4 = (float4(size.x * aspect_ratio, -size.z, 0, 0) + advanceOffset) * camDist;
+    float4 c1 = (float4(size.x, -size.w, 0, 0) + advanceOffset) * camDist;
+    float4 c2 = (float4(size.y, -size.w, 0, 0) + advanceOffset) * camDist;
+    float4 c3 = (float4(size.y, -size.z, 0, 0) + advanceOffset) * camDist;
+    float4 c4 = (float4(size.x, -size.z, 0, 0) + advanceOffset) * camDist;
 
     c1.xy /= _ScreenParams.xy;
     c2.xy /= _ScreenParams.xy;
