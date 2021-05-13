@@ -261,15 +261,18 @@ namespace ReGizmo.Drawing
             point2 += currentPosition;
             Vector3 center = (point1 + point2) * 0.5f;
 
+            Vector3 orientation = (point2 - point1).normalized;
+            Quaternion rotation = Quaternion.FromToRotation(Vector3.up, orientation);
+
             var hits = Physics.OverlapCapsule(point1, point2, radius, layerMask);
             if (hits.Length > 0)
             {
-                ReDraw.Capsule(center, Quaternion.identity, Vector3.one * radius, Color.green.WithAlpha(0.5f));
+                ReDraw.Capsule(center, rotation, Vector3.one * radius * 2f, Color.green.WithAlpha(0.5f));
                 ReDraw.TextSDF($"{hits.Length}", center, 12f, Color.white);
             }
             else
             {
-                ReDraw.Capsule(center, Quaternion.identity, Vector3.one * radius, Color.red.WithAlpha(0.5f));
+                ReDraw.Capsule(center, rotation, Vector3.one * radius * 2f, Color.red.WithAlpha(0.5f));
             }
         }
 
