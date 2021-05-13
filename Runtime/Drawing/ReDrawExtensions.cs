@@ -374,12 +374,12 @@ namespace ReGizmo.Drawing
         /// <param name="origin">world position of circle</param>
         /// <param name="radius">size of circle</param>
         /// <param name="layerMask">LayerMask to check against</param>
-        public static void OverlapCircle2D(Vector2 origin, float radius, float angle, int layerMask = ~0)
+        public static void OverlapCircle2D(Vector2 origin, float radius, int layerMask = ~0)
         {
             var hits = Physics2D.OverlapCircleAll(origin, radius, layerMask);
             if (hits.Length > 0)
             {
-                ReDraw.TextSDF($"{hits.Length}", origin, 12f, Color.white);
+                ReDraw.TextSDF($"{hits.Length}", origin.ToVector3() + Vector3.back, 12f, Color.white);
                 ReDraw.Circle(origin, Vector3.back, DrawMode.AxisAligned, Size.Units(radius), FillMode.Fill, Color.green.WithAlpha(0.5f));
             }
             else

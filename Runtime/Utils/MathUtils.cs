@@ -14,6 +14,11 @@ namespace ReGizmo.Utils
 
         public static Vector2 ToVector2(this in Vector3 self)
         {
+            return new Vector2(self.x, self.y);
+        }
+
+        public static Vector3 ToVector3(this in Vector2 self)
+        {
             return new Vector3(self.x, self.y, 0f);
         }
     }
