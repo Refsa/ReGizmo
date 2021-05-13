@@ -185,6 +185,13 @@ namespace ReGizmo.Samples
                 ReDraw.TextSDF("Boxcast", origin + Vector3.up * 2.1f, 16f, Color.blue);
             }
 
+            // Overlap Box
+            {
+                Vector3 size = Vector3.one * 2f;
+                Vector3 origin = new Vector3(12.5f, 20f, 10f);
+                ReDraw.OverlapBox(origin, size, Quaternion.identity);
+            }
+
             // Capsulecast
             {
                 float radius = 0.5f;
@@ -193,6 +200,14 @@ namespace ReGizmo.Samples
                 ReDraw.CapsuleCast(p1 + Vector3.up, p1 + Vector3.up * 2f + Vector3.left, radius, Vector3.right, 100f);
                 ReDraw.CapsuleCast(p1 + Vector3.up * 2f, p1 + Vector3.up * 3f + Vector3.left, radius, Vector3.right, 100f);
                 ReDraw.TextSDF("Capsulecast", Vector3.up * 22.1f + Vector3.forward * 15f, 16f, Color.blue);
+            }
+
+            // Overlap Capsule
+            {
+                Vector3 size = Vector3.one * 2f;
+                Vector3 p1 = Vector3.right * 12f + Vector3.up * 20f + Vector3.forward * 15f;
+                Vector3 p2 = Vector3.right * 12f + Vector3.up * 20f + Vector3.forward * 15f + Vector3.right * 2f;
+                ReDraw.OverlapCapsule(p1, p2, 1f);
             }
 
             // Raycast 2D
@@ -222,9 +237,9 @@ namespace ReGizmo.Samples
                 float dist = 20f;
                 Vector2 startPoint = Vector3.up * 32f;
 
-                ReDraw.CircleCast2D(startPoint,                     0.25f, Vector2.right, 20f);
+                ReDraw.CircleCast2D(startPoint, 0.25f, Vector2.right, 20f);
                 ReDraw.CircleCast2D(startPoint + Vector2.up * 0.5f, 0.25f, Vector2.right, 20f);
-                ReDraw.CircleCast2D(startPoint + Vector2.up * 1f,   0.25f, Vector2.right, 20f);
+                ReDraw.CircleCast2D(startPoint + Vector2.up * 1f, 0.25f, Vector2.right, 20f);
                 ReDraw.TextSDF("CircleCast2D", startPoint + Vector2.up * 1f, 12f, Color.white);
             }
 
@@ -233,9 +248,9 @@ namespace ReGizmo.Samples
                 float dist = 20f;
                 Vector2 startPoint = Vector3.up * 34f;
 
-                ReDraw.CapsuleCast2D(startPoint,                     Vector2.one * 0.25f, CapsuleDirection2D.Horizontal, 0f,  Vector2.right, 20f);
+                ReDraw.CapsuleCast2D(startPoint, Vector2.one * 0.25f, CapsuleDirection2D.Horizontal, 0f, Vector2.right, 20f);
                 ReDraw.CapsuleCast2D(startPoint + Vector2.up * 0.5f, Vector2.one * 0.25f, CapsuleDirection2D.Horizontal, 30f, Vector2.right, 20f);
-                ReDraw.CapsuleCast2D(startPoint + Vector2.up * 1f,   Vector2.one * 0.25f, CapsuleDirection2D.Horizontal, 45f, Vector2.right, 20f);
+                ReDraw.CapsuleCast2D(startPoint + Vector2.up * 1f, Vector2.one * 0.25f, CapsuleDirection2D.Horizontal, 45f, Vector2.right, 20f);
                 ReDraw.TextSDF("CapsuleCast2D", startPoint + Vector2.up * 1f, 12f, Color.white);
             }
 
