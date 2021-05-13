@@ -143,11 +143,12 @@ Shader "Hidden/ReGizmo/PolyLine_Screen" {
             const float2 center_uv = float2(0.5, g.uv.y);
             const float dist = distance(g.uv, center_uv) * 2;
 
-            static const float smoothing = 0.3;
-            static const float sharpness = 2;
+            static const float width_smoothing = 0.2;
+            static const float sharpness = 6.0;
+            static const float smoothing = 3.0;
 
-            float x = pow(dist, g.width * smoothing);
-            col.a = exp2(-4 * pow(x, sharpness));
+            float x = pow(dist, g.width * width_smoothing);
+            col.a = exp2(-smoothing * pow(x, sharpness));
 
             return col;
         }
