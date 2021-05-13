@@ -248,7 +248,7 @@ namespace ReGizmo.Samples
                 ReDraw.CircleCast2D(startPoint + Vector2.up * 1f, 0.25f, Vector2.right, 20f);
                 ReDraw.TextSDF("CircleCast2D", startPoint + Vector2.up * 1f, 12f, Color.white);
             }
-
+  
             // OVerlap Cirlce 2D
             {
                 Vector2 origin = new Vector2(4.25f, 32.25f);

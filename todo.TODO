@@ -19,7 +19,7 @@ Sprite Drawer:
     - @low Make base for Sprite Drawer a texture drawer with UVs so the same drawer can be shared for each sprite texture
     
 2D Drawing:
-    - @critical Make sure 2D shapes works for HDRP/URP
+    - @critical Make sure 2D shapes works for HDRP
     - @high Unit scaling doesnt work for free billboard drawing mode
     - @high Pixel scaling doesnt work for axis aligned and billboard aligned drawing modes
     - @low visible Z fighting when <1 alpha
@@ -69,6 +69,7 @@ Readme:
     - Add a third-party library section
 
 Archive:
+  ✔ @critical Make sure 2D shapes works for URP @done(21-05-13 11:21) @project(2D Drawing)
   ✔ @high input color alpha support @done(21-05-13 11:16) @project(2D Drawing)
   ✔ @high smoothing is set a bit high @done(21-05-13 10:16) @project(Lines)
   ✔ SDF Text doesnt scale correctly with aspect ratio @done(21-05-13 10:09) @project(Text)
