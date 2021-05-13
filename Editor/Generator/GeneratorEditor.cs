@@ -9,7 +9,9 @@ namespace ReGizmo.Generator
     {
         static readonly string OUTPUT_PATH = GetOutputPath();
 
+#if REGIZMO_DEV
         [MenuItem("Window/ReGizmo/Dev/Generate Overrides")]
+#endif
         public static void GenerateOverrides()
         {
             GenerateMeshDrawerOverrides();

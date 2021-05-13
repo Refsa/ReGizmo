@@ -146,6 +146,26 @@ namespace ReGizmo.Drawing
                 ReDraw.Ray(origin, direction * distance, Color.red, 1f);
             }
         }
+        
+        /// <summary>
+        /// Visualize an overlap sphere
+        /// </summary>
+        /// <param name="origin">world position of sphere</param>
+        /// <param name="radius">radius of sphere</param>
+        /// <param name="layerMask">LayerMask to check against</param>
+        public static void OverlapSphere(Vector3 origin, float radius, int layerMask = ~0)
+        {
+            var hits = Physics.OverlapSphere(origin, radius, layerMask);
+            if (hits.Length > 0)
+            {
+                ReDraw.Sphere(origin, Quaternion.identity, Vector3.one * radius, Color.green.WithAlpha(0.5f));
+                ReDraw.TextSDF($"{hits.Length}", origin, 12f, Color.white);
+            }
+            else
+            {
+                ReDraw.Sphere(origin, Quaternion.identity, Vector3.one * radius, Color.red.WithAlpha(0.5f));
+            }
+        }
 
         /// <summary>
         /// Visualizes a BoxCast
@@ -171,6 +191,27 @@ namespace ReGizmo.Drawing
             else
             {
                 ReDraw.Ray(center, direction * distance, Color.red, 1f);
+            }
+        }
+
+        /// <summary>
+        /// Visualize an OverlapBox
+        /// </summary>
+        /// <param name="center">world position of box</param>
+        /// <param name="halfExtents">half extents of box</param>
+        /// <param name="orientation">orientation of box</param>
+        /// <param name="layerMask">LayerMask to check against</param>
+        public static void OverlapBox(Vector3 center, Vector3 halfExtents, Quaternion orientation, int layerMask = ~0)
+        {
+            var hits = Physics.OverlapBox(center, halfExtents, orientation, layerMask);
+            if (hits.Length > 0)
+            {
+                ReDraw.Cube(center, Quaternion.identity, halfExtents, Color.green.WithAlpha(0.5f));
+                ReDraw.TextSDF($"{hits.Length}", center, 12f, Color.white);
+            }
+            else
+            {
+                ReDraw.Cube(center, Quaternion.identity, halfExtents, Color.red.WithAlpha(0.5f));
             }
         }
 
@@ -204,6 +245,31 @@ namespace ReGizmo.Drawing
             else
             {
                 ReDraw.Ray(center, direction * distance, Color.red, 1f);
+            }
+        }
+
+        /// <summary>
+        /// Visualize an OverlapCapsule
+        /// </summary>
+        /// <param name="point1">bottom center of capsule</param>
+        /// <param name="point2">top center of capsule</param>
+        /// <param name="radius">radius of capsule</param>
+        /// <param name="layerMask">LayerMask to check against</param>
+        public static void OverlapCapsule(Vector3 point1, Vector3 point2, float radius, int layerMask = ~0)
+        {
+            point1 += currentPosition;
+            point2 += currentPosition;
+            Vector3 center = (point1 + point2) * 0.5f;
+
+            var hits = Physics.OverlapCapsule(point1, point2, radius, layerMask);
+            if (hits.Length > 0)
+            {
+                ReDraw.Capsule(center, Quaternion.identity, Vector3.one * radius, Color.green.WithAlpha(0.5f));
+                ReDraw.TextSDF($"{hits.Length}", center, 12f, Color.white);
+            }
+            else
+            {
+                ReDraw.Capsule(center, Quaternion.identity, Vector3.one * radius, Color.red.WithAlpha(0.5f));
             }
         }
 

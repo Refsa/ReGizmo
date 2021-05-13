@@ -156,26 +156,87 @@ namespace ReGizmo.Samples
                 ReDraw.Raycast(Vector3.up * 20f, Vector3.right, 100f);
                 ReDraw.Raycast(Vector3.up * 20.5f, Vector3.right, 100f);
                 ReDraw.Raycast(Vector3.up * 21f, Vector3.right, 100f);
-                ReDraw.TextSDF("Raycast", Vector3.up * 21.1f, 1f, Color.blue);
+                ReDraw.TextSDF("Raycast", Vector3.up * 21.1f, 16f, Color.blue);
             }
 
             // Spherecast
             {
-                ReDraw.SphereCast(Vector3.up * 20f + Vector3.forward * 5f, Vector3.right, 0.5f, 100f);
-                ReDraw.SphereCast(Vector3.up * 21f + Vector3.forward * 5f, Vector3.right, 0.5f, 100f);
-                ReDraw.SphereCast(Vector3.up * 22f + Vector3.forward * 5f, Vector3.right, 0.5f, 100f);
-                ReDraw.TextSDF("Spherecast", Vector3.up * 22.1f + Vector3.forward * 5f, 1f, Color.blue);
+                float radius = 0.5f;
+                ReDraw.SphereCast(Vector3.up * 20f + Vector3.forward * 5f, Vector3.right, radius, 100f);
+                ReDraw.SphereCast(Vector3.up * 21f + Vector3.forward * 5f, Vector3.right, radius, 100f);
+                ReDraw.SphereCast(Vector3.up * 22f + Vector3.forward * 5f, Vector3.right, radius, 100f);
+                ReDraw.TextSDF("Spherecast", Vector3.up * 22.1f + Vector3.forward * 5f, 16f, Color.blue);
+            }
+
+            // Overlap Sphere
+            {
+                float radius = 1f;
+                Vector3 origin = new Vector3(12f, 20f, 5f);
+                ReDraw.OverlapSphere(origin, radius);
             }
 
             // Boxcast
             {
-                ReDraw.BoxCast(Vector3.up * 20f + Vector3.forward * 10f, Vector3.right, Vector3.one * 0.5f,
-                    Quaternion.identity, 100f);
-                ReDraw.BoxCast(Vector3.up * 21f + Vector3.forward * 10f, Vector3.right, Vector3.one * 0.5f,
-                    Quaternion.Euler(45f, 45f, 0f), 100f);
-                ReDraw.BoxCast(Vector3.up * 22f + Vector3.forward * 10f, Vector3.right, Vector3.one * 0.5f,
-                    Quaternion.Euler(0f, 45f, 45f), 100f);
-                ReDraw.TextSDF("Boxcast", Vector3.up * 22.1f + Vector3.forward * 10f, 1f, Color.blue);
+                Vector3 origin = Vector3.up * 20f + Vector3.forward * 10f;
+                Vector3 size = Vector3.one * 0.5f;
+                ReDraw.BoxCast(origin, Vector3.right, size, Quaternion.identity, 100f);
+                ReDraw.BoxCast(origin + Vector3.up, Vector3.right, size, Quaternion.Euler(45f, 45f, 0f), 100f);
+                ReDraw.BoxCast(origin + Vector3.up * 2f, Vector3.right, size, Quaternion.Euler(0f, 45f, 45f), 100f);
+                ReDraw.TextSDF("Boxcast", origin + Vector3.up * 2.1f, 16f, Color.blue);
+            }
+
+            // Capsulecast
+            {
+                float radius = 0.5f;
+                Vector3 p1 = Vector3.up * 20f + Vector3.forward * 15f;
+                ReDraw.CapsuleCast(p1, p1 + Vector3.up + Vector3.left, radius, Vector3.right, 100f);
+                ReDraw.CapsuleCast(p1 + Vector3.up, p1 + Vector3.up * 2f + Vector3.left, radius, Vector3.right, 100f);
+                ReDraw.CapsuleCast(p1 + Vector3.up * 2f, p1 + Vector3.up * 3f + Vector3.left, radius, Vector3.right, 100f);
+                ReDraw.TextSDF("Capsulecast", Vector3.up * 22.1f + Vector3.forward * 15f, 16f, Color.blue);
+            }
+
+            // Raycast 2D
+            {
+                float dist = 20f;
+                Vector2 startPoint = Vector3.up * 28f;
+
+                ReDraw.Raycast2D(startPoint, Vector2.right, dist);
+                ReDraw.Raycast2D(startPoint + Vector2.up * 0.5f, Vector2.right, dist);
+                ReDraw.Raycast2D(startPoint + Vector2.up * 1f, Vector2.right, dist);
+                ReDraw.TextSDF("Raycast2D", startPoint + Vector2.up * 1f, 12f, Color.white);
+            }
+
+            // BoxCast 2D
+            {
+                float dist = 20f;
+                Vector2 startPoint = Vector3.up * 30f;
+
+                ReDraw.BoxCast2D(startPoint, Vector2.one * 0.25f, 15f, Vector2.right, 20f);
+                ReDraw.BoxCast2D(startPoint + Vector2.up * 0.5f, Vector2.one * 0.25f, 30f, Vector2.right, 20f);
+                ReDraw.BoxCast2D(startPoint + Vector2.up * 1f, Vector2.one * 0.25f, 45f, Vector2.right, 20f);
+                ReDraw.TextSDF("BoxCast2D", startPoint + Vector2.up * 1f, 12f, Color.white);
+            }
+
+            // CircleCast 2D
+            {
+                float dist = 20f;
+                Vector2 startPoint = Vector3.up * 32f;
+
+                ReDraw.CircleCast2D(startPoint,                     0.25f, Vector2.right, 20f);
+                ReDraw.CircleCast2D(startPoint + Vector2.up * 0.5f, 0.25f, Vector2.right, 20f);
+                ReDraw.CircleCast2D(startPoint + Vector2.up * 1f,   0.25f, Vector2.right, 20f);
+                ReDraw.TextSDF("CircleCast2D", startPoint + Vector2.up * 1f, 12f, Color.white);
+            }
+
+            // CapsuleCast 2D
+            {
+                float dist = 20f;
+                Vector2 startPoint = Vector3.up * 34f;
+
+                ReDraw.CapsuleCast2D(startPoint,                     Vector2.one * 0.25f, CapsuleDirection2D.Horizontal, 0f,  Vector2.right, 20f);
+                ReDraw.CapsuleCast2D(startPoint + Vector2.up * 0.5f, Vector2.one * 0.25f, CapsuleDirection2D.Horizontal, 30f, Vector2.right, 20f);
+                ReDraw.CapsuleCast2D(startPoint + Vector2.up * 1f,   Vector2.one * 0.25f, CapsuleDirection2D.Horizontal, 45f, Vector2.right, 20f);
+                ReDraw.TextSDF("CapsuleCast2D", startPoint + Vector2.up * 1f, 12f, Color.white);
             }
 
             // Custom Icons

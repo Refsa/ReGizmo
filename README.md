@@ -87,21 +87,28 @@ ReDraw.Triangle(Vector3 position, Vector3 normal, DrawMode drawMode, Size radius
 
 // 3D Physics
 ReDraw.Raycast(Vector3 origin, Vector3 direction, float distance = float.MaxValue, int layerMask = ~0);
-ReDraw.BoxCast(Vector3 center, Vector3 direction, Vector3 halfExtents, Quaternion orientation, float distance = float.MaxValue, int layerMask = ~0);
-ReDraw.SphereCast(Vector3 origin, Vector3 direction, float radius, float distance = float.MaxValue, int layerMask = ~0);
-ReDraw.CapsureCast(...);
 
-ReDraw.CheckBox(...);
-ReDraw.CheckSphere(...);
-ReDraw.CheckCapsule(...);
+// These are also available as extension methods to BoxCollider, SphereCollider and CapsuleCollider under ReGizmo.Drawing.Ext
+ReDraw.BoxCast(Vector3 center, Vector3 direction, Vector3 halfExtents, Quaternion orientation, 
+               float distance = float.MaxValue, int layerMask = ~0);
+ReDraw.SphereCast(Vector3 origin, Vector3 direction, float radius, float distance = float.MaxValue, int layerMask = ~0);
+ReDraw.CapsuleCast(Vector3 point1, Vector3 point2, float radius, Vector3 direction, float distance = float.MaxValue, int layerMask = ~0);
+
+// These will also display text with the number of hits
+ReDraw.OverlapBox(...);
+ReDraw.OverlapSphere(...);
+ReDraw.OverlapCapsule(...);
 
 // 2D Physics
-ReDraw.Raycast2D(...);
+ReDraw.Raycast2D(Vector2 origin, Vector2 direction, float distance = float.MaxValue, int layerMask = ~0);
 
-ReDraw.BoxCast2D(...);
-ReDraw.CircleCast2D(...);
-ReDraw.CapsuleCast2D(...);
+// These are also available as extension methods to BoxCollider2D, SphereCollider2D and CapsuleCollider2D under ReGizmo.Drawing.Ext
+ReDraw.BoxCast2D(Vector2 origin, Vector2 size, float angle, Vector2 direction, float distance = float.MaxValue, int layerMask = ~0);
+ReDraw.CircleCast2D(Vector2 origin, float radius, Vector2 direction, float distance = float.MaxValue, int layerMask = ~0);
+ReDraw.CapsuleCast2D(Vector2 origin, Vector2 size, CapsuleDirection2D capsuleDirection, float angle, Vector2 direction, 
+                     float distance = float.MaxValue, int layerMask = ~0);
 
+// These will also display text with the number of hits
 ReDraw.OverlapBox2D(...);
 ReDraw.OverlapCircle2D(...);
 ReDraw.OverlapCapsule2D(...);

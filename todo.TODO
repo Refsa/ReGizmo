@@ -10,12 +10,19 @@
         probably need another heuristic to also account for depth and not just surface normal against view direction
     - @low Persisting draw-calls, where the user can define a time/duration it will be active for
     - @high comments on public facing methods/types
+    - @high allow drawers to overlay other objects
+        Has to be set per material, cant be set via MaterialPropertyBlock
+        material.SetInt("_ZTest", (int)UnityEngine.Rendering.CompareFunction.Always);
+        As such a different queue/drawer is needed for each ZTest mode, for this library it's either LEqual or Always, so two drawers per draw type is needed
+
 
 Sprite Drawer:
     - @low Make base for Sprite Drawer a texture drawer with UVs so the same drawer can be shared for each sprite texture
     
 2D Drawing:
     - @critical Make sure 2D shapes works for HDRP/URP
+    - @high Unit scaling doesnt work for free billboard drawing mode
+    - @high input color alpha support
     - @high Pixel scaling doesnt work for axis aligned and billboard aligned drawing modes
     - @low Polygon drawing
         SDF is an option here to avoid having to generate a mesh on the CPU side,
@@ -43,6 +50,7 @@ Physics:
 
 Lines:
     - @low Poly lines needs proper miters, mostly a requirements for thicker lines
+    - @high smoothing is set a bit high
 
 Generator:
     - @low Code Generator is extremely hard-coded atm, so some work here would be nice
