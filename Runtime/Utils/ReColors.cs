@@ -31,7 +31,7 @@ namespace ReGizmo.Drawing
 
         public static Vector3 ToVector3(this Color color)
         {
-            return new Vector3(color.a, color.g, color.b);
+            return new Vector3(color.r, color.g, color.b);
         }
 
         public static readonly Color AMARANTH = new Color(229f / 255f, 43f / 255f, 80f / 255f);
