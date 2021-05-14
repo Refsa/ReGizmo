@@ -74,7 +74,7 @@ namespace ReGizmo.Samples.Performance
                 yield return null;
             }
 
-            string result = $"{test.GetType().Name}: {test.AverageFrameTime} fps - {test.AverageFrameTime / baseLine}%";
+            string result = $"{test.GetType().Name}: {test.AverageFrameTime} fps - {test.AverageFrameTime / baseLine * 100f:F2}%";
             results.Add(result);
             Debug.Log(result);
 
