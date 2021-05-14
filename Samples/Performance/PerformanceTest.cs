@@ -8,6 +8,7 @@ namespace ReGizmo.Samples.Performance
     public abstract class PerformanceTest : MonoBehaviour
     {
         [SerializeField] float duration = 10f;
+        [SerializeField] protected int testSizeSqr = 100;
 
         FrameTimeDebug _frameTimeDebug;
 
@@ -60,7 +61,10 @@ namespace ReGizmo.Samples.Performance
         {
             if (Selection.activeGameObject != this.gameObject) return;
 
+            var sw = System.Diagnostics.Stopwatch.StartNew();
             RunInternal();
+            sw.Stop();
+            Debug.Log($"{this.GetType().Name} took {sw.ElapsedTicks / 10_000f} ms");
         }
 #endif
     }
