@@ -12,12 +12,12 @@ namespace ReGizmo.Drawing
             {
                 ref var shaderData = ref drawer.GetShaderData();
                 shaderData.Position = currentPosition + origin;
-                shaderData.Color = color;
+                shaderData.Color = color.ToVector3();
                 shaderData.Width = width;
 
                 shaderData = ref drawer.GetShaderData();
                 shaderData.Position = (currentPosition + origin) + direction;
-                shaderData.Color = color;
+                shaderData.Color = color.ToVector3();
                 shaderData.Width = width;
             }
         }
@@ -27,12 +27,12 @@ namespace ReGizmo.Drawing
             {
                 ref var shaderData = ref drawer.GetShaderData();
                 shaderData.Position = currentPosition + origin;
-                shaderData.Color = color;
+                shaderData.Color = color.ToVector3();
                 shaderData.Width = 1f;
 
                 shaderData = ref drawer.GetShaderData();
                 shaderData.Position = (currentPosition + origin) + direction;
-                shaderData.Color = color;
+                shaderData.Color = color.ToVector3();
                 shaderData.Width = 1f;
             }
         }
@@ -42,12 +42,12 @@ namespace ReGizmo.Drawing
             {
                 ref var shaderData = ref drawer.GetShaderData();
                 shaderData.Position = currentPosition + origin;
-                shaderData.Color = currentColor;
+                shaderData.Color = currentColor.ToVector3();
                 shaderData.Width = width;
 
                 shaderData = ref drawer.GetShaderData();
                 shaderData.Position = (currentPosition + origin) + direction;
-                shaderData.Color = currentColor;
+                shaderData.Color = currentColor.ToVector3();
                 shaderData.Width = width;
             }
         }
@@ -57,12 +57,12 @@ namespace ReGizmo.Drawing
             {
                 ref var shaderData = ref drawer.GetShaderData();
                 shaderData.Position = currentPosition + origin;
-                shaderData.Color = currentColor;
+                shaderData.Color = currentColor.ToVector3();
                 shaderData.Width = 1f;
 
                 shaderData = ref drawer.GetShaderData();
                 shaderData.Position = (currentPosition + origin) + direction;
-                shaderData.Color = currentColor;
+                shaderData.Color = currentColor.ToVector3();
                 shaderData.Width = 1f;
             }
         }

@@ -17,12 +17,12 @@ namespace ReGizmo.Generator
             {
                 ref var shaderData = ref drawer.GetShaderData();
                 shaderData.Position = currentPosition + origin;
-                shaderData.Color = $PARAM_1;
+                shaderData.Color = $PARAM_1.ToVector3();
                 shaderData.Width = $PARAM_2;
 
                 shaderData = ref drawer.GetShaderData();
                 shaderData.Position = (currentPosition + origin) + direction;
-                shaderData.Color = $PARAM_1;
+                shaderData.Color = $PARAM_1.ToVector3();
                 shaderData.Width = $PARAM_2;
             }
         }";

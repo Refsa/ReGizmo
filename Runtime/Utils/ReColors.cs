@@ -29,6 +29,11 @@ namespace ReGizmo.Drawing
             );
         }
 
+        public static Vector3 ToVector3(this Color color)
+        {
+            return new Vector3(color.a, color.g, color.b);
+        }
+
         public static readonly Color AMARANTH = new Color(229f / 255f, 43f / 255f, 80f / 255f);
         public static readonly Color AMBER = new Color(255f / 255f, 191f / 255f, 0);
         public static readonly Color AMETHYST = new Color(153f / 255f, 102f / 255f, 204f / 255f);
