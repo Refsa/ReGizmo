@@ -23,64 +23,68 @@ namespace ReGizmo.Drawing
 
         public static void Line(Vector3 p1, Vector3 p2, Color color, float width1, float width2)
         {
+            Vector3 vecColor = color.ToVector3();
             if (ReGizmoResolver<ReGizmoLineDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
                 shaderData.Position = currentPosition + p1;
-                shaderData.Color = color.ToVector3();
+                shaderData.Color = vecColor;
                 shaderData.Width = width1;
 
                 shaderData = ref drawer.GetShaderData();
                 shaderData.Position = currentPosition + p2;
-                shaderData.Color = color.ToVector3();
+                shaderData.Color = vecColor;
                 shaderData.Width = width2;
             }
         }
 
         public static void Line(Vector3 p1, Vector3 p2, Color color, float width)
         {
+            Vector3 vecColor = color.ToVector3();
             if (ReGizmoResolver<ReGizmoLineDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
                 shaderData.Position = currentPosition + p1;
-                shaderData.Color = color.ToVector3();
+                shaderData.Color = vecColor;
                 shaderData.Width = width;
 
                 shaderData = ref drawer.GetShaderData();
                 shaderData.Position = currentPosition + p2;
-                shaderData.Color = color.ToVector3();
+                shaderData.Color = vecColor;
                 shaderData.Width = width;
             }
         }
 
         public static void Line(Vector3 p1, Vector3 p2, Color color)
         {
+            Vector3 vecColor = color.ToVector3();
             if (ReGizmoResolver<ReGizmoLineDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
                 shaderData.Position = currentPosition + p1;
-                shaderData.Color = color.ToVector3();
+                shaderData.Color = vecColor;
                 shaderData.Width = 1f;
 
                 shaderData = ref drawer.GetShaderData();
                 shaderData.Position = currentPosition + p2;
-                shaderData.Color = color.ToVector3();
+                shaderData.Color = vecColor;
                 shaderData.Width = 1f;
             }
         }
 
         public static void Line(Vector3 p1, Vector3 p2)
         {
+            Vector3 vecColor = currentColor.ToVector3();
             if (ReGizmoResolver<ReGizmoLineDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
                 shaderData.Position = currentPosition + p1;
-                shaderData.Color = currentColor.ToVector3();
+                shaderData.Color = vecColor;
                 shaderData.Width = 1f;
 
                 shaderData = ref drawer.GetShaderData();
                 shaderData.Position = currentPosition + p2;
-                shaderData.Color = currentColor.ToVector3();
+                shaderData.Color = vecColor;
                 shaderData.Width = 1f;
             }
         }
@@ -467,15 +471,60 @@ namespace ReGizmo.Drawing
 
         public static void Rect(Rect rect, Color color, float depth = 0f)
         {
-            Vector3 p1 = new Vector3(rect.xMin, rect.yMin, depth);
-            Vector3 p2 = new Vector3(rect.xMin, rect.yMax, depth);
-            Vector3 p3 = new Vector3(rect.xMax, rect.yMax, depth);
-            Vector3 p4 = new Vector3(rect.xMax, rect.yMin, depth);
+            Vector3 p1 = currentPosition + new Vector3(rect.xMin, rect.yMin, depth);
+            Vector3 p2 = currentPosition + new Vector3(rect.xMin, rect.yMax, depth);
+            Vector3 p3 = currentPosition + new Vector3(rect.xMax, rect.yMax, depth);
+            Vector3 p4 = currentPosition + new Vector3(rect.xMax, rect.yMin, depth);
 
-            Line(p1, p2, color, 1f);
+            /* Line(p1, p2, color, 1f);
             Line(p2, p3, color, 1f);
             Line(p3, p4, color, 1f);
-            Line(p4, p1, color, 1f);
+            Line(p4, p1, color, 1f); */
+
+            Vector3 vecColor = color.ToVector3();
+
+            if (ReGizmoResolver<ReGizmoLineDrawer>.TryGet(out var drawer))
+            {
+                ref var shaderData = ref drawer.GetShaderData();
+                shaderData.Position = p1;
+                shaderData.Color = vecColor;
+                shaderData.Width = 1f;
+
+                shaderData = ref drawer.GetShaderData();
+                shaderData.Position = p2;
+                shaderData.Color = vecColor;
+                shaderData.Width = 1f;
+
+                shaderData = ref drawer.GetShaderData();
+                shaderData.Position = p2;
+                shaderData.Color = vecColor;
+                shaderData.Width = 1f;
+
+                shaderData = ref drawer.GetShaderData();
+                shaderData.Position = p3;
+                shaderData.Color = vecColor;
+                shaderData.Width = 1f;
+
+                shaderData = ref drawer.GetShaderData();
+                shaderData.Position = p3;
+                shaderData.Color = vecColor;
+                shaderData.Width = 1f;
+
+                shaderData = ref drawer.GetShaderData();
+                shaderData.Position = p4;
+                shaderData.Color = vecColor;
+                shaderData.Width = 1f;
+
+                shaderData = ref drawer.GetShaderData();
+                shaderData.Position = p4;
+                shaderData.Color = vecColor;
+                shaderData.Width = 1f;
+
+                shaderData = ref drawer.GetShaderData();
+                shaderData.Position = p1;
+                shaderData.Color = vecColor;
+                shaderData.Width = 1f;
+            }
         }
 
         public static void Circle2(Vector3 center, Vector3 normal, float radius, int resolution)
