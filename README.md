@@ -4,12 +4,12 @@
 
 ### Features:
 - Legacy/URP/HDRP Support
-- Call from anywhere and it will render to Scene/Game View
+- Call from anywhere and it will render to both Scene View and Game View
 - Sample-Space AA and Filtering, enjoy smooth lines in the Scene View  
     Only applies to 2D Shapes and Lines
 - Draw from using scopes and avoid doing manual translations
 - Font rendering, both in glyph and SDF form  
-    Comes with tool to generate MSDF/SDF from your own font
+    Comes with tool to generate MSDF/SDF from your own font (see third party section)
 - Visualize Raycast, Boxcast, etc.
 
 ## Installation
@@ -84,6 +84,7 @@ ReDraw.PolyLine(PolyLine polyLine); // More on this below
 // 2D Shapes
 ReDraw.Circle(Vector3 position, Vector3 normal, DrawMode drawMode, Size radius, FillMode fillMode, Color color);
 ReDraw.Triangle(Vector3 position, Vector3 normal, DrawMode drawMode, Size radius, FillMode fillMode, Color color);
+ReDraw.Rect(Rect rect, Color color, float depth = 0f);
 
 // 3D Physics
 ReDraw.Raycast(Vector3 origin, Vector3 direction, float distance = float.MaxValue, int layerMask = ~0);
@@ -203,3 +204,11 @@ DrawMode.BillboardAligned
 // Shape is fully billboarded and will always face the camera
 DrawMode.BillboardFree
 ```
+
+## Third Party Licenses
+
+### msdfgen / msdf-atlas-gen
+[msdfgen license](https://github.com/Chlumsky/msdfgen/blob/master/LICENSE.txt)  
+[msdf-atlas-gen license](https://github.com/Chlumsky/msdf-atlas-gen/blob/master/LICENSE.txt)
+
+This library makes use of this library to generate MSDF/SDF font atlases.

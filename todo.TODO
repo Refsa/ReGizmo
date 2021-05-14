@@ -56,6 +56,12 @@ Generator:
         f.ex. Lines are currently not generated, since they require a more sophisticated generator to work
         In general, this work is mostly unecessary since it's a utility only used in development and not in production
 
+Burst:  
+    Currently no support for Burst as the compiler doesnt resolve generics properly
+    Either another wrapper around current system or remove parts of the generic dependency on the current system
+    Creating a wrapper is easier, but more grunt work
+    Rewriting the generics could result in an even worse situation, hard to say
+
 Samples:
     - @high need to clean up a lot of the samples
 
