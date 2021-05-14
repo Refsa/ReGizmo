@@ -1,3 +1,4 @@
+#if RG_SRP
 using System;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -5,7 +6,6 @@ using UnityEngine.Rendering.Universal;
 
 namespace ReGizmo.Core.URP
 {
-#if RG_SRP
     public class ReGizmoRenderFeature : ScriptableRendererFeature
     {
         public static event Action<ScriptableRenderContext, bool> OnPassExecute;
@@ -37,5 +37,5 @@ namespace ReGizmo.Core.URP
             renderer.EnqueuePass(renderPass);
         }
     }
-#endif
 }
+#endif
