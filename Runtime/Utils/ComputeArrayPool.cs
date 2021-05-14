@@ -8,7 +8,6 @@ namespace ReGizmo.Utils
         const int InitialSize = 64;
 
         static Queue<ComputeArray<TElement>> openPool = new Queue<ComputeArray<TElement>>();
-        static HashSet<ComputeArray<TElement>> closedPool = new HashSet<ComputeArray<TElement>>();
 
         static ComputeArrayPool()
         {
@@ -30,7 +29,6 @@ namespace ReGizmo.Utils
                 target = openPool.Dequeue();
             }
 
-            closedPool.Add(target);
             return target;
         }
 
@@ -38,7 +36,6 @@ namespace ReGizmo.Utils
         {
             computeArray.Clear();
 
-            closedPool.Remove(computeArray);
             openPool.Enqueue(computeArray);
         }
     }
