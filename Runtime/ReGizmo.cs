@@ -236,7 +236,9 @@ namespace ReGizmo.Core
                 cmd.DisableShaderKeyword("SDF_SS");
             }
 
+#if REGIZMO_DEV
             cmd.BeginSample("ReGizmo Draw Buffer");
+#endif
 
             foreach (var drawer in drawers)
             {
@@ -252,7 +254,9 @@ namespace ReGizmo.Core
                 drawer.Clear();
             }
 
+#if REGIZMO_DEV
             cmd.EndSample("ReGizmo Draw Buffer");
+#endif
 
             if (shouldReset)
             {
