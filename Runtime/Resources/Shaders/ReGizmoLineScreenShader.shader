@@ -22,14 +22,14 @@ Shader "Hidden/ReGizmo/Line_Screen"
         {
             float4 pos: SV_POSITION;
             noperspective float2 uv : TEXCOORD0;
-            float4 color: TEXCOORD1;
+            float3 color: TEXCOORD1;
             nointerpolation float width: TEXCOORD2;
         };
 
         struct LineProperties
         {
             float3 Position;
-            float4 Color;
+            float3 Color;
             float Width;
         };
 
@@ -122,7 +122,7 @@ Shader "Hidden/ReGizmo/Line_Screen"
         
         float4 frag_line(g2f_line g) : SV_Target
         {
-            float4 col = g.color;
+            float4 col = float4(g.color, 0.0);
         
             // TODO: Unoptimal since we can avoid this distance check, but works for now
             const float2 center_uv = float2(0.5, g.uv.y);
