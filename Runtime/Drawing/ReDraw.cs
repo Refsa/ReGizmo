@@ -45,6 +45,14 @@ namespace ReGizmo.Drawing
         }
     }
 
+    public enum ArrowCap : int
+    {
+        Triangle = 0,
+        Cone,
+        Sphere,
+        Cube
+    }
+
     /// <summary>
     /// Other partial implementations only contains extension methods for the different drawing calls
     /// </summary>
