@@ -21,5 +21,10 @@ namespace ReGizmo.Utils
         {
             return new Vector3(self.x, self.y, 0f);
         }
+
+        public static Vector4 ToVector4(this in Quaternion self)
+        {
+            return new Vector4(self.x, self.y, self.z, self.w);
+        }
     }
 }

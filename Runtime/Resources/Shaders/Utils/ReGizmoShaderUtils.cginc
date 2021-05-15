@@ -21,106 +21,43 @@ static const int FILL_MODE_OUTLINE = 1 << 21;
 struct MeshProperties
 {
     float3 Position;
-    float3 Rotation;
+    float4 Rotation;
     float3 Scale;
     float4 Color;
 };
 
-float4 Rotate3D(float3 pos, float3 rotation)
+float4x4 rotation_matrix(float3 rotation)
 {
-    float cosX = cos(rotation.x);
-    float sinX = sin(rotation.x);
-    float cosY = cos(rotation.y);
-    float sinY = sin(rotation.y);
-    float cosZ = cos(rotation.z);
-    float sinZ = sin(rotation.z);
+    float cosX = cos(rotation.x), sinX = sin(rotation.x);
+    float cosY = cos(rotation.y), sinY = sin(rotation.y);
+    float cosZ = cos(rotation.z), sinZ = sin(rotation.z);
 
-    float4x4 rotX =
-        float4x4(
-            1, 0, 0, 0,
-            0, cosX, -sinX, 0,
-            0, sinX, cosX, 0,
-            0, 0, 0, 1
-        );
-
-    float4x4 rotY =
-        float4x4(
-            cosY, 0, sinY, 0,
-            0, 1, 0, 0,
-            -sinY, 0, cosY, 0,
-            0, 0, 0, 1
-        );
-
-    float4x4 rotZ =
-        float4x4(
-            cosZ, -sinZ, 0, 0,
-            sinZ, cosZ, 0, 0,
-            0, 0, 1, 0,
-            0, 0, 0, 1
-        );
-
-    float4x4 rotMat = mul(mul(rotX, rotY), rotZ);
-
-    return mul(rotMat, pos);
+    return float4x4(
+        cosZ * cosY, -sinZ * cosX + cosZ * sinY * sinX, sinZ * sinX + cosZ * sinY * cosX, 0,
+        sinZ * cosY, cosZ * cosX + sinZ * sinY * sinX, -cosZ * sinX + sinZ * sinY * cosX, 0,
+        -sinY, cosY * sinX, cosY * cosX, 0,
+        0,0,0,1
+    );
 }
 
-float4 TRS(float3 position, float3 rotation, float3 scale, float4 vLoc)
+// https://jp.mathworks.com/help/aeroblks/quaternioninverse.html
+float4 q_inverse(float4 q)
 {
-    float4x4 posMat =
-        float4x4(
-            1, 0, 0, position.x,
-            0, 1, 0, position.y,
-            0, 0, 1, position.z,
-            0, 0, 0, 1
-        );
+    float4 conj = float4(-q.x, -q.y, -q.z, q.w);
+    return conj / (q.x * q.x + q.y * q.y + q.z * q.z + q.w * q.w);
+}
 
-    float4x4 scaleMat =
-        float4x4(
-            scale.x, 0, 0, 0,
-            0, scale.y, 0, 0,
-            0, 0, scale.z, 0,
-            0, 0, 0, 1
-        );
+// Vector rotation with a quaternion
+// http://mathworld.wolfram.com/Quaternion.html
+float3 rotate_vector(float4 quat, float3 vec)
+{
+    quat = q_inverse(quat);
+    return vec + 2.0 * cross( cross( vec, quat.xyz ) + quat.w * vec, quat.xyz );
+}
 
-    float cosX = cos(rotation.x);
-    float sinX = sin(rotation.x);
-    float cosY = cos(rotation.y);
-    float sinY = sin(rotation.y);
-    float cosZ = cos(rotation.z);
-    float sinZ = sin(rotation.z);
-
-    float4x4 rotX =
-        float4x4(
-            1, 0, 0, 0,
-            0, cosX, -sinX, 0,
-            0, sinX, cosX, 0,
-            0, 0, 0, 1
-        );
-
-    float4x4 rotY =
-        float4x4(
-            cosY, 0, sinY, 0,
-            0, 1, 0, 0,
-            -sinY, 0, cosY, 0,
-            0, 0, 0, 1
-        );
-
-    float4x4 rotZ =
-        float4x4(
-            cosZ, -sinZ, 0, 0,
-            sinZ, cosZ, 0, 0,
-            0, 0, 1, 0,
-            0, 0, 0, 1
-        );
-
-    float4x4 rotMat = mul(mul(rotZ, rotY), rotX);
-
-    float4 pos = vLoc;
-    pos = mul(scaleMat, pos);
-    pos = mul(rotMat, pos);
-    pos = mul(posMat, pos);
-
-    return pos;
+float4 TRS(float3 position, float4 rotation, float3 scale, float4 vLoc)
+{
+    return float4(position + rotate_vector(rotation, vLoc.xyz * scale), 1.0);
 }
 
 // https://forum.unity.com/threads/incorrect-normals-on-after-rotating-instances-graphics-drawmeshinstancedindirect.503232/#post-3277479

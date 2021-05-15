@@ -43,12 +43,12 @@ Shader "Hidden/ReGizmo/Mesh"
         #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
             MeshProperties prop = _Properties[instanceID]; 
             float4 cloc = TRS(prop.Position, prop.Rotation, prop.Scale, v.pos);
-            f.pos = UnityObjectToClipPos(cloc);
+            f.pos = mul(UNITY_MATRIX_VP, cloc);
             f.col = prop.Color; 
 
-            float3 normal = normalize(UnityObjectToWorldNormal(v.normal));
+            float3 normal = rotate_vector(prop.Rotation, normalize(UnityObjectToWorldNormal(v.normal)));
             float3 viewDir = normalize(WorldSpaceViewDir(cloc));
-            f.strength = 1.0 - pow((1.0 - saturate(dot(normal, viewDir))), _FresnelFactor);
+            f.strength =  pow(abs(dot(normal, viewDir)), _FresnelFactor);
             f.strength = smoothstep(0, 1, f.strength);
         #else
             float4 cloc = float4(v.pos.xyz, 1);
@@ -66,7 +66,7 @@ Shader "Hidden/ReGizmo/Mesh"
             float3 shade = lerp(c.rgb, 0, _Shaded);
             c.rgb = saturate(lerp(shade, c.rgb, f.strength));
 
-            return c * c.a;
+            return c;
         }
         ENDCG
 
