@@ -1,6 +1,3 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using ReGizmo.Drawing;
 using UnityEngine;
 
@@ -9,7 +6,7 @@ namespace ReGizmo.Samples.Performance
 #if !REGIZMO_DEV
     [AddComponentMenu("")]
 #endif
-    public class RectPerformanceTest : PerformanceTest
+    public class ArrowPerformanceTest : PerformanceTest
     {
         protected override void RunInternal()
         {
@@ -17,7 +14,11 @@ namespace ReGizmo.Samples.Performance
             {
                 for (int y = 0; y < testSizeSqr; y++)
                 {
-                    ReDraw.Rect(new Rect(x, y, 1f, 1f), Color.yellow);
+                    var color = Random.ColorHSV();
+
+                    Vector3 p1 = Random.insideUnitSphere * 50f;
+                    Vector3 p2 = Random.insideUnitSphere;
+                    ReDraw.Arrow(p1, p2, ArrowCap.Triangle, Random.Range(1f, 10f), 1f, color);
                 }
             }
         }

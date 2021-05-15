@@ -72,7 +72,7 @@ internal class Draw2DSamples : MonoBehaviour
             float forwardDot = Mathf.Abs(Vector3.Dot(arrowDir, Vector3.forward));
             Color color = new Color(Mathf.Lerp(0f, 1f, rightDot), Mathf.Lerp(0f, 1f, upDot), Mathf.Lerp(0f, 1f, forwardDot), 1f);
 
-            ReDraw.Arrow(center, arrowDir, 3f, Size.Pixels(8f), 1f, color);
+            ReDraw.Arrow(center, arrowDir, ArrowCap.Triangle, 3f, Size.Pixels(8f), 1f, color);
         }
     }
 }

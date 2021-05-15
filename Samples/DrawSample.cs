@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ReGizmo.Drawing;
 using UnityEditor;
+using UnityEngine.Profiling;
 
 namespace ReGizmo.Samples
 {
@@ -248,7 +249,7 @@ namespace ReGizmo.Samples
                 ReDraw.CircleCast2D(startPoint + Vector2.up * 1f, 0.25f, Vector2.right, 20f);
                 ReDraw.TextSDF("CircleCast2D", startPoint + Vector2.up * 1f, 12f, Color.white);
             }
-  
+
             // OVerlap Cirlce 2D
             {
                 Vector2 origin = new Vector2(4.25f, 32.25f);
@@ -363,7 +364,7 @@ namespace ReGizmo.Samples
                     float forwardDot = Mathf.Abs(Vector3.Dot(arrowDir, Vector3.forward));
                     Color color = new Color(Mathf.Lerp(0f, 1f, rightDot), Mathf.Lerp(0f, 1f, upDot), Mathf.Lerp(0f, 1f, forwardDot), 1f);
 
-                    ReDraw.Arrow(center, arrowDir, 3f, Size.Pixels(8f), 1f, color);
+                    ReDraw.Arrow(center, arrowDir, (ArrowCap)(i % 4), 3f, Size.Units(0.2f), 1f, color);
                 }
             }
         }
