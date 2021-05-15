@@ -8,6 +8,7 @@ namespace ReGizmo.Generator
         protected string fileShell =
 @"
 using UnityEngine;
+using ReGizmo.Utils;
 
 namespace ReGizmo.Drawing
 {

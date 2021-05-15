@@ -13,15 +13,23 @@ namespace ReGizmo.Generator
         public System.Type ValueType;
         public string ArgName;
         public string MethodArgName;
-        public string DefaultName;
+        public string DefaulValue;
         public int Priority;
 
-        public Variable(System.Type type, string paramName, string defaultName, string methodArgName, int priority = 0)
+        /// <summary>
+        /// Create a parameter that goes into a variable
+        /// </summary>
+        /// <param name="type">Type of the varialbe</param>
+        /// <param name="paramName">Function parameter name of the variable</param>
+        /// <param name="defaultValue">Default value for the variable</param>
+        /// <param name="variableExpr">Expression of variable when used</param>
+        /// <param name="priority">Higher means it will have priority over other variables</param>
+        public Variable(System.Type type, string paramName, string defaultValue, string variableExpr, int priority = 0)
         {
             ValueType = type;
             ArgName = paramName;
-            DefaultName = defaultName;
-            MethodArgName = methodArgName;
+            DefaulValue = defaultValue;
+            MethodArgName = variableExpr;
             Priority = priority;
         }
     }
@@ -152,7 +160,7 @@ namespace ReGizmo.Generator
 
                 if (param.ValueType == null)
                 {
-                    pushParams += param.DefaultName;
+                    pushParams += param.DefaulValue;
                     if (i < parameters.Length - 1) pushParams += ", ";
                 }
                 else
@@ -204,7 +212,7 @@ namespace ReGizmo.Generator
             for (int i = 0; i < originalSet.Length; i++)
             {
                 if (parameters[i].ArgName == null) return false;
-                if (parameters[i].DefaultName == null) return false;
+                if (parameters[i].DefaulValue == null) return false;
             }
 
             if (parameters.Distinct(variableComparer).Count() != parameters.Length) return false;
@@ -222,7 +230,7 @@ namespace ReGizmo.Generator
                     hCode ^= parameters[i].ValueType.Name.GetHashCode();
                 }
 
-                hCode ^= parameters[i].ArgName.GetHashCode() ^ parameters[i].DefaultName.GetHashCode();
+                hCode ^= parameters[i].ArgName.GetHashCode() ^ parameters[i].DefaulValue.GetHashCode();
             }
 
             return hCode.GetHashCode();
@@ -256,13 +264,13 @@ namespace ReGizmo.Generator
             public bool Equals(Variable x, Variable y)
             {
                 return
-                    x.ArgName == y.ArgName && x.DefaultName == y.DefaultName;
+                    x.ArgName == y.ArgName && x.DefaulValue == y.DefaulValue;
             }
 
             public int GetHashCode(Variable obj)
             {
                 return
-                    (obj.ArgName.GetHashCode() ^ obj.DefaultName.GetHashCode()).GetHashCode();
+                    (obj.ArgName.GetHashCode() ^ obj.DefaulValue.GetHashCode()).GetHashCode();
             }
         }
 
@@ -296,7 +304,7 @@ namespace ReGizmo.Generator
                 foreach (var o in obj)
                 {
                     hashCode ^=
-                        (o.ArgName.GetHashCode() ^ o.DefaultName.GetHashCode()).GetHashCode();
+                        (o.ArgName.GetHashCode() ^ o.DefaulValue.GetHashCode()).GetHashCode();
                 }
 
                 return hashCode.GetHashCode();
