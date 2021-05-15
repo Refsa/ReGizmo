@@ -24,6 +24,27 @@ namespace ReGizmo.Drawing
         }
     }
 
+    public struct LocalTransformScope : IDisposable
+    {
+        PositionScope positionScope;
+        RotationScope rotationScope;
+        ScaleScope scaleScope;
+
+        public LocalTransformScope(Transform transform)
+        {
+            positionScope = new PositionScope(transform.localPosition);
+            rotationScope = new RotationScope(transform.localRotation);
+            scaleScope = new ScaleScope(transform.localScale);
+        }
+
+        public void Dispose()
+        {
+            positionScope.Dispose();
+            rotationScope.Dispose();
+            scaleScope.Dispose();
+        }
+    }
+
     public struct PositionScope : IDisposable
     {
         Vector3 oldPosition;
