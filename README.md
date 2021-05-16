@@ -78,7 +78,7 @@ ReDraw.Line(Vector3 p1, Vector3 p2, Color color1, Color color2, float width1, fl
 ReDraw.Line(Vector3 p1, Vector3 p2, Color color, float width);
 
 ReDraw.Ray(Vector3 origin, Vector3 direction, Color color, float width);
-ReDraw.Arrow(Vector3 position, Vector3 direction, float length, ReGizmo.Drawing.Size arrowSize, float lineWidthPixels, Color color);
+ReDraw.Arrow(Vector3 position, Vector3 direction, ArrowCap arrowCap, float length, ReGizmo.Drawing.Size arrowSize, float lineWidthPixels, Color color);
 ReDraw.PolyLine(PolyLine polyLine); // More on this below
 
 // 2D Shapes
@@ -203,6 +203,16 @@ DrawMode.BillboardAligned
 
 // Shape is fully billboarded and will always face the camera
 DrawMode.BillboardFree
+```
+
+### Arrow Cap
+Arrows can have different types of caps
+
+```
+Triangle,
+Cone,
+Cube,
+Sphere
 ```
 
 ## Third Party Licenses

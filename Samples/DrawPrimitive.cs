@@ -9,7 +9,12 @@ namespace ReGizmo.Samples
     {
         void OnDrawGizmos()
         {
-            ReDraw.Cone(transform.position, transform.rotation, transform.localScale, Color.red);
+            /* using (new TransformScope(transform))
+            {
+                ReDraw.Cone(Color.red);
+            } */
+
+            ReDraw.Cone(transform.position, transform.rotation, transform.lossyScale, Color.red);
         }
     }
 }
