@@ -10,63 +10,60 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
             "RenderType" = "Overlay"
             "Queue" = "Overlay"
         }
-        Blend SrcAlpha OneMinusSrcAlpha
-
+        
         CGINCLUDE
         #include "UnityCG.cginc"
         #include "Utils/ReGizmoShaderUtils.cginc"
         
-
         struct vertex
         {
             float4 pos : POSITION;
             float3 normal : NORMAL;
         };
 
-        struct fragment
+        struct v2g
         {
             float4 pos                : SV_POSITION;
-            float4 worldSpacePosition : TEXCOORD0;
+            float dir                : TEXCOORD0;
             uint instanceID           : TEXCOORD1;
-            float dir                : TEXCOORD2;
         };
 
         struct g2f
         {
             float4 pos   : SV_POSITION;
             float3 dist  : TEXCOORD0;
-            float4 color : TEXCOORD2;
-            float dir    : TEXCOORD3;
+            float4 color : TEXCOORD1;
+            float dir    : TEXCOORD2;
         };
 
-        #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
+    #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
         StructuredBuffer<MeshProperties> _Properties;
-        #endif
+    #endif
 
         void setup()
         {
         }
 
-        fragment vert(vertex v, uint instanceID: SV_InstanceID)
+        v2g vert(vertex v, uint instanceID: SV_InstanceID)
         {
-            fragment f;
+            v2g f;
 
-            #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
+        #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
             MeshProperties prop = _Properties[instanceID];
-            f.worldSpacePosition = TRS(prop.Position, prop.Rotation, prop.Scale, v.pos);
-            #else
-            f.worldSpacePosition = mul(unity_ObjectToWorld, v.pos);
-            #endif
+            float4 worldPos = TRS(prop.Position, prop.Rotation, prop.Scale, v.pos);
+        #else
+            float4 worldPos = mul(unity_ObjectToWorld, v.pos);
+        #endif
 
-            f.pos = UnityObjectToClipPos(f.worldSpacePosition);
-            f.dir = dot(WorldSpaceViewDir(f.worldSpacePosition), v.normal);
+            f.pos = UnityObjectToClipPos(worldPos);
+            f.dir = dot(WorldSpaceViewDir(worldPos), v.normal);
             f.instanceID = instanceID;
 
             return f;
         }
 
         [maxvertexcount(3)]
-        void geom(triangle fragment i[3], inout TriangleStream<g2f> triangleStream)
+        void geom(triangle v2g i[3], inout TriangleStream<g2f> triangleStream)
         {
             float2 p0 = _ScreenParams.xy * i[0].pos.xy / i[0].pos.w;
             float2 p1 = _ScreenParams.xy * i[1].pos.xy / i[1].pos.w;
@@ -78,11 +75,11 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
 
             float area = abs(edge1.x * edge2.y - edge1.y * edge2.x);
 
-            #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
+        #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
             float4 color = _Properties[i[0].instanceID].Color;
-            #else
+        #else
             float4 color = float4(1, 0, 1, 1);
-            #endif
+        #endif
 
             g2f o;
             o.color = color;

@@ -14,7 +14,7 @@ namespace ReGizmo.Drawing
                 ref var shaderData = ref drawer.GetShaderData(mesh);
 
                 shaderData.Position = currentPosition + position;
-                shaderData.Rotation = currentRotation.eulerAngles + rotation.eulerAngles * Mathf.Deg2Rad;
+                shaderData.Rotation = (currentRotation * rotation).ToVector4();
                 shaderData.Scale = currentScale + scale;
                 shaderData.Color = color;
             }
@@ -26,7 +26,7 @@ namespace ReGizmo.Drawing
                 ref var shaderData = ref drawer.GetShaderData(mesh);
 
                 shaderData.Position = currentPosition + position;
-                shaderData.Rotation = currentRotation.eulerAngles + rotation.eulerAngles * Mathf.Deg2Rad;
+                shaderData.Rotation = (currentRotation * rotation).ToVector4();
                 shaderData.Scale = currentScale + scale;
                 shaderData.Color = currentColor;
             }
@@ -38,7 +38,7 @@ namespace ReGizmo.Drawing
                 ref var shaderData = ref drawer.GetShaderData(mesh);
 
                 shaderData.Position = currentPosition + position;
-                shaderData.Rotation = currentRotation.eulerAngles + rotation.eulerAngles * Mathf.Deg2Rad;
+                shaderData.Rotation = (currentRotation * rotation).ToVector4();
                 shaderData.Scale = currentScale;
                 shaderData.Color = color;
             }
@@ -50,7 +50,7 @@ namespace ReGizmo.Drawing
                 ref var shaderData = ref drawer.GetShaderData(mesh);
 
                 shaderData.Position = currentPosition + position;
-                shaderData.Rotation = currentRotation.eulerAngles * Mathf.Deg2Rad;
+                shaderData.Rotation = currentRotation.ToVector4();
                 shaderData.Scale = currentScale + scale;
                 shaderData.Color = color;
             }
@@ -62,7 +62,7 @@ namespace ReGizmo.Drawing
                 ref var shaderData = ref drawer.GetShaderData(mesh);
 
                 shaderData.Position = currentPosition + position;
-                shaderData.Rotation = currentRotation.eulerAngles + rotation.eulerAngles * Mathf.Deg2Rad;
+                shaderData.Rotation = (currentRotation * rotation).ToVector4();
                 shaderData.Scale = currentScale;
                 shaderData.Color = currentColor;
             }
@@ -74,7 +74,7 @@ namespace ReGizmo.Drawing
                 ref var shaderData = ref drawer.GetShaderData(mesh);
 
                 shaderData.Position = currentPosition + position;
-                shaderData.Rotation = currentRotation.eulerAngles * Mathf.Deg2Rad;
+                shaderData.Rotation = currentRotation.ToVector4();
                 shaderData.Scale = currentScale + scale;
                 shaderData.Color = currentColor;
             }
@@ -86,7 +86,7 @@ namespace ReGizmo.Drawing
                 ref var shaderData = ref drawer.GetShaderData(mesh);
 
                 shaderData.Position = currentPosition + position;
-                shaderData.Rotation = currentRotation.eulerAngles * Mathf.Deg2Rad;
+                shaderData.Rotation = currentRotation.ToVector4();
                 shaderData.Scale = currentScale;
                 shaderData.Color = color;
             }
@@ -98,7 +98,7 @@ namespace ReGizmo.Drawing
                 ref var shaderData = ref drawer.GetShaderData(mesh);
 
                 shaderData.Position = currentPosition;
-                shaderData.Rotation = currentRotation.eulerAngles + rotation.eulerAngles * Mathf.Deg2Rad;
+                shaderData.Rotation = (currentRotation * rotation).ToVector4();
                 shaderData.Scale = currentScale;
                 shaderData.Color = color;
             }
@@ -110,7 +110,7 @@ namespace ReGizmo.Drawing
                 ref var shaderData = ref drawer.GetShaderData(mesh);
 
                 shaderData.Position = currentPosition + position;
-                shaderData.Rotation = currentRotation.eulerAngles * Mathf.Deg2Rad;
+                shaderData.Rotation = currentRotation.ToVector4();
                 shaderData.Scale = currentScale;
                 shaderData.Color = currentColor;
             }
@@ -122,7 +122,7 @@ namespace ReGizmo.Drawing
                 ref var shaderData = ref drawer.GetShaderData(mesh);
 
                 shaderData.Position = currentPosition;
-                shaderData.Rotation = currentRotation.eulerAngles + rotation.eulerAngles * Mathf.Deg2Rad;
+                shaderData.Rotation = (currentRotation * rotation).ToVector4();
                 shaderData.Scale = currentScale;
                 shaderData.Color = currentColor;
             }
@@ -134,7 +134,7 @@ namespace ReGizmo.Drawing
                 ref var shaderData = ref drawer.GetShaderData(mesh);
 
                 shaderData.Position = currentPosition;
-                shaderData.Rotation = currentRotation.eulerAngles * Mathf.Deg2Rad;
+                shaderData.Rotation = currentRotation.ToVector4();
                 shaderData.Scale = currentScale;
                 shaderData.Color = color;
             }
@@ -146,7 +146,7 @@ namespace ReGizmo.Drawing
                 ref var shaderData = ref drawer.GetShaderData(mesh);
 
                 shaderData.Position = currentPosition;
-                shaderData.Rotation = currentRotation.eulerAngles * Mathf.Deg2Rad;
+                shaderData.Rotation = currentRotation.ToVector4();
                 shaderData.Scale = currentScale;
                 shaderData.Color = currentColor;
             }
