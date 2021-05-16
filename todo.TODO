@@ -1,4 +1,7 @@
 ﻿General:
+    - @high Some auto-generated draw overrides are a bit too extensive
+        Circle for example has 48 overrides
+    - @high Ordering of some auto-generated parameters should be moved around to be consistent between calls
     - @low Sorting between drawers is kinda whack atm
         for example: Lines at -10f is drawing over sprites at 1f, but not at -1f
     - @high Legacy currently doesnt render in game view when outside of play mode, would be a nice thing but not a huge deal
@@ -14,6 +17,7 @@
         Has to be set per material, cant be set via MaterialPropertyBlock
         material.SetInt("_ZTest", (int)UnityEngine.Rendering.CompareFunction.Always);
         As such a different queue/drawer is needed for each ZTest mode, for this library it's either LEqual or Always, so two drawers per draw type is needed
+        Another issue is the sorting/ordering of rendering, doing this per drawing type is easy, but more complex when sorting between them
 
 Sprite Drawer:
     - @low Make base for Sprite Drawer a texture drawer with UVs so the same drawer can be shared for each sprite texture
@@ -29,12 +33,8 @@ Sprite Drawer:
     Circles:
         - @high Requires some more work on the sampling side with smaller inner radius
         - @low for some reason culling needs to be off for it to render, probably related to the normal the quad is generated around
-    Triangle:
-        - @high Triangles are now centered on the Quad
     Arrows:
         - @high Line overlaps with arrow, should probably reduce length of line to start of triangle base
-    Lines:
-        - @low move some of the unique stuff for screenspace line from LineUtils into Line shader
 
 3D Outline:
     - @high Another mode for wireframe is just the general outline or shape, this is needed for all the basic shapes, at least those present for Physics
@@ -44,8 +44,6 @@ Sprite Drawer:
             SDF is very cheap on the CPU side, but can get expensive to do on the GPU with many instances
 
 Physics:
-    - @high Helpers for 2D Physics
-    - @high more Helpers for 3D Physics
     - @high need a different Capsule to visualize Physics Capsules, since the current ones dont scale correctly
 
 Lines:
@@ -55,12 +53,6 @@ Generator:
     - @low Code Generator is extremely hard-coded atm, so some work here would be nice
         f.ex. Lines are currently not generated, since they require a more sophisticated generator to work
         In general, this work is mostly unecessary since it's a utility only used in development and not in production
-
-Burst:  
-    Currently no support for Burst as the compiler doesnt resolve generics properly
-    Either another wrapper around current system or remove parts of the generic dependency on the current system
-    Creating a wrapper is easier, but more grunt work
-    Rewriting the generics could result in an even worse situation, hard to say
 
 Samples:
     - @high need to clean up a lot of the samples
@@ -75,6 +67,10 @@ Readme:
     - Add a third-party library section
 
 Archive:
+  ✔ @high more Helpers for 3D Physics @done(21-05-16 11:02) @project(Physics)
+  ✔ @high Helpers for 2D Physics @done(21-05-16 11:02) @project(Physics)
+  ✔ @low move some of the unique stuff for screenspace line from LineUtils into Line shader @done(21-05-16 11:02) @project(2D Drawing.Lines)
+  ✔ @high Triangles are now centered on the Quad @done(21-05-16 11:02) @project(2D Drawing.Triangle)
   ✔ @critical Make sure 2D shapes works for URP @done(21-05-13 11:21) @project(2D Drawing)
   ✔ @high input color alpha support @done(21-05-13 11:16) @project(2D Drawing)
   ✔ @high smoothing is set a bit high @done(21-05-13 10:16) @project(Lines)

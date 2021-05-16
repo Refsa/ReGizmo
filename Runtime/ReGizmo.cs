@@ -17,6 +17,10 @@ namespace ReGizmo.Core
 {
     public static class ReGizmo
     {
+#if RG_LEGACY
+        const CameraEvent CAMERA_EVENT = CameraEvent.AfterForwardAlpha;
+#endif
+
         static bool isSetup = false;
         static GameObject proxyObject;
 
@@ -208,7 +212,7 @@ namespace ReGizmo.Core
                 var camera = Camera.main;
                 if (activeCameras.Add(camera))
                 {
-                    drawBuffers.Attach(camera, CameraEvent.AfterForwardAlpha);
+                    drawBuffers.Attach(camera, CAMERA_EVENT);
                 }
             }
 #endif
@@ -219,7 +223,7 @@ namespace ReGizmo.Core
                 var camera = UnityEditor.SceneView.lastActiveSceneView.camera;
                 if (activeCameras.Add(camera))
                 {
-                    drawBuffers.Attach(camera, CameraEvent.AfterForwardAlpha);
+                    drawBuffers.Attach(camera, CAMERA_EVENT);
                 }
             }
 #endif
