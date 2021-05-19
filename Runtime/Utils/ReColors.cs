@@ -19,6 +19,17 @@ namespace ReGizmo.Drawing
             return color;
         }
 
+        public static Color Darken(this Color self, float percent)
+        {
+            if (percent > 1f)
+            {
+                percent /= 100f;
+            }
+
+            percent = Mathf.Clamp01(percent);
+
+            return self * percent;
+        }
         public static Color Random()
         {
             return new Color(

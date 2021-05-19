@@ -23,7 +23,6 @@ Sprite Drawer:
     - @low Make base for Sprite Drawer a texture drawer with UVs so the same drawer can be shared for each sprite texture
     
 2D Drawing:
-    - @critical Make sure 2D shapes works for HDRP
     - @high Unit scaling doesnt work for free billboard drawing mode
     - @high Pixel scaling doesnt work for axis aligned and billboard aligned drawing modes
     - @low visible Z fighting when <1 alpha
@@ -67,6 +66,7 @@ Readme:
     - Add a third-party library section
 
 Archive:
+  ✔ @critical Make sure 2D shapes works for HDRP @done(21-05-16 11:03) @project(2D Drawing)
   ✔ @high more Helpers for 3D Physics @done(21-05-16 11:02) @project(Physics)
   ✔ @high Helpers for 2D Physics @done(21-05-16 11:02) @project(Physics)
   ✔ @low move some of the unique stuff for screenspace line from LineUtils into Line shader @done(21-05-16 11:02) @project(2D Drawing.Lines)
