@@ -24,7 +24,6 @@ Shader "Hidden/ReGizmo/Grid"
             noperspective float2 uv : TEXCOORD0;
             nointerpolation float3 color: TEXCOORD1;
             nointerpolation float width: TEXCOORD2;
-            float depth: TEXCOORD3;
         };
 
         struct GridProperties
@@ -44,16 +43,22 @@ Shader "Hidden/ReGizmo/Grid"
             return f;
         }
 
-        [maxvertexcount(6)]
+        [maxvertexcount(4)]
         void geom_line(point v2g_line i[1], inout TriangleStream<g2f_line> triangleStream)
         {
             GridProperties props = _Properties[i[0].vertexID];
 
-            float3 pos1 = props.Position1;
-            float3 pos2 = props.Position2;
+            float3 offset1 = float3(_WorldSpaceCameraPos.x, 0.0, _WorldSpaceCameraPos.z);
+            float3 offset2 = float3(_WorldSpaceCameraPos.x, 0.0, _WorldSpaceCameraPos.z);
+            offset1 -= offset1 % 10.0;
+            offset2 -= offset2 % 10.0;
+
+            float3 pos1 = props.Position1 + offset1;
+            float3 pos2 = props.Position2 + offset2;
+
         
-            float4 p1 = UnityObjectToClipPos(float4(props.Position1, 1.0));
-            float4 p2 = UnityObjectToClipPos(float4(props.Position2, 1.0));
+            float4 p1 = UnityObjectToClipPos(float4(pos1, 1.0));
+            float4 p2 = UnityObjectToClipPos(float4(pos2, 1.0));
         
             // Sort by point "closest" to screen-space
             if (p1.w > p2.w)
@@ -74,12 +79,6 @@ Shader "Hidden/ReGizmo/Grid"
                 p1 = lerp(p1, p2, ratio);
             }
 
-            //float p1_depth = GetDepthFromClip(p1);
-            //float p2_depth = GetDepthFromClip(p2);
-
-            float p1_depth = distance(pos1, _WorldSpaceCameraPos) / _ProjectionParams.z;
-            float p2_depth = distance(pos2, _WorldSpaceCameraPos) / _ProjectionParams.z;
-        
             float w1 = ceil(props.Width + PixelSize);
             float w2 = ceil(props.Width + PixelSize);
         
@@ -113,11 +112,6 @@ Shader "Hidden/ReGizmo/Grid"
             g2.width = w2;
             g3.width = w2;
 
-            g0.depth = p1_depth;
-            g1.depth = p1_depth;
-            g2.depth = p2_depth;
-            g3.depth = p2_depth;
-        
             if (ProjectionFlipped())
             {
                 triangleStream.Append(g1);
@@ -151,7 +145,7 @@ Shader "Hidden/ReGizmo/Grid"
             col.a = exp2(-smoothing * pow(x, sharpness));
 
             float depth = 1 - Linear01Depth(g.pos.z / g.pos.w);
-            depth = 1 - exp2(-2.8 * depth * depth);
+            depth = 1 - exp2(-_ProjectionParams.z * depth * depth);
             col.a *= depth;
 
             clip(col.a == 0 ? -1 : 1);
