@@ -177,7 +177,7 @@ namespace ReGizmo.Drawing
             }
         }
 
-        public static void Grid(Vector3 origin, Vector2 cellSize, Vector3 normal, float lineWidth, Color lineColor, int distance = 1000)
+        public static void Grid(Vector3 origin, Vector2 cellSize, Quaternion orientation, float lineWidth, Color lineColor, int distance = 1000)
         {
             if (!ReGizmoResolver<ReGizmoGridDrawer>.TryGet(out var drawer))
             {
@@ -185,18 +185,24 @@ namespace ReGizmo.Drawing
             }
 
             var color = lineColor.ToVector3();
-            var offColor = color * 0.33f;
+            var offColor = color * 0.5f;
+
+            ref var gridMeta = ref drawer.GetGridMetaData(out uint index);
+            gridMeta.LineColor = color;
+            gridMeta.Range = distance;
+            gridMeta.Width = lineWidth;
+            gridMeta.Normal = orientation * Vector3.up;
 
             for (int x = -distance; x < distance; x++)
             {
                 ref var data = ref drawer.GetShaderData();
                 var c = x % 10 == 0 ? color : offColor;
 
-                data.Position1 = origin + new Vector3(x, 0f, -distance);
-                data.Position2 = origin + new Vector3(x, 0f, distance);
+                data.Position1 = orientation * (origin + new Vector3(x, 0f, -distance));
+                data.Position2 = orientation * (origin + new Vector3(x, 0f, distance));
 
-                data.Color = c;
-                data.Width = lineWidth;
+                data.ID = index;
+                data.Index = (uint)x;
             }
 
             for (int y = -distance; y < distance; y++)
@@ -204,11 +210,11 @@ namespace ReGizmo.Drawing
                 ref var data = ref drawer.GetShaderData();
                 var c = y % 10 == 0 ? color : offColor;
 
-                data.Position1 = origin + new Vector3(-distance, 0f, y);
-                data.Position2 = origin + new Vector3(distance, 0f, y);
+                data.Position1 = orientation * (origin + new Vector3(-distance, 0f, y));
+                data.Position2 = orientation * (origin + new Vector3(distance, 0f, y));
 
-                data.Color = c;
-                data.Width = lineWidth;
+                data.ID = index;
+                data.Index = (uint)y;
             }
         }
 

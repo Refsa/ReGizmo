@@ -24,17 +24,27 @@ Shader "Hidden/ReGizmo/Grid"
             noperspective float2 uv : TEXCOORD0;
             nointerpolation float3 color: TEXCOORD1;
             nointerpolation float width: TEXCOORD2;
+            nointerpolation float range : TEXCOORD3;
         };
 
         struct GridProperties
         {
             float3 Position1;
             float3 Position2;
-            float3 Color;
+            uint ID;
+            uint Index;
+        };
+
+        struct GridMeta
+        {
+            float Range;
             float Width;
+            float3 Normal;
+            float3 Color;
         };
 
         StructuredBuffer<GridProperties> _Properties;
+        StructuredBuffer<GridMeta> _MetaData;
 
         v2g_line vert_line(uint vertexID: SV_VertexID)
         {
@@ -47,15 +57,16 @@ Shader "Hidden/ReGizmo/Grid"
         void geom_line(point v2g_line i[1], inout TriangleStream<g2f_line> triangleStream)
         {
             GridProperties props = _Properties[i[0].vertexID];
+            GridMeta meta = _MetaData[props.ID];
 
-            float3 offset1 = float3(_WorldSpaceCameraPos.x, 0.0, _WorldSpaceCameraPos.z);
-            float3 offset2 = float3(_WorldSpaceCameraPos.x, 0.0, _WorldSpaceCameraPos.z);
+            float3 offset_mul = 1 - meta.Normal;
+            float3 offset1 = _WorldSpaceCameraPos.xyz * offset_mul;//float3(_WorldSpaceCameraPos.x, 0.0, _WorldSpaceCameraPos.z);
+            float3 offset2 = _WorldSpaceCameraPos.xyz * offset_mul;//float3(_WorldSpaceCameraPos.x, 0.0, _WorldSpaceCameraPos.z);
             offset1 -= offset1 % 10.0;
             offset2 -= offset2 % 10.0;
 
             float3 pos1 = props.Position1 + offset1;
             float3 pos2 = props.Position2 + offset2;
-
         
             float4 p1 = UnityObjectToClipPos(float4(pos1, 1.0));
             float4 p2 = UnityObjectToClipPos(float4(pos2, 1.0));
@@ -79,8 +90,8 @@ Shader "Hidden/ReGizmo/Grid"
                 p1 = lerp(p1, p2, ratio);
             }
 
-            float w1 = ceil(props.Width + PixelSize);
-            float w2 = ceil(props.Width + PixelSize);
+            float w1 = ceil(meta.Width + PixelSize);
+            float w2 = ceil(meta.Width + PixelSize);
         
             float2 a = p1.xy / p1.w;
             float2 b = p2.xy / p2.w;
@@ -101,16 +112,23 @@ Shader "Hidden/ReGizmo/Grid"
             g1.uv = float2(1, 0);
             g2.uv = float2(0, 1);
             g3.uv = float2(1, 1);
+
+            float color_mul = props.Index % 10 == 0 ? 1.0 : 0.5;
         
-            g0.color = props.Color;
-            g1.color = props.Color;
-            g2.color = props.Color;
-            g3.color = props.Color;
+            g0.color = meta.Color * color_mul;
+            g1.color = meta.Color * color_mul;
+            g2.color = meta.Color * color_mul;
+            g3.color = meta.Color * color_mul;
         
             g0.width = w1;
             g1.width = w1;
             g2.width = w2;
             g3.width = w2;
+
+            g0.range = meta.Range;
+            g1.range = meta.Range;
+            g2.range = meta.Range;
+            g3.range = meta.Range;
 
             if (ProjectionFlipped())
             {
@@ -138,7 +156,7 @@ Shader "Hidden/ReGizmo/Grid"
             const float dist = distance(g.uv, center_uv) * 2;
         
             static const float width_factor = 0.2;
-            static const float sharpness = 2.7;
+            static const float sharpness = 2.5;
             static const float smoothing = 3.5;
         
             float x = pow(dist, g.width * width_factor);
@@ -146,6 +164,7 @@ Shader "Hidden/ReGizmo/Grid"
 
             float depth = 1 - Linear01Depth(g.pos.z / g.pos.w);
             depth = 1 - exp2(-_ProjectionParams.z * depth * depth);
+
             col.a *= depth;
 
             clip(col.a == 0 ? -1 : 1);
