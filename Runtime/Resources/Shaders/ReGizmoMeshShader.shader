@@ -15,15 +15,15 @@ Shader "Hidden/ReGizmo/Mesh"
 
         struct vertex
         {
-            float4 pos : POSITION;
+            float4 pos    : POSITION;
             float3 normal : NORMAL;
         };
 
         struct v2f
         {
-            float4 pos : SV_POSITION;
-            float4 col : TEXCOORD1;
-            float strength : TEXCOORD3;
+            float4 pos      : SV_POSITION;
+            float4 col      : TEXCOORD0;
+            float  strength : TEXCOORD1;
         };
 
     #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
@@ -32,9 +32,7 @@ Shader "Hidden/ReGizmo/Mesh"
         float _Shaded;
         float _FresnelFactor;
 
-        void setup()
-        {
-        }
+        void setup() { }
 
         v2f vert(vertex v, uint instanceID: SV_InstanceID)
         {
@@ -48,13 +46,7 @@ Shader "Hidden/ReGizmo/Mesh"
 
             float3 normal = rotate_vector(prop.Rotation, normalize(UnityObjectToWorldNormal(v.normal)));
             float3 viewDir = normalize(WorldSpaceViewDir(cloc));
-            f.strength =  pow(abs(dot(normal, viewDir)), _FresnelFactor);
-            f.strength = smoothstep(0, 1, f.strength);
-        #else
-            float4 cloc = float4(v.pos.xyz, 1);
-            f.pos = UnityObjectToClipPos(cloc);
-            f.col = float4(1, 0, 1, 1);
-            f.strength = 1;
+            f.strength = pow(abs(dot(normal, viewDir)), _FresnelFactor * 2);
         #endif
 
             return f;

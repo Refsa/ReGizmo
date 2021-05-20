@@ -55,6 +55,13 @@ float3 rotate_vector(float4 quat, float3 vec)
     return vec + 2.0 * cross( cross( vec, quat.xyz ) + quat.w * vec, quat.xyz );
 }
 
+float4 rotate_angle_axis(float angle, float3 axis)
+{
+    float sn = sin(angle * 0.5);
+    float cs = cos(angle * 0.5);
+    return float4(axis * sn, cs);
+}
+
 float4 TRS(float3 position, float4 rotation, float3 scale, float4 vLoc)
 {
     return float4(position + rotate_vector(rotation, vLoc.xyz * scale), 1.0);

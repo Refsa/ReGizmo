@@ -31,7 +31,7 @@ Shader "Hidden/ReGizmo/Grid"
         struct GridProperties
         {
             float3 Position;
-            float Range;
+            float  Range;
             float3 Normal;
             float3 Color;
         };
