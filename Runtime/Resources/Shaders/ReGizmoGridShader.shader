@@ -24,7 +24,9 @@ Shader "Hidden/ReGizmo/Grid"
             noperspective float2 uv : TEXCOORD0;
             nointerpolation float3 color: TEXCOORD1;
             nointerpolation float width: TEXCOORD2;
-            nointerpolation float range : TEXCOORD3;
+            float3 center : TEXCOORD3;
+            float3 world_pos : TEXCOORD4;
+            nointerpolation float range : TEXCOORD5;
         };
 
         struct GridProperties
@@ -41,6 +43,7 @@ Shader "Hidden/ReGizmo/Grid"
             float Width;
             float3 Normal;
             float3 Color;
+            float3 Center;
         };
 
         StructuredBuffer<GridProperties> _Properties;
@@ -54,19 +57,20 @@ Shader "Hidden/ReGizmo/Grid"
         }
 
         [maxvertexcount(4)]
-        void geom_line(point v2g_line i[1], inout TriangleStream<g2f_line> triangleStream)
+        void geom_grid(point v2g_line i[1], inout TriangleStream<g2f_line> triangleStream)
         {
             GridProperties props = _Properties[i[0].vertexID];
             GridMeta meta = _MetaData[props.ID];
 
             float3 offset_mul = 1 - meta.Normal;
-            float3 offset1 = _WorldSpaceCameraPos.xyz * offset_mul;//float3(_WorldSpaceCameraPos.x, 0.0, _WorldSpaceCameraPos.z);
-            float3 offset2 = _WorldSpaceCameraPos.xyz * offset_mul;//float3(_WorldSpaceCameraPos.x, 0.0, _WorldSpaceCameraPos.z);
+            float3 offset1 = _WorldSpaceCameraPos.xyz * offset_mul;
+            float3 offset2 = _WorldSpaceCameraPos.xyz * offset_mul;
             offset1 -= offset1 % 10.0;
             offset2 -= offset2 % 10.0;
+            float use_offset = (dot(meta.Center, meta.Center) == 0);
 
-            float3 pos1 = props.Position1 + offset1;
-            float3 pos2 = props.Position2 + offset2;
+            float3 pos1 = props.Position1 + offset1 * use_offset;
+            float3 pos2 = props.Position2 + offset2 * use_offset;
         
             float4 p1 = UnityObjectToClipPos(float4(pos1, 1.0));
             float4 p2 = UnityObjectToClipPos(float4(pos2, 1.0));
@@ -89,6 +93,8 @@ Shader "Hidden/ReGizmo/Grid"
                 float ratio = (_ProjectionParams.y - p1.w) / (p2.w - p1.w);
                 p1 = lerp(p1, p2, ratio);
             }
+
+            float3 center = meta.Center + offset1 * use_offset;
 
             float w1 = ceil(meta.Width + PixelSize);
             float w2 = ceil(meta.Width + PixelSize);
@@ -125,6 +131,19 @@ Shader "Hidden/ReGizmo/Grid"
             g2.width = w2;
             g3.width = w2;
 
+            g0.center = center;
+            g1.center = center;
+            g3.center = center;
+            g2.center = center;
+
+            float3 wp1 = pos1;
+            float3 wp2 = pos2;
+
+            g0.world_pos = wp1;
+            g1.world_pos = wp1;
+            g2.world_pos = wp2;
+            g3.world_pos = wp2;
+
             g0.range = meta.Range;
             g1.range = meta.Range;
             g2.range = meta.Range;
@@ -147,7 +166,7 @@ Shader "Hidden/ReGizmo/Grid"
             triangleStream.RestartStrip();
         }
         
-        float4 frag_line(g2f_line g) : SV_Target
+        float4 frag_grid(g2f_line g) : SV_Target
         {
             float4 col = float4(g.color, 0.0);
         
@@ -162,10 +181,11 @@ Shader "Hidden/ReGizmo/Grid"
             float x = pow(dist, g.width * width_factor);
             col.a = exp2(-smoothing * pow(x, sharpness));
 
-            float depth = 1 - Linear01Depth(g.pos.z / g.pos.w);
-            depth = 1 - exp2(-_ProjectionParams.z * depth * depth);
-
-            col.a *= depth;
+            //float range = min(g.range, _ProjectionParams.z * 0.5);
+            float range = g.range;
+            float center_dist = 1 - saturate(distance(g.world_pos, g.center) / range);
+            center_dist = pow(center_dist, 1);
+            col.a *= center_dist;
 
             clip(col.a == 0 ? -1 : 1);
 
@@ -181,8 +201,8 @@ Shader "Hidden/ReGizmo/Grid"
 
             CGPROGRAM
             #pragma vertex vert_line
-            #pragma geometry geom_line
-            #pragma fragment frag_line
+            #pragma geometry geom_grid
+            #pragma fragment frag_grid
             #pragma multi_compile_instancing
             #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
             ENDCG

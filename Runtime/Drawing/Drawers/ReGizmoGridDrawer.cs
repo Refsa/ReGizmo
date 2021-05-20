@@ -19,6 +19,7 @@ namespace ReGizmo.Drawing
         public float Width;
         public Vector3 Normal;
         public Vector3 LineColor;
+        public Vector3 Center;
     }
 
     internal class ReGizmoGridDrawer : ReGizmoDrawer<GridData>
