@@ -7,48 +7,31 @@ namespace ReGizmo.Drawing
 {
     internal struct GridData
     {
-        public Vector3 Position1;
-        public Vector3 Position2;
-        public uint ID;
-        public uint Index;
-    }
-
-    internal struct GridMeta
-    {
+        public Vector3 Position;
         public float Range;
-        public float Width;
         public Vector3 Normal;
         public Vector3 LineColor;
-        public Vector3 Center;
     }
 
     internal class ReGizmoGridDrawer : ReGizmoDrawer<GridData>
     {
-        ShaderDataBuffer<GridMeta> gridMetaBuffer;
+        Mesh quad;
 
         public ReGizmoGridDrawer() : base()
         {
-            gridMetaBuffer = new ShaderDataBuffer<GridMeta>();
-
+            quad = ReGizmoPrimitives.Quad();
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Grid");
-            renderArguments[1] = 1;
-        }
 
-        public ref GridMeta GetGridMetaData(out uint index)
-        {
-            index = (uint)gridMetaBuffer.Count();
-            return ref gridMetaBuffer.Get();
+            renderArguments[0] = quad.GetIndexCount(0);
         }
 
         protected override void RenderInternal(CommandBuffer cmd)
         {
-            renderArguments[0] = CurrentDrawCount();
+            renderArguments[1] = CurrentDrawCount();
             renderArgumentsBuffer.SetData(renderArguments);
 
-            cmd.DrawProceduralIndirect(
-                Matrix4x4.identity,
-                material, 0,
-                MeshTopology.Points,
+            cmd.DrawMeshInstancedIndirect(
+                quad, 0, material, 0,
                 renderArgumentsBuffer, 0,
                 materialPropertyBlock
             );
@@ -57,8 +40,6 @@ namespace ReGizmo.Drawing
         protected override void SetMaterialPropertyBlockData()
         {
             base.SetMaterialPropertyBlockData();
-
-            gridMetaBuffer.PushData(materialPropertyBlock, "_MetaData");
         }
     }
 }
