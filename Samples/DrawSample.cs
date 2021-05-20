@@ -367,6 +367,11 @@ namespace ReGizmo.Samples
                     ReDraw.Arrow(center, arrowDir, (ArrowCap)(i % 4), 3f, Size.Units(0.2f), 1f, color);
                 }
             }
+
+            // Grid
+            {
+                ReDraw.Grid(Vector3.zero, Quaternion.identity, ReColors.DESERT_SAND.Darken(0.25f));
+            }
         }
     }
 }

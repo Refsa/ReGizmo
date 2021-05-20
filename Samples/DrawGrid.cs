@@ -7,9 +7,12 @@ namespace ReGizmo.Samples
 {
     public class DrawGrid : MonoBehaviour
     {
-        void OnDrawGizmos()
+        [SerializeField, Range(5, 5000)] int range = 500;
+        [SerializeField] bool dyn;
+
+        void OnDrawGizmosSelected()
         {
-            ReDraw.Grid(transform.position, Vector2.one, transform.up, 1f, Color.white);
+            ReDraw.Grid(transform.position, transform.rotation, Color.white.Darken(0.4f), range, dyn);
         }
     }
 }

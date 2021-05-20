@@ -177,7 +177,7 @@ namespace ReGizmo.Drawing
             }
         }
 
-        public static void Grid(Vector3 origin, Vector2 cellSize, Quaternion orientation, float lineWidth, Color lineColor, int distance = 1000)
+        public static void Grid(Vector3 origin, Quaternion orientation, Color lineColor, int distance = 1000, bool dynamic = true)
         {
             if (!ReGizmoResolver<ReGizmoGridDrawer>.TryGet(out var drawer))
             {
@@ -185,37 +185,13 @@ namespace ReGizmo.Drawing
             }
 
             var color = lineColor.ToVector3();
-            var offColor = color * 0.5f;
 
-            ref var gridMeta = ref drawer.GetGridMetaData(out uint index);
-            gridMeta.LineColor = color;
-            gridMeta.Range = distance;
-            gridMeta.Width = lineWidth;
-            gridMeta.Normal = orientation * Vector3.up;
+            ref var shaderData = ref drawer.GetShaderData();
 
-            for (int x = -distance; x < distance; x++)
-            {
-                ref var data = ref drawer.GetShaderData();
-                var c = x % 10 == 0 ? color : offColor;
-
-                data.Position1 = orientation * (origin + new Vector3(x, 0f, -distance));
-                data.Position2 = orientation * (origin + new Vector3(x, 0f, distance));
-
-                data.ID = index;
-                data.Index = (uint)x;
-            }
-
-            for (int y = -distance; y < distance; y++)
-            {
-                ref var data = ref drawer.GetShaderData();
-                var c = y % 10 == 0 ? color : offColor;
-
-                data.Position1 = orientation * (origin + new Vector3(-distance, 0f, y));
-                data.Position2 = orientation * (origin + new Vector3(distance, 0f, y));
-
-                data.ID = index;
-                data.Index = (uint)y;
-            }
+            shaderData.LineColor = color; 
+            shaderData.Position = origin;
+            shaderData.Range = distance;
+            shaderData.Normal = orientation * Vector3.up * (dynamic ? 1 : 0);
         }
 
         public static void Circle2(Vector3 center, Vector3 normal, float radius, int resolution)
