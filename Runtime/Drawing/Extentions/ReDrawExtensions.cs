@@ -179,19 +179,17 @@ namespace ReGizmo.Drawing
 
         public static void Grid(Vector3 origin, Quaternion orientation, Color lineColor, int distance = 1000, bool dynamic = true)
         {
-            if (!ReGizmoResolver<ReGizmoGridDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<ReGizmoGridDrawer>.TryGet(out var drawer))
             {
-                return;
+                var color = lineColor.ToVector3();
+
+                ref var shaderData = ref drawer.GetShaderData();
+
+                shaderData.LineColor = color;
+                shaderData.Position = origin;
+                shaderData.Range = distance;
+                shaderData.Normal = orientation * Vector3.up * (dynamic ? 1 : 0);
             }
-
-            var color = lineColor.ToVector3();
-
-            ref var shaderData = ref drawer.GetShaderData();
-
-            shaderData.LineColor = color; 
-            shaderData.Position = origin;
-            shaderData.Range = distance;
-            shaderData.Normal = orientation * Vector3.up * (dynamic ? 1 : 0);
         }
 
         public static void Circle2(Vector3 center, Vector3 normal, float radius, int resolution)

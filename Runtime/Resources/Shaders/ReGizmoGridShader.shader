@@ -90,12 +90,15 @@ Shader "Hidden/ReGizmo/Grid"
             grid.rgb += large_grid * large_grid.a;
             grid.a += large_grid.a;
 
-            float dist = 1 - saturate(distance(i.center, i.world_pos) / (i.range * 0.9));
-            dist = pow(dist, 5);
-            grid.a *= dist;
+            /* float dist = 1 - saturate(distance(i.center, i.world_pos) / (i.range * 0.9));
+            dist = pow(dist, 3);
+            grid.a *= dist; */
 
             float depth = Linear01Depth(i.pos.z / i.pos.w);
-            grid.a *= (1 - pow(depth, 2.5));
+            depth = max(0, (0.85 - depth));
+            depth = pow(depth, 2.5);
+
+            grid.a *= depth;
 
             clip(grid.a == 0 ? -1 : 1);
 
