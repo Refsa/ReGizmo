@@ -47,7 +47,15 @@ float4 q_inverse(float4 q)
     return conj / (q.x * q.x + q.y * q.y + q.z * q.z + q.w * q.w);
 }
 
-// Vector rotation with a quaternion
+// http://mathworld.wolfram.com/Quaternion.html
+float4 q_mul(float4 q1, float4 q2)
+{
+    return float4(
+        q2.xyz * q1.w + q1.xyz * q2.w + cross(q1.xyz, q2.xyz),
+        q1.w * q2.w - dot(q1.xyz, q2.xyz)
+    );
+}
+
 // http://mathworld.wolfram.com/Quaternion.html
 float3 rotate_vector(float4 quat, float3 vec)
 {

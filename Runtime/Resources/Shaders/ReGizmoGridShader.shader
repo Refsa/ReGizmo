@@ -24,15 +24,14 @@ Shader "Hidden/ReGizmo/Grid"
             float4 pos       : SV_POSITION;
             float3 col       : TEXCOORD0;
             float3 world_pos : TEXCOORD1;
-            float3 center    : TEXCOORD2;
-            float  range     : TEXCOORD3;
+            float3 normal    : TEXCOORD2;
         };
 
         struct GridProperties
         {
             float3 Position;
             float  Range;
-            float3 Normal;
+            float4 Orientation;
             float3 Color;
         };
 
@@ -49,21 +48,21 @@ Shader "Hidden/ReGizmo/Grid"
             v2f f = (v2f)0;
 
         #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
-            GridProperties prop = _Properties[instanceID]; 
-            float3 offset = _WorldSpaceCameraPos * float3(1,0,1) * dot(prop.Normal, prop.Normal);
+            GridProperties prop = _Properties[instanceID];
+            float3 normal = normalize(rotate_vector(prop.Orientation, float3(0,1,0)));
+            float3 offset = _WorldSpaceCameraPos * float3(1,0,1) * 0;
             float3 center = prop.Position + offset;
 
             float4 cloc = TRS(
                 center,
-                rotate_angle_axis(radians(90), float3(1,0,0)), 
-                prop.Range, 
+                q_mul(prop.Orientation, rotate_angle_axis(radians(90), float3(1,0,0))),
+                prop.Range,
                 v.pos);
 
             f.pos = mul(UNITY_MATRIX_VP, cloc);
             f.col = prop.Color;
             f.world_pos = cloc.xyz;
-            f.center = center;
-            f.range = prop.Range;
+            f.normal = normal;
         #endif
 
             return f;
@@ -90,15 +89,13 @@ Shader "Hidden/ReGizmo/Grid"
             grid.rgb += large_grid * large_grid.a;
             grid.a += large_grid.a;
 
-            /* float dist = 1 - saturate(distance(i.center, i.world_pos) / (i.range * 0.9));
-            dist = pow(dist, 3);
-            grid.a *= dist; */
+            float view_dot = abs(dot(i.normal, normalize(_WorldSpaceCameraPos.xyz - i.world_pos)));
+            //grid.a *= view_dot;
 
             float depth = Linear01Depth(i.pos.z / i.pos.w);
-            depth = max(0, (0.85 - depth));
+            depth = max(0, (1.0 - depth));
             depth = pow(depth, 2.5);
-
-            grid.a *= depth;
+            grid.a *= depth * view_dot;
 
             clip(grid.a == 0 ? -1 : 1);
 
