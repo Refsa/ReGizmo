@@ -9,7 +9,7 @@ namespace ReGizmo.Drawing
     {
         public Vector3 Position;
         public float Range;
-        public Vector3 Normal;
+        public Vector4 Orientation;
         public Vector3 LineColor;
     }
 
