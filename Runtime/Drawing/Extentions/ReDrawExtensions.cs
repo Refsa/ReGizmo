@@ -188,7 +188,7 @@ namespace ReGizmo.Drawing
                 shaderData.LineColor = color;
                 shaderData.Position = origin;
                 shaderData.Range = distance;
-                shaderData.Normal = orientation * Vector3.up * (dynamic ? 1 : 0);
+                shaderData.Orientation = orientation.ToVector4();
             }
         }
 
