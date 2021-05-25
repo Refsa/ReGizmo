@@ -9,7 +9,6 @@ namespace ReGizmo.Drawing
     {
         public Vector3 Position;
         public float Range;
-        public Vector4 Orientation;
         public Vector3 LineColor;
         public uint Flags;
     }
@@ -18,6 +17,13 @@ namespace ReGizmo.Drawing
     {
         Infinite = 1u << 0,
         Static = 1u << 1,
+    }
+
+    public enum GridPlane : uint
+    {
+        XZ = 1u << 10,
+        XY = 1u << 11,
+        ZY = 1u << 12,
     }
 
     internal class ReGizmoGridDrawer : ReGizmoDrawer<GridData>

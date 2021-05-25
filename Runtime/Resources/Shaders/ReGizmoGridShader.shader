@@ -16,6 +16,10 @@ Shader "Hidden/ReGizmo/Grid"
         #define MODE_INFINITE 1 << 0
         #define MODE_STATIC   1 << 1
 
+        #define PLANE_XZ      1 << 10
+        #define PLANE_XY      1 << 11
+        #define PLANE_ZY      1 << 12
+
         struct vertex
         {
             float4 pos : POSITION;
@@ -28,13 +32,13 @@ Shader "Hidden/ReGizmo/Grid"
             float3 col       : TEXCOORD0;
             float3 world_pos : TEXCOORD1;
             float3 normal    : TEXCOORD2;
+            uint   flags     : TEXCOORD3;
         };
 
         struct GridProperties
         {
             float3 Position;
             float  Range;
-            float4 Orientation;
             float3 Color;
             uint   Flags;
         };
@@ -47,19 +51,40 @@ Shader "Hidden/ReGizmo/Grid"
         {
         }
 
+        float3 get_normal(uint flags)
+        {
+            if (has_flag(flags, PLANE_XZ))      return float3(0,1,0);
+            else if (has_flag(flags, PLANE_XY)) return float3(0,0,1);
+            else if (has_flag(flags, PLANE_ZY)) return float3(1,0,0);
+
+            return 0;
+        }
+
+        float4 get_rotation(uint flags)
+        {
+            if (has_flag(flags, PLANE_XZ))      
+                return rotate_angle_axis(radians(90), float3(1,0,0));
+            else if (has_flag(flags, PLANE_XY)) 
+                return float4(0,0,0,1);
+            else if (has_flag(flags, PLANE_ZY)) 
+                return rotate_angle_axis(radians(90), float3(0,1,0));
+
+            return 0;
+        }
+
         v2f vert(vertex v, uint instanceID: SV_InstanceID)
         {
             v2f f = (v2f)0;
 
         #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
             GridProperties prop = _Properties[instanceID];
-            float3 normal = normalize(rotate_vector(prop.Orientation, float3(0,1,0)));
+            float3 normal = get_normal(prop.Flags);
             float3 center = prop.Position;
             center += _WorldSpaceCameraPos * (float3(1,1,1) - normal) * has_flag(prop.Flags, MODE_INFINITE);
 
             float4 cloc = TRS(
                 center,
-                q_mul(prop.Orientation, rotate_angle_axis(radians(90), float3(1,0,0))),
+                get_rotation(prop.Flags),
                 prop.Range,
                 v.pos);
 
@@ -67,14 +92,19 @@ Shader "Hidden/ReGizmo/Grid"
             f.col = prop.Color;
             f.world_pos = cloc.xyz;
             f.normal = normal;
+            f.flags = prop.Flags;
         #endif
 
             return f;
         }
 
-        float4 grid(float3 world_pos, float3 plane, float scale, float3 color)
+        float4 grid(float3 world_pos, uint flags, float scale, float3 color)
         {
-            float2 coord = world_pos.xz * scale;
+            float2 coord = 0;
+            if (has_flag(flags, PLANE_XZ))      coord = world_pos.xz * scale;
+            else if (has_flag(flags, PLANE_XY)) coord = world_pos.xy * scale;
+            else if (has_flag(flags, PLANE_ZY)) coord = world_pos.zy * scale;
+
             float2 derivative = fwidth(coord);
             float2 grid = abs(frac(coord - 0.5) - 0.5) / derivative;
             float l = min(grid.x, grid.y);
@@ -86,9 +116,8 @@ Shader "Hidden/ReGizmo/Grid"
 
         float4 frag(v2f i) : SV_Target
         {
-            float3 plane = float3(1,1,1) - i.normal;
-            float4 small_grid = grid(i.world_pos, plane, 1, float3(0.2,0.2,0.2));
-            float4 large_grid = grid(i.world_pos, plane, 0.1, float3(0.5,0.5,0.5));
+            float4 small_grid = grid(i.world_pos, i.flags, 1, float3(0.2,0.2,0.2));
+            float4 large_grid = grid(i.world_pos, i.flags, 0.1, float3(0.5,0.5,0.5));
 
             float4 grid = small_grid;
             grid.rgb += large_grid * large_grid.a;

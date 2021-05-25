@@ -177,7 +177,7 @@ namespace ReGizmo.Drawing
             }
         }
 
-        public static void Grid(Vector3 origin, Quaternion orientation, Color lineColor, int distance = 1000, bool dynamic = true)
+        public static void Grid(Vector3 origin, Color lineColor, int distance = 1000, bool inPlace = true, GridPlane plane = GridPlane.XZ)
         {
             if (ReGizmoResolver<ReGizmoGridDrawer>.TryGet(out var drawer))
             {
@@ -188,10 +188,9 @@ namespace ReGizmo.Drawing
                 shaderData.LineColor = color;
                 shaderData.Position = origin;
                 shaderData.Range = distance;
-                shaderData.Orientation = orientation.ToVector4();
                 shaderData.Flags = 0;
-                
-                if (dynamic)
+
+                if (inPlace)
                 {
                     shaderData.Flags |= (uint)GridMode.Infinite;
                 }
@@ -199,6 +198,8 @@ namespace ReGizmo.Drawing
                 {
                     shaderData.Flags |= (uint)GridMode.Static;
                 }
+
+                shaderData.Flags |= (uint)plane;
             }
         }
 
