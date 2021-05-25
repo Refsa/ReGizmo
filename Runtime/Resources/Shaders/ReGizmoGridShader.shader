@@ -13,6 +13,9 @@ Shader "Hidden/ReGizmo/Grid"
         #include "UnityCG.cginc"
         #include "Utils/ReGizmoShaderUtils.cginc"
 
+        #define MODE_INFINITE 1 << 0
+        #define MODE_STATIC   1 << 1
+
         struct vertex
         {
             float4 pos : POSITION;
@@ -33,6 +36,7 @@ Shader "Hidden/ReGizmo/Grid"
             float  Range;
             float4 Orientation;
             float3 Color;
+            uint   Flags;
         };
 
     #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
@@ -50,8 +54,8 @@ Shader "Hidden/ReGizmo/Grid"
         #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
             GridProperties prop = _Properties[instanceID];
             float3 normal = normalize(rotate_vector(prop.Orientation, float3(0,1,0)));
-            float3 offset = _WorldSpaceCameraPos * float3(1,0,1) * 0;
-            float3 center = prop.Position + offset;
+            float3 center = prop.Position;
+            center += _WorldSpaceCameraPos * (float3(1,1,1) - normal) * has_flag(prop.Flags, MODE_INFINITE);
 
             float4 cloc = TRS(
                 center,
@@ -68,7 +72,7 @@ Shader "Hidden/ReGizmo/Grid"
             return f;
         }
 
-        float4 grid(float3 world_pos, float scale, float3 color)
+        float4 grid(float3 world_pos, float3 plane, float scale, float3 color)
         {
             float2 coord = world_pos.xz * scale;
             float2 derivative = fwidth(coord);
@@ -82,15 +86,15 @@ Shader "Hidden/ReGizmo/Grid"
 
         float4 frag(v2f i) : SV_Target
         {
-            float4 small_grid = grid(i.world_pos, 1, float3(0.2,0.2,0.2));
-            float4 large_grid = grid(i.world_pos, 0.1, float3(0.5,0.5,0.5));
+            float3 plane = float3(1,1,1) - i.normal;
+            float4 small_grid = grid(i.world_pos, plane, 1, float3(0.2,0.2,0.2));
+            float4 large_grid = grid(i.world_pos, plane, 0.1, float3(0.5,0.5,0.5));
 
             float4 grid = small_grid;
             grid.rgb += large_grid * large_grid.a;
             grid.a += large_grid.a;
 
             float view_dot = abs(dot(i.normal, normalize(_WorldSpaceCameraPos.xyz - i.world_pos)));
-            //grid.a *= view_dot;
 
             float depth = Linear01Depth(i.pos.z / i.pos.w);
             depth = max(0, (1.0 - depth));

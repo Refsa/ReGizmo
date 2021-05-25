@@ -11,6 +11,13 @@ namespace ReGizmo.Drawing
         public float Range;
         public Vector4 Orientation;
         public Vector3 LineColor;
+        public uint Flags;
+    }
+
+    internal enum GridMode : uint
+    {
+        Infinite = 1u << 0,
+        Static = 1u << 1,
     }
 
     internal class ReGizmoGridDrawer : ReGizmoDrawer<GridData>

@@ -189,6 +189,16 @@ namespace ReGizmo.Drawing
                 shaderData.Position = origin;
                 shaderData.Range = distance;
                 shaderData.Orientation = orientation.ToVector4();
+                shaderData.Flags = 0;
+                
+                if (dynamic)
+                {
+                    shaderData.Flags |= (uint)GridMode.Infinite;
+                }
+                else
+                {
+                    shaderData.Flags |= (uint)GridMode.Static;
+                }
             }
         }
 
