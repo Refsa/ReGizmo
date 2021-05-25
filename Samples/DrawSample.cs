@@ -370,7 +370,7 @@ namespace ReGizmo.Samples
 
             // Grid
             {
-                ReDraw.Grid(Vector3.zero, Quaternion.identity, ReColors.DESERT_SAND.Darken(0.25f));
+                ReDraw.Grid(Vector3.zero, ReColors.DESERT_SAND.Darken(0.25f));
             }
         }
     }
