@@ -72,6 +72,23 @@ namespace ReGizmo.Drawing
             }
         }
 
+        public static void Line(Vector3 p1, Vector3 p2, float width)
+        {
+            Vector3 vecColor = currentColor.ToVector3();
+            if (ReGizmoResolver<ReGizmoLineDrawer>.TryGet(out var drawer))
+            {
+                ref var shaderData = ref drawer.GetShaderData();
+                shaderData.Position = currentPosition + p1;
+                shaderData.Color = vecColor;
+                shaderData.Width = width;
+
+                shaderData = ref drawer.GetShaderData();
+                shaderData.Position = currentPosition + p2;
+                shaderData.Color = vecColor;
+                shaderData.Width = width;
+            }
+        }
+
         public static void Line(Vector3 p1, Vector3 p2)
         {
             Vector3 vecColor = currentColor.ToVector3();
@@ -229,6 +246,41 @@ namespace ReGizmo.Drawing
 
             Line(bottom + perp2, top + perp2, color, 1f);
             Line(bottom - perp2, top - perp2, color, 1f);
+        }
+
+        public static void WireCube(Vector3 center, Quaternion rotation, Vector3 extents, Color color)
+        {
+            var halfExtents = extents / 2f;
+
+            Vector3 p0 = center + rotation * new Vector3(-halfExtents.x, halfExtents.y, halfExtents.z);
+            Vector3 p1 = center + rotation * new Vector3(halfExtents.x, halfExtents.y, halfExtents.z);
+            Vector3 p2 = center + rotation * new Vector3(halfExtents.x, halfExtents.y, -halfExtents.z);
+            Vector3 p3 = center + rotation * new Vector3(-halfExtents.x, halfExtents.y, -halfExtents.z);
+            Vector3 p4 = center + rotation * new Vector3(-halfExtents.x, -halfExtents.y, halfExtents.z);
+            Vector3 p5 = center + rotation * new Vector3(halfExtents.x, -halfExtents.y, halfExtents.z);
+            Vector3 p6 = center + rotation * new Vector3(halfExtents.x, -halfExtents.y, -halfExtents.z);
+            Vector3 p7 = center + rotation * new Vector3(-halfExtents.x, -halfExtents.y, -halfExtents.z);
+
+            using (new ColorScope(color))
+            {
+                // TOP
+                Line(p0, p1, 1f);
+                Line(p1, p2, 1f);
+                Line(p2, p3, 1f);
+                Line(p3, p0, 1f);
+
+                // BOTTOM
+                Line(p4, p5, 1f);
+                Line(p5, p6, 1f);
+                Line(p6, p7, 1f);
+                Line(p7, p4, 1f);
+
+                // CONNECTORS
+                Line(p0, p4, 1f);
+                Line(p1, p5, 1f);
+                Line(p2, p6, 1f);
+                Line(p3, p7, 1f);
+            }
         }
 
         public static void Circle2(Vector3 center, Vector3 normal, float radius, int resolution)
