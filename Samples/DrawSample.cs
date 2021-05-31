@@ -89,16 +89,28 @@ namespace ReGizmo.Samples
                 }
             }
 
+            var rotation = Quaternion.Euler(
+                Mathf.Sin(time * 0.1f) * 180f,
+                0f,
+                Mathf.Sin(time * 0.1f) * 180f);
+
             // Primitives
             {
-                ReDraw.Quad(Vector3.up * 5f + Vector3.back * 20f, Vector3.one * 2f, Color.red);
-                ReDraw.Cube(Vector3.up * 5f + Vector3.back * 25f, Vector3.one * 2f, Color.red);
-                ReDraw.Cylinder(Vector3.up * 5f + Vector3.back * 30f, Vector3.one * 2f, Color.red);
-                ReDraw.Icosahedron(Vector3.up * 5f + Vector3.back * 35f, Vector3.one * 2f, Color.red);
-                ReDraw.Octahedron(Vector3.up * 5f + Vector3.back * 40f, Vector3.one * 2f, Color.red);
-                ReDraw.Pyramid(Vector3.up * 5f + Vector3.back * 45f, Vector3.one * 2f, Color.red);
-                ReDraw.Sphere(Vector3.up * 5f + Vector3.back * 50f, Vector3.one * 2f, Color.red);
-                ReDraw.Capsule(Vector3.up * 5f + Vector3.back * 55f, Vector3.one * 2f, Color.red);
+                ReDraw.Quad(Vector3.up * 5f + Vector3.back * 20f, rotation, Vector3.one * 2f, Color.red);
+                ReDraw.Cube(Vector3.up * 5f + Vector3.back * 25f, rotation, Vector3.one * 2f, Color.red);
+                ReDraw.Cylinder(Vector3.up * 5f + Vector3.back * 30f, rotation, Vector3.one * 2f, Color.red);
+                ReDraw.Icosahedron(Vector3.up * 5f + Vector3.back * 35f, rotation, Vector3.one * 2f, Color.red);
+                ReDraw.Octahedron(Vector3.up * 5f + Vector3.back * 40f, rotation, Vector3.one * 2f, Color.red);
+                ReDraw.Pyramid(Vector3.up * 5f + Vector3.back * 45f, rotation, Vector3.one * 2f, Color.red);
+                ReDraw.Sphere(Vector3.up * 5f + Vector3.back * 50f, rotation, Vector3.one * 2f, Color.red);
+                ReDraw.Capsule(Vector3.up * 5f + Vector3.back * 55f, rotation, Vector3.one * 2f, Color.red);
+            }
+
+            // Wireframes
+            {
+                Vector3 sharedOffset = Vector3.up * 5f + Vector3.right * 10f;
+                ReDraw.WireSphere(sharedOffset + Vector3.back * 50f, rotation, 2f, Color.red);
+                ReDraw.WireCapsule(sharedOffset + Vector3.back * 55f, rotation, 0.5f, 2f, Color.red);
             }
 
             if (customMeshes != null)
@@ -370,7 +382,7 @@ namespace ReGizmo.Samples
 
             // Grid
             {
-                ReDraw.Grid(Vector3.zero, ReColors.DESERT_SAND.Darken(0.25f));
+                ReDraw.Grid(Vector3.zero, ReColors.DESERT_SAND.Darken(0.25f), 10000);
             }
         }
     }
