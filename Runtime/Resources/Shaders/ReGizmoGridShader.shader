@@ -101,9 +101,10 @@ Shader "Hidden/ReGizmo/Grid"
         float4 grid(float3 world_pos, uint flags, float scale, float3 color)
         {
             float2 coord = 0;
-            if (has_flag(flags, PLANE_XZ))      coord = world_pos.xz * scale;
-            else if (has_flag(flags, PLANE_XY)) coord = world_pos.xy * scale;
-            else if (has_flag(flags, PLANE_ZY)) coord = world_pos.zy * scale;
+            if (has_flag(flags, PLANE_XZ))      coord = world_pos.xz;
+            else if (has_flag(flags, PLANE_XY)) coord = world_pos.xy;
+            else if (has_flag(flags, PLANE_ZY)) coord = world_pos.zy;
+            coord *= scale;
 
             float2 derivative = fwidth(coord);
             float2 grid = abs(frac(coord - 0.5) - 0.5) / derivative;
