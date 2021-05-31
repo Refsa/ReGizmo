@@ -2,8 +2,6 @@
     - @high Some auto-generated draw overrides are a bit too extensive
         Circle for example has 48 overrides
     - @high Ordering of some auto-generated parameters should be moved around to be consistent between calls
-    - @low Sorting between drawers is kinda whack atm
-        for example: Lines at -10f is drawing over sprites at 1f, but not at -1f
     - @high Legacy currently doesnt render in game view when outside of play mode, would be a nice thing but not a huge deal
     - @critical ensure proper frustum culling is done
         This is mostly ignore now, need to set up proper render bounds in the draw call and
@@ -13,6 +11,13 @@
         probably need another heuristic to also account for depth and not just surface normal against view direction
     - @low Persisting draw-calls, where the user can define a time/duration it will be active for
     - @high comments on public facing methods/types
+    
+Z-Sort:
+    - @low Proper Z-Sorting within and between each drawer
+        Avoids an issue where two drawers are overlapping, causing the AA area to not blend
+        Would be a nice feature, but feels out of scope for a project aiming to draw gizmos
+        The cost of drawing would also go up and would be very expensive once the amount of gizmos is high
+        This would allow for shaders to overlay others though, so more benefits than just avoiding the AA blend issue
     - @high allow drawers to overlay other objects
         Has to be set per material, cant be set via MaterialPropertyBlock
         material.SetInt("_ZTest", (int)UnityEngine.Rendering.CompareFunction.Always);
@@ -34,13 +39,6 @@ Sprite Drawer:
         - @low for some reason culling needs to be off for it to render, probably related to the normal the quad is generated around
     Arrows:
         - @high Line overlaps with arrow, should probably reduce length of line to start of triangle base
-
-3D Outline:
-    - @high Another mode for wireframe is just the general outline or shape, this is needed for all the basic shapes, at least those present for Physics
-        Should probably replace all the current wireframe drawers with this, except the custom mesh / mesh wireframes
-        Can either be done with SDF or by using Lines
-            Lines requires more work on CPU side to offload generating the vertices (Burst/Threading)
-            SDF is very cheap on the CPU side, but can get expensive to do on the GPU with many instances
 
 Physics:
     - @high need a different Capsule to visualize Physics Capsules, since the current ones dont scale correctly
@@ -66,6 +64,11 @@ Readme:
     - Add a third-party library section
 
 Archive:
+  ✔ @high Another mode for wireframe is just the general outline or shape, this is needed for all the basic shapes, at least those present for Physics @done(21-05-31 15:01) @project(3D Outline)
+    Should probably replace all the current wireframe drawers with this, except the custom mesh / mesh wireframes
+    Can either be done with SDF or by using Lines
+    Lines requires more work on CPU side to offload generating the vertices (Burst/Threading)
+    SDF is very cheap on the CPU side, but can get expensive to do on the GPU with many instances
   ✔ @critical Make sure 2D shapes works for HDRP @done(21-05-16 11:03) @project(2D Drawing)
   ✔ @high more Helpers for 3D Physics @done(21-05-16 11:02) @project(Physics)
   ✔ @high Helpers for 2D Physics @done(21-05-16 11:02) @project(Physics)

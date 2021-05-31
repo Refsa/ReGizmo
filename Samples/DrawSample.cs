@@ -109,6 +109,7 @@ namespace ReGizmo.Samples
             // Wireframes
             {
                 Vector3 sharedOffset = Vector3.up * 5f + Vector3.right * 10f;
+                ReDraw.WireCube(sharedOffset + Vector3.back * 25f, rotation, Vector3.one * 2f, Color.red);
                 ReDraw.WireSphere(sharedOffset + Vector3.back * 50f, rotation, 2f, Color.red);
                 ReDraw.WireCapsule(sharedOffset + Vector3.back * 55f, rotation, 0.5f, 2f, Color.red);
             }

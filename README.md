@@ -65,6 +65,11 @@ ReDraw.Octahedron(Vector3 position, Quaternion rotation, Vector3 scale, Color co
 ReDraw.Icosahedron(Vector3 position, Quaternion rotation, Vector3 scale, Color color);
 ReDraw.Cylinder(Vector3 position, Quaternion rotation, Vector3 scale, Color color);
 
+// 3D Wire Primitives
+ReDraw.WireSphere(...);
+ReDraw.WireCube(...);
+ReDraw.WireCapsule(...);
+
 // Custom Meshes
 ReDraw.Mesh(Mesh mesh, Vector3 position, Quaternion rotation, Vector3 scale, Color color);
 ReDraw.WireframeMesh(Mesh mesh, Vector3 position, Quaternion rotation, Vector3 scale, Color color);
