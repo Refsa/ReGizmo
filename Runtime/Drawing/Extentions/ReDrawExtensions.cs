@@ -238,7 +238,11 @@ namespace ReGizmo.Drawing
             WireSphere(top, orientation, radius, color);
             WireSphere(bottom, orientation, radius, color);
 
-            Vector3 perp1 = Vector3.Cross(dir, Vector3.right).normalized * radius;
+            Vector3 perp1 = Mathf.Approximately(Mathf.Abs(Vector3.Dot(dir, Vector3.right)), 1f) ?
+                Vector3.Cross(dir, Vector3.up).normalized * radius
+                :
+                Vector3.Cross(dir, Vector3.right).normalized * radius;
+
             Vector3 perp2 = Vector3.Cross(dir, perp1).normalized * radius;
 
             Line(bottom + perp1, top + perp1, color, 1f);

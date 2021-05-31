@@ -42,8 +42,7 @@ namespace ReGizmo.Drawing
             if (Physics.SphereCast(origin, radius, direction, out var hit, distance, layerMask))
             {
                 ReDraw.Ray(origin, direction * hit.distance, Color.green, 1f);
-                ReDraw.Sphere(origin + direction * hit.distance, Vector3.one * radius,
-                    Color.green.WithAlpha(0.5f));
+                ReDraw.WireSphere(origin + direction * hit.distance, Quaternion.identity, radius, Color.green);
                 ReDraw.Sphere(hit.point, Vector3.one * 0.05f, Color.blue);
             }
             else
@@ -63,12 +62,12 @@ namespace ReGizmo.Drawing
             var hits = Physics.OverlapSphere(origin, radius, layerMask);
             if (hits.Length > 0)
             {
-                ReDraw.Sphere(origin, Quaternion.identity, Vector3.one * radius, Color.green.WithAlpha(0.5f));
+                ReDraw.WireSphere(origin, Quaternion.identity, radius, Color.green);
                 ReDraw.TextSDF($"{hits.Length}", origin, 12f, Color.white);
             }
             else
             {
-                ReDraw.Sphere(origin, Quaternion.identity, Vector3.one * radius, Color.red.WithAlpha(0.5f));
+                ReDraw.WireSphere(origin, Quaternion.identity, radius, Color.red);
             }
         }
 
@@ -89,8 +88,7 @@ namespace ReGizmo.Drawing
             if (Physics.BoxCast(center, halfExtents, direction, out var hit, orientation, distance, layerMask))
             {
                 ReDraw.Ray(center, direction * hit.distance, Color.green, 1f);
-                ReDraw.Cube(center + direction * hit.distance, orientation, halfExtents * 2,
-                    Color.green.WithAlpha(0.5f));
+                ReDraw.WireCube(center + direction * hit.distance, orientation, halfExtents * 2, Color.green.WithAlpha(0.5f));
                 ReDraw.Sphere(hit.point, Vector3.one * 0.05f, Color.blue);
             }
             else
@@ -111,12 +109,12 @@ namespace ReGizmo.Drawing
             var hits = Physics.OverlapBox(center, halfExtents, orientation, layerMask);
             if (hits.Length > 0)
             {
-                ReDraw.Cube(center, Quaternion.identity, halfExtents, Color.green.WithAlpha(0.5f));
+                ReDraw.WireCube(center, Quaternion.identity, halfExtents, Color.green.WithAlpha(0.5f));
                 ReDraw.TextSDF($"{hits.Length}", center, 12f, Color.white);
             }
             else
             {
-                ReDraw.Cube(center, Quaternion.identity, halfExtents, Color.red.WithAlpha(0.5f));
+                ReDraw.WireCube(center, Quaternion.identity, halfExtents, Color.red.WithAlpha(0.5f));
             }
         }
 
@@ -136,6 +134,8 @@ namespace ReGizmo.Drawing
             point1 += currentPosition;
             point2 += currentPosition;
             Vector3 center = (point1 + point2) * 0.5f;
+            float height = (point1 - point2).magnitude;
+
             if (Physics.CapsuleCast(point1, point2, radius, direction, out var hit, distance, layerMask))
             {
                 Vector3 orientation = (point2 - point1).normalized;
@@ -143,7 +143,7 @@ namespace ReGizmo.Drawing
 
                 ReDraw.Ray(center, direction * hit.distance, Color.green, 1f);
 
-                ReDraw.Capsule(center + direction * hit.distance, rotation, Vector3.one * radius * 2, Color.green.WithAlpha(0.5f));
+                ReDraw.WireCapsule(center + direction * hit.distance, rotation, radius, height, Color.green.WithAlpha(0.5f));
 
                 ReDraw.Sphere(hit.point, Vector3.one * 0.05f, Color.blue);
             }
@@ -165,6 +165,7 @@ namespace ReGizmo.Drawing
             point1 += currentPosition;
             point2 += currentPosition;
             Vector3 center = (point1 + point2) * 0.5f;
+            float height = (point1 - point2).magnitude;
 
             Vector3 orientation = (point2 - point1).normalized;
             Quaternion rotation = Quaternion.FromToRotation(Vector3.up, orientation);
@@ -172,12 +173,12 @@ namespace ReGizmo.Drawing
             var hits = Physics.OverlapCapsule(point1, point2, radius, layerMask);
             if (hits.Length > 0)
             {
-                ReDraw.Capsule(center, rotation, Vector3.one * radius * 2f, Color.green.WithAlpha(0.5f));
+                ReDraw.WireCapsule(center, rotation, radius, height, Color.green.WithAlpha(0.5f));
                 ReDraw.TextSDF($"{hits.Length}", center, 12f, Color.white);
             }
             else
             {
-                ReDraw.Capsule(center, rotation, Vector3.one * radius * 2f, Color.red.WithAlpha(0.5f));
+                ReDraw.WireCapsule(center, rotation, radius, height, Color.red.WithAlpha(0.5f));
             }
         }
 
