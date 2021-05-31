@@ -203,6 +203,34 @@ namespace ReGizmo.Drawing
             }
         }
 
+        public static void WireSphere(Vector3 center, Quaternion orientation, float radius, Color color)
+        {
+            ReDraw.Circle(center, orientation * Vector3.up, DrawMode.AxisAligned, Size.Units(radius), FillMode.Outline, color);
+            ReDraw.Circle(center, orientation * Vector3.right, DrawMode.AxisAligned, Size.Units(radius), FillMode.Outline, color);
+            ReDraw.Circle(center, orientation * Vector3.forward, DrawMode.AxisAligned, Size.Units(radius), FillMode.Outline, color);
+        }
+
+        public static void WireCapsule(Vector3 center, Quaternion orientation, float radius, float height, Color color)
+        {
+            Vector3 dir = orientation * Vector3.up;
+            float halfHeight = height * 0.5f;
+
+            Vector3 top = center + dir * halfHeight;
+            Vector3 bottom = center - dir * halfHeight;
+
+            WireSphere(top, orientation, radius, color);
+            WireSphere(bottom, orientation, radius, color);
+
+            Vector3 perp1 = Vector3.Cross(dir, Vector3.right).normalized * radius;
+            Vector3 perp2 = Vector3.Cross(dir, perp1).normalized * radius;
+
+            Line(bottom + perp1, top + perp1, color, 1f);
+            Line(bottom - perp1, top - perp1, color, 1f);
+
+            Line(bottom + perp2, top + perp2, color, 1f);
+            Line(bottom - perp2, top - perp2, color, 1f);
+        }
+
         public static void Circle2(Vector3 center, Vector3 normal, float radius, int resolution)
         {
             float theta = 0f;
