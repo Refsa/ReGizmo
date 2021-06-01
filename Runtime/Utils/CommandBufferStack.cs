@@ -9,32 +9,42 @@ namespace ReGizmo.Utils
     class CommandBufferStack : IDisposable
     {
         protected string name;
-        CommandBuffer current;
         HashSet<CameraEvent> activeEvents;
-
+        Dictionary<Camera, CommandBuffer> cameraCommandBuffers;
 
         public CommandBufferStack(string name)
         {
             this.name = name;
-            current = new CommandBuffer();
             activeEvents = new HashSet<CameraEvent>();
+            cameraCommandBuffers = new Dictionary<Camera, CommandBuffer>();
         }
 
-        public CommandBuffer Current()
+        public CommandBuffer Current(Camera camera)
         {
-            return current;
+            if (!cameraCommandBuffers.TryGetValue(camera, out var cmd))
+            {
+                cmd = new CommandBuffer();
+                cameraCommandBuffers.Add(camera, cmd);
+            }
+            
+            return cmd;
         }
 
         public virtual void Dispose()
         {
-            current?.Release();
+            if (cameraCommandBuffers == null) return;
+
+            foreach (var cmd in cameraCommandBuffers.Values)
+            {
+                cmd?.Release();
+            }
         }
 
         public void Attach(Camera camera, CameraEvent cameraEvent)
         {
             activeEvents.Add(cameraEvent);
 
-            camera.AddCommandBuffer(cameraEvent, current);
+            camera.AddCommandBuffer(cameraEvent, Current(camera));
         }
 
         public void DeAttach(Camera camera)
@@ -43,7 +53,7 @@ namespace ReGizmo.Utils
 
             foreach (var ev in activeEvents)
             {
-                camera.RemoveCommandBuffer(ev, current);
+                camera.RemoveCommandBuffer(ev, Current(camera));
             }
 
             activeEvents.Clear();
@@ -53,7 +63,7 @@ namespace ReGizmo.Utils
         {
             if (activeEvents.Contains(cameraEvent))
             {
-                camera.RemoveCommandBuffer(cameraEvent, current);
+                camera.RemoveCommandBuffer(cameraEvent, Current(camera));
 
                 activeEvents.Remove(cameraEvent);
             }

@@ -204,10 +204,12 @@ namespace ReGizmo.Core
 
 #if RG_LEGACY
             {
-                var camera = Camera.main;
-                if (activeCameras.Add(camera))
+                foreach (var camera in Camera.allCameras)
                 {
-                    drawBuffers.Attach(camera, CAMERA_EVENT);
+                    if (activeCameras.Add(camera))
+                    {
+                        drawBuffers.Attach(camera, CAMERA_EVENT);
+                    }
                 }
             }
 #endif
@@ -221,41 +223,51 @@ namespace ReGizmo.Core
                     drawBuffers.Attach(camera, CAMERA_EVENT);
                 }
             }
-#endif
+#endif 
 
-            var cmd = drawBuffers.Current();
-            cmd.Clear();
-
-            if (ReGizmoSettings.FontSuperSample)
+            activeCameras.RemoveWhere(e => e == null);
+            
+            foreach (var camera in activeCameras)
             {
-                cmd.EnableShaderKeyword("SDF_SS");
-            }
-            else
-            {
-                cmd.DisableShaderKeyword("SDF_SS");
-            }
+                var cmd = drawBuffers.Current(camera);
+                cmd.Clear();
 
 #if REGIZMO_DEV
-            cmd.BeginSample("ReGizmo Draw Buffer");
+                string sampleKey = $"ReGizmo Draw Buffer: {camera.name}";
+                cmd.BeginSample(sampleKey);
 #endif
+
+                if (ReGizmoSettings.FontSuperSample)
+                {
+                    cmd.EnableShaderKeyword("SDF_SS");
+                }
+                else
+                {
+                    cmd.DisableShaderKeyword("SDF_SS");
+                }
+
+                foreach (var drawer in drawers)
+                {
+                    if (drawer.CurrentDrawCount() == 0) continue;
+
+                    if (interrupted)
+                    {
+                        drawer.Clear();
+                        continue;
+                    }
+
+                    drawer.Render(cmd);
+                }
+
+#if REGIZMO_DEV
+                cmd.EndSample(sampleKey);
+#endif
+            }
 
             foreach (var drawer in drawers)
             {
-                if (drawer.CurrentDrawCount() == 0) continue;
-
-                if (interrupted)
-                {
-                    drawer.Clear();
-                    continue;
-                }
-
-                drawer.Render(cmd);
                 drawer.Clear();
             }
-
-#if REGIZMO_DEV
-            cmd.EndSample("ReGizmo Draw Buffer");
-#endif
 
             if (shouldReset)
             {
