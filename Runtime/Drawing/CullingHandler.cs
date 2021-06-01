@@ -13,14 +13,14 @@ namespace ReGizmo.Drawing
         public string OutputName;
     }
 
-    internal class CullingHandler
+    internal class CullingHandler : System.IDisposable
     {
         public static readonly ComputeShader CullingCompute;
 
         int[] drawCounter;
         ComputeBuffer countCopyBuffer;
 
-        static CullingHandler()
+        static CullingHandler() 
         { 
             CullingCompute = ReGizmoHelpers.LoadCompute("Assets/ReGizmo/Runtime/Resources/Compute/CullCompute.compute");
         }
@@ -50,6 +50,11 @@ namespace ReGizmo.Drawing
             countCopyBuffer.GetData(drawCounter);
 
             return drawCounter[0];
+        }
+
+        public void Dispose()
+        {
+            ComputeBufferPool.Free(countCopyBuffer);
         }
     }
 }

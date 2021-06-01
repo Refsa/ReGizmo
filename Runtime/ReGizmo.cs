@@ -223,9 +223,9 @@ namespace ReGizmo.Core
                 drawer.Clear();
             }
 
-            foreach (var camera in activeCameras.Values)
+            foreach (var cameraData in activeCameras.Values)
             {
-                camera.Render(drawers);
+                cameraData.Render(drawers);
             }
 
             if (shouldReset)
@@ -253,9 +253,9 @@ namespace ReGizmo.Core
         {
             if (activeCameras != null)
             {
-                foreach (var camera in activeCameras.Values)
+                foreach (var cameraData in activeCameras.Values)
                 {
-                    camera.Dispose();
+                    cameraData.Dispose();
                 }
 
                 activeCameras.Clear();

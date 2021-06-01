@@ -92,8 +92,9 @@ namespace ReGizmo.Editor
         static void OnBeforeAssemblyReloaded()
         {
             Core.ReGizmo.Dispose();
+            ComputeBufferPool.FreeAll();
         }
-
+ 
         static void OnAfterAssemblyReloaded()
         {
         }

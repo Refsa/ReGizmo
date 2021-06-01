@@ -76,6 +76,7 @@ namespace ReGizmo.Drawing
         public void Dispose()
         {
             commandBuffer?.Release();
+            cullingHandler?.Dispose();
         }
     }
 }
