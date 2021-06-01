@@ -4,24 +4,20 @@ using UnityEngine;
 
 namespace ReGizmo
 {
-    internal static class CameraFrustum
+    internal class CameraFrustum
     {
-        static UnityEngine.Plane[] tempPlanes = new UnityEngine.Plane[6];
-        static Dictionary<Camera, Vector4[]> cameraFrustumPlanes;
+        Camera camera;
+        UnityEngine.Plane[] tempPlanes = new UnityEngine.Plane[6];
+        Vector4[] frustumPlanes;
 
-        static CameraFrustum()
+        public CameraFrustum(Camera camera)
         {
-            cameraFrustumPlanes = new Dictionary<Camera, Vector4[]>();
+            this.camera = camera;
+            frustumPlanes = new Vector4[6];
         }
 
-        public static Vector4[] UpdateCameraFrustum(Camera camera)
+        public Vector4[] UpdateCameraFrustum()
         {
-            if (!cameraFrustumPlanes.TryGetValue(camera, out var frustumPlanes))
-            {
-                frustumPlanes = new Vector4[6];
-                cameraFrustumPlanes.Add(camera, frustumPlanes);
-            }
-
             GeometryUtility.CalculateFrustumPlanes(camera, tempPlanes);
 
             frustumPlanes[0] = new Vector4(tempPlanes[0].normal.x, tempPlanes[0].normal.y, tempPlanes[0].normal.z, tempPlanes[0].distance);
