@@ -25,7 +25,7 @@ namespace ReGizmo.Core
         static GameObject proxyObject;
 
         static List<IReGizmoDrawer> drawers;
-        static HashSet<CameraData> activeCameras;
+        static Dictionary<Camera, CameraData> activeCameras;
 
         static bool interrupted;
         static bool isActive;
@@ -46,7 +46,7 @@ namespace ReGizmo.Core
             ReGizmoSettings.Load();
 
             Setup();
-            activeCameras = new HashSet<CameraData>();
+            activeCameras = new Dictionary<Camera, CameraData>();
             isActive = true;
 #endif
         }
@@ -79,18 +79,15 @@ namespace ReGizmo.Core
             {
 #if RG_URP
                 Core.URP.ReGizmoRenderFeature.OnPassExecute -= OnPassExecute;
-#else
+#elif RG_HDRP
+                RenderPipelineManager.endCameraRendering -= OnEndCameraRendering;
+#endif
                 foreach (var camera in activeCameras)
                 {
-#if RG_HDRP
-                    RenderPipelineManager.endCameraRendering -= OnEndCameraRendering;
-#endif
-
-                    camera.SetActive(state);
+                    camera.Value.SetActive(state);
                 }
 
                 activeCameras.Clear();
-#endif
             }
         }
 
@@ -203,7 +200,10 @@ namespace ReGizmo.Core
             {
                 foreach (var camera in Camera.allCameras)
                 {
-                    activeCameras.Add(new CameraData(camera, CAMERA_EVENT));
+                    if (!activeCameras.ContainsKey(camera))
+                    {
+                        activeCameras.Add(camera, new CameraData(camera, CAMERA_EVENT));
+                    }
                 }
             }
 #endif
@@ -212,13 +212,14 @@ namespace ReGizmo.Core
             if (UnityEditor.SceneView.lastActiveSceneView != null)
             {
                 var camera = UnityEditor.SceneView.lastActiveSceneView.camera;
-                activeCameras.Add(new CameraData(camera, CAMERA_EVENT));
+                if (!activeCameras.ContainsKey(camera))
+                {
+                    activeCameras.Add(camera, new CameraData(camera, CAMERA_EVENT));
+                }
             }
 #endif 
 
-            activeCameras.RemoveWhere(e => e == null || e.Camera == null);
-
-            foreach (var camera in activeCameras)
+            foreach (var camera in activeCameras.Values)
             {
                 camera.Render(drawers);
             }
@@ -253,7 +254,7 @@ namespace ReGizmo.Core
         {
             if (activeCameras != null)
             {
-                foreach (var camera in activeCameras)
+                foreach (var camera in activeCameras.Values)
                 {
                     camera.Dispose();
                 }

@@ -10,12 +10,6 @@ namespace ReGizmo
     internal static class ReGizmoHelpers
     {
         public const string ShaderFontSuperSamplingKeyword = "SDF_SS";
-        public static readonly ComputeShader CullingCompute;
-
-        static ReGizmoHelpers()
-        {
-            CullingCompute = LoadCompute("Assets/ReGizmo/Runtime/Resources/Compute/CullCompute.compute");
-        }
 
         public static Material PrepareMaterial(string shaderName)
         {
