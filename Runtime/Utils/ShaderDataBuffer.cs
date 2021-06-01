@@ -9,10 +9,13 @@ namespace ReGizmo.Utils
     {
         T[] shaderDataPool;
         ComputeBuffer shaderDataBuffer;
+        ComputeBuffer culledDataBuffer;
 
         int writeCursor;
 
         public T[] ShaderDataPool => shaderDataPool;
+        public ComputeBuffer ComputeBuffer => shaderDataBuffer;
+        public ComputeBuffer CulledComputeBuffer => culledDataBuffer;
 
         public ShaderDataBuffer(int capacity = 1024)
         {
@@ -53,10 +56,9 @@ namespace ReGizmo.Utils
             writeCursor += count;
         }
 
-        public void PushData(MaterialPropertyBlock mpb, string name)
+        public void PushData()
         {
             shaderDataBuffer.SetData(shaderDataPool, 0, 0, writeCursor);
-            mpb.SetBuffer(name, shaderDataBuffer);
         }
 
         void Expand(int amount)
@@ -69,12 +71,16 @@ namespace ReGizmo.Utils
             ComputeBufferPool.Free(shaderDataBuffer);
             shaderDataBuffer = ComputeBufferPool.Get(shaderDataPool.Length, Marshal.SizeOf<T>());
 
+            ComputeBufferPool.Free(culledDataBuffer);
+            culledDataBuffer = ComputeBufferPool.Get(shaderDataPool.Length, Marshal.SizeOf<T>(), ComputeBufferType.Append);
+
             System.Array.Copy(oldPool, shaderDataPool, writeCursor);
         }
 
         public void Dispose()
         {
             shaderDataBuffer = ComputeBufferPool.Free(shaderDataBuffer);
+            culledDataBuffer = ComputeBufferPool.Free(culledDataBuffer);
         }
     }
 }
