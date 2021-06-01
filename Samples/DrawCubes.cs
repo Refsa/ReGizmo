@@ -14,7 +14,10 @@ public class DrawCubes : MonoBehaviour
             for (int x = 0; x < sizeSqr; x++)
                 for (int y = 0; y < sizeSqr; y++)
                 {
-                    ReDraw.Cube(new Vector3(x * 2, 0, y * 2), Color.red);
+                    float scalar = (0.01f + (x / (float)sizeSqr)) * 100;
+                    var scale = new Vector3(scalar, scalar, scalar);
+
+                    ReDraw.Cube(new Vector3(x * scalar * 2, 0, y * scalar * 2), scale, Color.red);
                 }
         }
     }

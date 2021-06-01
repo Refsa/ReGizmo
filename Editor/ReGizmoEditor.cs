@@ -105,7 +105,7 @@ namespace ReGizmo.Editor
 
         static void AwaitSetup()
         {
-            if (EditorApplication.timeSinceStartup - startTime > 0.25)
+            if (EditorApplication.timeSinceStartup - startTime > 0.5)
             {
                 ReGizmo.Core.ReGizmo.Initialize();
 
