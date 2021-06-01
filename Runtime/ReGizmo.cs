@@ -100,19 +100,14 @@ namespace ReGizmo.Core
         {
             Dispose();
 
-#if RG_LEGACY
-            drawBuffers = new LegacyCommandBufferStack("ReGizmo");
-#elif RG_URP
+#if RG_URP
             Core.URP.ReGizmoRenderFeature.OnPassExecute += OnPassExecute;
 #elif RG_HDRP
             RenderPipelineManager.endCameraRendering += OnEndCameraRendering;
 #endif
 
-#if RG_SRP
-            drawBuffers = new SRPCommandBufferStack("ReGizmo");
-#endif
-
             ComputeBufferPool.Init();
+            drawBuffers = new CommandBufferStack("ReGizmo");
 
             drawers = new List<IReGizmoDrawer>()
             {
