@@ -27,7 +27,7 @@ namespace ReGizmo.Utils
         {
             if (writeCursor >= shaderDataPool.Length)
             {
-                Expand(128);
+                Expand((int)(shaderDataPool.Length * 1.5f));
             }
 
             return ref shaderDataPool[writeCursor++];
