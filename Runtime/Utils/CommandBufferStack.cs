@@ -27,7 +27,7 @@ namespace ReGizmo.Utils
 
         public virtual void Dispose()
         {
-            current.Release();
+            current?.Release();
         }
 
         public void Attach(Camera camera, CameraEvent cameraEvent)
