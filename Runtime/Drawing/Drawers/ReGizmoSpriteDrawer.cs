@@ -52,7 +52,7 @@ namespace ReGizmo.Drawing
                 SetupSpriteUVs();
             }
 
-            renderArguments[0] = CurrentDrawCount();
+            renderArguments[0] = CulledDrawCount();
             renderArgumentsBuffer.SetData(renderArguments);
 
             cmd.DrawProceduralIndirect(

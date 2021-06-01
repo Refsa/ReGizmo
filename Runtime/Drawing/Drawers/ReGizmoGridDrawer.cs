@@ -40,7 +40,7 @@ namespace ReGizmo.Drawing
 
         protected override void RenderInternal(CommandBuffer cmd)
         {
-            renderArguments[1] = CurrentDrawCount();
+            renderArguments[1] = CulledDrawCount();
             renderArgumentsBuffer.SetData(renderArguments);
 
             cmd.DrawMeshInstancedIndirect(

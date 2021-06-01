@@ -23,7 +23,7 @@ namespace ReGizmo.Drawing
 
         protected override void RenderInternal(CommandBuffer cmd)
         {
-            renderArguments[0] = CurrentDrawCount();
+            renderArguments[0] = CulledDrawCount();
             renderArgumentsBuffer.SetData(renderArguments);
 
             cmd.DrawProceduralIndirect(
