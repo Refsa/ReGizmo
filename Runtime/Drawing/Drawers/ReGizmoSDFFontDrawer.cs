@@ -109,7 +109,8 @@ namespace ReGizmo.Drawing
             base.SetMaterialPropertyBlockData();
 
             materialPropertyBlock.SetBuffer("_CharacterInfos", characterInfoBuffer);
-            textDataBuffers.PushData(materialPropertyBlock, "_TextData");
+            textDataBuffers.PushData();
+            materialPropertyBlock.SetBuffer("_TextData", textDataBuffers.ComputeBuffer);
 
             materialPropertyBlock.SetFloat("_DistanceRange", font.Font.atlas.distanceRange);
             materialPropertyBlock.SetVector("_AtlasDimensions", new Vector2(font.Font.atlas.width, font.Font.atlas.height));

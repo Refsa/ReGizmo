@@ -99,7 +99,9 @@ namespace ReGizmo.Drawing
 
             materialPropertyBlock.SetTexture("_MainTex", font.material.mainTexture);
             materialPropertyBlock.SetBuffer("_CharacterInfos", characterInfoBuffer);
-            textDataBuffers.PushData(materialPropertyBlock, "_TextData");
+
+            textDataBuffers.PushData();
+            materialPropertyBlock.SetBuffer("_TextData", textDataBuffers.ComputeBuffer);
         }
 
         public override void Dispose()

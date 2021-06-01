@@ -14,7 +14,16 @@ namespace ReGizmo.Drawing
 
     internal class ReGizmoMeshDrawer : ReGizmoDrawer<MeshDrawerShaderData>
     {
+        static readonly CullingData cullingData = new CullingData
+        {
+            KernelID = CullingHandler.CullingCompute.FindKernel("Mesh_CameraCulling"),
+            InputName = "_MeshInput",
+            OutputName = "_MeshOutput"
+        };
+
         protected Mesh mesh;
+        protected override CullingData CullingData => cullingData;
+
         public ReGizmoMeshDrawer() : base() { }
 
         public ReGizmoMeshDrawer(Mesh mesh) : base()
@@ -27,7 +36,7 @@ namespace ReGizmo.Drawing
 
         protected override void RenderInternal(CommandBuffer cmd)
         {
-            renderArguments[1] = CurrentDrawCount();
+            renderArguments[1] = CulledDrawCount();
             renderArgumentsBuffer.SetData(renderArguments);
 
             cmd.DrawMeshInstancedIndirect(
