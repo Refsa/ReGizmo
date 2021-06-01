@@ -28,22 +28,26 @@ namespace ReGizmo.Drawing
             countCopyBuffer = ComputeBufferPool.Get(1, sizeof(int), ComputeBufferType.IndirectArguments);
         }
 
-        public static int SetCullingData<TShaderData>(CullingData cullingData, int drawCount, ShaderDataBuffer<TShaderData> buffer)
+        public static int SetCullingData<TShaderData>(CullingData cullingData, int drawCount, ComputeBuffer inputBufer, ComputeBuffer outputBuffer)
             where TShaderData : unmanaged
         {
-            buffer.CulledComputeBuffer.SetCounterValue(0);
+            outputBuffer.SetCounterValue(0);
 
             CullingCompute.SetInt("_Count", drawCount);
-            CullingCompute.SetBuffer(cullingData.KernelID, cullingData.InputName, buffer.ComputeBuffer);
-            CullingCompute.SetBuffer(cullingData.KernelID, cullingData.OutputName, buffer.CulledComputeBuffer);
+            CullingCompute.SetBuffer(cullingData.KernelID, cullingData.InputName, inputBufer);
+            CullingCompute.SetBuffer(cullingData.KernelID, cullingData.OutputName, outputBuffer);
             CullingCompute.Dispatch(cullingData.KernelID, Mathf.CeilToInt(drawCount / 64f), 1, 1);
 
             if (countCopyBuffer == null)
             {
                 countCopyBuffer = ComputeBufferPool.Get(1, sizeof(int), ComputeBufferType.IndirectArguments);
             }
+            if (drawCounter == null)
+            {
+                drawCounter = new int[1] { 0 };
+            }
 
-            ComputeBuffer.CopyCount(buffer.CulledComputeBuffer, countCopyBuffer, 0);
+            ComputeBuffer.CopyCount(outputBuffer, countCopyBuffer, 0);
             countCopyBuffer.GetData(drawCounter);
 
             return drawCounter[0];

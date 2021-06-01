@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using ReGizmo.Core;
 using ReGizmo.Utils;
 using UnityEngine;
@@ -20,7 +21,6 @@ namespace ReGizmo.Drawing
 
         protected virtual string PropertiesName { get; } = "_Properties";
         protected virtual CullingData CullingData { get; }
-        readonly string typeName;
 
         protected Material material;
 
@@ -29,6 +29,8 @@ namespace ReGizmo.Drawing
         protected ComputeBuffer renderArgumentsBuffer;
 
         ShaderDataBuffer<TShaderData> shaderDataBuffer;
+
+        Dictionary<CommandBuffer, ComputeBuffer> culledBuffers;
         int culledDrawCount;
 
         protected Bounds currentBounds;
@@ -42,10 +44,9 @@ namespace ReGizmo.Drawing
 
             ComputeBufferPool.Free(renderArgumentsBuffer);
             renderArgumentsBuffer = ComputeBufferPool.Get(1, sizeof(uint) * 5, ComputeBufferType.IndirectArguments);
+            culledBuffers = new Dictionary<CommandBuffer, ComputeBuffer>();
 
             currentBounds = DefaultRenderBounds;
-
-            typeName = this.GetType().Name;
         }
 
         public ReGizmoDrawer(Material material) : this()
@@ -78,9 +79,22 @@ namespace ReGizmo.Drawing
 
             if (CullingData != null)
             {
-                culledDrawCount = CullingHandler.SetCullingData<TShaderData>(CullingData, currentDrawCount, shaderDataBuffer);
+                if (!culledBuffers.TryGetValue(cmd, out var culledBuffer))
+                {
+                    culledBuffer = ComputeBufferPool.Get(currentDrawCount, System.Runtime.InteropServices.Marshal.SizeOf<TShaderData>(), ComputeBufferType.Append);
+                    culledBuffers.Add(cmd, culledBuffer);
+                }
 
-                materialPropertyBlock.SetBuffer(PropertiesName, shaderDataBuffer.CulledComputeBuffer);
+                if (culledBuffer.count < currentDrawCount)
+                {
+                    ComputeBufferPool.Free(culledBuffer);
+                    culledBuffer = ComputeBufferPool.Get(currentDrawCount, System.Runtime.InteropServices.Marshal.SizeOf<TShaderData>(), ComputeBufferType.Append);
+                    culledBuffers[cmd] = culledBuffer;
+                }
+
+                culledDrawCount = CullingHandler.SetCullingData<TShaderData>(CullingData, currentDrawCount, shaderDataBuffer.ComputeBuffer, culledBuffer);
+
+                materialPropertyBlock.SetBuffer(PropertiesName, culledBuffer);
                 SetMaterialPropertyBlockData();
                 RenderInternal(cmd);
             }

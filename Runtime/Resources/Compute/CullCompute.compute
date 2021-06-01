@@ -19,22 +19,41 @@ void Mesh_CameraCulling (uint3 id : SV_DispatchThreadID)
 
     MeshProperties ld = _MeshInput[id.x];
 
-    /* float3 center = 0; float3 extents = 0;
-    mesh_get_bounding_box(ld, center, extents); */
-
-    _MeshOutput.Append(ld); 
+    float3 center = 0; float3 extents = 0;
+    mesh_get_bounding_box(ld, center, extents);
+    
+    if (box_inside_frustum(center, extents))
+    {
+        _MeshOutput.Append(ld);
+    }
 }
 
 inline void mesh_get_bounding_box( MeshProperties prop, out float3 center, out float3 extents )
 {
-    center = 0;
-    extents = 0;
-
-    float3 pos = prop.Position;
-    float3 size = prop.Scale;
+    center = prop.Position;
+    extents = prop.Scale * 0.5;
 }
- 
+
+// Based on: https://www.iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm
 inline bool box_inside_frustum( float3 center, float3 extents )
 {
+    float3 bounds_min = center - extents;
+    float3 bounds_max = center + extents;
+    
+    int count = 0;
+    for (int i = 0; i < 6; i++)
+    {
+        count += ((dot( _CameraFrustum[i], float4(bounds_min.x, bounds_min.y, bounds_min.z, 1.0f) ) < 0.0 ) ? 1 : 0);
+        count += ((dot( _CameraFrustum[i], float4(bounds_max.x, bounds_min.y, bounds_min.z, 1.0f) ) < 0.0 ) ? 1 : 0);
+        count += ((dot( _CameraFrustum[i], float4(bounds_min.x, bounds_max.y, bounds_min.z, 1.0f) ) < 0.0 ) ? 1 : 0);
+        count += ((dot( _CameraFrustum[i], float4(bounds_max.x, bounds_max.y, bounds_min.z, 1.0f) ) < 0.0 ) ? 1 : 0);
+        count += ((dot( _CameraFrustum[i], float4(bounds_min.x, bounds_min.y, bounds_max.z, 1.0f) ) < 0.0 ) ? 1 : 0);
+        count += ((dot( _CameraFrustum[i], float4(bounds_max.x, bounds_min.y, bounds_max.z, 1.0f) ) < 0.0 ) ? 1 : 0);
+        count += ((dot( _CameraFrustum[i], float4(bounds_min.x, bounds_max.y, bounds_max.z, 1.0f) ) < 0.0 ) ? 1 : 0);
+        count += ((dot( _CameraFrustum[i], float4(bounds_max.x, bounds_max.y, bounds_max.z, 1.0f) ) < 0.0 ) ? 1 : 0);
 
+    }
+    [branch] if (count == 8) return false;
+
+    return true;
 }
