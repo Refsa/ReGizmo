@@ -9,6 +9,7 @@ namespace ReGizmo
 {
     internal static class ReGizmoHelpers
     {
+        public const string ShaderFontSuperSamplingKeyword = "SDF_SS";
         public static readonly ComputeShader CullingCompute;
 
         static ReGizmoHelpers()
