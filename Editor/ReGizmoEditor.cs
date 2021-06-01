@@ -52,7 +52,6 @@ namespace ReGizmo.Editor
             EditorSceneManager.activeSceneChangedInEditMode -= OnSceneChanged;
 
             SceneView.duringSceneGui -= OnDuringSceneGUI;
-            SceneView.beforeSceneGui -= OnBeforeSceneGUI;
 
             EditorApplication.projectChanged -= OnProjectChanged;
         }
@@ -112,15 +111,9 @@ namespace ReGizmo.Editor
 
                 EditorApplication.update -= AwaitSetup;
                 SceneView.duringSceneGui += OnDuringSceneGUI;
-                SceneView.beforeSceneGui += OnBeforeSceneGUI;
 
                 isSetup = true;
             }
-        }
-
-        private static void OnBeforeSceneGUI(SceneView sceneView)
-        {
-            
         }
 
         static void OnDuringSceneGUI(SceneView sceneView)

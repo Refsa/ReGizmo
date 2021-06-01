@@ -2,7 +2,6 @@
     - @high Some auto-generated draw overrides are a bit too extensive
         Circle for example has 48 overrides
     - @high Ordering of some auto-generated parameters should be moved around to be consistent between calls
-    - @high Legacy currently doesnt render in game view when outside of play mode, would be a nice thing but not a huge deal
     - @critical ensure proper frustum culling is done
         This is mostly ignore now, need to set up proper render bounds in the draw call and
         offset the vertices in the shader
@@ -64,6 +63,7 @@ Readme:
     - Add a third-party library section
 
 Archive:
+  ✔ @high Legacy currently doesnt render in game view when outside of play mode, would be a nice thing but not a huge deal @done(21-06-01 11:35) @project(General)
   ✔ @high Another mode for wireframe is just the general outline or shape, this is needed for all the basic shapes, at least those present for Physics @done(21-05-31 15:01) @project(3D Outline)
     Should probably replace all the current wireframe drawers with this, except the custom mesh / mesh wireframes
     Can either be done with SDF or by using Lines
