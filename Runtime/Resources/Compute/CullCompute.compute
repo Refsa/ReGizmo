@@ -1,0 +1,82 @@
+﻿#include "../Shaders/Utils/ShaderProperties.cginc"
+
+#pragma kernel CameraCulling
+
+struct Empty { int sentinel; };
+
+#if ReGizmoMeshDrawer
+#define PROP_NAME MeshProperties
+#define SIZE_PROP Scale
+#define POS_PROP  Position
+#else
+#define PROP_NAME Empty
+#define SIZE_PROP NIL
+#define POS_PROP  NIL
+#endif
+
+StructuredBuffer<PROP_NAME> _Input;
+AppendStructuredBuffer<PROP_NAME> _Output;
+ 
+int _Count;
+float4 _CameraFrustum[6];
+float2 _CameraClips;
+
+void get_bounding_box( PROP_NAME prop, out float3 center, out float3 extents );
+
+bool box_inside_frustum( float3 center, float3 extents );
+
+bool sphere_inside_plane( float4 sphere, float4 plane );
+bool sphere_inside_frustum( float4 sphere );
+
+[numthreads(32,1,1)]
+void CameraCulling (uint3 id : SV_DispatchThreadID)
+{
+    #if SIZE_PROP == NIL || POS_PROP == NIL
+    return;
+    #endif
+
+    [branch] if (id.x >= _Count) return;
+
+    PROP_NAME ld = _Input[id.x];
+
+    float3 center = 0; float3 extents = 0;
+    get_bounding_box(ld, center, extents);
+}
+
+inline void get_bounding_box( PROP_NAME prop, out float3 center, out float3 extents )
+{
+    center = 0;
+    extents = 0;
+
+    #if SIZE_PROP != NIL && POS_PROP != NIL
+
+    float3 pos = prop.POS_PROP;
+    float3 size = prop.SIZE_PROP;
+
+    #endif
+}
+
+inline bool box_inside_frustum( float3 center, float3 extents )
+{
+
+}
+
+inline bool sphere_inside_plane( float4 sphere, float4 plane )
+{
+    return dot( -plane.xyz, sphere.xyz ) - plane.w > sphere.w;
+}
+
+inline bool sphere_inside_frustum( float4 sphere )
+{
+    bool result = true;
+ 
+    for ( int i = 0; i < 6 && result; i++ )
+    {
+        if ( sphere_inside_plane( sphere, _CameraFrustum[i] ) )
+        {
+            result = false;
+        }
+    }
+ 
+    return result;
+}
