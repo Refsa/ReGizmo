@@ -8,7 +8,6 @@ namespace ReGizmo.Drawing
         {
             mesh = ReGizmoPrimitives.Cube();
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh");
-            renderArguments[0] = mesh.GetIndexCount(0);
         }
     }
 
@@ -18,7 +17,6 @@ namespace ReGizmo.Drawing
         {
             mesh = ReGizmoPrimitives.Sphere();
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh");
-            renderArguments[0] = mesh.GetIndexCount(0);
         }
     }
 
@@ -28,7 +26,6 @@ namespace ReGizmo.Drawing
         {
             mesh = ReGizmoPrimitives.Quad();
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh");
-            renderArguments[0] = mesh.GetIndexCount(0);
         }
     }
 
@@ -38,7 +35,6 @@ namespace ReGizmo.Drawing
         {
             mesh = ReGizmoPrimitives.Cylinder();
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh");
-            renderArguments[0] = mesh.GetIndexCount(0);
         }
     }
     
@@ -48,7 +44,6 @@ namespace ReGizmo.Drawing
         {
             mesh = ReGizmoPrimitives.Capsule();
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh");
-            renderArguments[0] = mesh.GetIndexCount(0);
         }
     }
 
@@ -58,7 +53,6 @@ namespace ReGizmo.Drawing
         {
             mesh = ReGizmoPrimitives.Cone();
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh");
-            renderArguments[0] = mesh.GetIndexCount(0);
         }
     }
 
@@ -68,7 +62,6 @@ namespace ReGizmo.Drawing
         {
             mesh = ReGizmoPrimitives.Octahedron();
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh");
-            renderArguments[0] = mesh.GetIndexCount(0);
         }
     }
 
@@ -78,7 +71,6 @@ namespace ReGizmo.Drawing
         {
             mesh = ReGizmoPrimitives.Pyramid();
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh");
-            renderArguments[0] = mesh.GetIndexCount(0);
         }
     }
 
@@ -88,7 +80,6 @@ namespace ReGizmo.Drawing
         {
             mesh = ReGizmoPrimitives.Icosahedron();
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh");
-            renderArguments[0] = mesh.GetIndexCount(0);
         }
     }
 }

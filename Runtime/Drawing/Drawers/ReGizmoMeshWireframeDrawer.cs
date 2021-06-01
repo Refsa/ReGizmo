@@ -16,25 +16,23 @@ namespace ReGizmo.Drawing
         {
             this.mesh = mesh;
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh_Wireframe");
-
-            renderArguments[0] = mesh.GetIndexCount(0);
         }
 
-        protected override void RenderInternal(CommandBuffer cmd)
+        protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData)
         {
-            renderArguments[1] = CulledDrawCount();;
-            renderArgumentsBuffer.SetData(renderArguments);
+            uniqueDrawData.SetVertexCount(mesh.GetIndexCount(0));
+            uniqueDrawData.SetInstanceCount(uniqueDrawData.DrawCount);
 
             cmd.DrawMeshInstancedIndirect(
                 mesh, 0, material, 0,
-                renderArgumentsBuffer, 0,
-                materialPropertyBlock
+                uniqueDrawData.GetRenderArgsBuffer(), 0,
+                uniqueDrawData.MaterialPropertyBlock
             );
         }
 
-        protected override void SetMaterialPropertyBlockData()
+        protected override void SetMaterialPropertyBlockData(MaterialPropertyBlock materialPropertyBlock)
         {
-            base.SetMaterialPropertyBlockData();
+            base.SetMaterialPropertyBlockData(materialPropertyBlock);
         }
     }
 

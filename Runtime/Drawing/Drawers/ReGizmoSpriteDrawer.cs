@@ -27,7 +27,6 @@ namespace ReGizmo.Drawing
             SetupSpriteUVs();
 
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Sprite");
-            renderArguments[1] = 1;
         }
 
         void SetupSpriteUVs()
@@ -45,28 +44,28 @@ namespace ReGizmo.Drawing
             oldSpriteSize.y = sprite.texture.height;
         }
 
-        protected override void RenderInternal(CommandBuffer cmd)
+        protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData)
         {
             if (oldSpriteSize.x != sprite.texture.width || oldSpriteSize.y != sprite.texture.height)
             {
                 SetupSpriteUVs();
             }
 
-            renderArguments[0] = CulledDrawCount();
-            renderArgumentsBuffer.SetData(renderArguments);
+            uniqueDrawData.SetInstanceCount(1);
+            uniqueDrawData.SetVertexCount(uniqueDrawData.DrawCount);
 
             cmd.DrawProceduralIndirect(
                 Matrix4x4.identity,
                 material, 0,
                 MeshTopology.Points,
-                renderArgumentsBuffer, 0,
-                materialPropertyBlock
+                uniqueDrawData.GetRenderArgsBuffer(), 0,
+                uniqueDrawData.MaterialPropertyBlock
             );
         }
 
-        protected override void SetMaterialPropertyBlockData()
+        protected override void SetMaterialPropertyBlockData(MaterialPropertyBlock materialPropertyBlock)
         {
-            base.SetMaterialPropertyBlockData();
+            base.SetMaterialPropertyBlockData(materialPropertyBlock);
 
             materialPropertyBlock.SetTexture("_SpriteTexture", sprite.texture);
         }

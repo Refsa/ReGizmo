@@ -31,7 +31,7 @@ void Mesh_CameraCulling (uint3 id : SV_DispatchThreadID)
 inline void mesh_get_bounding_box( MeshProperties prop, out float3 center, out float3 extents )
 {
     center = prop.Position;
-    extents = prop.Scale * 0.5;
+    extents = prop.Scale;
 }
 
 // Based on: https://www.iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm

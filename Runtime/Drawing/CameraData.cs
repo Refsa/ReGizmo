@@ -10,7 +10,9 @@ namespace ReGizmo.Drawing
     {
         Camera camera;
         CameraFrustum frustum;
+        CullingHandler cullingHandler;
         CommandBuffer commandBuffer;
+
         bool isActive;
 
         string profilerKey;
@@ -23,6 +25,7 @@ namespace ReGizmo.Drawing
         {
             this.camera = camera;
             frustum = new CameraFrustum(camera);
+            cullingHandler = new CullingHandler();
 
             commandBuffer = new CommandBuffer();
             commandBuffer.name = $"ReGizmo Draw Buffer: {camera.name}";
@@ -38,7 +41,7 @@ namespace ReGizmo.Drawing
             isActive = state;
         }
 
-        public void Render(in List<IReGizmoDrawer> drawers)
+        public void Render(List<IReGizmoDrawer> drawers)
         {
             commandBuffer.Clear();
             if (!isActive) return;
@@ -62,8 +65,7 @@ namespace ReGizmo.Drawing
 
             foreach (var drawer in drawers)
             {
-                if (drawer.CurrentDrawCount() == 0) continue;
-                drawer.Render(commandBuffer);
+                drawer.Render(commandBuffer, cullingHandler);
             }
 
 #if REGIZMO_DEV

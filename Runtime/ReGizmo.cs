@@ -198,12 +198,10 @@ namespace ReGizmo.Core
 
 #if RG_LEGACY
             {
-                foreach (var camera in Camera.allCameras)
+                var camera = Camera.main;
+                if (!activeCameras.ContainsKey(camera))
                 {
-                    if (!activeCameras.ContainsKey(camera))
-                    {
-                        activeCameras.Add(camera, new CameraData(camera, CAMERA_EVENT));
-                    }
+                    activeCameras.Add(camera, new CameraData(camera, CAMERA_EVENT));
                 }
             }
 #endif
@@ -219,14 +217,15 @@ namespace ReGizmo.Core
             }
 #endif 
 
+            foreach (var drawer in drawers)
+            {
+                drawer.PushSharedData();
+                drawer.Clear();
+            }
+
             foreach (var camera in activeCameras.Values)
             {
                 camera.Render(drawers);
-            }
-
-            foreach (var drawer in drawers)
-            {
-                drawer.Clear();
             }
 
             if (shouldReset)

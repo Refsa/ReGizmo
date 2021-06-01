@@ -32,11 +32,19 @@ namespace ReGizmo.Drawing
             }
         }
 
-        public void Render(CommandBuffer cmd)
+        public void PushSharedData()
         {
             foreach (var drawer in _drawers)
             {
-                drawer.Render(cmd);
+                drawer.PushSharedData();
+            }
+        }
+
+        public void Render(CommandBuffer cmd, CullingHandler cullingHandler)
+        {
+            foreach (var drawer in _drawers)
+            {
+                drawer.Render(cmd, cullingHandler);
             }
         }
 

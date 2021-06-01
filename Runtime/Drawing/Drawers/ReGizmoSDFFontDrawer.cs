@@ -24,8 +24,7 @@ namespace ReGizmo.Drawing
 
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Font_SDF");
             this.font = font;
-            renderArguments[1] = 1;
-
+            
             SetupCharacterData();
         }
 
@@ -90,23 +89,23 @@ namespace ReGizmo.Drawing
             return ref textDataBuffers.Get();
         }
 
-        protected override void RenderInternal(CommandBuffer cmd)
+        protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData)
         {
-            renderArguments[0] = CulledDrawCount();
-            renderArgumentsBuffer.SetData(renderArguments);
+            uniqueDrawData.SetInstanceCount(1);
+            uniqueDrawData.SetVertexCount(uniqueDrawData.DrawCount);
 
             cmd.DrawProceduralIndirect(
                 Matrix4x4.identity,
                 material, 0,
                 MeshTopology.Points,
-                renderArgumentsBuffer, 0,
-                materialPropertyBlock
+                uniqueDrawData.GetRenderArgsBuffer(), 0,
+                uniqueDrawData.MaterialPropertyBlock
             );
         }
 
-        protected override void SetMaterialPropertyBlockData()
+        protected override void SetMaterialPropertyBlockData(MaterialPropertyBlock materialPropertyBlock)
         {
-            base.SetMaterialPropertyBlockData();
+            base.SetMaterialPropertyBlockData(materialPropertyBlock);
 
             materialPropertyBlock.SetBuffer("_CharacterInfos", characterInfoBuffer);
             textDataBuffers.PushData();

@@ -30,25 +30,23 @@ namespace ReGizmo.Drawing
         {
             this.mesh = mesh;
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh");
-
-            renderArguments[0] = mesh.GetIndexCount(0);
         }
 
-        protected override void RenderInternal(CommandBuffer cmd)
+        protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData)
         {
-            renderArguments[1] = CulledDrawCount();
-            renderArgumentsBuffer.SetData(renderArguments);
+            uniqueDrawData.SetInstanceCount(uniqueDrawData.DrawCount);
+            uniqueDrawData.SetVertexCount(mesh.GetIndexCount(0));
 
             cmd.DrawMeshInstancedIndirect(
                 mesh, 0, material, 0,
-                renderArgumentsBuffer, 0,
-                materialPropertyBlock
+                uniqueDrawData.GetRenderArgsBuffer(), 0,
+                uniqueDrawData.MaterialPropertyBlock
             );
         }
 
-        protected override void SetMaterialPropertyBlockData()
+        protected override void SetMaterialPropertyBlockData(MaterialPropertyBlock materialPropertyBlock)
         {
-            base.SetMaterialPropertyBlockData();
+            base.SetMaterialPropertyBlockData(materialPropertyBlock);
             materialPropertyBlock.SetFloat("_Shaded", 0.35f);
             materialPropertyBlock.SetFloat("_FresnelFactor", 1f);
         }
