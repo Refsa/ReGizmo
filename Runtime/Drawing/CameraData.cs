@@ -4,7 +4,7 @@ using ReGizmo.Drawing;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-namespace ReGizmo
+namespace ReGizmo.Drawing
 {
     internal class CameraData : System.IDisposable
     {
@@ -44,8 +44,8 @@ namespace ReGizmo
             if (!isActive) return;
 
             var frustumPlanes = frustum.UpdateCameraFrustum();
-            commandBuffer.SetComputeVectorArrayParam(ReGizmoHelpers.CullingCompute, "_CameraFrustum", frustumPlanes);
-            commandBuffer.SetComputeVectorParam(ReGizmoHelpers.CullingCompute, "_CameraClips", new Vector2(camera.nearClipPlane, camera.farClipPlane));
+            commandBuffer.SetComputeVectorArrayParam(CullingHandler.CullingCompute, "_CameraFrustum", frustumPlanes);
+            commandBuffer.SetComputeVectorParam(CullingHandler.CullingCompute, "_CameraClips", new Vector2(camera.nearClipPlane, camera.farClipPlane));
 
 #if REGIZMO_DEV
             commandBuffer.BeginSample(profilerKey);
