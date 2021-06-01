@@ -13,12 +13,14 @@ namespace ReGizmo.Drawing
         uint CurrentDrawCount();
     }
 
-    public abstract class ReGizmoDrawer<TShaderData> : System.IDisposable, IReGizmoDrawer
+    internal abstract class ReGizmoDrawer<TShaderData> : System.IDisposable, IReGizmoDrawer
         where TShaderData : unmanaged
     {
         protected static readonly Bounds DefaultRenderBounds = new Bounds(Vector3.zero, Vector3.one * 10_000f);
 
         protected virtual string PropertiesName { get; } = "_Properties";
+        protected virtual CullingData CullingData { get; }
+        readonly string typeName;
 
         protected Material material;
 
@@ -27,6 +29,7 @@ namespace ReGizmo.Drawing
         protected ComputeBuffer renderArgumentsBuffer;
 
         ShaderDataBuffer<TShaderData> shaderDataBuffer;
+        int culledDrawCount;
 
         protected Bounds currentBounds;
 
@@ -41,6 +44,8 @@ namespace ReGizmo.Drawing
             renderArgumentsBuffer = ComputeBufferPool.Get(1, sizeof(uint) * 5, ComputeBufferType.IndirectArguments);
 
             currentBounds = DefaultRenderBounds;
+
+            typeName = this.GetType().Name;
         }
 
         public ReGizmoDrawer(Material material) : this()
@@ -66,15 +71,36 @@ namespace ReGizmo.Drawing
 
         public void Render(CommandBuffer cmd)
         {
-            if (shaderDataBuffer.Count() == 0) return;
+            int currentDrawCount = shaderDataBuffer.Count();
+            if (currentDrawCount == 0) return;
 
-            SetMaterialPropertyBlockData();
-            RenderInternal(cmd);
+            shaderDataBuffer.PushData();
+
+            if (CullingData != null)
+            {
+                culledDrawCount = CullingHandler.SetCullingData<TShaderData>(CullingData, currentDrawCount, shaderDataBuffer);
+
+                materialPropertyBlock.SetBuffer(PropertiesName, shaderDataBuffer.CulledComputeBuffer);
+                SetMaterialPropertyBlockData();
+                RenderInternal(cmd);
+            }
+            else
+            {
+                culledDrawCount = currentDrawCount;
+                materialPropertyBlock.SetBuffer(PropertiesName, shaderDataBuffer.ComputeBuffer);
+                SetMaterialPropertyBlockData();
+                RenderInternal(cmd);
+            }
         }
 
         public uint CurrentDrawCount()
         {
             return (uint)shaderDataBuffer.Count();
+        }
+
+        public uint CulledDrawCount()
+        {
+            return (uint)culledDrawCount;
         }
 
         public ref TShaderData GetShaderData()
@@ -83,10 +109,6 @@ namespace ReGizmo.Drawing
         }
 
         protected abstract void RenderInternal(CommandBuffer cmd);
-
-        protected virtual void SetMaterialPropertyBlockData()
-        {
-            shaderDataBuffer.PushData(materialPropertyBlock, PropertiesName);
-        }
+        protected virtual void SetMaterialPropertyBlockData() { }
     }
 }
