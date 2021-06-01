@@ -1,4 +1,5 @@
 #include "UnityCG.cginc"
+#include "ShaderProperties.cginc"
 
 // ## MATH CONSTANTS ##
 static const float E = 2.71828;
@@ -17,14 +18,6 @@ static const int SIZE_MODE_UNIT = 1 << 13;
 
 static const int FILL_MODE_FILL = 1 << 20;
 static const int FILL_MODE_OUTLINE = 1 << 21;
-
-struct MeshProperties
-{
-    float3 Position;
-    float4 Rotation;
-    float3 Scale;
-    float4 Color;
-};
 
 float4x4 rotation_matrix(float3 rotation)
 {
