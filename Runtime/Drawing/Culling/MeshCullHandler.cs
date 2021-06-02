@@ -4,6 +4,7 @@ using System.Linq;
 using ReGizmo.Core;
 using UnityEngine;
 using UnityEngine.Profiling;
+using UnityEngine.Rendering;
 
 namespace ReGizmo.Drawing
 {
@@ -13,7 +14,7 @@ namespace ReGizmo.Drawing
         static readonly string InputID = "_MeshInput";
         static readonly string OutputID = "_MeshOutput";
 
-        public override void PerformCulling<TShaderData>(int drawCount, ComputeBuffer argsBuffer, int argsBufferOffset, ComputeBuffer inputBufer, ComputeBuffer outputBuffer)
+        public override void PerformCulling<TShaderData>(CommandBuffer commandBuffer, int drawCount, ComputeBuffer argsBuffer, int argsBufferOffset, ComputeBuffer inputBufer, ComputeBuffer outputBuffer)
         {
             if (inputBufer == null || outputBuffer == null)
             {
@@ -23,12 +24,12 @@ namespace ReGizmo.Drawing
 
             outputBuffer.SetCounterValue(0);
 
-            CullingCompute.SetInt("_Count", drawCount);
-            CullingCompute.SetBuffer(KernelID, InputID, inputBufer);
-            CullingCompute.SetBuffer(KernelID, OutputID, outputBuffer);
-            CullingCompute.Dispatch(KernelID, Mathf.CeilToInt(drawCount / 128f), 1, 1);
+            commandBuffer.SetComputeIntParam(CullingCompute, "_Count", drawCount);
+            commandBuffer.SetComputeBufferParam(CullingCompute, KernelID, InputID, inputBufer);
+            commandBuffer.SetComputeBufferParam(CullingCompute, KernelID, OutputID, outputBuffer);
+            commandBuffer.DispatchCompute(CullingCompute, KernelID, Mathf.CeilToInt(drawCount / 128f), 1, 1);
 
-            ComputeBuffer.CopyCount(outputBuffer, argsBuffer, sizeof(uint) * argsBufferOffset);
+            commandBuffer.CopyCounterValue(outputBuffer, argsBuffer, (uint)(sizeof(uint) * argsBufferOffset));
 
             Profiler.EndSample();
         }

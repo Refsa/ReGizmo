@@ -27,21 +27,21 @@ namespace ReGizmo.Drawing
 
         }
 
-        public void SetData(CameraFrustum cameraFrustum)
+        public void SetData(CommandBuffer commandBuffer, CameraFrustum cameraFrustum)
         {
-            CullingCompute.SetVectorArray("_CameraFrustum", cameraFrustum.FrustumPlanes);
-            CullingCompute.SetVector("_CameraClips", cameraFrustum.ClippingPlanes);
-            CullingCompute.SetMatrix("_ViewMatrix", cameraFrustum.ViewMatrix);
-            CullingCompute.SetMatrix("_ProjectionMatrix", cameraFrustum.ProjectionMatrix);
-            CullingCompute.SetMatrix("_I_VP", cameraFrustum.InverseViewProjectionMatrix);
+            commandBuffer.SetComputeVectorArrayParam(CullingCompute, "_CameraFrustum", cameraFrustum.FrustumPlanes);
+            commandBuffer.SetComputeVectorParam(CullingCompute, "_CameraClips", cameraFrustum.ClippingPlanes);
+            commandBuffer.SetComputeMatrixParam(CullingCompute, "_ViewMatrix", cameraFrustum.ViewMatrix);
+            commandBuffer.SetComputeMatrixParam(CullingCompute, "_ProjectionMatrix", cameraFrustum.ProjectionMatrix);
+            commandBuffer.SetComputeMatrixParam(CullingCompute, "_I_VP", cameraFrustum.InverseViewProjectionMatrix);
         }
 
-        public abstract void PerformCulling<TShaderData>(int drawCount, ComputeBuffer argsBuffer, int argsBufferOffset, ComputeBuffer inputBufer, ComputeBuffer outputBuffer)
+        public abstract void PerformCulling<TShaderData>(CommandBuffer commandBuffer, int drawCount, ComputeBuffer argsBuffer, int argsBufferOffset, ComputeBuffer inputBufer, ComputeBuffer outputBuffer)
             where TShaderData : unmanaged;
 
         public void Dispose()
         {
-            
+
         }
     }
 }

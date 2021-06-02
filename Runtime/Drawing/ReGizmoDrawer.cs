@@ -62,10 +62,11 @@ namespace ReGizmo.Drawing
             if (cullingHandler != null)
             {
                 var culledBuffer = uniqueDrawData.GetDrawBuffer<TShaderData>(currentDrawCount);
-                cullingHandler.SetData(cameraFrustum);
+                cullingHandler.SetData(commandBuffer, cameraFrustum);
                 SetCullingData();
 
                 cullingHandler.PerformCulling<TShaderData>(
+                    commandBuffer,
                     currentDrawCount,
                     uniqueDrawData.ArgsBuffer, argsBufferCountOffset,
                     shaderDataBuffer.ComputeBuffer, culledBuffer);
@@ -81,7 +82,7 @@ namespace ReGizmo.Drawing
                 SetMaterialPropertyBlockData(uniqueDrawData.MaterialPropertyBlock);
                 RenderInternal(commandBuffer, uniqueDrawData);
             }
-            
+
             Profiler.EndSample();
         }
 
