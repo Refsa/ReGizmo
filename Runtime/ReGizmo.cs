@@ -217,25 +217,34 @@ namespace ReGizmo.Core
             }
 #endif 
 
-            foreach (var cameraData in activeCameras.Values)
+            Profiler.BeginSample("ReGizmo::OnUpdate::PreRender");
+            foreach (var cameraData in activeCameras.Values) 
             {
                 cameraData.PreRender();
             }
+            Profiler.EndSample();
 
+            Profiler.BeginSample("ReGizmo::OnUpdate::Render");
             foreach (var drawer in drawers)
             {
+                Profiler.BeginSample("ReGizmo::OnUpdate::PushSharedData");
                 drawer.PushSharedData();
+                Profiler.EndSample();
+
                 foreach (var cameraData in activeCameras.Values)
                 {
                     cameraData.Render(drawer);
                 }
                 drawer.Clear();
             }
+            Profiler.EndSample();
 
+            Profiler.BeginSample("ReGizmo::OnUpdate::PostRender");
             foreach (var cameraData in activeCameras.Values)
             {
                 cameraData.PostRender();
             }
+            Profiler.EndSample();
 
             if (shouldReset)
             {

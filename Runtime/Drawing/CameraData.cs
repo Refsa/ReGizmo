@@ -9,6 +9,8 @@ namespace ReGizmo.Drawing
     internal class CameraData : System.IDisposable
     {
         Camera camera;
+        CameraEvent cameraEvent;
+
         CameraFrustum frustum;
         CommandBuffer commandBuffer;
         Dictionary<IReGizmoDrawer, UniqueDrawData> uniqueDrawDatas;
@@ -33,7 +35,15 @@ namespace ReGizmo.Drawing
             isActive = true;
             profilerKey = $"ReGizmo Camera: {camera.name}";
 
+            this.cameraEvent = cameraEvent;
             camera.AddCommandBuffer(cameraEvent, commandBuffer);
+        }
+
+        public void DeAttach()
+        {
+            if (camera == null || camera.Equals(null)) return;
+
+            camera.RemoveCommandBuffer(cameraEvent, commandBuffer);
         }
 
         public void SetActive(bool state)
