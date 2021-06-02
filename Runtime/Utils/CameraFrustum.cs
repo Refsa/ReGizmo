@@ -9,6 +9,10 @@ namespace ReGizmo
         Camera camera;
         UnityEngine.Plane[] tempPlanes = new UnityEngine.Plane[6];
         Vector4[] frustumPlanes;
+        Vector2 clippingPlanes;
+
+        public Vector4[] FrustumPlanes => frustumPlanes;
+        public Vector2 ClippingPlanes => clippingPlanes;
 
         public CameraFrustum(Camera camera)
         {
@@ -16,7 +20,7 @@ namespace ReGizmo
             frustumPlanes = new Vector4[6];
         }
 
-        public Vector4[] UpdateCameraFrustum()
+        public void UpdateCameraFrustum()
         {
             GeometryUtility.CalculateFrustumPlanes(camera, tempPlanes);
 
@@ -27,7 +31,7 @@ namespace ReGizmo
             frustumPlanes[4] = new Vector4(tempPlanes[4].normal.x, tempPlanes[4].normal.y, tempPlanes[4].normal.z, tempPlanes[4].distance);
             frustumPlanes[5] = new Vector4(tempPlanes[5].normal.x, tempPlanes[5].normal.y, tempPlanes[5].normal.z, tempPlanes[5].distance);
 
-            return frustumPlanes;
+            clippingPlanes = new Vector2(camera.nearClipPlane, camera.farClipPlane);
         }
     }
 }
