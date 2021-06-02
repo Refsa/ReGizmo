@@ -1,4 +1,4 @@
-﻿#include "../Shaders/Utils/ShaderProperties.cginc"
+﻿#include "../Shaders/Utils/ReGizmoShaderUtils.cginc"
 
 #pragma kernel Mesh_CameraCulling
 #pragma kernel Font_CameraCulling
@@ -7,11 +7,15 @@ int _Count;
 float4 _CameraFrustum[6];
 float2 _CameraClips;
 
+float4x4 _ViewMatrix;
+float4x4 _ProjectionMatrix;
+float4x4 _I_VP;
+
 inline bool box_inside_frustum( float3 center, float3 extents );
 
 StructuredBuffer<MeshProperties> _MeshInput;
 AppendStructuredBuffer<MeshProperties> _MeshOutput; 
-[numthreads(64,1,1)]
+[numthreads(128,1,1)]
 void Mesh_CameraCulling (uint3 id : SV_DispatchThreadID)
 {
     [branch] if (id.x >= _Count) return;
@@ -20,14 +24,14 @@ void Mesh_CameraCulling (uint3 id : SV_DispatchThreadID)
 
     if (box_inside_frustum(ld.Position, ld.Scale))
     {
-        _MeshOutput.Append(ld);
+        _MeshOutput.Append(ld); 
     }
 }
 
 StructuredBuffer<CharData> _FontInput;
 AppendStructuredBuffer<CharData> _FontOutput;
 StructuredBuffer<TextData> _FontTextData;
-[numthreads(64,1,1)]
+[numthreads(128,1,1)]
 void Font_CameraCulling (uint3 id : SV_DispatchThreadID)
 {
     [branch] if (id.x >= _Count) return;
@@ -35,7 +39,19 @@ void Font_CameraCulling (uint3 id : SV_DispatchThreadID)
     CharData cd = _FontInput[id.x];
     TextData td = _FontTextData[cd.CharIndex];
 
-    _FontOutput.Append(cd);
+    float3 dir = mul(inverse(_ViewMatrix), float4(1,0,0,0));
+    
+    float3 center = td.Position;
+
+    if (box_inside_frustum(center, 1))
+    {
+        _FontOutput.Append(cd);
+    }
+}
+
+bool within(float lower, float value, float higher)
+{
+    return value >= lower && value <= higher;
 }
 
 // Based on: https://www.iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm
@@ -55,9 +71,8 @@ inline bool box_inside_frustum( float3 center, float3 extents )
         count += ((dot( _CameraFrustum[i], float4(bounds_max.x, bounds_min.y, bounds_max.z, 1.0f) ) < 0.0 ) ? 1 : 0);
         count += ((dot( _CameraFrustum[i], float4(bounds_min.x, bounds_max.y, bounds_max.z, 1.0f) ) < 0.0 ) ? 1 : 0);
         count += ((dot( _CameraFrustum[i], float4(bounds_max.x, bounds_max.y, bounds_max.z, 1.0f) ) < 0.0 ) ? 1 : 0);
-
+        if (count == 8) break;
     }
-    [branch] if (count == 8) return false;
 
-    return true;
+    return count != 8;
 }

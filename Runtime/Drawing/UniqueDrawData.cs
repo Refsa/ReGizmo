@@ -11,7 +11,6 @@ namespace ReGizmo.Drawing
         ComputeBuffer drawBuffer;
         MaterialPropertyBlock materialPropertyBlock;
 
-
         public ComputeBuffer ArgsBuffer => argsBuffer;
         public uint DrawCount => drawCount;
         public MaterialPropertyBlock MaterialPropertyBlock => materialPropertyBlock;

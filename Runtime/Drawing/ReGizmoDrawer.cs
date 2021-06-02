@@ -63,7 +63,7 @@ namespace ReGizmo.Drawing
             {
                 var culledBuffer = uniqueDrawData.GetDrawBuffer<TShaderData>(currentDrawCount);
                 cullingHandler.SetData(commandBuffer, cameraFrustum);
-                SetCullingData();
+                SetCullingData(commandBuffer);
 
                 cullingHandler.PerformCulling<TShaderData>(
                     commandBuffer,
@@ -98,7 +98,7 @@ namespace ReGizmo.Drawing
 
         protected abstract void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData);
         protected virtual void SetMaterialPropertyBlockData(MaterialPropertyBlock materialPropertyBlock) { }
-        protected virtual void SetCullingData() { }
+        protected virtual void SetCullingData(CommandBuffer cmd) { }
 
         public virtual void Dispose()
         {

@@ -26,7 +26,8 @@ namespace ReGizmo.Drawing
 
             SetupCharacterData();
 
-            // cullingHandler = new FontCullingHandler();
+            cullingHandler = new FontCullingHandler();
+            argsBufferCountOffset = 0;
         }
 
         void SetupCharacterData()
@@ -83,7 +84,6 @@ namespace ReGizmo.Drawing
         protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData)
         {
             uniqueDrawData.SetInstanceCount(1);
-            uniqueDrawData.SetVertexCount(uniqueDrawData.DrawCount);
 
             cmd.DrawProceduralIndirect(
                 Matrix4x4.identity,
@@ -105,10 +105,10 @@ namespace ReGizmo.Drawing
             materialPropertyBlock.SetBuffer("_TextData", textDataBuffers.ComputeBuffer);
         }
 
-        protected override void SetCullingData()
+        protected override void SetCullingData(CommandBuffer commandBuffer)
         {
-            // var fontCullingData = (FontCullingHandler)cullingHandler;
-            // fontCullingData.SetData(textDataBuffers.ComputeBuffer);
+            var fontCullingData = (FontCullingHandler)cullingHandler;
+            fontCullingData.SetData(commandBuffer, textDataBuffers.ComputeBuffer);
         }
 
         public override void Dispose()

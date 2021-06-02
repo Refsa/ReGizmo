@@ -20,8 +20,6 @@ namespace ReGizmo.Drawing
             {
                 return;
             }
-            Profiler.BeginSample("ReGizmo::Culling::Cull");
-
             outputBuffer.SetCounterValue(0);
 
             commandBuffer.SetComputeIntParam(CullingCompute, "_Count", drawCount);
@@ -30,8 +28,6 @@ namespace ReGizmo.Drawing
             commandBuffer.DispatchCompute(CullingCompute, KernelID, Mathf.CeilToInt(drawCount / 128f), 1, 1);
 
             commandBuffer.CopyCounterValue(outputBuffer, argsBuffer, (uint)(sizeof(uint) * argsBufferOffset));
-
-            Profiler.EndSample();
         }
     }
 }
