@@ -10,9 +10,13 @@ namespace ReGizmo
         UnityEngine.Plane[] tempPlanes = new UnityEngine.Plane[6];
         Vector4[] frustumPlanes;
         Vector2 clippingPlanes;
+        Matrix4x4 inverseViewProjectionMatrix;
 
         public Vector4[] FrustumPlanes => frustumPlanes;
         public Vector2 ClippingPlanes => clippingPlanes;
+        public Matrix4x4 ViewMatrix => camera.worldToCameraMatrix;
+        public Matrix4x4 ProjectionMatrix => camera.projectionMatrix;
+        public Matrix4x4 InverseViewProjectionMatrix => inverseViewProjectionMatrix;
 
         public CameraFrustum(Camera camera)
         {
@@ -22,6 +26,8 @@ namespace ReGizmo
 
         public void UpdateCameraFrustum()
         {
+            inverseViewProjectionMatrix = Matrix4x4.Inverse(camera.worldToCameraMatrix * camera.projectionMatrix);
+
             GeometryUtility.CalculateFrustumPlanes(camera, tempPlanes);
 
             frustumPlanes[0] = new Vector4(tempPlanes[0].normal.x, tempPlanes[0].normal.y, tempPlanes[0].normal.z, tempPlanes[0].distance);
