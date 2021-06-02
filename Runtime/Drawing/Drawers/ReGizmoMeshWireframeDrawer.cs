@@ -6,7 +6,16 @@ namespace ReGizmo.Drawing
 {
     internal class ReGizmoMeshWireframeDrawer : ReGizmoDrawer<MeshDrawerShaderData>
     {
+        static readonly CullingData cullingData = new CullingData
+        {
+            KernelID = CullingHandler.CullingCompute.FindKernel("Mesh_CameraCulling"),
+            InputName = "_MeshInput",
+            OutputName = "_MeshOutput"
+        };
+
         protected Mesh mesh;
+
+        protected override CullingData CullingData => cullingData;
 
         public ReGizmoMeshWireframeDrawer() : base()
         {
