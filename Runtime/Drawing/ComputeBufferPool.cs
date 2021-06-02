@@ -39,6 +39,8 @@ namespace ReGizmo.Core
 
         public static void FreeAll()
         {
+            if (instance == null || instance.activeBuffers == null) return;
+
             foreach (var cb in instance.activeBuffers)
             {
                 cb.Dispose();
