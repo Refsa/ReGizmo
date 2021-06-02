@@ -29,7 +29,7 @@ namespace ReGizmo.Drawing
                 Matrix4x4.identity,
                 material, 0,
                 MeshTopology.Points,
-                uniqueDrawData.GetRenderArgsBuffer(), 0,
+                uniqueDrawData.ArgsBuffer, 0,
                 uniqueDrawData.MaterialPropertyBlock
             );
         }

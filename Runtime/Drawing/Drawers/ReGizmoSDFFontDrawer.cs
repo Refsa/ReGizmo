@@ -26,6 +26,8 @@ namespace ReGizmo.Drawing
             this.font = font;
             
             SetupCharacterData();
+
+            // cullingHandler = new FontCullingHandler();
         }
 
         void SetupCharacterData()
@@ -98,7 +100,7 @@ namespace ReGizmo.Drawing
                 Matrix4x4.identity,
                 material, 0,
                 MeshTopology.Points,
-                uniqueDrawData.GetRenderArgsBuffer(), 0,
+                uniqueDrawData.ArgsBuffer, 0,
                 uniqueDrawData.MaterialPropertyBlock
             );
         }
@@ -116,6 +118,12 @@ namespace ReGizmo.Drawing
             materialPropertyBlock.SetFloat("_AtlasSize", font.Font.atlas.size);
 
             materialPropertyBlock.SetTexture("_MainTex", font.GetTexture());
+        }
+
+        protected override void SetCullingData()
+        {
+            // var fontCullingData = (FontCullingHandler)cullingHandler;
+            // fontCullingData.SetData(textDataBuffers.ComputeBuffer);
         }
 
         public override void Dispose()

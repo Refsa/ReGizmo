@@ -32,7 +32,7 @@ namespace ReGizmo.Drawing
 
             cmd.DrawMeshInstancedIndirect(
                 mesh, 0, material, 0,
-                uniqueDrawData.GetRenderArgsBuffer(), 0,
+                uniqueDrawData.ArgsBuffer, 0,
                 uniqueDrawData.MaterialPropertyBlock
             );
         }
