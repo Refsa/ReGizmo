@@ -69,7 +69,7 @@ void font_geom(point font_v2g i[1], inout TriangleStream<font_g2f> triangleStrea
     float4 centerClip = UnityObjectToClipPos(float4(td.Position, 1.0));
     float camDist = centerClip.w;
 
-    float4 advanceOffset = float4(cd.Advance, 0, 0, 0) * scale_factor;
+    float4 advanceOffset = float4(cd.Advance - td.CenterOffset, 0, 0, 0) * scale_factor;
     float4 size = ci.Size * td.Scale * scale_factor;
 
     float4 c1 = (float4(size.x, -size.w, 0, 0) + advanceOffset) * camDist;
