@@ -30,14 +30,9 @@ namespace ReGizmo
             return shader;
         }
 
-        public static ComputeShader LoadCompute(string path)
+        public static ComputeShader LoadCompute(string name)
         {
-#if UNITY_EDITOR
-            ComputeShader compute = AssetDatabase.LoadAssetAtPath(path, typeof(ComputeShader)) as ComputeShader;
-#else
-            ComputeShader compute = Resources.Load<ComputeShader>(path);
-#endif
-            return compute;
+            return LoadAssetByName<ComputeShader>(name);
         }
 
         public static Font LoadFont(string path)
