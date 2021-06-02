@@ -1,15 +1,19 @@
 
-
 using UnityEngine;
 
 namespace ReGizmo.Drawing
 {
-    internal class MeshCullingHandler : CullingHandler
+    internal class FontCullingHandler : CullingHandler
     {
-        static readonly int KernelID = CullingCompute.FindKernel("Mesh_CameraCulling");
+        static readonly int KernelID = CullingCompute.FindKernel("Font_CameraCulling"); 
+        static readonly string InputID =  "_FontInput";
+        static readonly string OutputID =  "_FontOutput";
+        static readonly string TextDataID =  "_FontTextData";
 
-        static readonly string InputID = "_MeshInput";
-        static readonly string OutputID = "_MeshOutput";
+        public void SetData(ComputeBuffer textDataBuffer)
+        {
+            CullingCompute.SetBuffer(KernelID, "_FontTextData", textDataBuffer);
+        }
 
         public override int PerformCulling<TShaderData>(int drawCount, ComputeBuffer inputBufer, ComputeBuffer outputBuffer)
         {
@@ -17,7 +21,6 @@ namespace ReGizmo.Drawing
             {
                 return 0;
             }
-            outputBuffer.SetCounterValue(0);
 
             CullingCompute.SetInt("_Count", drawCount);
             CullingCompute.SetBuffer(KernelID, InputID, inputBufer);

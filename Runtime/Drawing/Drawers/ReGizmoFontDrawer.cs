@@ -8,14 +8,14 @@ namespace ReGizmo.Drawing
 {
     internal class ReGizmoFontDrawer : ReGizmoDrawer<CharData>
     {
-        protected override string PropertiesName { get; } = "_CharData";
-
         Font font;
 
         ComputeBuffer characterInfoBuffer;
         CharacterInfoShader[] characterInfos;
 
         ShaderDataBuffer<TextData> textDataBuffers;
+
+        protected override string PropertiesName { get; } = "_CharData";
 
         public ReGizmoFontDrawer(Font font) : base()
         {
@@ -25,6 +25,8 @@ namespace ReGizmo.Drawing
             this.font = font;
 
             SetupCharacterData();
+
+            cullingHandler = new FontCullingHandler();
         }
 
         void SetupCharacterData()
@@ -101,6 +103,12 @@ namespace ReGizmo.Drawing
 
             textDataBuffers.PushData();
             materialPropertyBlock.SetBuffer("_TextData", textDataBuffers.ComputeBuffer);
+        }
+
+        protected override void SetCullingData()
+        {
+            var fontCullingData = (FontCullingHandler)cullingHandler;
+            fontCullingData.SetData(textDataBuffers.ComputeBuffer);
         }
 
         public override void Dispose()

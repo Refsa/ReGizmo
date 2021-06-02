@@ -1,17 +1,16 @@
 ﻿#include "../Shaders/Utils/ShaderProperties.cginc"
 
 #pragma kernel Mesh_CameraCulling
+#pragma kernel Font_CameraCulling
  
 int _Count;
 float4 _CameraFrustum[6];
 float2 _CameraClips;
 
+inline bool box_inside_frustum( float3 center, float3 extents );
+
 StructuredBuffer<MeshProperties> _MeshInput;
-AppendStructuredBuffer<MeshProperties> _MeshOutput;
-
-bool box_inside_frustum( float3 center, float3 extents );
-
-void mesh_get_bounding_box( MeshProperties prop, out float3 center, out float3 extents );
+AppendStructuredBuffer<MeshProperties> _MeshOutput; 
 [numthreads(64,1,1)]
 void Mesh_CameraCulling (uint3 id : SV_DispatchThreadID)
 {
@@ -19,19 +18,24 @@ void Mesh_CameraCulling (uint3 id : SV_DispatchThreadID)
 
     MeshProperties ld = _MeshInput[id.x];
 
-    float3 center = 0; float3 extents = 0;
-    mesh_get_bounding_box(ld, center, extents);
-    
-    if (box_inside_frustum(center, extents))
+    if (box_inside_frustum(ld.Position, ld.Scale))
     {
         _MeshOutput.Append(ld);
     }
 }
 
-inline void mesh_get_bounding_box( MeshProperties prop, out float3 center, out float3 extents )
+StructuredBuffer<CharData> _FontInput;
+AppendStructuredBuffer<CharData> _FontOutput;
+StructuredBuffer<TextData> _FontTextData;
+[numthreads(64,1,1)]
+void Font_CameraCulling (uint3 id : SV_DispatchThreadID)
 {
-    center = prop.Position;
-    extents = prop.Scale;
+    [branch] if (id.x >= _Count) return;
+
+    CharData cd = _FontInput[id.x];
+    TextData td = _FontTextData[cd.CharIndex];
+
+    _FontOutput.Append(cd);
 }
 
 // Based on: https://www.iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm

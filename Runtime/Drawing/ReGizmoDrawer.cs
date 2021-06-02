@@ -60,8 +60,11 @@ namespace ReGizmo.Drawing
             {
                 var culledBuffer = uniqueDrawData.GetDrawBuffer<TShaderData>(currentDrawCount);
                 cullingHandler.SetData(cameraFrustum.FrustumPlanes, cameraFrustum.ClippingPlanes);
+                SetCullingData();
+
                 uint culledCount = (uint)cullingHandler
                     .PerformCulling<TShaderData>(currentDrawCount, shaderDataBuffer.ComputeBuffer, culledBuffer);
+
                 uniqueDrawData.SetDrawCount(culledCount);
 
                 uniqueDrawData.MaterialPropertyBlock.SetBuffer(PropertiesName, culledBuffer);
@@ -85,10 +88,11 @@ namespace ReGizmo.Drawing
         public ref TShaderData GetShaderData()
         {
             return ref shaderDataBuffer.Get();
-        } 
+        }
 
         protected abstract void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData);
         protected virtual void SetMaterialPropertyBlockData(MaterialPropertyBlock materialPropertyBlock) { }
+        protected virtual void SetCullingData() { }
 
         public virtual void Dispose()
         {

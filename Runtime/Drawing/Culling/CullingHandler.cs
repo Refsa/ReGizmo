@@ -22,7 +22,7 @@ namespace ReGizmo.Drawing
 
         static CullingHandler()
         {
-            CullingCompute = ReGizmoHelpers.LoadCompute("Assets/ReGizmo/Runtime/Resources/Compute/CullCompute.compute");
+            CullingCompute = ReGizmoHelpers.LoadCompute("CullCompute");
         }
 
         public CullingHandler()
