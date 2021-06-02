@@ -11,7 +11,7 @@ namespace ReGizmo.Drawing
         void Clear();
         void Dispose();
         void PushSharedData();
-        void Render(CommandBuffer cmd, CullingHandler cullingHandler);
+        void Render(CommandBuffer commandBuffer, CullingHandler cullingHandler, UniqueDrawData uniqueDrawData);
         uint CurrentDrawCount();
     }
 
@@ -27,14 +27,11 @@ namespace ReGizmo.Drawing
         ShaderDataBuffer<TShaderData> shaderDataBuffer;
         int currentDrawCount;
 
-        Dictionary<CommandBuffer, UniqueDrawData> uniqueDrawDatas;
-
         protected Bounds currentBounds;
 
         public ReGizmoDrawer()
         {
             shaderDataBuffer = new ShaderDataBuffer<TShaderData>();
-            uniqueDrawDatas = new Dictionary<CommandBuffer, UniqueDrawData>();
             currentBounds = DefaultRenderBounds;
         }
 
@@ -60,32 +57,27 @@ namespace ReGizmo.Drawing
             shaderDataBuffer.PushData();
         }
 
-        public void Render(CommandBuffer cmd, CullingHandler cullingHandler)
+        public void Render(CommandBuffer commandBuffer, CullingHandler cullingHandler, UniqueDrawData uniqueDrawData)
         {
             if (currentDrawCount == 0) return;
-
-            if (!uniqueDrawDatas.TryGetValue(cmd, out var uniqueDrawData))
-            {
-                uniqueDrawData = new UniqueDrawData();
-                uniqueDrawDatas.Add(cmd, uniqueDrawData);
-            }
 
             if (CullingData != null)
             {
                 var culledBuffer = uniqueDrawData.GetDrawBuffer<TShaderData>(currentDrawCount);
-                uint culledCount = (uint)cullingHandler.SetCullingData<TShaderData>(CullingData, currentDrawCount, shaderDataBuffer.ComputeBuffer, culledBuffer);
+                uint culledCount = (uint)cullingHandler
+                    .PerformCulling<TShaderData>(CullingData, currentDrawCount, shaderDataBuffer.ComputeBuffer, culledBuffer);
                 uniqueDrawData.SetDrawCount(culledCount);
 
                 uniqueDrawData.MaterialPropertyBlock.SetBuffer(PropertiesName, culledBuffer);
                 SetMaterialPropertyBlockData(uniqueDrawData.MaterialPropertyBlock);
-                RenderInternal(cmd, uniqueDrawData);
+                RenderInternal(commandBuffer, uniqueDrawData);
             }
             else
             {
                 uniqueDrawData.SetDrawCount((uint)currentDrawCount);
                 uniqueDrawData.MaterialPropertyBlock.SetBuffer(PropertiesName, shaderDataBuffer.ComputeBuffer);
                 SetMaterialPropertyBlockData(uniqueDrawData.MaterialPropertyBlock);
-                RenderInternal(cmd, uniqueDrawData);
+                RenderInternal(commandBuffer, uniqueDrawData);
             }
         }
 
@@ -104,11 +96,6 @@ namespace ReGizmo.Drawing
 
         public virtual void Dispose()
         {
-            foreach (var dd in uniqueDrawDatas.Values)
-            {
-                dd?.Dispose();
-            }
-
             shaderDataBuffer?.Dispose();
         }
     }

@@ -31,7 +31,13 @@ namespace ReGizmo.Drawing
             countCopyBuffer = ComputeBufferPool.Get(1, sizeof(int), ComputeBufferType.IndirectArguments);
         }
 
-        public int SetCullingData<TShaderData>(CullingData cullingData, int drawCount, ComputeBuffer inputBufer, ComputeBuffer outputBuffer)
+        public void SetData(Vector4[] cameraFrustum, Vector2 clippingPlanes)
+        {
+            CullingCompute.SetVectorArray("_CameraFrustum", cameraFrustum);
+            CullingCompute.SetVector("_CameraClips", clippingPlanes);
+        }
+
+        public int PerformCulling<TShaderData>(CullingData cullingData, int drawCount, ComputeBuffer inputBufer, ComputeBuffer outputBuffer)
             where TShaderData : unmanaged
         {
             if (inputBufer == null || outputBuffer == null)

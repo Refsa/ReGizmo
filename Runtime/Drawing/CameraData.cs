@@ -12,6 +12,7 @@ namespace ReGizmo.Drawing
         CameraFrustum frustum;
         CullingHandler cullingHandler;
         CommandBuffer commandBuffer;
+        Dictionary<IReGizmoDrawer, UniqueDrawData> uniqueDrawDatas;
 
         bool isActive;
 
@@ -19,6 +20,7 @@ namespace ReGizmo.Drawing
 
         public string ProfilerKey => profilerKey;
         public CommandBuffer CommandBuffer => commandBuffer;
+        public CullingHandler CullingHandler => cullingHandler;
         public Camera Camera => camera;
 
         public CameraData(Camera camera, CameraEvent cameraEvent)
@@ -26,6 +28,7 @@ namespace ReGizmo.Drawing
             this.camera = camera;
             frustum = new CameraFrustum(camera);
             cullingHandler = new CullingHandler();
+            uniqueDrawDatas = new Dictionary<IReGizmoDrawer, UniqueDrawData>();
 
             commandBuffer = new CommandBuffer();
             commandBuffer.name = $"ReGizmo Draw Buffer: {camera.name}";
@@ -41,14 +44,10 @@ namespace ReGizmo.Drawing
             isActive = state;
         }
 
-        public void Render(List<IReGizmoDrawer> drawers)
+        public void PreRender()
         {
             commandBuffer.Clear();
-            if (!isActive) return;
-
-            var frustumPlanes = frustum.UpdateCameraFrustum();
-            commandBuffer.SetComputeVectorArrayParam(CullingHandler.CullingCompute, "_CameraFrustum", frustumPlanes);
-            commandBuffer.SetComputeVectorParam(CullingHandler.CullingCompute, "_CameraClips", new Vector2(camera.nearClipPlane, camera.farClipPlane));
+            frustum.UpdateCameraFrustum();
 
 #if REGIZMO_DEV
             commandBuffer.BeginSample(profilerKey);
@@ -62,21 +61,38 @@ namespace ReGizmo.Drawing
             {
                 commandBuffer.DisableShaderKeyword(ReGizmoHelpers.ShaderFontSuperSamplingKeyword);
             }
+        }
 
-            foreach (var drawer in drawers)
-            {
-                drawer.Render(commandBuffer, cullingHandler);
-            }
-
+        public void PostRender()
+        {
 #if REGIZMO_DEV
             commandBuffer.EndSample(profilerKey);
 #endif
+        }
+
+        public void Render(IReGizmoDrawer drawer)
+        {
+            if (!isActive) return;
+
+            if (!uniqueDrawDatas.TryGetValue(drawer, out var uniqueDrawData))
+            {
+                uniqueDrawData = new UniqueDrawData();
+                uniqueDrawDatas.Add(drawer, uniqueDrawData);
+            }
+
+            cullingHandler.SetData(frustum.FrustumPlanes, frustum.ClippingPlanes);
+            drawer.Render(commandBuffer, cullingHandler, uniqueDrawData);
         }
 
         public void Dispose()
         {
             commandBuffer?.Release();
             cullingHandler?.Dispose();
+
+            foreach (var data in uniqueDrawDatas.Values)
+            {
+                data?.Dispose();
+            }
         }
     }
 }

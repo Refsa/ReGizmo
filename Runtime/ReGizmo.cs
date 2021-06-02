@@ -217,15 +217,24 @@ namespace ReGizmo.Core
             }
 #endif 
 
+            foreach (var cameraData in activeCameras.Values)
+            {
+                cameraData.PreRender();
+            }
+
             foreach (var drawer in drawers)
             {
                 drawer.PushSharedData();
+                foreach (var cameraData in activeCameras.Values)
+                {
+                    cameraData.Render(drawer);
+                }
                 drawer.Clear();
             }
 
             foreach (var cameraData in activeCameras.Values)
             {
-                cameraData.Render(drawers);
+                cameraData.PostRender();
             }
 
             if (shouldReset)

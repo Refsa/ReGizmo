@@ -40,11 +40,11 @@ namespace ReGizmo.Drawing
             }
         }
 
-        public void Render(CommandBuffer cmd, CullingHandler cullingHandler)
+        public void Render(CommandBuffer commandBuffer, CullingHandler cullingHandler, UniqueDrawData uniqueDrawData)
         {
             foreach (var drawer in _drawers)
             {
-                drawer.Render(cmd, cullingHandler);
+                drawer.Render(commandBuffer, cullingHandler, uniqueDrawData);
             }
         }
 
