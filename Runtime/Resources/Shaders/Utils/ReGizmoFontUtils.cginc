@@ -28,21 +28,6 @@ struct CharacterInfo
     float Advance;
 };
 
-struct CharData
-{
-    uint TextID;
-    uint CharIndex;
-    float Advance;
-};
-
-struct TextData
-{
-    float3 Color;
-    float Scale;
-    float3 Position;
-    float CenterOffset;
-};
-
 // INPUTS
 StructuredBuffer<CharData> _CharData;
 StructuredBuffer<CharacterInfo> _CharacterInfos;
