@@ -10,7 +10,6 @@ namespace ReGizmo.Drawing
     {
         Camera camera;
         CameraFrustum frustum;
-        CullingHandler cullingHandler;
         CommandBuffer commandBuffer;
         Dictionary<IReGizmoDrawer, UniqueDrawData> uniqueDrawDatas;
 
@@ -20,14 +19,12 @@ namespace ReGizmo.Drawing
 
         public string ProfilerKey => profilerKey;
         public CommandBuffer CommandBuffer => commandBuffer;
-        public CullingHandler CullingHandler => cullingHandler;
         public Camera Camera => camera;
 
         public CameraData(Camera camera, CameraEvent cameraEvent)
         {
             this.camera = camera;
             frustum = new CameraFrustum(camera);
-            cullingHandler = new CullingHandler();
             uniqueDrawDatas = new Dictionary<IReGizmoDrawer, UniqueDrawData>();
 
             commandBuffer = new CommandBuffer();
@@ -80,14 +77,12 @@ namespace ReGizmo.Drawing
                 uniqueDrawDatas.Add(drawer, uniqueDrawData);
             }
 
-            cullingHandler.SetData(frustum.FrustumPlanes, frustum.ClippingPlanes);
-            drawer.Render(commandBuffer, cullingHandler, uniqueDrawData);
+            drawer.Render(commandBuffer, frustum, uniqueDrawData);
         }
 
         public void Dispose()
         {
             commandBuffer?.Release();
-            cullingHandler?.Dispose();
 
             foreach (var data in uniqueDrawDatas.Values)
             {
