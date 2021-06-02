@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using ReGizmo.Core;
 using ReGizmo.Utils;
 using UnityEngine;
+using UnityEngine.Profiling;
 using UnityEngine.Rendering;
 
 namespace ReGizmo.Drawing
@@ -24,6 +25,7 @@ namespace ReGizmo.Drawing
         ShaderDataBuffer<TShaderData> shaderDataBuffer;
         int currentDrawCount;
         protected CullingHandler cullingHandler;
+        protected int argsBufferCountOffset;
 
         public ReGizmoDrawer()
         {
@@ -55,17 +57,18 @@ namespace ReGizmo.Drawing
         public void Render(CommandBuffer commandBuffer, CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData)
         {
             if (currentDrawCount == 0) return;
+            Profiler.BeginSample("ReGizmoDrawer::Render");
 
             if (cullingHandler != null)
             {
                 var culledBuffer = uniqueDrawData.GetDrawBuffer<TShaderData>(currentDrawCount);
-                cullingHandler.SetData(cameraFrustum.FrustumPlanes, cameraFrustum.ClippingPlanes);
+                cullingHandler.SetData(cameraFrustum);
                 SetCullingData();
 
-                uint culledCount = (uint)cullingHandler
-                    .PerformCulling<TShaderData>(currentDrawCount, shaderDataBuffer.ComputeBuffer, culledBuffer);
-
-                uniqueDrawData.SetDrawCount(culledCount);
+                cullingHandler.PerformCulling<TShaderData>(
+                    currentDrawCount,
+                    uniqueDrawData.ArgsBuffer, argsBufferCountOffset,
+                    shaderDataBuffer.ComputeBuffer, culledBuffer);
 
                 uniqueDrawData.MaterialPropertyBlock.SetBuffer(PropertiesName, culledBuffer);
                 SetMaterialPropertyBlockData(uniqueDrawData.MaterialPropertyBlock);
@@ -78,6 +81,8 @@ namespace ReGizmo.Drawing
                 SetMaterialPropertyBlockData(uniqueDrawData.MaterialPropertyBlock);
                 RenderInternal(commandBuffer, uniqueDrawData);
             }
+            
+            Profiler.EndSample();
         }
 
         public uint CurrentDrawCount()

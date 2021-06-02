@@ -15,24 +15,34 @@ namespace ReGizmo.Drawing
     internal class ReGizmoMeshDrawer : ReGizmoDrawer<MeshDrawerShaderData>
     {
         protected Mesh mesh;
+        uint indexCount;
 
-        public ReGizmoMeshDrawer() : base() { }
+        public ReGizmoMeshDrawer() : base()
+        {
+            cullingHandler = new MeshCullingHandler();
+            argsBufferCountOffset = 1;
+        }
 
-        public ReGizmoMeshDrawer(Mesh mesh) : base()
+        public ReGizmoMeshDrawer(Mesh mesh) : this()
         {
             this.mesh = mesh;
+            indexCount = mesh.GetIndexCount(0);
+
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh");
-            cullingHandler = new MeshCullingHandler();
         }
 
         protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData)
         {
-            uniqueDrawData.SetInstanceCount(uniqueDrawData.DrawCount);
-            uniqueDrawData.SetVertexCount(mesh.GetIndexCount(0));
+            if (indexCount == 0)
+            {
+                indexCount = mesh.GetIndexCount(0);
+            }
+
+            uniqueDrawData.SetVertexCount(indexCount);
 
             cmd.DrawMeshInstancedIndirect(
                 mesh, 0, material, 0,
-                uniqueDrawData.GetRenderArgsBuffer(), 0,
+                uniqueDrawData.ArgsBuffer, 0,
                 uniqueDrawData.MaterialPropertyBlock
             );
         }

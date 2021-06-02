@@ -6,30 +6,35 @@ namespace ReGizmo.Drawing
     internal class UniqueDrawData : System.IDisposable
     {
         uint[] args;
+        ComputeBuffer argsBuffer;
         uint drawCount;
         ComputeBuffer drawBuffer;
         MaterialPropertyBlock materialPropertyBlock;
 
-        public ComputeBuffer ArgsBuffer;
 
+        public ComputeBuffer ArgsBuffer => argsBuffer;
         public uint DrawCount => drawCount;
         public MaterialPropertyBlock MaterialPropertyBlock => materialPropertyBlock;
 
         public UniqueDrawData()
         {
             args = new uint[5] { 0, 0, 0, 0, 0 };
-            ArgsBuffer = ComputeBufferPool.Get(5, sizeof(uint), ComputeBufferType.IndirectArguments);
+            argsBuffer = ComputeBufferPool.Get(5, sizeof(uint), ComputeBufferType.IndirectArguments);
+            argsBuffer.SetData(args);
+
             materialPropertyBlock = new MaterialPropertyBlock();
         }
 
         public void SetVertexCount(uint count)
         {
             args[0] = count;
+            argsBuffer.SetData(args, 0, 0, 1);
         }
 
         public void SetInstanceCount(uint count)
         {
             args[1] = count;
+            argsBuffer.SetData(args, 1, 1, 1);
         }
 
         public void SetDrawCount(uint count)
@@ -37,12 +42,14 @@ namespace ReGizmo.Drawing
             drawCount = count;
         }
 
+        public ComputeBuffer GetRenderArgsBuffer() => argsBuffer;
+
         public ComputeBuffer GetDrawBuffer<TShaderData>(int size)
             where TShaderData : unmanaged
         {
             if (drawBuffer == null || drawBuffer.count < size)
             {
-                if (drawBuffer == null)
+                if (drawBuffer != null && !drawBuffer.Equals(null))
                 {
                     ComputeBufferPool.Free(drawBuffer);
                 }
@@ -53,15 +60,9 @@ namespace ReGizmo.Drawing
             return drawBuffer;
         }
 
-        public ComputeBuffer GetRenderArgsBuffer()
-        {
-            ArgsBuffer.SetData(args);
-            return ArgsBuffer;
-        }
-
         public void Dispose()
         {
-            ComputeBufferPool.Free(ArgsBuffer);
+            ComputeBufferPool.Free(argsBuffer);
             ComputeBufferPool.Free(drawBuffer);
         }
     }

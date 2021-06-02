@@ -17,9 +17,6 @@ namespace ReGizmo.Drawing
     {
         public static readonly ComputeShader CullingCompute;
 
-        protected int[] drawCounter;
-        protected ComputeBuffer countCopyBuffer;
-
         static CullingHandler()
         {
             CullingCompute = ReGizmoHelpers.LoadCompute("CullCompute");
@@ -27,22 +24,24 @@ namespace ReGizmo.Drawing
 
         public CullingHandler()
         {
-            drawCounter = new int[1] { 0 };
-            countCopyBuffer = ComputeBufferPool.Get(1, sizeof(int), ComputeBufferType.IndirectArguments);
+
         }
 
-        public void SetData(Vector4[] cameraFrustum, Vector2 clippingPlanes)
+        public void SetData(CameraFrustum cameraFrustum)
         {
-            CullingCompute.SetVectorArray("_CameraFrustum", cameraFrustum);
-            CullingCompute.SetVector("_CameraClips", clippingPlanes);
+            CullingCompute.SetVectorArray("_CameraFrustum", cameraFrustum.FrustumPlanes);
+            CullingCompute.SetVector("_CameraClips", cameraFrustum.ClippingPlanes);
+            CullingCompute.SetMatrix("_ViewMatrix", cameraFrustum.ViewMatrix);
+            CullingCompute.SetMatrix("_ProjectionMatrix", cameraFrustum.ProjectionMatrix);
+            CullingCompute.SetMatrix("_I_VP", cameraFrustum.InverseViewProjectionMatrix);
         }
 
-        public abstract int PerformCulling<TShaderData>(int drawCount, ComputeBuffer inputBufer, ComputeBuffer outputBuffer)
+        public abstract void PerformCulling<TShaderData>(int drawCount, ComputeBuffer argsBuffer, int argsBufferOffset, ComputeBuffer inputBufer, ComputeBuffer outputBuffer)
             where TShaderData : unmanaged;
 
         public void Dispose()
         {
-            ComputeBufferPool.Free(countCopyBuffer);
+            
         }
     }
 }
