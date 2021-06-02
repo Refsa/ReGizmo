@@ -264,6 +264,7 @@ namespace ReGizmo.Core
             {
                 foreach (var cameraData in activeCameras.Values)
                 {
+                    cameraData.DeAttach();
                     cameraData.Dispose();
                 }
 
