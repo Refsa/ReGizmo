@@ -78,10 +78,11 @@ namespace ReGizmo.Editor
             }
             else if (change == PlayModeStateChange.EnteredEditMode)
             {
-                Core.ReGizmo.Dispose();
             }
             else if (change == PlayModeStateChange.ExitingPlayMode)
             {
+                Core.ReGizmo.Dispose();
+                ComputeBufferPool.FreeAll(); 
             }
             else if (change == PlayModeStateChange.EnteredPlayMode)
             {
