@@ -37,11 +37,14 @@ namespace ReGizmo.Drawing
             commandBuffer.SetComputeMatrixParam(CullingCompute, "_ProjectionMatrix", cameraFrustum.ProjectionMatrix);
             commandBuffer.SetComputeMatrixParam(CullingCompute, "_I_VP", cameraFrustum.InverseViewProjectionMatrix);
             commandBuffer.SetComputeMatrixParam(CullingCompute, "_VP", cameraFrustum.ViewProjectionMatrix);
-            commandBuffer.SetComputeVectorParam(CullingCompute, "_ScreenParams", cameraFrustum.ScreenParams); 
+            commandBuffer.SetComputeVectorParam(CullingCompute, "_ScreenParams", cameraFrustum.ScreenParams);
         }
 
-        public abstract void PerformCulling<TShaderData>(CommandBuffer commandBuffer, int drawCount, ComputeBuffer argsBuffer, int argsBufferOffset, ComputeBuffer inputBufer, ComputeBuffer outputBuffer)
-            where TShaderData : unmanaged;
+        public abstract void PerformCulling<TShaderData>(
+            CommandBuffer commandBuffer, int drawCount,
+            ComputeBuffer argsBuffer, int argsBufferOffset,
+            ComputeBuffer inputBuffer, ComputeBuffer outputBuffer
+        ) where TShaderData : unmanaged;
 
         public void Dispose()
         {

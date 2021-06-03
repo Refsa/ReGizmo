@@ -14,7 +14,10 @@ namespace ReGizmo.Drawing
         static readonly string InputID = "_MeshInput";
         static readonly string OutputID = "_MeshOutput";
 
-        public override void PerformCulling<TShaderData>(CommandBuffer commandBuffer, int drawCount, ComputeBuffer argsBuffer, int argsBufferOffset, ComputeBuffer inputBufer, ComputeBuffer outputBuffer)
+        public override void PerformCulling<TShaderData>(
+            CommandBuffer commandBuffer, int drawCount, 
+            ComputeBuffer argsBuffer, int argsBufferOffset, 
+            ComputeBuffer inputBufer, ComputeBuffer outputBuffer)
         {
             if (inputBufer == null || outputBuffer == null)
             {
