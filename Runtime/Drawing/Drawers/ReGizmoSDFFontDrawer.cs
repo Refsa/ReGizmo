@@ -27,7 +27,7 @@ namespace ReGizmo.Drawing
             
             SetupCharacterData();
 
-            // cullingHandler = new FontCullingHandler();
+            cullingHandler = new FontCullingHandler();
         }
 
         void SetupCharacterData()
@@ -120,10 +120,10 @@ namespace ReGizmo.Drawing
             materialPropertyBlock.SetTexture("_MainTex", font.GetTexture());
         }
 
-        protected override void SetCullingData()
+        protected override void SetCullingData(CommandBuffer commandBuffer)
         {
-            // var fontCullingData = (FontCullingHandler)cullingHandler;
-            // fontCullingData.SetData(textDataBuffers.ComputeBuffer);
+            var fontCullingData = (FontCullingHandler)cullingHandler;
+            fontCullingData.SetData(commandBuffer, textDataBuffers.ComputeBuffer, characterInfoBuffer);
         }
 
         public override void Dispose()

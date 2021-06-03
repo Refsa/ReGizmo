@@ -64,5 +64,13 @@ namespace ReGizmo.Drawing
             });
             // commandBuffer.SetComputeIntParam(compute, "_Debug", 0);
         }
+
+        public void CulledCount(CommandBuffer commandBuffer, int originalCount, ComputeBuffer argsBuffer)
+        {
+            commandBuffer.RequestAsyncReadback(argsBuffer, result =>
+            {
+                Debug.Log(result.GetData<uint>()[0] + " / " + originalCount);
+            });
+        }
     }
 }
