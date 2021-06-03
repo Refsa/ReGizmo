@@ -10,7 +10,7 @@ struct BoundingBox
 };
 
 RWStructuredBuffer<BoundingBox> _DebugAABB;
-int _Debug;
+#define DEBUG 1
  
 int _Count;
 float4 _CameraFrustum[6];
@@ -32,13 +32,14 @@ void Mesh_CameraCulling (uint3 id : SV_DispatchThreadID)
 
     MeshProperties ld = _MeshInput[id.x];
 
-    if (_Debug == 1)
+    #if DEBUG
     {
         BoundingBox bb = (BoundingBox)0;
         bb.Center = ld.Position;
         bb.Extents = ld.Scale;
         _DebugAABB[id.x] = bb;
     }
+    #endif
 
     if (box_inside_frustum(ld.Position, ld.Scale))
     {
@@ -82,13 +83,14 @@ void Font_CameraCulling (uint3 id : SV_DispatchThreadID)
     float3 center = td.Position + (c1_world.xyz + c2_world.xyz) * 0.5;
     float3 extents = (c1_world.xyz - c2_world.xyz);
 
-    if (_Debug == 1)
+    #if DEBUG
     {
         BoundingBox bb = (BoundingBox)0;
         bb.Center = center;
         bb.Extents = extents;
         _DebugAABB[id.x] = bb;
     }
+    #endif
 
     if (box_inside_frustum(center, extents))
     {

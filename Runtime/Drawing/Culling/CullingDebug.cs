@@ -62,7 +62,6 @@ namespace ReGizmo.Drawing
                     ReDraw.WireCube(bb.Center, Quaternion.identity, bb.Extents, Color.white);
                 }
             });
-            // commandBuffer.SetComputeIntParam(compute, "_Debug", 0);
         }
 
         public void CulledCount(CommandBuffer commandBuffer, int originalCount, ComputeBuffer argsBuffer)
