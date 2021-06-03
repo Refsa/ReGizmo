@@ -44,18 +44,22 @@ namespace ReGizmo.Drawing
         {
             if (buffer == null || buffer.Equals(null))
             {
-                buffer = ComputeBufferPool.Get(len, System.Runtime.InteropServices.Marshal.SizeOf<CullingDebug.BoundingBox>());
+                buffer = ComputeBufferPool.Get(len, System.Runtime.InteropServices.Marshal.SizeOf<CullingDebug.BoundingBox>(), name: "CullingDebugBuffer");
             }
             else if (buffer.count < len)
             {
                 ComputeBufferPool.Free(buffer);
-                buffer = ComputeBufferPool.Get(len, System.Runtime.InteropServices.Marshal.SizeOf<CullingDebug.BoundingBox>());
+                buffer = ComputeBufferPool.Get(len, System.Runtime.InteropServices.Marshal.SizeOf<CullingDebug.BoundingBox>(), name: "CullingDebugBuffer");
             }
 
             commandBuffer.SetComputeBufferParam(compute, kernelID, "_DebugAABB", buffer);
-            commandBuffer.SetComputeIntParam(compute, "_Debug", 1); 
+
+            if (!Application.isPlaying || !ReGizmoSettings.ShowDebugGizmos) return;
+
             commandBuffer.RequestAsyncReadback(buffer, result =>
             {
+                if (result.hasError) return;
+
                 var bbs = result.GetData<BoundingBox>();
                 for (int i = 0; i < len; i++)
                 {

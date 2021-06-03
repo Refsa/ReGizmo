@@ -20,9 +20,14 @@ namespace ReGizmo.Core
 
         List<ComputeBuffer> activeBuffers = new List<ComputeBuffer>();
 
-        public static ComputeBuffer Get(int count, int stride, ComputeBufferType type = ComputeBufferType.Default)
+        public static ComputeBuffer Get(int count, int stride, ComputeBufferType type = ComputeBufferType.Default, string name = null)
         {
             var cb = new ComputeBuffer(count, stride, type);
+            if (!string.IsNullOrEmpty(name))
+            {
+                cb.name = name;
+            }
+            
             instance.activeBuffers.Add(cb);
             return cb;
         }

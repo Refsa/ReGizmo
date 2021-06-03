@@ -53,7 +53,7 @@ namespace ReGizmo.Drawing
                     ComputeBufferPool.Free(drawBuffer);
                 }
 
-                drawBuffer = ComputeBufferPool.Get(size, System.Runtime.InteropServices.Marshal.SizeOf<TShaderData>(), ComputeBufferType.Append);
+                drawBuffer = ComputeBufferPool.Get(size, System.Runtime.InteropServices.Marshal.SizeOf<TShaderData>(), ComputeBufferType.Append, "CulledDrawBuffer");
             }
 
             return drawBuffer;
