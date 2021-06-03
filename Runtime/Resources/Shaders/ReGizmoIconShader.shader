@@ -25,18 +25,10 @@ Shader "Hidden/ReGizmo/Icon"
             float3 color: TEXCOORD1;
         };
 
-        struct DrawData
-        {
-            float3 position;
-            float3 color;
-            float scale;
-            int flags;
-        };
-
         sampler2D _IconTexture;
         float _IconAspect;
 
-        StructuredBuffer<DrawData> _DrawData;
+        StructuredBuffer<IconProperties> _DrawData;
 
         v2g vert(uint vertexID : SV_VertexID)
         {
@@ -50,7 +42,7 @@ Shader "Hidden/ReGizmo/Icon"
         [maxvertexcount(4)]
         void geom(point v2g i[1], inout TriangleStream<g2f> triangleStream)
         {
-            DrawData bd = _DrawData[i[0].vertexID];
+            IconProperties bd = _DrawData[i[0].vertexID];
             float4 clip = mul(UNITY_MATRIX_VP, float4(bd.position, 1.0));
 
             float halfOffset = bd.scale;

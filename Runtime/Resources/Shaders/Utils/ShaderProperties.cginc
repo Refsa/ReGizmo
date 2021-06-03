@@ -1,4 +1,5 @@
 
+// --- MESH ---
 struct MeshProperties
 {
     float3 Position;
@@ -7,6 +8,7 @@ struct MeshProperties
     float4 Color;
 };
 
+// --- TEXT ---
 struct CharData
 {
     uint TextID;
@@ -30,4 +32,22 @@ struct CharacterInfo
     float2 TopRight;
     float4 Size;
     float Advance;
+};
+
+// --- 2D PRIMITIVES ---
+struct Data2D {
+    float3 position;
+    float3 normal;
+    float radius;
+    float4 color;
+    int flags;
+};
+
+// --- ICON ---
+struct IconProperties
+{
+    float3 position;
+    float3 color;
+    float scale;
+    int flags;
 };

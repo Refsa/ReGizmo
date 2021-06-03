@@ -24,12 +24,14 @@ namespace ReGizmo.Drawing
             this.aspect = (float)icon.width / (float)icon.height;
 
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Icon");
+
+            cullingHandler = new IconCullingHandler();
+            argsBufferCountOffset = 0;
         }
 
         protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData)
         {
             uniqueDrawData.SetInstanceCount(1);
-            uniqueDrawData.SetVertexCount(uniqueDrawData.DrawCount);
 
             cmd.DrawProceduralIndirect(
                 Matrix4x4.identity,

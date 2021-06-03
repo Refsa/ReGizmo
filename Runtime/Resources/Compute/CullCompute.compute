@@ -2,11 +2,13 @@
 
 #pragma kernel Mesh_CameraCulling
 #pragma kernel Font_CameraCulling
+#pragma kernel Icon_CameraCulling
 
 struct BoundingBox
 {
     float3 Center;
     float3 Extents;
+    bool Visible;
 };
 
 RWStructuredBuffer<BoundingBox> _DebugAABB;
@@ -31,19 +33,19 @@ void Mesh_CameraCulling (uint3 id : SV_DispatchThreadID)
     [branch] if (id.x >= _Count) return;
 
     MeshProperties ld = _MeshInput[id.x];
+    bool in_frustum = box_inside_frustum(ld.Position, ld.Scale);
 
-    #if DEBUG
-    {
-        BoundingBox bb = (BoundingBox)0;
-        bb.Center = ld.Position;
-        bb.Extents = ld.Scale;
-        _DebugAABB[id.x] = bb;
-    }
-    #endif
+#if DEBUG
+    BoundingBox bb = (BoundingBox)0;
+    bb.Center = ld.Position;
+    bb.Extents = ld.Scale;
+    bb.Visible = in_frustum;
+    _DebugAABB[id.x] = bb;
+#endif
 
-    if (box_inside_frustum(ld.Position, ld.Scale))
+    if (in_frustum)
     {
-        _MeshOutput.Append(ld); 
+        _MeshOutput.Append(ld);
     }
 }
 
@@ -74,6 +76,8 @@ void Font_CameraCulling (uint3 id : SV_DispatchThreadID)
     c1.xy /= _ScreenParams.xy;
     c2.xy /= _ScreenParams.xy;
 
+    // TODO: Need some way to find out if ProjectionFlipped() is true, but it relies on data not accessible to Compute
+    //          This can be figured out on the CPU side and pushed though
     c1.y = -c1.y;
     c2.y = -c2.y;
 
@@ -83,21 +87,75 @@ void Font_CameraCulling (uint3 id : SV_DispatchThreadID)
     float3 center = td.Position + (c1_world.xyz + c2_world.xyz) * 0.5;
     float3 extents = (c1_world.xyz - c2_world.xyz);
 
+    bool in_frustum = box_inside_frustum(center, extents);
+
     #if DEBUG
     {
         BoundingBox bb = (BoundingBox)0;
         bb.Center = center;
         bb.Extents = extents;
+        bb.Visible = in_frustum;
         _DebugAABB[id.x] = bb;
     }
     #endif
 
-    if (box_inside_frustum(center, extents))
+    if (in_frustum)
     {
         _FontOutput.Append(cd);
     }
 }
 
+StructuredBuffer<IconProperties> _IconInput;
+AppendStructuredBuffer<IconProperties> _IconOutput; 
+[numthreads(128,1,1)]
+void Icon_CameraCulling (uint3 id : SV_DispatchThreadID)
+{
+    [branch] if (id.x >= _Count) return;
+
+    IconProperties bd = _IconInput[id.x];
+
+    float4 clip = mul(_VP, float4(bd.position, 1.0));
+    float halfOffset = bd.scale;
+    float2 size = float2(-halfOffset, -halfOffset);
+
+    // Scale the size to screen coords
+    if (has_flag(bd.flags, SIZE_MODE_PIXEL))
+    {
+        size /= _ScreenParams.xy;
+        size *= clip.w;
+    }
+
+    size.y = -size.y;
+
+    // Create billboard vertices
+    float4 cp1 = float4(clip.x - size.x, clip.y - size.y, clip.z, clip.w);
+    float4 cp2 = float4(clip.x + size.x, clip.y + size.y, clip.z, clip.w);
+
+    float3 cp1_world = mul(_I_VP, cp1).xyz;
+    float3 cp2_world = mul(_I_VP, cp2).xyz;
+
+    float3 center = (cp1_world + cp2_world) * 0.5;
+    float3 extents = (cp1_world - cp2_world);
+
+    bool in_frustum = box_inside_frustum(center, extents);
+
+    #if DEBUG
+    {
+        BoundingBox bb = (BoundingBox)0;
+        bb.Center = center;
+        bb.Extents = extents;
+        bb.Visible = in_frustum;
+        _DebugAABB[id.x] = bb;
+    }
+    #endif
+
+    if (in_frustum)
+    {
+        _IconOutput.Append(bd);
+    }
+}
+
+// --- UTILS ---
 bool within(float lower, float value, float higher)
 {
     return value >= lower && value <= higher;

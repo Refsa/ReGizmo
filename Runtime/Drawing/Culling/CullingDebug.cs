@@ -14,6 +14,7 @@ namespace ReGizmo.Drawing
         {
             public Vector3 Center;
             public Vector3 Extents;
+            public bool Visible;
         }
 
         class BBDrawData
@@ -52,14 +53,15 @@ namespace ReGizmo.Drawing
             }
 
             commandBuffer.SetComputeBufferParam(compute, kernelID, "_DebugAABB", buffer);
-            commandBuffer.SetComputeIntParam(compute, "_Debug", 1);
+            commandBuffer.SetComputeIntParam(compute, "_Debug", 1); 
             commandBuffer.RequestAsyncReadback(buffer, result =>
             {
                 var bbs = result.GetData<BoundingBox>();
                 for (int i = 0; i < len; i++)
                 {
                     var bb = bbs[i];
-                    ReDraw.WireCube(bb.Center, Quaternion.identity, bb.Extents, Color.white);
+                    Color color = bb.Visible ? Color.green : Color.red;
+                    ReDraw.WireCube(bb.Center, Quaternion.identity, bb.Extents, color);
                 }
             });
         }
