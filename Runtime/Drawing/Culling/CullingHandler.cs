@@ -17,6 +17,8 @@ namespace ReGizmo.Drawing
     {
         public static readonly ComputeShader CullingCompute;
 
+        protected CullingDebug cullingDebug;
+
         static CullingHandler()
         {
             CullingCompute = ReGizmoHelpers.LoadCompute("CullCompute");
@@ -24,7 +26,7 @@ namespace ReGizmo.Drawing
 
         public CullingHandler()
         {
-
+            cullingDebug = new CullingDebug();
         }
 
         public void SetData(CommandBuffer commandBuffer, CameraFrustum cameraFrustum)
@@ -34,6 +36,8 @@ namespace ReGizmo.Drawing
             commandBuffer.SetComputeMatrixParam(CullingCompute, "_ViewMatrix", cameraFrustum.ViewMatrix);
             commandBuffer.SetComputeMatrixParam(CullingCompute, "_ProjectionMatrix", cameraFrustum.ProjectionMatrix);
             commandBuffer.SetComputeMatrixParam(CullingCompute, "_I_VP", cameraFrustum.InverseViewProjectionMatrix);
+            commandBuffer.SetComputeMatrixParam(CullingCompute, "_VP", cameraFrustum.ViewProjectionMatrix);
+            commandBuffer.SetComputeVectorParam(CullingCompute, "_ScreenParams", cameraFrustum.ScreenParams); 
         }
 
         public abstract void PerformCulling<TShaderData>(CommandBuffer commandBuffer, int drawCount, ComputeBuffer argsBuffer, int argsBufferOffset, ComputeBuffer inputBufer, ComputeBuffer outputBuffer)
