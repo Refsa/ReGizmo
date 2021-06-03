@@ -6,13 +6,13 @@ namespace ReGizmo.Drawing
 {
     internal class ReGizmoCustomMeshDrawer : ReGizmoContentDrawer<ReGizmoMeshDrawer>
     {
-        protected override IEnumerable<ReGizmoMeshDrawer> _drawers => drawers.Values;
+        protected override IEnumerable<(ReGizmoMeshDrawer, UniqueDrawData)> _drawers => drawers.Values;
 
-        Dictionary<Mesh, ReGizmoMeshDrawer> drawers;
+        Dictionary<Mesh, (ReGizmoMeshDrawer drawer, UniqueDrawData uniqueDrawData)> drawers;
 
         public ReGizmoCustomMeshDrawer() : base()
         {
-            drawers = new Dictionary<Mesh, ReGizmoMeshDrawer>();
+            drawers = new Dictionary<Mesh, (ReGizmoMeshDrawer, UniqueDrawData)>();
         }
 
         public ref MeshDrawerShaderData GetShaderData(Mesh mesh)
@@ -22,14 +22,16 @@ namespace ReGizmo.Drawing
                 drawer = AddSubDrawer(mesh);
             }
 
-            return ref drawer.GetShaderData();
+            return ref drawer.drawer.GetShaderData();
         }
 
-        ReGizmoMeshDrawer AddSubDrawer(Mesh mesh)
+        (ReGizmoMeshDrawer, UniqueDrawData) AddSubDrawer(Mesh mesh)
         {
             var drawer = new ReGizmoMeshDrawer(mesh);
-            drawers.Add(mesh, drawer);
-            return drawer;
+            var uniqueDrawData = new UniqueDrawData();
+
+            drawers.Add(mesh, (drawer, uniqueDrawData));
+            return (drawer, uniqueDrawData);
         }
     }
 }

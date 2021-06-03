@@ -101,6 +101,10 @@ Shader "Hidden/ReGizmo/Icon"
             color *= tex_col.a;
 
             clip(color.a == 0 ? -1 : 1);
+            if (color.a == 0)
+            {
+                return float4(1,0,1,1);
+            }
 
             return lerp(tex_col, color, 0.5);
         }

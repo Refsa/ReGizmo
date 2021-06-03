@@ -9,7 +9,7 @@ namespace ReGizmo.Drawing
     internal abstract class ReGizmoContentDrawer<TDrawer> : IReGizmoDrawer
         where TDrawer : IReGizmoDrawer
     {
-        protected abstract IEnumerable<TDrawer> _drawers { get; }
+        protected abstract IEnumerable<(TDrawer drawer, UniqueDrawData uniqueDrawData)> _drawers { get; }
 
         public ReGizmoContentDrawer()
         {
@@ -20,7 +20,7 @@ namespace ReGizmo.Drawing
         {
             foreach (var drawer in _drawers)
             {
-                drawer.Clear();
+                drawer.drawer.Clear();
             }
         }
 
@@ -28,7 +28,7 @@ namespace ReGizmo.Drawing
         {
             foreach (var drawer in _drawers)
             {
-                drawer.Dispose();
+                drawer.drawer.Dispose();
             }
         }
 
@@ -36,7 +36,7 @@ namespace ReGizmo.Drawing
         {
             foreach (var drawer in _drawers)
             {
-                drawer.PushSharedData();
+                drawer.drawer.PushSharedData();
             }
         }
 
@@ -44,7 +44,7 @@ namespace ReGizmo.Drawing
         {
             foreach (var drawer in _drawers)
             {
-                drawer.Render(commandBuffer, cameraFrustum, uniqueDrawData);
+                drawer.drawer.Render(commandBuffer, cameraFrustum, drawer.uniqueDrawData);
             }
         }
 
@@ -53,7 +53,7 @@ namespace ReGizmo.Drawing
             uint total = 0;
             foreach (var drawer in _drawers)
             {
-                total += drawer.CurrentDrawCount();
+                total += drawer.drawer.CurrentDrawCount();
             }
             return total;
         }

@@ -7,13 +7,13 @@ namespace ReGizmo.Drawing
 {
     internal class ReGizmoIconsDrawer : ReGizmoContentDrawer<ReGizmoIconDrawer>
     {
-        protected override IEnumerable<ReGizmoIconDrawer> _drawers => drawers.Values;
+        protected override IEnumerable<(ReGizmoIconDrawer, UniqueDrawData)> _drawers => drawers.Values;
 
-        Dictionary<Texture2D, ReGizmoIconDrawer> drawers;
+        Dictionary<Texture2D, (ReGizmoIconDrawer drawer, UniqueDrawData uniqueDrawData)> drawers;
 
         public ReGizmoIconsDrawer() : base()
         {
-            drawers = new Dictionary<Texture2D, ReGizmoIconDrawer>();
+            drawers = new Dictionary<Texture2D, (ReGizmoIconDrawer, UniqueDrawData)>();
         }
 
         public ref IconShaderData GetShaderData(Texture2D texture)
@@ -23,14 +23,16 @@ namespace ReGizmo.Drawing
                 drawer = AddSubDrawer(texture);
             }
 
-            return ref drawer.GetShaderData();
+            return ref drawer.drawer.GetShaderData();
         }
 
-        ReGizmoIconDrawer AddSubDrawer(Texture2D texture)
+        (ReGizmoIconDrawer, UniqueDrawData) AddSubDrawer(Texture2D texture)
         {
             var drawer = new ReGizmoIconDrawer(texture);
-            drawers.Add(texture, drawer);
-            return drawer;
+            var uniqueDrawData = new UniqueDrawData();
+
+            drawers.Add(texture, (drawer, uniqueDrawData));
+            return (drawer, uniqueDrawData);
         }
     }
 }
