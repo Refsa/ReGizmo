@@ -18,16 +18,6 @@ struct font_g2f
     float2 scale: TEXCOORD2;
 };
 
-struct CharacterInfo
-{
-    float2 BottomLeft;
-    float2 BottomRight;
-    float2 TopLeft;
-    float2 TopRight;
-    float4 Size;
-    float Advance;
-};
-
 // INPUTS
 StructuredBuffer<CharData> _CharData;
 StructuredBuffer<CharacterInfo> _CharacterInfos;
@@ -66,7 +56,7 @@ void font_geom(point font_v2g i[1], inout TriangleStream<font_g2f> triangleStrea
     // HACK: Move along, just another magic number because math below is wrong
     static const float scale_factor = 2.7;
 
-    float4 centerClip = UnityObjectToClipPos(float4(td.Position, 1.0));
+    float4 centerClip = mul(UNITY_MATRIX_VP, float4(td.Position, 1.0));
     float camDist = centerClip.w;
 
     float4 advanceOffset = float4(cd.Advance - td.CenterOffset, 0, 0, 0) * scale_factor;

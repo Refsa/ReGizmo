@@ -11,12 +11,16 @@ namespace ReGizmo
         Vector4[] frustumPlanes;
         Vector2 clippingPlanes;
         Matrix4x4 inverseViewProjectionMatrix;
+        Matrix4x4 viewProjectionMatrix;
+        Vector2 screenParams;
 
         public Vector4[] FrustumPlanes => frustumPlanes;
         public Vector2 ClippingPlanes => clippingPlanes;
         public Matrix4x4 ViewMatrix => camera.worldToCameraMatrix;
         public Matrix4x4 ProjectionMatrix => camera.projectionMatrix;
         public Matrix4x4 InverseViewProjectionMatrix => inverseViewProjectionMatrix;
+        public Matrix4x4 ViewProjectionMatrix => viewProjectionMatrix;
+        public Vector2 ScreenParams => screenParams;
 
         public CameraFrustum(Camera camera)
         {
@@ -26,7 +30,9 @@ namespace ReGizmo
 
         public void UpdateCameraFrustum()
         {
-            inverseViewProjectionMatrix = Matrix4x4.Inverse(camera.worldToCameraMatrix * camera.projectionMatrix);
+            viewProjectionMatrix = camera.projectionMatrix * camera.worldToCameraMatrix;
+            inverseViewProjectionMatrix = Matrix4x4.Inverse(viewProjectionMatrix);
+            screenParams = new Vector2(camera.pixelWidth, camera.pixelHeight);
 
             GeometryUtility.CalculateFrustumPlanes(camera, tempPlanes);
 

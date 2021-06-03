@@ -21,3 +21,13 @@ struct TextData
     float3 Position;
     float CenterOffset;
 };
+
+struct CharacterInfo
+{
+    float2 BottomLeft;
+    float2 BottomRight;
+    float2 TopLeft;
+    float2 TopRight;
+    float4 Size;
+    float Advance;
+};

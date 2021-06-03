@@ -108,7 +108,7 @@ namespace ReGizmo.Drawing
         protected override void SetCullingData(CommandBuffer commandBuffer)
         {
             var fontCullingData = (FontCullingHandler)cullingHandler;
-            fontCullingData.SetData(commandBuffer, textDataBuffers.ComputeBuffer);
+            fontCullingData.SetData(commandBuffer, textDataBuffers.ComputeBuffer, characterInfoBuffer);
         }
 
         public override void Dispose()
