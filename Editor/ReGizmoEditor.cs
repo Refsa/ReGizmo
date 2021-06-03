@@ -94,13 +94,15 @@ namespace ReGizmo.Editor
             Core.ReGizmo.Dispose();
             ComputeBufferPool.FreeAll();
         }
- 
+  
         static void OnAfterAssemblyReloaded()
         {
         }
 
         static void OnSceneChanged(Scene arg0, Scene arg1)
         {
+            ComputeBufferPool.FreeAll();
+            Core.ReGizmo.Dispose();
             Init();
         }
 

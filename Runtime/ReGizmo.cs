@@ -21,6 +21,8 @@ namespace ReGizmo.Core
         const CameraEvent CAMERA_EVENT = CameraEvent.AfterForwardAlpha;
 #endif
 
+        internal static event System.Action OnRender;
+
         static bool isSetup = false;
         static GameObject proxyObject;
 
@@ -191,6 +193,8 @@ namespace ReGizmo.Core
                 foreach (var drawer in drawers) drawer.Clear();
                 return;
             }
+
+            OnRender?.Invoke();
 
 #if UNITY_EDITOR
             Profiler.BeginSample("ReGizmo::OnUpdate");

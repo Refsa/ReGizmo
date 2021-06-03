@@ -26,6 +26,11 @@ Z-Sort:
 Sprite Drawer:
     - @low Make base for Sprite Drawer a texture drawer with UVs so the same drawer can be shared for each sprite texture
     
+Fonts:
+    - @low make a pre-pass for font/text drawing to generate bounding box in screen and world space
+        since Text Culling requires converting to and from screen space it would be better to do this in a pre-pass
+        and that calculates data for both rendering and culling.
+
 2D Drawing:
     - @high Unit scaling doesnt work for free billboard drawing mode
     - @high Pixel scaling doesnt work for axis aligned and billboard aligned drawing modes
