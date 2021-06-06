@@ -4,6 +4,7 @@
 #pragma kernel Font_CameraCulling
 #pragma kernel Icon_CameraCulling
 #pragma kernel Sprite_CameraCulling
+#pragma kernel Line_CameraCulling
 
 struct BoundingBox
 {
@@ -207,13 +208,42 @@ void Sprite_CameraCulling (uint3 id : SV_DispatchThreadID)
     }
     #endif
 
-    // if (in_frustum)
+    if (in_frustum)
     {
         _SpriteOutput.Append(bd);
     }
 }
 
+// --- LINE ---
+StructuredBuffer<LineProperties> _LineInput;
+AppendStructuredBuffer<LineProperties> _LineOutput;
+[numthreads(128,1,1)]
+void Line_CameraCulling (uint3 id : SV_DispatchThreadID)
+{
+    [branch] if (id.x >= _Count) return;
 
+    LineProperties lp = _LineInput[id.x];
+
+    float3 center = (lp.Position1 + lp.Position2) * 0.5;
+    float3 extents = (lp.Position1 - lp.Position2);
+
+    bool in_frustum = box_inside_frustum(center, extents);
+
+    #if DEBUG
+    {
+        BoundingBox bb = (BoundingBox)0;
+        bb.Center = center;
+        bb.Extents = extents;
+        bb.Visible = in_frustum;
+        _DebugAABB[id.x] = bb;
+    }
+    #endif
+
+    if (in_frustum)
+    {
+        _LineOutput.Append(lp);
+    }
+}
 
 
 // --- UTILS ---
