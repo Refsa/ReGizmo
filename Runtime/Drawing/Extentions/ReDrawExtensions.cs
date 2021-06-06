@@ -5,18 +5,6 @@ namespace ReGizmo.Drawing
 {
     public partial class ReDraw
     {
-        public static void Line(Vector3 p1, Vector3 p2, Color color, float width1, float width2)
-        {
-            if (ReGizmoResolver<ReGizmoLineDrawer>.TryGet(out var drawer))
-            {
-                ref var shaderData = ref drawer.GetShaderData();
-                shaderData.Position1 = currentPosition + p1;
-                shaderData.Position1 = currentPosition + p2;
-                shaderData.Color = color.ToVector3();
-                shaderData.Width = width1;
-            }
-        }
-
         public static void Line(Vector3 p1, Vector3 p2, Color color, float width)
         {
             Vector3 vecColor = color.ToVector3();
@@ -24,7 +12,7 @@ namespace ReGizmo.Drawing
             {
                 ref var shaderData = ref drawer.GetShaderData();
                 shaderData.Position1 = currentPosition + p1;
-                shaderData.Position2 = currentPosition + p1;
+                shaderData.Position2 = currentPosition + p2;
                 shaderData.Color = vecColor;
                 shaderData.Width = width;
             }
@@ -37,7 +25,7 @@ namespace ReGizmo.Drawing
             {
                 ref var shaderData = ref drawer.GetShaderData();
                 shaderData.Position1 = currentPosition + p1;
-                shaderData.Position2 = currentPosition + p1;
+                shaderData.Position2 = currentPosition + p2;
                 shaderData.Color = vecColor;
                 shaderData.Width = 1f;
             }
@@ -50,7 +38,7 @@ namespace ReGizmo.Drawing
             {
                 ref var shaderData = ref drawer.GetShaderData();
                 shaderData.Position1 = currentPosition + p1;
-                shaderData.Position2 = currentPosition + p1;
+                shaderData.Position2 = currentPosition + p2;
                 shaderData.Color = vecColor;
                 shaderData.Width = width;
             }
@@ -63,7 +51,7 @@ namespace ReGizmo.Drawing
             {
                 ref var shaderData = ref drawer.GetShaderData();
                 shaderData.Position1 = currentPosition + p1;
-                shaderData.Position2 = currentPosition + p1;
+                shaderData.Position2 = currentPosition + p2;
                 shaderData.Color = vecColor;
                 shaderData.Width = 1f;
             }
@@ -212,26 +200,23 @@ namespace ReGizmo.Drawing
             Vector3 p6 = center + rotation * new Vector3(halfExtents.x, -halfExtents.y, -halfExtents.z);
             Vector3 p7 = center + rotation * new Vector3(-halfExtents.x, -halfExtents.y, -halfExtents.z);
 
-            using (new ColorScope(color))
-            {
-                // TOP
-                Line(p0, p1, 1f);
-                Line(p1, p2, 1f);
-                Line(p2, p3, 1f);
-                Line(p3, p0, 1f);
+            // TOP
+            Line(p0, p1, color, 1f);
+            Line(p1, p2, color, 1f);
+            Line(p2, p3, color, 1f);
+            Line(p3, p0, color, 1f);
 
-                // BOTTOM
-                Line(p4, p5, 1f);
-                Line(p5, p6, 1f);
-                Line(p6, p7, 1f);
-                Line(p7, p4, 1f);
+            // BOTTOM
+            Line(p4, p5, color, 1f);
+            Line(p5, p6, color, 1f);
+            Line(p6, p7, color, 1f);
+            Line(p7, p4, color, 1f);
 
-                // CONNECTORS
-                Line(p0, p4, 1f);
-                Line(p1, p5, 1f);
-                Line(p2, p6, 1f);
-                Line(p3, p7, 1f);
-            }
+            // CONNECTORS
+            Line(p0, p4, color, 1f);
+            Line(p1, p5, color, 1f);
+            Line(p2, p6, color, 1f);
+            Line(p3, p7, color, 1f);
         }
 
         public static void Circle2(Vector3 center, Vector3 normal, float radius, int resolution)
