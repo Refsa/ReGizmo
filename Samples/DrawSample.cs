@@ -148,8 +148,8 @@ namespace ReGizmo.Samples
 
             // Lines
             {
-                ReDraw.Line(Vector3.left, Vector3.left * 10, Color.cyan, Color.green, 5f, 5f);
-                ReDraw.Line(Vector3.up + Vector3.left, Vector3.up + Vector3.left * 10, Color.cyan, Color.green, 5f, 5f);
+                ReDraw.Line(Vector3.left, Vector3.left * 10, Color.cyan, 5f);
+                ReDraw.Line(Vector3.up + Vector3.left, Vector3.up + Vector3.left * 10, Color.cyan, 5f);
             }
 
             // Poly-Lines

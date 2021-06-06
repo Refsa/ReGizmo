@@ -60,7 +60,7 @@ namespace ReGizmo.Editor
         {
             DetectPipeline();
         }
- 
+
         static void OnBeforeBuild()
         {
             Core.ReGizmo.Dispose();
@@ -82,7 +82,7 @@ namespace ReGizmo.Editor
             else if (change == PlayModeStateChange.ExitingPlayMode)
             {
                 Core.ReGizmo.Dispose();
-                ComputeBufferPool.FreeAll(); 
+                ComputeBufferPool.FreeAll();
             }
             else if (change == PlayModeStateChange.EnteredPlayMode)
             {
@@ -92,10 +92,9 @@ namespace ReGizmo.Editor
 
         static void OnBeforeAssemblyReloaded()
         {
-            Core.ReGizmo.Dispose();
-            ComputeBufferPool.FreeAll();
+            Core.ReGizmo.Dispose(); 
         }
-  
+
         static void OnAfterAssemblyReloaded()
         {
         }
@@ -109,7 +108,13 @@ namespace ReGizmo.Editor
 
         static void AwaitSetup()
         {
-            if (EditorApplication.timeSinceStartup - startTime > 0.5)
+            if (startTime < 5.0)
+            {
+                EditorApplication.update -= AwaitSetup;
+                return;
+            }
+
+            if (EditorApplication.timeSinceStartup - startTime > 0.25)
             {
                 ReGizmo.Core.ReGizmo.Initialize();
 

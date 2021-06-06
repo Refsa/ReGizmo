@@ -31,7 +31,6 @@ namespace ReGizmo.Drawing
 
         protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData)
         {
-            // uniqueDrawData.SetVertexCount(uniqueDrawData.DrawCount);
             uniqueDrawData.SetInstanceCount(1);
 
             cmd.DrawProceduralIndirect(

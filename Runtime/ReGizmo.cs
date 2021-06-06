@@ -134,6 +134,10 @@ namespace ReGizmo.Core
                 ReGizmoResolver<ReGizmoCustomMeshDrawer>.Init(new ReGizmoCustomMeshDrawer()),
                 ReGizmoResolver<ReGizmoCustomMeshWireframeDrawer>.Init(new ReGizmoCustomMeshWireframeDrawer()),
 
+#if REGIZMO_DEV
+                ReGizmoResolver<AABBDebugDrawer>.Init(new AABBDebugDrawer()),
+#endif
+
                 // 2D
                 ReGizmoResolver<ReGizmoCircleDrawer>.Init(new ReGizmoCircleDrawer()),
                 ReGizmoResolver<ReGizmoTriangleDrawer>.Init(new ReGizmoTriangleDrawer()),
@@ -222,7 +226,7 @@ namespace ReGizmo.Core
 #endif 
 
             Profiler.BeginSample("ReGizmo::OnUpdate::PreRender");
-            foreach (var cameraData in activeCameras.Values) 
+            foreach (var cameraData in activeCameras.Values)
             {
                 cameraData.PreRender();
             }

@@ -17,27 +17,6 @@ namespace ReGizmo.Drawing
             public bool Visible;
         }
 
-        class BBDrawData
-        {
-            public int Count;
-            public NativeArray<BoundingBox> BoundingBoxes;
-
-            public BBDrawData(int len)
-            {
-                BoundingBoxes = new NativeArray<BoundingBox>(len, Allocator.Persistent);
-            }
-
-            public void EnsureSize(int len)
-            {
-                if (BoundingBoxes.Length < len)
-                {
-                    BoundingBoxes.Dispose();
-                }
-
-                BoundingBoxes = new NativeArray<BoundingBox>(len, Allocator.Persistent);
-            }
-        }
-
         ComputeBuffer buffer;
 
         public void Hook(CommandBuffer commandBuffer, ComputeShader compute, int kernelID, int len)
@@ -56,7 +35,7 @@ namespace ReGizmo.Drawing
 
             if (!Application.isPlaying || !ReGizmoSettings.ShowDebugGizmos) return;
 
-            commandBuffer.RequestAsyncReadback(buffer, result =>
+            commandBuffer.RequestAsyncReadback(buffer, result =>  
             {
                 if (result.hasError) return;
 
@@ -65,7 +44,7 @@ namespace ReGizmo.Drawing
                 {
                     var bb = bbs[i];
                     Color color = bb.Visible ? Color.green : Color.red;
-                    ReDraw.WireCube(bb.Center, Quaternion.identity, bb.Extents, color);
+                    ReDraw.AABBDebug(bb.Center, Quaternion.identity, bb.Extents, color);
                 }
             });
         }
