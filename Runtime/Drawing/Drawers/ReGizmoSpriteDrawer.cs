@@ -27,6 +27,8 @@ namespace ReGizmo.Drawing
             SetupSpriteUVs();
 
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Sprite");
+
+            cullingHandler = new SpriteCullingHandler();
         }
 
         void SetupSpriteUVs()

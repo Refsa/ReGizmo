@@ -3,11 +3,11 @@ using UnityEngine.Rendering;
 
 namespace ReGizmo.Drawing
 {
-    internal class IconCullingHandler : CullingHandler
+    internal class SpriteCullingHandler : CullingHandler
     {
-        static readonly int KernelID = CullingCompute.FindKernel("Icon_CameraCulling");
-        static readonly string InputID = "_IconInput";
-        static readonly string OutputID = "_IconOutput";
+        static readonly int KernelID = CullingCompute.FindKernel("Sprite_CameraCulling");
+        static readonly string InputID = "_SpriteInput";
+        static readonly string OutputID = "_SpriteOutput";
 
         public override void PerformCulling<TShaderData>(
             CommandBuffer commandBuffer, int drawCount, 

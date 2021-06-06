@@ -22,17 +22,9 @@
             float2 uv: TEXCOORD0;
         };
 
-        struct DrawData
-        {
-            float3 position;
-            float scale;
-            // xMin, yMin, xMax, yMax
-            float4 uvs;
-        };
-
         sampler2D _SpriteTexture;
 
-        StructuredBuffer<DrawData> _DrawData;
+        StructuredBuffer<SpriteProperties> _DrawData;
 
         v2g vert(uint vertexID : SV_VertexID)
         {
@@ -44,7 +36,7 @@
         [maxvertexcount(4)]
         void geom(point v2g i[1], inout TriangleStream<g2f> triangleStream)
         {
-            DrawData bd = _DrawData[i[0].vertexID];
+            SpriteProperties bd = _DrawData[i[0].vertexID];
             float4 clip = mul(UNITY_MATRIX_VP, float4(bd.position, 1.0));
 
             float halfOffset = bd.scale * 0.5;

@@ -3,6 +3,7 @@
 #pragma kernel Mesh_CameraCulling
 #pragma kernel Font_CameraCulling
 #pragma kernel Icon_CameraCulling
+#pragma kernel Sprite_CameraCulling
 
 struct BoundingBox
 {
@@ -24,6 +25,8 @@ float4x4 _I_VP;
 float4x4 _VP;
 
 inline bool box_inside_frustum( float3 center, float3 extents );
+
+// --- MESH ---
 
 StructuredBuffer<MeshProperties> _MeshInput;
 AppendStructuredBuffer<MeshProperties> _MeshOutput; 
@@ -48,6 +51,8 @@ void Mesh_CameraCulling (uint3 id : SV_DispatchThreadID)
         _MeshOutput.Append(ld);
     }
 }
+
+// --- FONT ---
 
 StructuredBuffer<CharData> _FontInput;
 AppendStructuredBuffer<CharData> _FontOutput;
@@ -105,6 +110,8 @@ void Font_CameraCulling (uint3 id : SV_DispatchThreadID)
     }
 }
 
+// --- ICON ---
+
 StructuredBuffer<IconProperties> _IconInput;
 AppendStructuredBuffer<IconProperties> _IconOutput; 
 [numthreads(128,1,1)]
@@ -125,6 +132,7 @@ void Icon_CameraCulling (uint3 id : SV_DispatchThreadID)
         size *= clip.w;
     }
 
+    // TODO: Proper projection flip check
     size.y = -size.y;
 
     // Create billboard vertices
@@ -154,6 +162,59 @@ void Icon_CameraCulling (uint3 id : SV_DispatchThreadID)
         _IconOutput.Append(bd);
     }
 }
+
+
+// --- SPRITE ---
+
+StructuredBuffer<SpriteProperties> _SpriteInput;
+AppendStructuredBuffer<SpriteProperties> _SpriteOutput; 
+[numthreads(128,1,1)]
+void Sprite_CameraCulling (uint3 id : SV_DispatchThreadID)
+{
+    [branch] if (id.x >= _Count) return;
+
+    SpriteProperties bd = _SpriteInput[id.x];
+
+    float4 clip = mul(UNITY_MATRIX_VP, float4(bd.position, 1.0));
+
+    float halfOffset = bd.scale * 0.5;
+    float2 size = float2(-halfOffset, -halfOffset);
+
+    size /= _ScreenParams.xy;
+    size *= clip.w;
+
+    // TODO: Proper projection flip check
+    size.y = -size.y;
+
+    float4 cp1 = float4(clip.x - size.x, clip.y - size.y, clip.z, clip.w);
+    float4 cp2 = float4(clip.x + size.x, clip.y + size.y, clip.z, clip.w);
+
+    float3 cp1_world = mul(_I_VP, cp1).xyz;
+    float3 cp2_world = mul(_I_VP, cp2).xyz;
+
+    float3 center = bd.position;
+    float3 extents = (cp1_world - cp2_world);
+
+    bool in_frustum = box_inside_frustum(center, extents);
+
+    #if DEBUG
+    {
+        BoundingBox bb = (BoundingBox)0;
+        bb.Center = center;
+        bb.Extents = extents;
+        bb.Visible = in_frustum;
+        _DebugAABB[id.x] = bb;
+    }
+    #endif
+
+    // if (in_frustum)
+    {
+        _SpriteOutput.Append(bd);
+    }
+}
+
+
+
 
 // --- UTILS ---
 bool within(float lower, float value, float higher)

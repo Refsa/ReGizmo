@@ -51,3 +51,12 @@ struct IconProperties
     float scale;
     int flags;
 };
+
+// --- SPRITE ---
+struct SpriteProperties
+{
+    float3 position;
+    float scale;
+    // xMin, yMin, xMax, yMax
+    float4 uvs;
+};
