@@ -60,3 +60,12 @@ struct SpriteProperties
     // xMin, yMin, xMax, yMax
     float4 uvs;
 };
+
+// --- LINES ---
+struct LineProperties
+{
+    float3 Position1;
+    float3 Position2;
+    float3 Color;
+    float Width;
+};

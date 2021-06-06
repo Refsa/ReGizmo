@@ -17,14 +17,10 @@ namespace ReGizmo.Generator
             if (ReGizmoResolver<ReGizmoLineDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
-                shaderData.Position = point1;
+                shaderData.Position1 = point1;
+                shaderData.Position2 = point2;
                 shaderData.Color = $PARAM_1;
                 shaderData.Width = $PARAM_3;
-
-                shaderData = ref drawer.GetShaderData();
-                shaderData.Position = point2;
-                shaderData.Color = $PARAM_2;
-                shaderData.Width = $PARAM_4;
             }
         }";
             variables = new Variable[] {

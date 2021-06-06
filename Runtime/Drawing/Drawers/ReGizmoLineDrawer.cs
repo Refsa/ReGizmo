@@ -6,7 +6,8 @@ namespace ReGizmo.Drawing
 {
     internal struct LineData
     {
-        public Vector3 Position; 
+        public Vector3 Position1;
+        public Vector3 Position2;
         public Vector3 Color;
         public float Width;
     }
@@ -26,7 +27,7 @@ namespace ReGizmo.Drawing
             cmd.DrawProceduralIndirect(
                 Matrix4x4.identity,
                 material, 0,
-                MeshTopology.Lines,
+                MeshTopology.Points,
                 uniqueDrawData.ArgsBuffer, 0,
                 uniqueDrawData.MaterialPropertyBlock
             );

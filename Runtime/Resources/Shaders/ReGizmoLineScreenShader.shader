@@ -26,13 +26,6 @@ Shader "Hidden/ReGizmo/Line_Screen"
             nointerpolation float width: TEXCOORD2;
         };
 
-        struct LineProperties
-        {
-            float3 Position;
-            float3 Color;
-            float Width;
-        };
-
         StructuredBuffer<LineProperties> _Properties;
 
         v2g_line vert_line(uint vertexID: SV_VertexID)
@@ -43,13 +36,12 @@ Shader "Hidden/ReGizmo/Line_Screen"
         }
 
         [maxvertexcount(6)]
-        void geom_line(line v2g_line i[2], inout TriangleStream<g2f_line> triangleStream)
+        void geom_line(point v2g_line i[1], inout TriangleStream<g2f_line> triangleStream)
         {
-            LineProperties prop1 = _Properties[i[0].vertexID];
-            LineProperties prop2 = _Properties[i[1].vertexID];
+            LineProperties prop = _Properties[i[0].vertexID];
         
-            float4 p1 = UnityObjectToClipPos(float4(prop1.Position, 1.0));
-            float4 p2 = UnityObjectToClipPos(float4(prop2.Position, 1.0));
+            float4 p1 = UnityObjectToClipPos(float4(prop.Position1, 1.0));
+            float4 p2 = UnityObjectToClipPos(float4(prop.Position2, 1.0));
         
             // Sort by point "closest" to screen-space
             if (p1.w > p2.w)
@@ -57,10 +49,6 @@ Shader "Hidden/ReGizmo/Line_Screen"
                 float4 pos_temp = p1;
                 p1 = p2;
                 p2 = pos_temp;
-        
-                LineProperties prop_temp = prop1;
-                prop1 = prop2;
-                prop2 = prop_temp;
             }
             
             // Manual near-clip
@@ -70,13 +58,12 @@ Shader "Hidden/ReGizmo/Line_Screen"
                 p1 = lerp(p1, p2, ratio);
             }
         
-            float w1 = ceil(prop1.Width + PixelSize);
-            float w2 = ceil(prop2.Width + PixelSize);
+            float w = ceil(prop.Width + PixelSize);
         
             float2 a = p1.xy / p1.w;
             float2 b = p2.xy / p2.w;
-            float2 c1 = normalize(float2(a.y - b.y, b.x - a.x)) / _ScreenParams.xy * w1;
-            float2 c2 = normalize(float2(a.y - b.y, b.x - a.x)) / _ScreenParams.xy * w2;
+            float2 c1 = normalize(float2(a.y - b.y, b.x - a.x)) / _ScreenParams.xy * w;
+            float2 c2 = normalize(float2(a.y - b.y, b.x - a.x)) / _ScreenParams.xy * w;
         
             g2f_line g0 = (g2f_line)0;
             g2f_line g1 = (g2f_line)0;
@@ -93,15 +80,15 @@ Shader "Hidden/ReGizmo/Line_Screen"
             g2.uv = float2(0, 1);
             g3.uv = float2(1, 1);
         
-            g0.color = prop1.Color;
-            g1.color = prop1.Color;
-            g2.color = prop2.Color;
-            g3.color = prop2.Color;
+            g0.color = prop.Color;
+            g1.color = prop.Color;
+            g2.color = prop.Color;
+            g3.color = prop.Color;
         
-            g0.width = w1;
-            g1.width = w1;
-            g2.width = w2;
-            g3.width = w2;
+            g0.width = w;
+            g1.width = w;
+            g2.width = w;
+            g3.width = w;
         
             if (ProjectionFlipped())
             {
