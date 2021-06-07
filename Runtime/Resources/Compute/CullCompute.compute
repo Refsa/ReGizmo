@@ -5,6 +5,7 @@
 #pragma kernel Icon_CameraCulling
 #pragma kernel Sprite_CameraCulling
 #pragma kernel Line_CameraCulling
+#pragma kernel PolyLine_CameraCulling
 
 struct BoundingBox
 {
@@ -25,7 +26,7 @@ float4x4 _ProjectionMatrix;
 float4x4 _I_VP;
 float4x4 _VP;
 
-inline bool box_inside_frustum( float3 center, float3 extents );
+bool box_inside_frustum( float3 center, float3 extents );
 
 // --- MESH ---
 
@@ -245,15 +246,19 @@ void Line_CameraCulling (uint3 id : SV_DispatchThreadID)
     }
 }
 
-
-// --- UTILS ---
-bool within(float lower, float value, float higher)
+// --- POLYLINE ---
+StructuredBuffer<PolyLineProperties> _PolyLineInput;
+AppendStructuredBuffer<PolyLineProperties> _PolyLineOutput;
+[numthreads(128,1,1)]
+void PolyLine_CameraCulling (uint3 id : SV_DispatchThreadID)
 {
-    return value >= lower && value <= higher;
+    [branch] if (id.x >= _Count) return;
 }
 
+// --- UTILS ---
+
 // Based on: https://www.iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm
-inline bool box_inside_frustum( float3 center, float3 extents )
+bool box_inside_frustum( float3 center, float3 extents )
 {
     float3 bounds_min = center - extents;
     float3 bounds_max = center + extents;

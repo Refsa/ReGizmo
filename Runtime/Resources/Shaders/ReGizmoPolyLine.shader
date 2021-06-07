@@ -21,14 +21,7 @@ Shader "Hidden/ReGizmo/PolyLine_Screen" {
             float width: TEXCOORD2;
         };
 
-        struct Properties {
-            float3 Position;
-            float4 Color;
-            float Width;
-            int ID;
-        };
-
-        StructuredBuffer<Properties> _Properties;
+        StructuredBuffer<PolyLineProperties> _Properties;
 
         v2g vert(uint instanceID: SV_InstanceID, uint vertexID: SV_VertexID) 
         {
@@ -48,15 +41,15 @@ Shader "Hidden/ReGizmo/PolyLine_Screen" {
             uint vidP = vidA - 1;
             uint vidN = vidA + 2;
 
-            Properties propA = _Properties[vidA];
-            Properties propB = _Properties[vidB];
+            PolyLineProperties propA = _Properties[vidA];
+            PolyLineProperties propB = _Properties[vidB];
             if (propB.ID.x != propA.ID.x) return;
 
             float4 p1 = UnityObjectToClipPos(float4(propA.Position, 1.0));
             float4 p2 = UnityObjectToClipPos(float4(propB.Position, 1.0));
 
-            Properties propP;
-            Properties propN;
+            PolyLineProperties propP;
+            PolyLineProperties propN;
 
             // Order points by depth
             if (p1.w > p2.w)
@@ -65,7 +58,7 @@ Shader "Hidden/ReGizmo/PolyLine_Screen" {
                 p1 = p2;
                 p2 = pos_temp;
 
-                Properties prop_temp = propA;
+                PolyLineProperties prop_temp = propA;
                 propA = propB;
                 propB = prop_temp;
                 

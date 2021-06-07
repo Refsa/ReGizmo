@@ -9,6 +9,7 @@ namespace ReGizmo.Drawing
         public ReGizmoPolyLineDrawer() : base()
         {
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/PolyLine_Screen");
+            // cullingHandler = new PolyLineCullingHandler();
         }
 
         protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData)

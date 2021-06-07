@@ -1,18 +1,17 @@
-
 using UnityEngine;
 using UnityEngine.Rendering;
 
 namespace ReGizmo.Drawing
 {
-    internal class LineCullingHandler : CullingHandler
+    internal class PolyLineCullingHandler : CullingHandler
     {
-        static readonly int KernelID = CullingCompute.FindKernel("Line_CameraCulling");
-        static readonly string InputID = "_LineInput";
-        static readonly string OutputID = "_LineOutput";
+        static readonly int KernelID = CullingCompute.FindKernel("PolyLine_CameraCulling");
+        static readonly string InputID = "_PolyLineInput";
+        static readonly string OutputID = "_PolyLineOutput";
 
         public override void PerformCulling<TShaderData>(
-            CommandBuffer commandBuffer, int drawCount, 
-            ComputeBuffer argsBuffer, int argsBufferOffset, 
+            CommandBuffer commandBuffer, int drawCount,
+            ComputeBuffer argsBuffer, int argsBufferOffset,
             ComputeBuffer inputBuffer, ComputeBuffer outputBuffer)
         {
             if (inputBuffer == null || outputBuffer == null)

@@ -69,3 +69,12 @@ struct LineProperties
     float3 Color;
     float Width;
 };
+
+// --- POLY LINE ---
+struct PolyLineProperties 
+{
+    float3 Position;
+    float4 Color;
+    float Width;
+    int ID;
+};
