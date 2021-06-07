@@ -5,15 +5,15 @@ using UnityEngine;
 
 namespace ReGizmo.Drawing
 {
-    internal class ReGizmoIconsDrawer : ReGizmoContentDrawer<ReGizmoIconDrawer>
+    internal class ReGizmoIconsDrawer : ReGizmoContentDrawer<IconDrawer>
     {
-        protected override IEnumerable<(ReGizmoIconDrawer, UniqueDrawData)> _drawers => drawers.Values;
+        protected override IEnumerable<(IconDrawer, UniqueDrawData)> _drawers => drawers.Values;
 
-        Dictionary<Texture2D, (ReGizmoIconDrawer drawer, UniqueDrawData uniqueDrawData)> drawers;
+        Dictionary<Texture2D, (IconDrawer drawer, UniqueDrawData uniqueDrawData)> drawers;
 
         public ReGizmoIconsDrawer() : base()
         {
-            drawers = new Dictionary<Texture2D, (ReGizmoIconDrawer, UniqueDrawData)>();
+            drawers = new Dictionary<Texture2D, (IconDrawer, UniqueDrawData)>();
         }
 
         public ref IconShaderData GetShaderData(Texture2D texture)
@@ -26,9 +26,9 @@ namespace ReGizmo.Drawing
             return ref drawer.drawer.GetShaderData();
         }
 
-        (ReGizmoIconDrawer, UniqueDrawData) AddSubDrawer(Texture2D texture)
+        (IconDrawer, UniqueDrawData) AddSubDrawer(Texture2D texture)
         {
-            var drawer = new ReGizmoIconDrawer(texture);
+            var drawer = new IconDrawer(texture);
             var uniqueDrawData = new UniqueDrawData();
 
             drawers.Add(texture, (drawer, uniqueDrawData));
