@@ -9,7 +9,7 @@ namespace ReGizmo.Drawing
 
         public static void Icon(Texture2D texture, UnityEngine.Vector3 position, UnityEngine.Color color, ReGizmo.Drawing.Size size)
         {
-            if (ReGizmoResolver<ReGizmoIconsDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<IconsDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData(texture);
 
@@ -21,7 +21,7 @@ namespace ReGizmo.Drawing
         }
         public static void Icon(Texture2D texture, UnityEngine.Vector3 position, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoIconsDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<IconsDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData(texture);
 
@@ -33,7 +33,7 @@ namespace ReGizmo.Drawing
         }
         public static void Icon(Texture2D texture, UnityEngine.Vector3 position, ReGizmo.Drawing.Size size)
         {
-            if (ReGizmoResolver<ReGizmoIconsDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<IconsDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData(texture);
 
@@ -45,7 +45,7 @@ namespace ReGizmo.Drawing
         }
         public static void Icon(Texture2D texture, UnityEngine.Color color, ReGizmo.Drawing.Size size)
         {
-            if (ReGizmoResolver<ReGizmoIconsDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<IconsDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData(texture);
 
@@ -57,7 +57,7 @@ namespace ReGizmo.Drawing
         }
         public static void Icon(Texture2D texture, UnityEngine.Vector3 position)
         {
-            if (ReGizmoResolver<ReGizmoIconsDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<IconsDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData(texture);
 
@@ -69,7 +69,7 @@ namespace ReGizmo.Drawing
         }
         public static void Icon(Texture2D texture, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoIconsDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<IconsDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData(texture);
 
@@ -81,7 +81,7 @@ namespace ReGizmo.Drawing
         }
         public static void Icon(Texture2D texture, ReGizmo.Drawing.Size size)
         {
-            if (ReGizmoResolver<ReGizmoIconsDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<IconsDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData(texture);
 
@@ -93,7 +93,7 @@ namespace ReGizmo.Drawing
         }
         public static void Icon(Texture2D texture)
         {
-            if (ReGizmoResolver<ReGizmoIconsDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<IconsDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData(texture);
 

@@ -113,7 +113,7 @@ namespace ReGizmo.Core
                 ReGizmoResolver<GridDrawer>.Init(new GridDrawer()),
 
                 // Textures
-                ReGizmoResolver<ReGizmoIconsDrawer>.Init(new ReGizmoIconsDrawer()),
+                ReGizmoResolver<IconsDrawer>.Init(new IconsDrawer()),
                 ReGizmoResolver<ReGizmoSpritesDrawer>.Init(new ReGizmoSpritesDrawer()),
 
                 // Fonts

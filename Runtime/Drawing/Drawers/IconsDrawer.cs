@@ -5,13 +5,13 @@ using UnityEngine;
 
 namespace ReGizmo.Drawing
 {
-    internal class ReGizmoIconsDrawer : ReGizmoContentDrawer<IconDrawer>
+    internal class IconsDrawer : ReGizmoContentDrawer<IconDrawer>
     {
         protected override IEnumerable<(IconDrawer, UniqueDrawData)> _drawers => drawers.Values;
 
         Dictionary<Texture2D, (IconDrawer drawer, UniqueDrawData uniqueDrawData)> drawers;
 
-        public ReGizmoIconsDrawer() : base()
+        public IconsDrawer() : base()
         {
             drawers = new Dictionary<Texture2D, (IconDrawer, UniqueDrawData)>();
         }
