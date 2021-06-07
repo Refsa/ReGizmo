@@ -4,9 +4,9 @@ using UnityEngine.Rendering;
 
 namespace ReGizmo.Drawing
 {
-    internal class ReGizmoPolyLineDrawer : ReGizmoDrawer<PolyLineData>
+    internal class PolyLineDrawer : ReGizmoDrawer<PolyLineData>
     {
-        public ReGizmoPolyLineDrawer() : base()
+        public PolyLineDrawer() : base()
         {
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/PolyLine_Screen");
             // cullingHandler = new PolyLineCullingHandler();

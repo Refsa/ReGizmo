@@ -61,7 +61,7 @@ namespace ReGizmo.Drawing
         {
             polyLine.Build();
 
-            if (ReGizmoResolver<ReGizmoPolyLineDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<PolyLineDrawer>.TryGet(out var drawer))
             {
                 drawer.GetShaderDataBuffer().Copy(polyLine.Points);
             }
