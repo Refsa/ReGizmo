@@ -117,7 +117,7 @@ namespace ReGizmo.Core
                 ReGizmoResolver<ReGizmoSpritesDrawer>.Init(new ReGizmoSpritesDrawer()),
 
                 // Fonts
-                ReGizmoResolver<ReGizmoFontDrawer>.Init(new ReGizmoFontDrawer(ReGizmoSettings.Font)),
+                ReGizmoResolver<TextDrawer>.Init(new TextDrawer(ReGizmoSettings.Font)),
                 ReGizmoResolver<ReGizmoSDFFontDrawer>.Init(new ReGizmoSDFFontDrawer(ReGizmoSettings.SDFFont)),
 
                 // 3D
