@@ -13,7 +13,7 @@ namespace ReGizmo.Generator
                 @"
         public static void WireframeMesh($PARAMS)
         {
-            if (ReGizmoResolver<ReGizmoCustomMeshWireframeDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<CustomMeshWireframeDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData(mesh);
 
