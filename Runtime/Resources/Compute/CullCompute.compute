@@ -258,9 +258,9 @@ inline bool box_inside_frustum( float3 center, float3 extents )
     float3 bounds_min = center - extents;
     float3 bounds_max = center + extents;
     
-    int count = 0;
     for (int i = 0; i < 6; i++)
     {
+        int count = 0;
         count += ((dot( _CameraFrustum[i], float4(bounds_min.x, bounds_min.y, bounds_min.z, 1.0f) ) < 0.0 ) ? 1 : 0);
         count += ((dot( _CameraFrustum[i], float4(bounds_max.x, bounds_min.y, bounds_min.z, 1.0f) ) < 0.0 ) ? 1 : 0);
         count += ((dot( _CameraFrustum[i], float4(bounds_min.x, bounds_max.y, bounds_min.z, 1.0f) ) < 0.0 ) ? 1 : 0);
@@ -269,8 +269,8 @@ inline bool box_inside_frustum( float3 center, float3 extents )
         count += ((dot( _CameraFrustum[i], float4(bounds_max.x, bounds_min.y, bounds_max.z, 1.0f) ) < 0.0 ) ? 1 : 0);
         count += ((dot( _CameraFrustum[i], float4(bounds_min.x, bounds_max.y, bounds_max.z, 1.0f) ) < 0.0 ) ? 1 : 0);
         count += ((dot( _CameraFrustum[i], float4(bounds_max.x, bounds_max.y, bounds_max.z, 1.0f) ) < 0.0 ) ? 1 : 0);
-        if (count == 8) break;
+        if (count == 8) return false;
     }
 
-    return count != 8;
+    return true;
 }
