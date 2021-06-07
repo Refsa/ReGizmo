@@ -131,7 +131,7 @@ namespace ReGizmo.Drawing
 
         public static void Grid(Vector3 origin, Color lineColor, int distance = 1000, bool inPlace = true, GridPlane plane = GridPlane.XZ)
         {
-            if (ReGizmoResolver<ReGizmoGridDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<GridDrawer>.TryGet(out var drawer))
             {
                 var color = lineColor.ToVector3();
 

@@ -26,11 +26,11 @@ namespace ReGizmo.Drawing
         ZY = 1u << 12,
     }
 
-    internal class ReGizmoGridDrawer : ReGizmoDrawer<GridData>
+    internal class GridDrawer : ReGizmoDrawer<GridData>
     {
         Mesh quad;
 
-        public ReGizmoGridDrawer() : base()
+        public GridDrawer() : base()
         {
             quad = ReGizmoPrimitives.Quad();
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Grid");

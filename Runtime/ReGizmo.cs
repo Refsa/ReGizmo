@@ -110,7 +110,7 @@ namespace ReGizmo.Core
                 // Lines
                 ReGizmoResolver<ReGizmoLineDrawer>.Init(new ReGizmoLineDrawer()),
                 ReGizmoResolver<ReGizmoPolyLineDrawer>.Init(new ReGizmoPolyLineDrawer()),
-                ReGizmoResolver<ReGizmoGridDrawer>.Init(new ReGizmoGridDrawer()),
+                ReGizmoResolver<GridDrawer>.Init(new GridDrawer()),
 
                 // Textures
                 ReGizmoResolver<ReGizmoIconsDrawer>.Init(new ReGizmoIconsDrawer()),
