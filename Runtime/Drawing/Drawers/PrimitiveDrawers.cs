@@ -2,81 +2,81 @@ using ReGizmo.Utils;
 
 namespace ReGizmo.Drawing
 {
-    internal class ReGizmoCubeDrawer : MeshDrawer
+    internal class CubeDrawer : MeshDrawer
     {
-        public ReGizmoCubeDrawer() : base()
+        public CubeDrawer() : base()
         {
             mesh = ReGizmoPrimitives.Cube();
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh");
         }
     }
 
-    internal class ReGizmoSphereDrawer : MeshDrawer
+    internal class SphereDrawer : MeshDrawer
     {
-        public ReGizmoSphereDrawer() : base()
+        public SphereDrawer() : base()
         {
             mesh = ReGizmoPrimitives.Sphere();
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh");
         }
     }
 
-    internal class ReGizmoQuadDrawer : MeshDrawer
+    internal class QuadDrawer : MeshDrawer
     {
-        public ReGizmoQuadDrawer() : base()
+        public QuadDrawer() : base()
         {
             mesh = ReGizmoPrimitives.Quad();
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh");
         }
     }
 
-    internal class ReGizmoCylinderDrawer : MeshDrawer
+    internal class CylinderDrawer : MeshDrawer
     {
-        public ReGizmoCylinderDrawer() : base()
+        public CylinderDrawer() : base()
         {
             mesh = ReGizmoPrimitives.Cylinder();
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh");
         }
     }
     
-    internal class ReGizmoCapsuleDrawer : MeshDrawer
+    internal class CapsuleDrawer : MeshDrawer
     {
-        public ReGizmoCapsuleDrawer() : base()
+        public CapsuleDrawer() : base()
         {
             mesh = ReGizmoPrimitives.Capsule();
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh");
         }
     }
 
-    internal class ReGizmoConeDrawer : MeshDrawer
+    internal class ConeDrawer : MeshDrawer
     {
-        public ReGizmoConeDrawer() : base()
+        public ConeDrawer() : base()
         {
             mesh = ReGizmoPrimitives.Cone();
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh");
         }
     }
 
-    internal class ReGizmoOctahedronDrawer : MeshDrawer
+    internal class OctahedronDrawer : MeshDrawer
     {
-        public ReGizmoOctahedronDrawer() : base()
+        public OctahedronDrawer() : base()
         {
             mesh = ReGizmoPrimitives.Octahedron();
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh");
         }
     }
 
-    internal class ReGizmoPyramidDrawer : MeshDrawer
+    internal class PyramidDrawer : MeshDrawer
     {
-        public ReGizmoPyramidDrawer() : base()
+        public PyramidDrawer() : base()
         {
             mesh = ReGizmoPrimitives.Pyramid();
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh");
         }
     }
 
-    internal class ReGizmoIcosahedronDrawer : MeshDrawer
+    internal class IcosahedronDrawer : MeshDrawer
     {
-        public ReGizmoIcosahedronDrawer() : base()
+        public IcosahedronDrawer() : base()
         {
             mesh = ReGizmoPrimitives.Icosahedron();
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh");
