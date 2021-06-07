@@ -10,7 +10,7 @@ namespace ReGizmo.Drawing
         public Vector4 UVs;
     }
 
-    internal class ReGizmoSpriteDrawer : ReGizmoDrawer<SpriteShaderData>
+    internal class SpriteDrawer : ReGizmoDrawer<SpriteShaderData>
     {
         Sprite sprite;
         Vector4 spriteUVs;
@@ -20,7 +20,7 @@ namespace ReGizmo.Drawing
 
         public Vector4 SpriteUVs => spriteUVs;
 
-        public ReGizmoSpriteDrawer(Sprite sprite)
+        public SpriteDrawer(Sprite sprite)
         {
             this.sprite = sprite;
 

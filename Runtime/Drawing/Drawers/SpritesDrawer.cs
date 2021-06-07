@@ -3,15 +3,15 @@ using UnityEngine;
 
 namespace ReGizmo.Drawing
 {
-    internal class ReGizmoSpritesDrawer : ReGizmoContentDrawer<ReGizmoSpriteDrawer>
+    internal class SpritesDrawer : ReGizmoContentDrawer<SpriteDrawer>
     {
-        protected override IEnumerable<(ReGizmoSpriteDrawer, UniqueDrawData)> _drawers => drawers.Values;
+        protected override IEnumerable<(SpriteDrawer, UniqueDrawData)> _drawers => drawers.Values;
 
-        Dictionary<Sprite, (ReGizmoSpriteDrawer drawer, UniqueDrawData uniqueDrawData)> drawers;
+        Dictionary<Sprite, (SpriteDrawer drawer, UniqueDrawData uniqueDrawData)> drawers;
 
-        public ReGizmoSpritesDrawer() : base()
+        public SpritesDrawer() : base()
         {
-            drawers = new Dictionary<Sprite, (ReGizmoSpriteDrawer, UniqueDrawData)>();
+            drawers = new Dictionary<Sprite, (SpriteDrawer, UniqueDrawData)>();
         }
 
         public ref SpriteShaderData GetShaderData(Sprite sprite)
@@ -28,9 +28,9 @@ namespace ReGizmo.Drawing
             return ref data;
         }
 
-        (ReGizmoSpriteDrawer, UniqueDrawData) AddSubDrawer(Sprite sprite)
+        (SpriteDrawer, UniqueDrawData) AddSubDrawer(Sprite sprite)
         {
-            var drawer = new ReGizmoSpriteDrawer(sprite);
+            var drawer = new SpriteDrawer(sprite);
             var uniqueDrawData = new UniqueDrawData();
 
             drawers.Add(sprite, (drawer, uniqueDrawData));

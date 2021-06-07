@@ -83,7 +83,7 @@ namespace ReGizmo.Drawing
         /// <param name="sorting">No functionality atm</param>
         public static void Sprite(Sprite sprite, Vector3 pos, float scale, float sorting = 0f)
         {
-            if (ReGizmoResolver<ReGizmoSpritesDrawer>.TryGet(out var drawers))
+            if (ReGizmoResolver<SpritesDrawer>.TryGet(out var drawers))
             {
                 ref var data = ref drawers.GetShaderData(sprite);
 

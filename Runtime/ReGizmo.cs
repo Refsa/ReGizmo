@@ -114,7 +114,7 @@ namespace ReGizmo.Core
 
                 // Textures
                 ReGizmoResolver<IconsDrawer>.Init(new IconsDrawer()),
-                ReGizmoResolver<ReGizmoSpritesDrawer>.Init(new ReGizmoSpritesDrawer()),
+                ReGizmoResolver<SpritesDrawer>.Init(new SpritesDrawer()),
 
                 // Fonts
                 ReGizmoResolver<TextDrawer>.Init(new TextDrawer(ReGizmoSettings.Font)),
