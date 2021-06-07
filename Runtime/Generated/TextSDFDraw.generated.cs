@@ -9,7 +9,7 @@ namespace ReGizmo.Drawing
 
         public static void TextSDF(string text, UnityEngine.Vector3 position, System.Single scale, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoSDFFontDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<SDFTextDrawer>.TryGet(out var drawer))
             {
                 ref var textData = ref drawer.GetTextShaderData(out uint id);
                 textData.Position = currentPosition + position;
@@ -35,7 +35,7 @@ namespace ReGizmo.Drawing
         }
         public static void TextSDF(string text, UnityEngine.Vector3 position, System.Single scale)
         {
-            if (ReGizmoResolver<ReGizmoSDFFontDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<SDFTextDrawer>.TryGet(out var drawer))
             {
                 ref var textData = ref drawer.GetTextShaderData(out uint id);
                 textData.Position = currentPosition + position;
@@ -61,7 +61,7 @@ namespace ReGizmo.Drawing
         }
         public static void TextSDF(string text, UnityEngine.Vector3 position, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoSDFFontDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<SDFTextDrawer>.TryGet(out var drawer))
             {
                 ref var textData = ref drawer.GetTextShaderData(out uint id);
                 textData.Position = currentPosition + position;
@@ -87,7 +87,7 @@ namespace ReGizmo.Drawing
         }
         public static void TextSDF(string text, System.Single scale, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoSDFFontDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<SDFTextDrawer>.TryGet(out var drawer))
             {
                 ref var textData = ref drawer.GetTextShaderData(out uint id);
                 textData.Position = currentPosition;
@@ -113,7 +113,7 @@ namespace ReGizmo.Drawing
         }
         public static void TextSDF(string text, UnityEngine.Vector3 position)
         {
-            if (ReGizmoResolver<ReGizmoSDFFontDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<SDFTextDrawer>.TryGet(out var drawer))
             {
                 ref var textData = ref drawer.GetTextShaderData(out uint id);
                 textData.Position = currentPosition + position;
@@ -139,7 +139,7 @@ namespace ReGizmo.Drawing
         }
         public static void TextSDF(string text, System.Single scale)
         {
-            if (ReGizmoResolver<ReGizmoSDFFontDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<SDFTextDrawer>.TryGet(out var drawer))
             {
                 ref var textData = ref drawer.GetTextShaderData(out uint id);
                 textData.Position = currentPosition;
@@ -165,7 +165,7 @@ namespace ReGizmo.Drawing
         }
         public static void TextSDF(string text, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoSDFFontDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<SDFTextDrawer>.TryGet(out var drawer))
             {
                 ref var textData = ref drawer.GetTextShaderData(out uint id);
                 textData.Position = currentPosition;
@@ -191,7 +191,7 @@ namespace ReGizmo.Drawing
         }
         public static void TextSDF(string text)
         {
-            if (ReGizmoResolver<ReGizmoSDFFontDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<SDFTextDrawer>.TryGet(out var drawer))
             {
                 ref var textData = ref drawer.GetTextShaderData(out uint id);
                 textData.Position = currentPosition;

@@ -15,7 +15,7 @@ namespace ReGizmo.Generator
 @"
         public static void Icon($PARAMS)
         {
-            if (ReGizmoResolver<ReGizmoIconsDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<IconsDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData(texture);
 

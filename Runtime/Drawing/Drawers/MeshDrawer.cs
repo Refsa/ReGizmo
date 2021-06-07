@@ -12,18 +12,18 @@ namespace ReGizmo.Drawing
         public Vector4 Color;
     }
 
-    internal class ReGizmoMeshDrawer : ReGizmoDrawer<MeshDrawerShaderData>
+    internal class MeshDrawer : ReGizmoDrawer<MeshDrawerShaderData>
     {
         protected Mesh mesh;
         uint indexCount;
 
-        public ReGizmoMeshDrawer() : base()
+        public MeshDrawer() : base()
         {
             cullingHandler = new MeshCullingHandler();
             argsBufferCountOffset = 1;
         }
 
-        public ReGizmoMeshDrawer(Mesh mesh) : this()
+        public MeshDrawer(Mesh mesh) : this()
         {
             this.mesh = mesh;
             indexCount = mesh.GetIndexCount(0);

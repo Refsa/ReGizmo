@@ -4,25 +4,26 @@ using UnityEngine.Rendering;
 
 namespace ReGizmo.Drawing
 {
-    internal struct LineData
+    internal struct TriangleDrawData
     {
-        public Vector3 Position1;
-        public Vector3 Position2;
-        public Vector3 Color;
+        public Vector3 Position;
+        public Vector3 Normal;
         public float Width;
+        public Vector4 Color;
+        public int Flags;
     }
 
-    internal class ReGizmoLineDrawer : ReGizmoDrawer<LineData>
+    internal class TriangleDrawer : ReGizmoDrawer<TriangleDrawData>
     {
-        public ReGizmoLineDrawer() : base()
+        public TriangleDrawer() : base()
         {
-            material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Line_Screen");
-            cullingHandler = new LineCullingHandler();
-        } 
+            material = new Material(ReGizmoHelpers.LoadShader("Hidden/ReGizmo/TriangleShader"));
+        }
 
         protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData)
         {
             uniqueDrawData.SetInstanceCount(1);
+            uniqueDrawData.SetVertexCount(uniqueDrawData.DrawCount);
 
             cmd.DrawProceduralIndirect(
                 Matrix4x4.identity,

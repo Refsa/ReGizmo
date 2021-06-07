@@ -4,18 +4,18 @@ using UnityEngine.Rendering;
 
 namespace ReGizmo.Drawing
 {
-    internal class ReGizmoMeshWireframeDrawer : ReGizmoDrawer<MeshDrawerShaderData>
+    internal class MeshWireframeDrawer : ReGizmoDrawer<MeshDrawerShaderData>
     {
         protected Mesh mesh;
         uint indexCount;
 
-        public ReGizmoMeshWireframeDrawer() : base()
+        public MeshWireframeDrawer() : base()
         {
             cullingHandler = new MeshCullingHandler();
             argsBufferCountOffset = 1;
         }
 
-        public ReGizmoMeshWireframeDrawer(Mesh mesh) : this()
+        public MeshWireframeDrawer(Mesh mesh) : this()
         {
             this.mesh = mesh;
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh_Wireframe");
@@ -43,15 +43,15 @@ namespace ReGizmo.Drawing
         }
     }
 
-    internal class ReGizmoCustomMeshWireframeDrawer : ReGizmoContentDrawer<ReGizmoMeshWireframeDrawer>
+    internal class CustomMeshWireframeDrawer : ReGizmoContentDrawer<MeshWireframeDrawer>
     {
-        protected override IEnumerable<(ReGizmoMeshWireframeDrawer, UniqueDrawData)> _drawers => drawers.Values;
+        protected override IEnumerable<(MeshWireframeDrawer, UniqueDrawData)> _drawers => drawers.Values;
 
-        Dictionary<Mesh, (ReGizmoMeshWireframeDrawer drawer, UniqueDrawData uniqueDrawData)> drawers;
+        Dictionary<Mesh, (MeshWireframeDrawer drawer, UniqueDrawData uniqueDrawData)> drawers;
 
-        public ReGizmoCustomMeshWireframeDrawer() : base()
+        public CustomMeshWireframeDrawer() : base()
         {
-            drawers = new Dictionary<Mesh, (ReGizmoMeshWireframeDrawer, UniqueDrawData)>();
+            drawers = new Dictionary<Mesh, (MeshWireframeDrawer, UniqueDrawData)>();
         }
 
         public ref MeshDrawerShaderData GetShaderData(Mesh mesh)
@@ -64,9 +64,9 @@ namespace ReGizmo.Drawing
             return ref drawer.drawer.GetShaderData();
         }
 
-        (ReGizmoMeshWireframeDrawer, UniqueDrawData) AddSubDrawer(Mesh mesh)
+        (MeshWireframeDrawer, UniqueDrawData) AddSubDrawer(Mesh mesh)
         {
-            var drawer = new ReGizmoMeshWireframeDrawer(mesh);
+            var drawer = new MeshWireframeDrawer(mesh);
             var uniqueDrawData = new UniqueDrawData();
 
             drawers.Add(mesh, (drawer, uniqueDrawData));

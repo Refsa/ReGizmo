@@ -8,7 +8,7 @@ namespace ReGizmo.Drawing
         public static void Line(Vector3 p1, Vector3 p2, Color color, float width)
         {
             Vector3 vecColor = color.ToVector3();
-            if (ReGizmoResolver<ReGizmoLineDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
                 shaderData.Position1 = currentPosition + p1;
@@ -21,7 +21,7 @@ namespace ReGizmo.Drawing
         public static void Line(Vector3 p1, Vector3 p2, Color color)
         {
             Vector3 vecColor = color.ToVector3();
-            if (ReGizmoResolver<ReGizmoLineDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
                 shaderData.Position1 = currentPosition + p1;
@@ -34,7 +34,7 @@ namespace ReGizmo.Drawing
         public static void Line(Vector3 p1, Vector3 p2, float width)
         {
             Vector3 vecColor = currentColor.ToVector3();
-            if (ReGizmoResolver<ReGizmoLineDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
                 shaderData.Position1 = currentPosition + p1;
@@ -47,7 +47,7 @@ namespace ReGizmo.Drawing
         public static void Line(Vector3 p1, Vector3 p2)
         {
             Vector3 vecColor = currentColor.ToVector3();
-            if (ReGizmoResolver<ReGizmoLineDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
                 shaderData.Position1 = currentPosition + p1;
@@ -61,7 +61,7 @@ namespace ReGizmo.Drawing
         {
             polyLine.Build();
 
-            if (ReGizmoResolver<ReGizmoPolyLineDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<PolyLineDrawer>.TryGet(out var drawer))
             {
                 drawer.GetShaderDataBuffer().Copy(polyLine.Points);
             }
@@ -83,7 +83,7 @@ namespace ReGizmo.Drawing
         /// <param name="sorting">No functionality atm</param>
         public static void Sprite(Sprite sprite, Vector3 pos, float scale, float sorting = 0f)
         {
-            if (ReGizmoResolver<ReGizmoSpritesDrawer>.TryGet(out var drawers))
+            if (ReGizmoResolver<SpritesDrawer>.TryGet(out var drawers))
             {
                 ref var data = ref drawers.GetShaderData(sprite);
 
@@ -101,7 +101,7 @@ namespace ReGizmo.Drawing
 
             Vector3 vecColor = color.ToVector3();
 
-            if (ReGizmoResolver<ReGizmoLineDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
                 shaderData.Position1 = p1;
@@ -131,7 +131,7 @@ namespace ReGizmo.Drawing
 
         public static void Grid(Vector3 origin, Color lineColor, int distance = 1000, bool inPlace = true, GridPlane plane = GridPlane.XZ)
         {
-            if (ReGizmoResolver<ReGizmoGridDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<GridDrawer>.TryGet(out var drawer))
             {
                 var color = lineColor.ToVector3();
 

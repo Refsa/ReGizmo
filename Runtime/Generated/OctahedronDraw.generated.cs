@@ -9,7 +9,7 @@ namespace ReGizmo.Drawing
 
         public static void Octahedron(UnityEngine.Vector3 position, UnityEngine.Quaternion rotation, UnityEngine.Vector3 scale, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoOctahedronDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<OctahedronDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
 
@@ -21,7 +21,7 @@ namespace ReGizmo.Drawing
         }
         public static void Octahedron(UnityEngine.Vector3 position, UnityEngine.Quaternion rotation, UnityEngine.Vector3 scale)
         {
-            if (ReGizmoResolver<ReGizmoOctahedronDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<OctahedronDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
 
@@ -33,7 +33,7 @@ namespace ReGizmo.Drawing
         }
         public static void Octahedron(UnityEngine.Vector3 position, UnityEngine.Quaternion rotation, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoOctahedronDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<OctahedronDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
 
@@ -45,7 +45,7 @@ namespace ReGizmo.Drawing
         }
         public static void Octahedron(UnityEngine.Vector3 position, UnityEngine.Vector3 scale, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoOctahedronDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<OctahedronDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
 
@@ -57,7 +57,7 @@ namespace ReGizmo.Drawing
         }
         public static void Octahedron(UnityEngine.Vector3 position, UnityEngine.Quaternion rotation)
         {
-            if (ReGizmoResolver<ReGizmoOctahedronDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<OctahedronDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
 
@@ -69,7 +69,7 @@ namespace ReGizmo.Drawing
         }
         public static void Octahedron(UnityEngine.Vector3 position, UnityEngine.Vector3 scale)
         {
-            if (ReGizmoResolver<ReGizmoOctahedronDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<OctahedronDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
 
@@ -81,7 +81,7 @@ namespace ReGizmo.Drawing
         }
         public static void Octahedron(UnityEngine.Vector3 position, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoOctahedronDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<OctahedronDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
 
@@ -93,7 +93,7 @@ namespace ReGizmo.Drawing
         }
         public static void Octahedron(UnityEngine.Quaternion rotation, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoOctahedronDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<OctahedronDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
 
@@ -105,7 +105,7 @@ namespace ReGizmo.Drawing
         }
         public static void Octahedron(UnityEngine.Vector3 position)
         {
-            if (ReGizmoResolver<ReGizmoOctahedronDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<OctahedronDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
 
@@ -117,7 +117,7 @@ namespace ReGizmo.Drawing
         }
         public static void Octahedron(UnityEngine.Quaternion rotation)
         {
-            if (ReGizmoResolver<ReGizmoOctahedronDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<OctahedronDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
 
@@ -129,7 +129,7 @@ namespace ReGizmo.Drawing
         }
         public static void Octahedron(UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoOctahedronDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<OctahedronDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
 
@@ -141,7 +141,7 @@ namespace ReGizmo.Drawing
         }
         public static void Octahedron()
         {
-            if (ReGizmoResolver<ReGizmoOctahedronDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<OctahedronDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
 

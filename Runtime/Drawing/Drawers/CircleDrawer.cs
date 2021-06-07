@@ -1,15 +1,22 @@
-
 using UnityEngine;
 using UnityEngine.Rendering;
 
 namespace ReGizmo.Drawing
 {
-    internal class ReGizmoPolyLineDrawer : ReGizmoDrawer<PolyLineData>
+    internal struct CircleDrawData
     {
-        public ReGizmoPolyLineDrawer() : base()
+        public Vector3 Position;
+        public Vector3 Normal;
+        public float Radius;
+        public Vector4 Color;
+        public int Flags;
+    }
+
+    internal class CircleDrawer : ReGizmoDrawer<CircleDrawData>
+    {
+        public CircleDrawer() : base()
         {
-            material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/PolyLine_Screen");
-            // cullingHandler = new PolyLineCullingHandler();
+            material = new Material(ReGizmoHelpers.LoadShader("Hidden/ReGizmo/CircleShader"));
         }
 
         protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData)

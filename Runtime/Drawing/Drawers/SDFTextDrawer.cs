@@ -1,59 +1,69 @@
+﻿using System.Runtime.InteropServices;
 using ReGizmo.Core;
+using ReGizmo.Core.Fonts;
 using ReGizmo.Utils;
-using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.Rendering;
 
 namespace ReGizmo.Drawing
 {
-    internal class ReGizmoFontDrawer : ReGizmoDrawer<CharData>
+    internal class SDFTextDrawer : ReGizmoDrawer<CharData>
     {
-        Font font;
+        protected override string PropertiesName { get; } = "_CharData";
+
+        ReSDFData font;
 
         ComputeBuffer characterInfoBuffer;
         CharacterInfoShader[] characterInfos;
 
         ShaderDataBuffer<TextData> textDataBuffers;
 
-        protected override string PropertiesName { get; } = "_CharData";
-
-        public ReGizmoFontDrawer(Font font) : base()
+        public SDFTextDrawer(ReSDFData font) : base()
         {
             textDataBuffers = new ShaderDataBuffer<TextData>();
 
-            material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Font");
+            material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Font_SDF");
             this.font = font;
-
+            
             SetupCharacterData();
 
             cullingHandler = new FontCullingHandler();
-            argsBufferCountOffset = 0;
         }
 
         void SetupCharacterData()
         {
+            Vector2 atlasTextureSize = new Vector2(font.Font.atlas.width, font.Font.atlas.height);
+
             characterInfos = new CharacterInfoShader[200];
             for (int i = 0; i < 200; i++)
             {
-                if (!font.GetCharacterInfo((char)i, out var characterInfo)) continue;
+                if (!font.TryGetGlyph((char)i, out var glyph)) continue;
 
                 Vector4 size = new Vector4(
-                    characterInfo.minX, characterInfo.maxX,
-                    characterInfo.minY, characterInfo.maxY);
+                    glyph.planeBounds.left, glyph.planeBounds.right,
+                    glyph.planeBounds.bottom, glyph.planeBounds.top
+                );
 
                 /* Vector4 size = new Vector4(
-                    (characterInfo.minX + characterInfo.maxX) * 0.5f,
-                    (characterInfo.minY + characterInfo.maxY) * 0.5f,
+                    (glyph.planeBounds.left + glyph.planeBounds.right) * 0.5f,
+                    (glyph.planeBounds.top + glyph.planeBounds.bottom) * 0.5f,
                     0f, 0f); */
+
+                Vector2 bottomLeftUV = new Vector2(glyph.atlasBounds.left, glyph.atlasBounds.bottom) /
+                                       atlasTextureSize;
+                Vector2 bottomRightUV =
+                    new Vector2(glyph.atlasBounds.right, glyph.atlasBounds.bottom) / atlasTextureSize;
+                Vector2 topLeftUV = new Vector2(glyph.atlasBounds.left, glyph.atlasBounds.top) / atlasTextureSize;
+                Vector2 topRightUV = new Vector2(glyph.atlasBounds.right, glyph.atlasBounds.top) / atlasTextureSize;
 
                 var ci = new CharacterInfoShader
                 {
-                    BottomLeft = characterInfo.uvBottomLeft,
-                    BottomRight = characterInfo.uvBottomRight,
-                    TopLeft = characterInfo.uvTopLeft,
-                    TopRight = characterInfo.uvTopRight,
-                    Size = size / font.fontSize,
-                    Advance = (float)characterInfo.advance / font.fontSize
+                    BottomLeft = bottomLeftUV,
+                    BottomRight = bottomRightUV,
+                    TopLeft = topLeftUV,
+                    TopRight = topRightUV,
+                    Size = size,
+                    Advance = glyph.advance
                 };
 
                 characterInfos[i] = ci;
@@ -84,6 +94,7 @@ namespace ReGizmo.Drawing
         protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData)
         {
             uniqueDrawData.SetInstanceCount(1);
+            uniqueDrawData.SetVertexCount(uniqueDrawData.DrawCount);
 
             cmd.DrawProceduralIndirect(
                 Matrix4x4.identity,
@@ -98,11 +109,15 @@ namespace ReGizmo.Drawing
         {
             base.SetMaterialPropertyBlockData(materialPropertyBlock);
 
-            materialPropertyBlock.SetTexture("_MainTex", font.material.mainTexture);
             materialPropertyBlock.SetBuffer("_CharacterInfos", characterInfoBuffer);
-
             textDataBuffers.PushData();
             materialPropertyBlock.SetBuffer("_TextData", textDataBuffers.ComputeBuffer);
+
+            materialPropertyBlock.SetFloat("_DistanceRange", font.Font.atlas.distanceRange);
+            materialPropertyBlock.SetVector("_AtlasDimensions", new Vector2(font.Font.atlas.width, font.Font.atlas.height));
+            materialPropertyBlock.SetFloat("_AtlasSize", font.Font.atlas.size);
+
+            materialPropertyBlock.SetTexture("_MainTex", font.GetTexture());
         }
 
         protected override void SetCullingData(CommandBuffer commandBuffer)

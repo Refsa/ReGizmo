@@ -4,15 +4,15 @@ using UnityEngine.Rendering;
 
 namespace ReGizmo.Drawing
 {
-    internal class ReGizmoCustomMeshDrawer : ReGizmoContentDrawer<ReGizmoMeshDrawer>
+    internal class CustomMeshDrawer : ReGizmoContentDrawer<MeshDrawer>
     {
-        protected override IEnumerable<(ReGizmoMeshDrawer, UniqueDrawData)> _drawers => drawers.Values;
+        protected override IEnumerable<(MeshDrawer, UniqueDrawData)> _drawers => drawers.Values;
 
-        Dictionary<Mesh, (ReGizmoMeshDrawer drawer, UniqueDrawData uniqueDrawData)> drawers;
+        Dictionary<Mesh, (MeshDrawer drawer, UniqueDrawData uniqueDrawData)> drawers;
 
-        public ReGizmoCustomMeshDrawer() : base()
+        public CustomMeshDrawer() : base()
         {
-            drawers = new Dictionary<Mesh, (ReGizmoMeshDrawer, UniqueDrawData)>();
+            drawers = new Dictionary<Mesh, (MeshDrawer, UniqueDrawData)>();
         }
 
         public ref MeshDrawerShaderData GetShaderData(Mesh mesh)
@@ -25,9 +25,9 @@ namespace ReGizmo.Drawing
             return ref drawer.drawer.GetShaderData();
         }
 
-        (ReGizmoMeshDrawer, UniqueDrawData) AddSubDrawer(Mesh mesh)
+        (MeshDrawer, UniqueDrawData) AddSubDrawer(Mesh mesh)
         {
-            var drawer = new ReGizmoMeshDrawer(mesh);
+            var drawer = new MeshDrawer(mesh);
             var uniqueDrawData = new UniqueDrawData();
 
             drawers.Add(mesh, (drawer, uniqueDrawData));

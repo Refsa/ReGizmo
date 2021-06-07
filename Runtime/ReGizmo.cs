@@ -108,39 +108,39 @@ namespace ReGizmo.Core
             drawers = new List<IReGizmoDrawer>()
             {
                 // Lines
-                ReGizmoResolver<ReGizmoLineDrawer>.Init(new ReGizmoLineDrawer()),
-                ReGizmoResolver<ReGizmoPolyLineDrawer>.Init(new ReGizmoPolyLineDrawer()),
-                ReGizmoResolver<ReGizmoGridDrawer>.Init(new ReGizmoGridDrawer()),
+                ReGizmoResolver<LineDrawer>.Init(new LineDrawer()),
+                ReGizmoResolver<PolyLineDrawer>.Init(new PolyLineDrawer()),
+                ReGizmoResolver<GridDrawer>.Init(new GridDrawer()),
 
                 // Textures
-                ReGizmoResolver<ReGizmoIconsDrawer>.Init(new ReGizmoIconsDrawer()),
-                ReGizmoResolver<ReGizmoSpritesDrawer>.Init(new ReGizmoSpritesDrawer()),
+                ReGizmoResolver<IconsDrawer>.Init(new IconsDrawer()),
+                ReGizmoResolver<SpritesDrawer>.Init(new SpritesDrawer()),
 
                 // Fonts
-                ReGizmoResolver<ReGizmoFontDrawer>.Init(new ReGizmoFontDrawer(ReGizmoSettings.Font)),
-                ReGizmoResolver<ReGizmoSDFFontDrawer>.Init(new ReGizmoSDFFontDrawer(ReGizmoSettings.SDFFont)),
+                ReGizmoResolver<TextDrawer>.Init(new TextDrawer(ReGizmoSettings.Font)),
+                ReGizmoResolver<SDFTextDrawer>.Init(new SDFTextDrawer(ReGizmoSettings.SDFFont)),
 
                 // 3D
-                ReGizmoResolver<ReGizmoCubeDrawer>.Init(new ReGizmoCubeDrawer()),
-                ReGizmoResolver<ReGizmoSphereDrawer>.Init(new ReGizmoSphereDrawer()),
-                ReGizmoResolver<ReGizmoConeDrawer>.Init(new ReGizmoConeDrawer()),
-                ReGizmoResolver<ReGizmoCylinderDrawer>.Init(new ReGizmoCylinderDrawer()),
-                ReGizmoResolver<ReGizmoIcosahedronDrawer>.Init(new ReGizmoIcosahedronDrawer()),
-                ReGizmoResolver<ReGizmoOctahedronDrawer>.Init(new ReGizmoOctahedronDrawer()),
-                ReGizmoResolver<ReGizmoQuadDrawer>.Init(new ReGizmoQuadDrawer()),
-                ReGizmoResolver<ReGizmoPyramidDrawer>.Init(new ReGizmoPyramidDrawer()),
-                ReGizmoResolver<ReGizmoCapsuleDrawer>.Init(new ReGizmoCapsuleDrawer()),
+                ReGizmoResolver<CubeDrawer>.Init(new CubeDrawer()),
+                ReGizmoResolver<SphereDrawer>.Init(new SphereDrawer()),
+                ReGizmoResolver<ConeDrawer>.Init(new ConeDrawer()),
+                ReGizmoResolver<CylinderDrawer>.Init(new CylinderDrawer()),
+                ReGizmoResolver<IcosahedronDrawer>.Init(new IcosahedronDrawer()),
+                ReGizmoResolver<OctahedronDrawer>.Init(new OctahedronDrawer()),
+                ReGizmoResolver<QuadDrawer>.Init(new QuadDrawer()),
+                ReGizmoResolver<PyramidDrawer>.Init(new PyramidDrawer()),
+                ReGizmoResolver<CapsuleDrawer>.Init(new CapsuleDrawer()),
 
-                ReGizmoResolver<ReGizmoCustomMeshDrawer>.Init(new ReGizmoCustomMeshDrawer()),
-                ReGizmoResolver<ReGizmoCustomMeshWireframeDrawer>.Init(new ReGizmoCustomMeshWireframeDrawer()),
+                ReGizmoResolver<CustomMeshDrawer>.Init(new CustomMeshDrawer()),
+                ReGizmoResolver<CustomMeshWireframeDrawer>.Init(new CustomMeshWireframeDrawer()),
 
 #if REGIZMO_DEV
                 ReGizmoResolver<AABBDebugDrawer>.Init(new AABBDebugDrawer()),
 #endif
 
                 // 2D
-                ReGizmoResolver<ReGizmoCircleDrawer>.Init(new ReGizmoCircleDrawer()),
-                ReGizmoResolver<ReGizmoTriangleDrawer>.Init(new ReGizmoTriangleDrawer()),
+                ReGizmoResolver<CircleDrawer>.Init(new CircleDrawer()),
+                ReGizmoResolver<TriangleDrawer>.Init(new TriangleDrawer()),
             };
 
             if (Application.isPlaying)
