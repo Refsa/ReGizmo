@@ -7,7 +7,7 @@ using UnityEngine.Rendering;
 
 namespace ReGizmo.Drawing
 {
-    internal class ReGizmoSDFFontDrawer : ReGizmoDrawer<CharData>
+    internal class SDFTextDrawer : ReGizmoDrawer<CharData>
     {
         protected override string PropertiesName { get; } = "_CharData";
 
@@ -18,7 +18,7 @@ namespace ReGizmo.Drawing
 
         ShaderDataBuffer<TextData> textDataBuffers;
 
-        public ReGizmoSDFFontDrawer(ReSDFData font) : base()
+        public SDFTextDrawer(ReSDFData font) : base()
         {
             textDataBuffers = new ShaderDataBuffer<TextData>();
 

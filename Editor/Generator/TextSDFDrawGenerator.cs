@@ -13,7 +13,7 @@ namespace ReGizmo.Generator
                 @"
         public static void TextSDF($PARAMS)
         {
-            if (ReGizmoResolver<ReGizmoSDFFontDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<SDFTextDrawer>.TryGet(out var drawer))
             {
                 ref var textData = ref drawer.GetTextShaderData(out uint id);
                 textData.Position = $PARAM_1;
