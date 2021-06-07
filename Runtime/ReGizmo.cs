@@ -139,7 +139,7 @@ namespace ReGizmo.Core
 #endif
 
                 // 2D
-                ReGizmoResolver<ReGizmoCircleDrawer>.Init(new ReGizmoCircleDrawer()),
+                ReGizmoResolver<CircleDrawer>.Init(new CircleDrawer()),
                 ReGizmoResolver<ReGizmoTriangleDrawer>.Init(new ReGizmoTriangleDrawer()),
             };
 

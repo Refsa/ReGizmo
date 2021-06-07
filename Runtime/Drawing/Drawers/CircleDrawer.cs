@@ -12,9 +12,9 @@ namespace ReGizmo.Drawing
         public int Flags;
     }
 
-    internal class ReGizmoCircleDrawer : ReGizmoDrawer<CircleDrawData>
+    internal class CircleDrawer : ReGizmoDrawer<CircleDrawData>
     {
-        public ReGizmoCircleDrawer() : base()
+        public CircleDrawer() : base()
         {
             material = new Material(ReGizmoHelpers.LoadShader("Hidden/ReGizmo/CircleShader"));
         }

@@ -15,7 +15,7 @@ namespace ReGizmo.Generator
 @"
         public static void Circle($PARAMS)
         {
-            if (ReGizmoResolver<ReGizmoCircleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 

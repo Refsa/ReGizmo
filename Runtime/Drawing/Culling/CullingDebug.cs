@@ -19,7 +19,7 @@ namespace ReGizmo.Drawing
 
         ComputeBuffer buffer;
 
-        public void Hook(CommandBuffer commandBuffer, ComputeShader compute, int kernelID, int len)
+        public void Hook(CommandBuffer commandBuffer, ComputeShader compute, int kernelID, int len) 
         {
             if (buffer == null || buffer.Equals(null))
             {
