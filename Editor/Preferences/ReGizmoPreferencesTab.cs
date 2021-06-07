@@ -132,11 +132,25 @@ namespace ReGizmo.Editor.Preferences
             var openSDFFontWindow = new Button(() => ReFontSetup.Open());
             openSDFFontWindow.text = "SDF Font Creator";
 
+#if REGIZMO_DEV
+            var devSettingsLabel = new Label("Dev Settings");
+            var showDebugGizmosButton = new Toggle("Show Debug Gizmos");
+            {
+                showDebugGizmosButton.value = ReGizmoSettings.ShowDebugGizmos;
+                showDebugGizmosButton.RegisterValueChangedCallback(ce => ReGizmoSettings.ToggleShowDebugGizmos());
+            }
+#endif
+
             contentContainer.Add(enableRuntimeToggle);
             contentContainer.Add(defaultFontSelection);
             contentContainer.Add(defaultSDFFontSelection);
             contentContainer.Add(fontSuperSampleToggle);
             contentContainer.Add(openSDFFontWindow);
+
+#if REGIZMO_DEV
+            contentContainer.Add(devSettingsLabel);
+            contentContainer.Add(showDebugGizmosButton);
+#endif
         }
 
         static void Repaint()

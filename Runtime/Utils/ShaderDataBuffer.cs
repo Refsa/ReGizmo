@@ -13,6 +13,7 @@ namespace ReGizmo.Utils
         int writeCursor;
 
         public T[] ShaderDataPool => shaderDataPool;
+        public ComputeBuffer ComputeBuffer => shaderDataBuffer;
 
         public ShaderDataBuffer(int capacity = 1024)
         {
@@ -26,7 +27,7 @@ namespace ReGizmo.Utils
         {
             if (writeCursor >= shaderDataPool.Length)
             {
-                Expand(128);
+                Expand((int)(shaderDataPool.Length * 1.5f));
             }
 
             return ref shaderDataPool[writeCursor++];
@@ -53,10 +54,9 @@ namespace ReGizmo.Utils
             writeCursor += count;
         }
 
-        public void PushData(MaterialPropertyBlock mpb, string name)
+        public void PushData()
         {
             shaderDataBuffer.SetData(shaderDataPool, 0, 0, writeCursor);
-            mpb.SetBuffer(name, shaderDataBuffer);
         }
 
         void Expand(int amount)

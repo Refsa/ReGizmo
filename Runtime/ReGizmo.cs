@@ -21,13 +21,13 @@ namespace ReGizmo.Core
         const CameraEvent CAMERA_EVENT = CameraEvent.AfterForwardAlpha;
 #endif
 
+        internal static event System.Action OnRender;
+
         static bool isSetup = false;
         static GameObject proxyObject;
 
         static List<IReGizmoDrawer> drawers;
-        static HashSet<Camera> activeCameras;
-
-        static CommandBufferStack drawBuffers;
+        static Dictionary<Camera, CameraData> activeCameras;
 
         static bool interrupted;
         static bool isActive;
@@ -48,7 +48,7 @@ namespace ReGizmo.Core
             ReGizmoSettings.Load();
 
             Setup();
-            activeCameras = new HashSet<Camera>();
+            activeCameras = new Dictionary<Camera, CameraData>();
             isActive = true;
 #endif
         }
@@ -81,18 +81,15 @@ namespace ReGizmo.Core
             {
 #if RG_URP
                 Core.URP.ReGizmoRenderFeature.OnPassExecute -= OnPassExecute;
-#else
+#elif RG_HDRP
+                RenderPipelineManager.endCameraRendering -= OnEndCameraRendering;
+#endif
                 foreach (var camera in activeCameras)
                 {
-#if RG_HDRP
-                    RenderPipelineManager.endCameraRendering -= OnEndCameraRendering;
-#else
-                    drawBuffers.DeAttach(camera);
-#endif
+                    camera.Value.SetActive(state);
                 }
 
                 activeCameras.Clear();
-#endif
             }
         }
 
@@ -107,7 +104,6 @@ namespace ReGizmo.Core
 #endif
 
             ComputeBufferPool.Init();
-            drawBuffers = new CommandBufferStack("ReGizmo");
 
             drawers = new List<IReGizmoDrawer>()
             {
@@ -137,6 +133,10 @@ namespace ReGizmo.Core
 
                 ReGizmoResolver<ReGizmoCustomMeshDrawer>.Init(new ReGizmoCustomMeshDrawer()),
                 ReGizmoResolver<ReGizmoCustomMeshWireframeDrawer>.Init(new ReGizmoCustomMeshWireframeDrawer()),
+
+#if REGIZMO_DEV
+                ReGizmoResolver<AABBDebugDrawer>.Init(new AABBDebugDrawer()),
+#endif
 
                 // 2D
                 ReGizmoResolver<ReGizmoCircleDrawer>.Init(new ReGizmoCircleDrawer()),
@@ -198,6 +198,8 @@ namespace ReGizmo.Core
                 return;
             }
 
+            OnRender?.Invoke();
+
 #if UNITY_EDITOR
             Profiler.BeginSample("ReGizmo::OnUpdate");
 #endif
@@ -205,9 +207,9 @@ namespace ReGizmo.Core
 #if RG_LEGACY
             {
                 var camera = Camera.main;
-                if (activeCameras.Add(camera))
+                if (!activeCameras.ContainsKey(camera))
                 {
-                    drawBuffers.Attach(camera, CAMERA_EVENT);
+                    activeCameras.Add(camera, new CameraData(camera, CAMERA_EVENT));
                 }
             }
 #endif
@@ -216,46 +218,41 @@ namespace ReGizmo.Core
             if (UnityEditor.SceneView.lastActiveSceneView != null)
             {
                 var camera = UnityEditor.SceneView.lastActiveSceneView.camera;
-                if (activeCameras.Add(camera))
+                if (!activeCameras.ContainsKey(camera))
                 {
-                    drawBuffers.Attach(camera, CAMERA_EVENT);
+                    activeCameras.Add(camera, new CameraData(camera, CAMERA_EVENT));
                 }
             }
-#endif
+#endif 
 
-            var cmd = drawBuffers.Current();
-            cmd.Clear();
-
-            if (ReGizmoSettings.FontSuperSample)
+            Profiler.BeginSample("ReGizmo::OnUpdate::PreRender");
+            foreach (var cameraData in activeCameras.Values)
             {
-                cmd.EnableShaderKeyword("SDF_SS");
+                cameraData.PreRender();
             }
-            else
-            {
-                cmd.DisableShaderKeyword("SDF_SS");
-            }
+            Profiler.EndSample();
 
-#if REGIZMO_DEV
-            cmd.BeginSample("ReGizmo Draw Buffer");
-#endif
-
+            Profiler.BeginSample("ReGizmo::OnUpdate::Render");
             foreach (var drawer in drawers)
             {
-                if (drawer.CurrentDrawCount() == 0) continue;
+                Profiler.BeginSample("ReGizmo::OnUpdate::PushSharedData");
+                drawer.PushSharedData();
+                Profiler.EndSample();
 
-                if (interrupted)
+                foreach (var cameraData in activeCameras.Values)
                 {
-                    drawer.Clear();
-                    continue;
+                    cameraData.Render(drawer);
                 }
-
-                drawer.Render(cmd);
                 drawer.Clear();
             }
+            Profiler.EndSample();
 
-#if REGIZMO_DEV
-            cmd.EndSample("ReGizmo Draw Buffer");
-#endif
+            Profiler.BeginSample("ReGizmo::OnUpdate::PostRender");
+            foreach (var cameraData in activeCameras.Values)
+            {
+                cameraData.PostRender();
+            }
+            Profiler.EndSample();
 
             if (shouldReset)
             {
@@ -282,17 +279,14 @@ namespace ReGizmo.Core
         {
             if (activeCameras != null)
             {
-                foreach (var camera in activeCameras)
+                foreach (var cameraData in activeCameras.Values)
                 {
-#if RG_LEGACY
-                    drawBuffers.DeAttach(camera);
-#endif
+                    cameraData.DeAttach();
+                    cameraData.Dispose();
                 }
 
                 activeCameras.Clear();
             }
-
-            drawBuffers?.Dispose();
 
             if (drawers != null)
             {

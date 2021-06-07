@@ -6,7 +6,8 @@ namespace ReGizmo.Drawing
 {
     internal struct LineData
     {
-        public Vector3 Position; 
+        public Vector3 Position1;
+        public Vector3 Position2;
         public Vector3 Color;
         public float Width;
     }
@@ -16,20 +17,19 @@ namespace ReGizmo.Drawing
         public ReGizmoLineDrawer() : base()
         {
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Line_Screen");
-            renderArguments[1] = 1;
+            cullingHandler = new LineCullingHandler();
         } 
 
-        protected override void RenderInternal(CommandBuffer cmd)
+        protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData)
         {
-            renderArguments[0] = CurrentDrawCount();
-            renderArgumentsBuffer.SetData(renderArguments);
+            uniqueDrawData.SetInstanceCount(1);
 
             cmd.DrawProceduralIndirect(
                 Matrix4x4.identity,
                 material, 0,
-                MeshTopology.Lines,
-                renderArgumentsBuffer, 0,
-                materialPropertyBlock
+                MeshTopology.Points,
+                uniqueDrawData.ArgsBuffer, 0,
+                uniqueDrawData.MaterialPropertyBlock
             );
         }
     }

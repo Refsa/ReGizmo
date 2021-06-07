@@ -17,20 +17,19 @@ namespace ReGizmo.Drawing
         public ReGizmoCircleDrawer() : base()
         {
             material = new Material(ReGizmoHelpers.LoadShader("Hidden/ReGizmo/CircleShader"));
-            renderArguments[1] = 1;
         }
 
-        protected override void RenderInternal(CommandBuffer cmd)
+        protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData)
         {
-            renderArguments[0] = CurrentDrawCount();
-            renderArgumentsBuffer.SetData(renderArguments);
+            uniqueDrawData.SetInstanceCount(1);
+            uniqueDrawData.SetVertexCount(uniqueDrawData.DrawCount);
 
             cmd.DrawProceduralIndirect(
                 Matrix4x4.identity,
                 material, 0,
                 MeshTopology.Points,
-                renderArgumentsBuffer, 0,
-                materialPropertyBlock
+                uniqueDrawData.ArgsBuffer, 0,
+                uniqueDrawData.MaterialPropertyBlock
             );
         }
     }

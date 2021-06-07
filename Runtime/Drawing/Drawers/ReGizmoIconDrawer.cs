@@ -24,26 +24,27 @@ namespace ReGizmo.Drawing
             this.aspect = (float)icon.width / (float)icon.height;
 
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Icon");
-            renderArguments[1] = 1;
+
+            cullingHandler = new IconCullingHandler();
+            argsBufferCountOffset = 0;
         }
 
-        protected override void RenderInternal(CommandBuffer cmd)
+        protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData)
         {
-            renderArguments[0] = CurrentDrawCount();
-            renderArgumentsBuffer.SetData(renderArguments);
+            uniqueDrawData.SetInstanceCount(1);
 
             cmd.DrawProceduralIndirect(
                 Matrix4x4.identity,
                 material, 0,
                 MeshTopology.Points,
-                renderArgumentsBuffer, 0,
-                materialPropertyBlock
+                uniqueDrawData.ArgsBuffer, 0,
+                uniqueDrawData.MaterialPropertyBlock
             );
         }
 
-        protected override void SetMaterialPropertyBlockData()
+        protected override void SetMaterialPropertyBlockData(MaterialPropertyBlock materialPropertyBlock)
         {
-            base.SetMaterialPropertyBlockData();
+            base.SetMaterialPropertyBlockData(materialPropertyBlock);
 
             materialPropertyBlock.SetTexture("_IconTexture", icon);
             materialPropertyBlock.SetFloat("_IconAspect", aspect);

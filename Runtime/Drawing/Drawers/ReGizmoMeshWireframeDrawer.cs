@@ -7,54 +7,51 @@ namespace ReGizmo.Drawing
     internal class ReGizmoMeshWireframeDrawer : ReGizmoDrawer<MeshDrawerShaderData>
     {
         protected Mesh mesh;
+        uint indexCount;
 
         public ReGizmoMeshWireframeDrawer() : base()
         {
+            cullingHandler = new MeshCullingHandler();
+            argsBufferCountOffset = 1;
         }
 
-        public ReGizmoMeshWireframeDrawer(Mesh mesh) : base()
+        public ReGizmoMeshWireframeDrawer(Mesh mesh) : this()
         {
             this.mesh = mesh;
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh_Wireframe");
-
-            renderArguments[0] = mesh.GetIndexCount(0);
         }
 
-        protected override void RenderInternal(CommandBuffer cmd)
+        protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData)
         {
-            renderArguments[1] = CurrentDrawCount();
-            renderArgumentsBuffer.SetData(renderArguments);
+            if (indexCount == 0)
+            {
+                indexCount = mesh.GetIndexCount(0);
+            }
+
+            uniqueDrawData.SetVertexCount(indexCount);
 
             cmd.DrawMeshInstancedIndirect(
                 mesh, 0, material, 0,
-                renderArgumentsBuffer, 0,
-                materialPropertyBlock
+                uniqueDrawData.ArgsBuffer, 0,
+                uniqueDrawData.MaterialPropertyBlock
             );
-
-            /* Graphics.DrawMeshInstancedIndirect(
-                mesh, 0, material,
-                currentBounds,
-                renderArgumentsBuffer, 0, materialPropertyBlock,
-                ShadowCastingMode.Off, false,
-                0, camera
-            ); */
         }
 
-        protected override void SetMaterialPropertyBlockData()
+        protected override void SetMaterialPropertyBlockData(MaterialPropertyBlock materialPropertyBlock)
         {
-            base.SetMaterialPropertyBlockData();
+            base.SetMaterialPropertyBlockData(materialPropertyBlock);
         }
     }
 
     internal class ReGizmoCustomMeshWireframeDrawer : ReGizmoContentDrawer<ReGizmoMeshWireframeDrawer>
     {
-        protected override IEnumerable<ReGizmoMeshWireframeDrawer> _drawers => drawers.Values;
+        protected override IEnumerable<(ReGizmoMeshWireframeDrawer, UniqueDrawData)> _drawers => drawers.Values;
 
-        Dictionary<Mesh, ReGizmoMeshWireframeDrawer> drawers;
+        Dictionary<Mesh, (ReGizmoMeshWireframeDrawer drawer, UniqueDrawData uniqueDrawData)> drawers;
 
         public ReGizmoCustomMeshWireframeDrawer() : base()
         {
-            drawers = new Dictionary<Mesh, ReGizmoMeshWireframeDrawer>();
+            drawers = new Dictionary<Mesh, (ReGizmoMeshWireframeDrawer, UniqueDrawData)>();
         }
 
         public ref MeshDrawerShaderData GetShaderData(Mesh mesh)
@@ -64,14 +61,16 @@ namespace ReGizmo.Drawing
                 drawer = AddSubDrawer(mesh);
             }
 
-            return ref drawer.GetShaderData();
+            return ref drawer.drawer.GetShaderData();
         }
 
-        ReGizmoMeshWireframeDrawer AddSubDrawer(Mesh mesh)
+        (ReGizmoMeshWireframeDrawer, UniqueDrawData) AddSubDrawer(Mesh mesh)
         {
             var drawer = new ReGizmoMeshWireframeDrawer(mesh);
-            drawers.Add(mesh, drawer);
-            return drawer;
+            var uniqueDrawData = new UniqueDrawData();
+
+            drawers.Add(mesh, (drawer, uniqueDrawData));
+            return (drawer, uniqueDrawData);
         }
     }
 }

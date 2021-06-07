@@ -2,14 +2,7 @@
 #include "ReGizmoShaderUtils.cginc"
 #include "SDF_Utils.cginc"
 
-struct Data {
-    float3 position;
-    float3 normal;
-    float radius;
-    float4 color;
-    int flags;
-};
-StructuredBuffer<Data> _Properties;
+StructuredBuffer<Data2D> _Properties;
 
 struct v2g_2d
 {
@@ -62,7 +55,7 @@ static const float aspect_ratio = _ScreenParams.x / _ScreenParams.y;
 [maxvertexcount(4)]
 void geom_2d(point v2g_2d i[1], inout TriangleStream<g2f_2d> triangleStream)
 {
-    Data bd = _Properties[i[0].vertexID];
+    Data2D bd = _Properties[i[0].vertexID];
 
     float4 clip = UnityObjectToClipPos(float4(bd.position, 1.0));
     float4 cp1, cp2, cp3, cp4;

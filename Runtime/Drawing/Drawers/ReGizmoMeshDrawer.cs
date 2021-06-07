@@ -15,31 +15,41 @@ namespace ReGizmo.Drawing
     internal class ReGizmoMeshDrawer : ReGizmoDrawer<MeshDrawerShaderData>
     {
         protected Mesh mesh;
-        public ReGizmoMeshDrawer() : base() { }
+        uint indexCount;
 
-        public ReGizmoMeshDrawer(Mesh mesh) : base()
+        public ReGizmoMeshDrawer() : base()
         {
-            this.mesh = mesh;
-            material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh");
-
-            renderArguments[0] = mesh.GetIndexCount(0);
+            cullingHandler = new MeshCullingHandler();
+            argsBufferCountOffset = 1;
         }
 
-        protected override void RenderInternal(CommandBuffer cmd)
+        public ReGizmoMeshDrawer(Mesh mesh) : this()
         {
-            renderArguments[1] = CurrentDrawCount();
-            renderArgumentsBuffer.SetData(renderArguments);
+            this.mesh = mesh;
+            indexCount = mesh.GetIndexCount(0);
+
+            material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh");
+        }
+
+        protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData)
+        {
+            if (indexCount == 0)
+            {
+                indexCount = mesh.GetIndexCount(0);
+            }
+
+            uniqueDrawData.SetVertexCount(indexCount);
 
             cmd.DrawMeshInstancedIndirect(
                 mesh, 0, material, 0,
-                renderArgumentsBuffer, 0,
-                materialPropertyBlock
+                uniqueDrawData.ArgsBuffer, 0,
+                uniqueDrawData.MaterialPropertyBlock
             );
         }
 
-        protected override void SetMaterialPropertyBlockData()
+        protected override void SetMaterialPropertyBlockData(MaterialPropertyBlock materialPropertyBlock)
         {
-            base.SetMaterialPropertyBlockData();
+            base.SetMaterialPropertyBlockData(materialPropertyBlock);
             materialPropertyBlock.SetFloat("_Shaded", 0.35f);
             materialPropertyBlock.SetFloat("_FresnelFactor", 1f);
         }

@@ -39,7 +39,7 @@ namespace ReGizmo.Utils
             data[cursor++] = value;
             if (cursor >= data.Length)
             {
-                Resize(32);
+                Resize((int)(data.Length * 1.5f));
             }
         }
 

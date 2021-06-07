@@ -8,8 +8,6 @@ namespace ReGizmo.Drawing
 {
     internal class ReGizmoFontDrawer : ReGizmoDrawer<CharData>
     {
-        protected override string PropertiesName { get; } = "_CharData";
-
         Font font;
 
         ComputeBuffer characterInfoBuffer;
@@ -17,15 +15,19 @@ namespace ReGizmo.Drawing
 
         ShaderDataBuffer<TextData> textDataBuffers;
 
+        protected override string PropertiesName { get; } = "_CharData";
+
         public ReGizmoFontDrawer(Font font) : base()
         {
             textDataBuffers = new ShaderDataBuffer<TextData>();
 
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Font");
             this.font = font;
-            renderArguments[1] = 1;
 
             SetupCharacterData();
+
+            cullingHandler = new FontCullingHandler();
+            argsBufferCountOffset = 0;
         }
 
         void SetupCharacterData()
@@ -79,27 +81,34 @@ namespace ReGizmo.Drawing
             return ref textDataBuffers.Get();
         }
 
-        protected override void RenderInternal(CommandBuffer cmd)
+        protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData)
         {
-            renderArguments[0] = CurrentDrawCount();
-            renderArgumentsBuffer.SetData(renderArguments);
+            uniqueDrawData.SetInstanceCount(1);
 
             cmd.DrawProceduralIndirect(
                 Matrix4x4.identity,
                 material, 0,
                 MeshTopology.Points,
-                renderArgumentsBuffer, 0,
-                materialPropertyBlock
+                uniqueDrawData.ArgsBuffer, 0,
+                uniqueDrawData.MaterialPropertyBlock
             );
         }
 
-        protected override void SetMaterialPropertyBlockData()
+        protected override void SetMaterialPropertyBlockData(MaterialPropertyBlock materialPropertyBlock)
         {
-            base.SetMaterialPropertyBlockData();
+            base.SetMaterialPropertyBlockData(materialPropertyBlock);
 
             materialPropertyBlock.SetTexture("_MainTex", font.material.mainTexture);
             materialPropertyBlock.SetBuffer("_CharacterInfos", characterInfoBuffer);
-            textDataBuffers.PushData(materialPropertyBlock, "_TextData");
+
+            textDataBuffers.PushData();
+            materialPropertyBlock.SetBuffer("_TextData", textDataBuffers.ComputeBuffer);
+        }
+
+        protected override void SetCullingData(CommandBuffer commandBuffer)
+        {
+            var fontCullingData = (FontCullingHandler)cullingHandler;
+            fontCullingData.SetData(commandBuffer, textDataBuffers.ComputeBuffer, characterInfoBuffer);
         }
 
         public override void Dispose()

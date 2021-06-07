@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using ReGizmo.Core;
 using ReGizmo.Utils;
 using UnityEngine;
+using UnityEngine.Profiling;
 using UnityEngine.Rendering;
 
 namespace ReGizmo.Drawing
@@ -9,38 +11,25 @@ namespace ReGizmo.Drawing
     {
         void Clear();
         void Dispose();
-        void Render(CommandBuffer cmd);
+        void PushSharedData();
+        void Render(CommandBuffer commandBuffer, CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData);
         uint CurrentDrawCount();
     }
 
-    public abstract class ReGizmoDrawer<TShaderData> : System.IDisposable, IReGizmoDrawer
+    internal abstract class ReGizmoDrawer<TShaderData> : System.IDisposable, IReGizmoDrawer
         where TShaderData : unmanaged
     {
-        protected static readonly Bounds DefaultRenderBounds = new Bounds(Vector3.zero, Vector3.one * 10_000f);
-
         protected virtual string PropertiesName { get; } = "_Properties";
 
         protected Material material;
-
-        protected MaterialPropertyBlock materialPropertyBlock;
-        protected uint[] renderArguments;
-        protected ComputeBuffer renderArgumentsBuffer;
-
         ShaderDataBuffer<TShaderData> shaderDataBuffer;
-
-        protected Bounds currentBounds;
+        int currentDrawCount;
+        protected CullingHandler cullingHandler;
+        protected int argsBufferCountOffset;
 
         public ReGizmoDrawer()
         {
-            materialPropertyBlock = new MaterialPropertyBlock();
             shaderDataBuffer = new ShaderDataBuffer<TShaderData>();
-
-            renderArguments = new uint[5] { 0, 0, 0, 0, 0 };
-
-            ComputeBufferPool.Free(renderArgumentsBuffer);
-            renderArgumentsBuffer = ComputeBufferPool.Get(1, sizeof(uint) * 5, ComputeBufferType.IndirectArguments);
-
-            currentBounds = DefaultRenderBounds;
         }
 
         public ReGizmoDrawer(Material material) : this()
@@ -53,28 +42,53 @@ namespace ReGizmo.Drawing
             shaderDataBuffer.Reset();
         }
 
-        public virtual void Dispose()
-        {
-            renderArgumentsBuffer = ComputeBufferPool.Free(renderArgumentsBuffer);
-            shaderDataBuffer?.Dispose();
-        }
-
         internal virtual ShaderDataBuffer<TShaderData> GetShaderDataBuffer()
         {
             return shaderDataBuffer;
         }
 
-        public void Render(CommandBuffer cmd)
+        public void PushSharedData()
         {
-            if (shaderDataBuffer.Count() == 0) return;
+            currentDrawCount = shaderDataBuffer.Count();
+            if (currentDrawCount == 0) return;
+            shaderDataBuffer.PushData();
+        }
 
-            SetMaterialPropertyBlockData();
-            RenderInternal(cmd);
+        public void Render(CommandBuffer commandBuffer, CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData)
+        {
+            if (currentDrawCount == 0) return;
+            Profiler.BeginSample("ReGizmoDrawer::Render");
+
+            if (cullingHandler != null)
+            {
+                var culledBuffer = uniqueDrawData.GetDrawBuffer<TShaderData>(currentDrawCount);
+                cullingHandler.SetData(commandBuffer, cameraFrustum);
+                SetCullingData(commandBuffer);
+
+                cullingHandler.PerformCulling<TShaderData>(
+                    commandBuffer,
+                    currentDrawCount,
+                    uniqueDrawData.ArgsBuffer, argsBufferCountOffset,
+                    shaderDataBuffer.ComputeBuffer, culledBuffer);
+
+                uniqueDrawData.MaterialPropertyBlock.SetBuffer(PropertiesName, culledBuffer);
+                SetMaterialPropertyBlockData(uniqueDrawData.MaterialPropertyBlock);
+                RenderInternal(commandBuffer, uniqueDrawData);
+            }
+            else
+            {
+                uniqueDrawData.SetDrawCount((uint)currentDrawCount);
+                uniqueDrawData.MaterialPropertyBlock.SetBuffer(PropertiesName, shaderDataBuffer.ComputeBuffer);
+                SetMaterialPropertyBlockData(uniqueDrawData.MaterialPropertyBlock);
+                RenderInternal(commandBuffer, uniqueDrawData);
+            }
+
+            Profiler.EndSample();
         }
 
         public uint CurrentDrawCount()
         {
-            return (uint)shaderDataBuffer.Count();
+            return (uint)currentDrawCount;
         }
 
         public ref TShaderData GetShaderData()
@@ -82,11 +96,14 @@ namespace ReGizmo.Drawing
             return ref shaderDataBuffer.Get();
         }
 
-        protected abstract void RenderInternal(CommandBuffer cmd);
+        protected abstract void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData);
+        protected virtual void SetMaterialPropertyBlockData(MaterialPropertyBlock materialPropertyBlock) { }
+        protected virtual void SetCullingData(CommandBuffer cmd) { }
 
-        protected virtual void SetMaterialPropertyBlockData()
+        public virtual void Dispose()
         {
-            shaderDataBuffer.PushData(materialPropertyBlock, PropertiesName);
+            shaderDataBuffer?.Dispose();
+            cullingHandler?.Dispose();
         }
     }
 }

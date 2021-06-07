@@ -24,9 +24,10 @@ namespace ReGizmo.Drawing
 
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Font_SDF");
             this.font = font;
-            renderArguments[1] = 1;
-
+            
             SetupCharacterData();
+
+            cullingHandler = new FontCullingHandler();
         }
 
         void SetupCharacterData()
@@ -90,32 +91,39 @@ namespace ReGizmo.Drawing
             return ref textDataBuffers.Get();
         }
 
-        protected override void RenderInternal(CommandBuffer cmd)
+        protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData)
         {
-            renderArguments[0] = CurrentDrawCount();
-            renderArgumentsBuffer.SetData(renderArguments);
+            uniqueDrawData.SetInstanceCount(1);
+            uniqueDrawData.SetVertexCount(uniqueDrawData.DrawCount);
 
             cmd.DrawProceduralIndirect(
                 Matrix4x4.identity,
                 material, 0,
                 MeshTopology.Points,
-                renderArgumentsBuffer, 0,
-                materialPropertyBlock
+                uniqueDrawData.ArgsBuffer, 0,
+                uniqueDrawData.MaterialPropertyBlock
             );
         }
 
-        protected override void SetMaterialPropertyBlockData()
+        protected override void SetMaterialPropertyBlockData(MaterialPropertyBlock materialPropertyBlock)
         {
-            base.SetMaterialPropertyBlockData();
+            base.SetMaterialPropertyBlockData(materialPropertyBlock);
 
             materialPropertyBlock.SetBuffer("_CharacterInfos", characterInfoBuffer);
-            textDataBuffers.PushData(materialPropertyBlock, "_TextData");
+            textDataBuffers.PushData();
+            materialPropertyBlock.SetBuffer("_TextData", textDataBuffers.ComputeBuffer);
 
             materialPropertyBlock.SetFloat("_DistanceRange", font.Font.atlas.distanceRange);
             materialPropertyBlock.SetVector("_AtlasDimensions", new Vector2(font.Font.atlas.width, font.Font.atlas.height));
             materialPropertyBlock.SetFloat("_AtlasSize", font.Font.atlas.size);
 
             materialPropertyBlock.SetTexture("_MainTex", font.GetTexture());
+        }
+
+        protected override void SetCullingData(CommandBuffer commandBuffer)
+        {
+            var fontCullingData = (FontCullingHandler)cullingHandler;
+            fontCullingData.SetData(commandBuffer, textDataBuffers.ComputeBuffer, characterInfoBuffer);
         }
 
         public override void Dispose()

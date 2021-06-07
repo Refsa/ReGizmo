@@ -1,0 +1,281 @@
+﻿#include "../Shaders/Utils/ReGizmoShaderUtils.cginc"
+
+#pragma kernel Mesh_CameraCulling
+#pragma kernel Font_CameraCulling
+#pragma kernel Icon_CameraCulling
+#pragma kernel Sprite_CameraCulling
+#pragma kernel Line_CameraCulling
+#pragma kernel PolyLine_CameraCulling
+
+struct BoundingBox
+{
+    float3 Center;
+    float3 Extents;
+    bool Visible;
+};
+
+RWStructuredBuffer<BoundingBox> _DebugAABB;
+#define DEBUG 1
+ 
+int _Count;
+float4 _CameraFrustum[6];
+float2 _CameraClips;
+
+float4x4 _ViewMatrix;
+float4x4 _ProjectionMatrix;
+float4x4 _I_VP;
+float4x4 _VP;
+
+bool box_inside_frustum( float3 center, float3 extents );
+
+// --- MESH ---
+
+StructuredBuffer<MeshProperties> _MeshInput;
+AppendStructuredBuffer<MeshProperties> _MeshOutput; 
+[numthreads(128,1,1)]
+void Mesh_CameraCulling (uint3 id : SV_DispatchThreadID)
+{
+    [branch] if (id.x >= _Count) return;
+
+    MeshProperties ld = _MeshInput[id.x];
+    bool in_frustum = box_inside_frustum(ld.Position, ld.Scale);
+
+#if DEBUG
+    BoundingBox bb = (BoundingBox)0;
+    bb.Center = ld.Position;
+    bb.Extents = ld.Scale;
+    bb.Visible = in_frustum;
+    _DebugAABB[id.x] = bb;
+#endif
+
+    if (in_frustum)
+    {
+        _MeshOutput.Append(ld);
+    }
+}
+
+// --- FONT ---
+
+StructuredBuffer<CharData> _FontInput;
+AppendStructuredBuffer<CharData> _FontOutput;
+StructuredBuffer<TextData> _FontTextData;
+StructuredBuffer<CharacterInfo> _FontCharacterInfos;
+[numthreads(128,1,1)]
+void Font_CameraCulling (uint3 id : SV_DispatchThreadID)
+{
+    [branch] if (id.x >= _Count) return;
+
+    CharData cd = _FontInput[id.x];
+    TextData td = _FontTextData[cd.TextID];
+    CharacterInfo ci = _FontCharacterInfos[cd.CharIndex];
+
+    static const float scale_factor = 2.7;
+
+    float4 centerClip = mul(_VP, float4(td.Position, 1.0));
+    float camDist = centerClip.w;
+
+    float4 advanceOffset = float4(cd.Advance - td.CenterOffset, 0, 0, 0) * scale_factor;
+    float4 size = ci.Size * td.Scale * scale_factor;
+
+    float4 c1 = (float4(size.x, -size.w, 0, 0) + advanceOffset) * camDist;
+    float4 c2 = (float4(size.y, -size.z, 0, 0) + advanceOffset) * camDist;
+
+    c1.xy /= _ScreenParams.xy;
+    c2.xy /= _ScreenParams.xy;
+
+    // TODO: Need some way to find out if ProjectionFlipped() is true, but it relies on data not accessible to Compute
+    //          This can be figured out on the CPU side and pushed though
+    c1.y = -c1.y;
+    c2.y = -c2.y;
+
+    float4 c1_world = mul(_I_VP, c1);
+    float4 c2_world = mul(_I_VP, c2);
+
+    float3 center = td.Position + (c1_world.xyz + c2_world.xyz) * 0.5;
+    float3 extents = (c1_world.xyz - c2_world.xyz);
+
+    bool in_frustum = box_inside_frustum(center, extents);
+
+    #if DEBUG
+    {
+        BoundingBox bb = (BoundingBox)0;
+        bb.Center = center;
+        bb.Extents = extents;
+        bb.Visible = in_frustum;
+        _DebugAABB[id.x] = bb;
+    }
+    #endif
+
+    if (in_frustum)
+    {
+        _FontOutput.Append(cd);
+    }
+}
+
+// --- ICON ---
+
+StructuredBuffer<IconProperties> _IconInput;
+AppendStructuredBuffer<IconProperties> _IconOutput; 
+[numthreads(128,1,1)]
+void Icon_CameraCulling (uint3 id : SV_DispatchThreadID)
+{
+    [branch] if (id.x >= _Count) return;
+
+    IconProperties bd = _IconInput[id.x];
+
+    float4 clip = mul(_VP, float4(bd.position, 1.0));
+    float halfOffset = bd.scale;
+    float2 size = float2(-halfOffset, -halfOffset);
+
+    // Scale the size to screen coords
+    if (has_flag(bd.flags, SIZE_MODE_PIXEL))
+    {
+        size /= _ScreenParams.xy;
+        size *= clip.w;
+    }
+
+    // TODO: Proper projection flip check
+    size.y = -size.y;
+
+    // Create billboard vertices
+    float4 cp1 = float4(clip.x - size.x, clip.y - size.y, clip.z, clip.w);
+    float4 cp2 = float4(clip.x + size.x, clip.y + size.y, clip.z, clip.w);
+
+    float3 cp1_world = mul(_I_VP, cp1).xyz;
+    float3 cp2_world = mul(_I_VP, cp2).xyz;
+
+    float3 center = (cp1_world + cp2_world) * 0.5;
+    float3 extents = (cp1_world - cp2_world);
+
+    bool in_frustum = box_inside_frustum(center, extents);
+
+    #if DEBUG
+    {
+        BoundingBox bb = (BoundingBox)0;
+        bb.Center = center;
+        bb.Extents = extents;
+        bb.Visible = in_frustum;
+        _DebugAABB[id.x] = bb;
+    }
+    #endif
+
+    if (in_frustum)
+    {
+        _IconOutput.Append(bd);
+    }
+}
+
+
+// --- SPRITE ---
+
+StructuredBuffer<SpriteProperties> _SpriteInput;
+AppendStructuredBuffer<SpriteProperties> _SpriteOutput; 
+[numthreads(128,1,1)]
+void Sprite_CameraCulling (uint3 id : SV_DispatchThreadID)
+{
+    [branch] if (id.x >= _Count) return;
+
+    SpriteProperties bd = _SpriteInput[id.x];
+
+    float4 clip = mul(UNITY_MATRIX_VP, float4(bd.position, 1.0));
+
+    float halfOffset = bd.scale * 0.5;
+    float2 size = float2(-halfOffset, -halfOffset);
+
+    size /= _ScreenParams.xy;
+    size *= clip.w;
+
+    // TODO: Proper projection flip check
+    size.y = -size.y;
+
+    float4 cp1 = float4(clip.x - size.x, clip.y - size.y, clip.z, clip.w);
+    float4 cp2 = float4(clip.x + size.x, clip.y + size.y, clip.z, clip.w);
+
+    float3 cp1_world = mul(_I_VP, cp1).xyz;
+    float3 cp2_world = mul(_I_VP, cp2).xyz;
+
+    float3 center = bd.position;
+    float3 extents = (cp1_world - cp2_world);
+
+    bool in_frustum = box_inside_frustum(center, extents);
+
+    #if DEBUG
+    {
+        BoundingBox bb = (BoundingBox)0;
+        bb.Center = center;
+        bb.Extents = extents;
+        bb.Visible = in_frustum;
+        _DebugAABB[id.x] = bb;
+    }
+    #endif
+
+    if (in_frustum)
+    {
+        _SpriteOutput.Append(bd);
+    }
+}
+
+// --- LINE ---
+StructuredBuffer<LineProperties> _LineInput;
+AppendStructuredBuffer<LineProperties> _LineOutput;
+[numthreads(128,1,1)]
+void Line_CameraCulling (uint3 id : SV_DispatchThreadID)
+{
+    [branch] if (id.x >= _Count) return;
+
+    LineProperties lp = _LineInput[id.x];
+
+    float3 center = (lp.Position1 + lp.Position2) * 0.5;
+    float3 extents = (lp.Position1 - lp.Position2);
+
+    bool in_frustum = box_inside_frustum(center, extents);
+
+    #if DEBUG
+    {
+        BoundingBox bb = (BoundingBox)0;
+        bb.Center = center;
+        bb.Extents = extents;
+        bb.Visible = in_frustum;
+        _DebugAABB[id.x] = bb;
+    }
+    #endif
+
+    if (in_frustum)
+    {
+        _LineOutput.Append(lp);
+    }
+}
+
+// --- POLYLINE ---
+StructuredBuffer<PolyLineProperties> _PolyLineInput;
+AppendStructuredBuffer<PolyLineProperties> _PolyLineOutput;
+[numthreads(128,1,1)]
+void PolyLine_CameraCulling (uint3 id : SV_DispatchThreadID)
+{
+    [branch] if (id.x >= _Count) return;
+}
+
+// --- UTILS ---
+
+// Based on: https://www.iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm
+bool box_inside_frustum( float3 center, float3 extents )
+{
+    float3 bounds_min = center - extents;
+    float3 bounds_max = center + extents;
+    
+    for (int i = 0; i < 6; i++)
+    {
+        int count = 0;
+        count += ((dot( _CameraFrustum[i], float4(bounds_min.x, bounds_min.y, bounds_min.z, 1.0f) ) < 0.0 ) ? 1 : 0);
+        count += ((dot( _CameraFrustum[i], float4(bounds_max.x, bounds_min.y, bounds_min.z, 1.0f) ) < 0.0 ) ? 1 : 0);
+        count += ((dot( _CameraFrustum[i], float4(bounds_min.x, bounds_max.y, bounds_min.z, 1.0f) ) < 0.0 ) ? 1 : 0);
+        count += ((dot( _CameraFrustum[i], float4(bounds_max.x, bounds_max.y, bounds_min.z, 1.0f) ) < 0.0 ) ? 1 : 0);
+        count += ((dot( _CameraFrustum[i], float4(bounds_min.x, bounds_min.y, bounds_max.z, 1.0f) ) < 0.0 ) ? 1 : 0);
+        count += ((dot( _CameraFrustum[i], float4(bounds_max.x, bounds_min.y, bounds_max.z, 1.0f) ) < 0.0 ) ? 1 : 0);
+        count += ((dot( _CameraFrustum[i], float4(bounds_min.x, bounds_max.y, bounds_max.z, 1.0f) ) < 0.0 ) ? 1 : 0);
+        count += ((dot( _CameraFrustum[i], float4(bounds_max.x, bounds_max.y, bounds_max.z, 1.0f) ) < 0.0 ) ? 1 : 0);
+        if (count == 8) return false;
+    }
+
+    return true;
+}
