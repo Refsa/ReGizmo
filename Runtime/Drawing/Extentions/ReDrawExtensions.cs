@@ -8,7 +8,7 @@ namespace ReGizmo.Drawing
         public static void Line(Vector3 p1, Vector3 p2, Color color, float width)
         {
             Vector3 vecColor = color.ToVector3();
-            if (ReGizmoResolver<ReGizmoLineDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
                 shaderData.Position1 = currentPosition + p1;
@@ -21,7 +21,7 @@ namespace ReGizmo.Drawing
         public static void Line(Vector3 p1, Vector3 p2, Color color)
         {
             Vector3 vecColor = color.ToVector3();
-            if (ReGizmoResolver<ReGizmoLineDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
                 shaderData.Position1 = currentPosition + p1;
@@ -34,7 +34,7 @@ namespace ReGizmo.Drawing
         public static void Line(Vector3 p1, Vector3 p2, float width)
         {
             Vector3 vecColor = currentColor.ToVector3();
-            if (ReGizmoResolver<ReGizmoLineDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
                 shaderData.Position1 = currentPosition + p1;
@@ -47,7 +47,7 @@ namespace ReGizmo.Drawing
         public static void Line(Vector3 p1, Vector3 p2)
         {
             Vector3 vecColor = currentColor.ToVector3();
-            if (ReGizmoResolver<ReGizmoLineDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
                 shaderData.Position1 = currentPosition + p1;
@@ -101,7 +101,7 @@ namespace ReGizmo.Drawing
 
             Vector3 vecColor = color.ToVector3();
 
-            if (ReGizmoResolver<ReGizmoLineDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
                 shaderData.Position1 = p1;

@@ -12,9 +12,9 @@ namespace ReGizmo.Drawing
         public float Width;
     }
 
-    internal class ReGizmoLineDrawer : ReGizmoDrawer<LineData>
+    internal class LineDrawer : ReGizmoDrawer<LineData>
     {
-        public ReGizmoLineDrawer() : base()
+        public LineDrawer() : base()
         {
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Line_Screen");
             cullingHandler = new LineCullingHandler();

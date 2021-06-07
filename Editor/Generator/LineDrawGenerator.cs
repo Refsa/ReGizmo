@@ -14,7 +14,7 @@ namespace ReGizmo.Generator
 @"
         public static void Line($PARAMS)
         {
-            if (ReGizmoResolver<ReGizmoLineDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
                 shaderData.Position1 = point1;

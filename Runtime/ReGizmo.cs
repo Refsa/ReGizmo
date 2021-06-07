@@ -108,7 +108,7 @@ namespace ReGizmo.Core
             drawers = new List<IReGizmoDrawer>()
             {
                 // Lines
-                ReGizmoResolver<ReGizmoLineDrawer>.Init(new ReGizmoLineDrawer()),
+                ReGizmoResolver<LineDrawer>.Init(new LineDrawer()),
                 ReGizmoResolver<ReGizmoPolyLineDrawer>.Init(new ReGizmoPolyLineDrawer()),
                 ReGizmoResolver<GridDrawer>.Init(new GridDrawer()),
 

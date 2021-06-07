@@ -9,7 +9,7 @@ namespace ReGizmo.Drawing
 
         public static void Ray(Vector3 origin, Vector3 direction, UnityEngine.Color color, System.Single width)
         {
-            if (ReGizmoResolver<ReGizmoLineDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
                 shaderData.Position1 = currentPosition + origin;
@@ -20,7 +20,7 @@ namespace ReGizmo.Drawing
         }
         public static void Ray(Vector3 origin, Vector3 direction, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoLineDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
                 shaderData.Position1 = currentPosition + origin;
@@ -31,7 +31,7 @@ namespace ReGizmo.Drawing
         }
         public static void Ray(Vector3 origin, Vector3 direction, System.Single width)
         {
-            if (ReGizmoResolver<ReGizmoLineDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
                 shaderData.Position1 = currentPosition + origin;
@@ -42,7 +42,7 @@ namespace ReGizmo.Drawing
         }
         public static void Ray(Vector3 origin, Vector3 direction)
         {
-            if (ReGizmoResolver<ReGizmoLineDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
                 shaderData.Position1 = currentPosition + origin;
