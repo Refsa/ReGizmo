@@ -14,7 +14,7 @@ namespace ReGizmo.Generator
 @"
         public static void Mesh($PARAMS)
         {
-            if (ReGizmoResolver<ReGizmoCustomMeshDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<CustomMeshDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData(mesh);
 

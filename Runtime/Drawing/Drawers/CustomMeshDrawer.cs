@@ -4,13 +4,13 @@ using UnityEngine.Rendering;
 
 namespace ReGizmo.Drawing
 {
-    internal class ReGizmoCustomMeshDrawer : ReGizmoContentDrawer<ReGizmoMeshDrawer>
+    internal class CustomMeshDrawer : ReGizmoContentDrawer<ReGizmoMeshDrawer>
     {
         protected override IEnumerable<(ReGizmoMeshDrawer, UniqueDrawData)> _drawers => drawers.Values;
 
         Dictionary<Mesh, (ReGizmoMeshDrawer drawer, UniqueDrawData uniqueDrawData)> drawers;
 
-        public ReGizmoCustomMeshDrawer() : base()
+        public CustomMeshDrawer() : base()
         {
             drawers = new Dictionary<Mesh, (ReGizmoMeshDrawer, UniqueDrawData)>();
         }

@@ -131,7 +131,7 @@ namespace ReGizmo.Core
                 ReGizmoResolver<ReGizmoPyramidDrawer>.Init(new ReGizmoPyramidDrawer()),
                 ReGizmoResolver<ReGizmoCapsuleDrawer>.Init(new ReGizmoCapsuleDrawer()),
 
-                ReGizmoResolver<ReGizmoCustomMeshDrawer>.Init(new ReGizmoCustomMeshDrawer()),
+                ReGizmoResolver<CustomMeshDrawer>.Init(new CustomMeshDrawer()),
                 ReGizmoResolver<ReGizmoCustomMeshWireframeDrawer>.Init(new ReGizmoCustomMeshWireframeDrawer()),
 
 #if REGIZMO_DEV
