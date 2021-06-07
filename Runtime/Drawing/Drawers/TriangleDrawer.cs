@@ -13,9 +13,9 @@ namespace ReGizmo.Drawing
         public int Flags;
     }
 
-    internal class ReGizmoTriangleDrawer : ReGizmoDrawer<TriangleDrawData>
+    internal class TriangleDrawer : ReGizmoDrawer<TriangleDrawData>
     {
-        public ReGizmoTriangleDrawer() : base()
+        public TriangleDrawer() : base()
         {
             material = new Material(ReGizmoHelpers.LoadShader("Hidden/ReGizmo/TriangleShader"));
         }

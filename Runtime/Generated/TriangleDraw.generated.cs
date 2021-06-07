@@ -9,7 +9,7 @@ namespace ReGizmo.Drawing
 
         public static void Triangle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.Size width, ReGizmo.Drawing.FillMode fillMode, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -22,7 +22,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.Size width, ReGizmo.Drawing.FillMode fillMode)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -35,7 +35,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.Size width, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -48,7 +48,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.FillMode fillMode, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -61,7 +61,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.Size width, ReGizmo.Drawing.FillMode fillMode, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -74,7 +74,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.Size width, ReGizmo.Drawing.FillMode fillMode, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -87,7 +87,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.Size width)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -100,7 +100,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.FillMode fillMode)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -113,7 +113,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -126,7 +126,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.Size width, ReGizmo.Drawing.FillMode fillMode)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -139,7 +139,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.Size width, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -152,7 +152,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.FillMode fillMode, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -165,7 +165,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.Size width, ReGizmo.Drawing.FillMode fillMode)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -178,7 +178,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.Size width, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -191,7 +191,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.FillMode fillMode, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -204,7 +204,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(UnityEngine.Vector3 normal, ReGizmo.Drawing.Size width, ReGizmo.Drawing.FillMode fillMode, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -217,7 +217,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.Size width, ReGizmo.Drawing.FillMode fillMode, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -230,7 +230,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -243,7 +243,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.Size width)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -256,7 +256,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.FillMode fillMode)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -269,7 +269,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -282,7 +282,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.Size width)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -295,7 +295,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.FillMode fillMode)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -308,7 +308,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -321,7 +321,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(UnityEngine.Vector3 normal, ReGizmo.Drawing.Size width, ReGizmo.Drawing.FillMode fillMode)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -334,7 +334,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(UnityEngine.Vector3 normal, ReGizmo.Drawing.Size width, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -347,7 +347,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(UnityEngine.Vector3 normal, ReGizmo.Drawing.FillMode fillMode, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -360,7 +360,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.Size width, ReGizmo.Drawing.FillMode fillMode)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -373,7 +373,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.Size width, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -386,7 +386,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.FillMode fillMode, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -399,7 +399,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(ReGizmo.Drawing.Size width, ReGizmo.Drawing.FillMode fillMode, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -412,7 +412,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -425,7 +425,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -438,7 +438,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(UnityEngine.Vector3 normal, ReGizmo.Drawing.Size width)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -451,7 +451,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(UnityEngine.Vector3 normal, ReGizmo.Drawing.FillMode fillMode)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -464,7 +464,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(UnityEngine.Vector3 normal, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -477,7 +477,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.Size width)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -490,7 +490,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.FillMode fillMode)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -503,7 +503,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(ReGizmo.Drawing.DrawMode drawMode, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -516,7 +516,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(ReGizmo.Drawing.Size width, ReGizmo.Drawing.FillMode fillMode)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -529,7 +529,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(ReGizmo.Drawing.Size width, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -542,7 +542,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(ReGizmo.Drawing.FillMode fillMode, UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -555,7 +555,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(UnityEngine.Vector3 normal)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -568,7 +568,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(ReGizmo.Drawing.DrawMode drawMode)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -581,7 +581,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(ReGizmo.Drawing.Size width)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -594,7 +594,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(ReGizmo.Drawing.FillMode fillMode)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -607,7 +607,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle(UnityEngine.Color color)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 
@@ -620,7 +620,7 @@ namespace ReGizmo.Drawing
         }
         public static void Triangle()
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 

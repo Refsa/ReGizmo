@@ -15,7 +15,7 @@ namespace ReGizmo.Generator
 @"
         public static void Triangle($PARAMS)
         {
-            if (ReGizmoResolver<ReGizmoTriangleDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TriangleDrawer>.TryGet(out var drawer))
             {
                 ref var data = ref drawer.GetShaderData();
 

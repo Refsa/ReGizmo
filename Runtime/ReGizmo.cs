@@ -140,7 +140,7 @@ namespace ReGizmo.Core
 
                 // 2D
                 ReGizmoResolver<CircleDrawer>.Init(new CircleDrawer()),
-                ReGizmoResolver<ReGizmoTriangleDrawer>.Init(new ReGizmoTriangleDrawer()),
+                ReGizmoResolver<TriangleDrawer>.Init(new TriangleDrawer()),
             };
 
             if (Application.isPlaying)
