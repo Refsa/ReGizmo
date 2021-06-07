@@ -2,7 +2,7 @@ using ReGizmo.Utils;
 
 namespace ReGizmo.Drawing
 {
-    internal class ReGizmoCubeDrawer : ReGizmoMeshDrawer
+    internal class ReGizmoCubeDrawer : MeshDrawer
     {
         public ReGizmoCubeDrawer() : base()
         {
@@ -11,7 +11,7 @@ namespace ReGizmo.Drawing
         }
     }
 
-    internal class ReGizmoSphereDrawer : ReGizmoMeshDrawer
+    internal class ReGizmoSphereDrawer : MeshDrawer
     {
         public ReGizmoSphereDrawer() : base()
         {
@@ -20,7 +20,7 @@ namespace ReGizmo.Drawing
         }
     }
 
-    internal class ReGizmoQuadDrawer : ReGizmoMeshDrawer
+    internal class ReGizmoQuadDrawer : MeshDrawer
     {
         public ReGizmoQuadDrawer() : base()
         {
@@ -29,7 +29,7 @@ namespace ReGizmo.Drawing
         }
     }
 
-    internal class ReGizmoCylinderDrawer : ReGizmoMeshDrawer
+    internal class ReGizmoCylinderDrawer : MeshDrawer
     {
         public ReGizmoCylinderDrawer() : base()
         {
@@ -38,7 +38,7 @@ namespace ReGizmo.Drawing
         }
     }
     
-    internal class ReGizmoCapsuleDrawer : ReGizmoMeshDrawer
+    internal class ReGizmoCapsuleDrawer : MeshDrawer
     {
         public ReGizmoCapsuleDrawer() : base()
         {
@@ -47,7 +47,7 @@ namespace ReGizmo.Drawing
         }
     }
 
-    internal class ReGizmoConeDrawer : ReGizmoMeshDrawer
+    internal class ReGizmoConeDrawer : MeshDrawer
     {
         public ReGizmoConeDrawer() : base()
         {
@@ -56,7 +56,7 @@ namespace ReGizmo.Drawing
         }
     }
 
-    internal class ReGizmoOctahedronDrawer : ReGizmoMeshDrawer
+    internal class ReGizmoOctahedronDrawer : MeshDrawer
     {
         public ReGizmoOctahedronDrawer() : base()
         {
@@ -65,7 +65,7 @@ namespace ReGizmo.Drawing
         }
     }
 
-    internal class ReGizmoPyramidDrawer : ReGizmoMeshDrawer
+    internal class ReGizmoPyramidDrawer : MeshDrawer
     {
         public ReGizmoPyramidDrawer() : base()
         {
@@ -74,7 +74,7 @@ namespace ReGizmo.Drawing
         }
     }
 
-    internal class ReGizmoIcosahedronDrawer : ReGizmoMeshDrawer
+    internal class ReGizmoIcosahedronDrawer : MeshDrawer
     {
         public ReGizmoIcosahedronDrawer() : base()
         {
