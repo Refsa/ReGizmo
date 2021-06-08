@@ -23,15 +23,13 @@ namespace ReGizmo.Core
 
         internal static event System.Action OnRender;
 
-        static bool isSetup = false;
-        static GameObject proxyObject;
-
         static List<IReGizmoDrawer> drawers;
         static Dictionary<Camera, CameraData> activeCameras;
 
         static bool interrupted;
         static bool isActive;
         static bool shouldReset;
+        static bool isSetup = false;
 
         public static bool IsSetup => isSetup;
 
@@ -145,36 +143,20 @@ namespace ReGizmo.Core
 
             if (Application.isPlaying)
             {
-                SetupProxyObject();
+                SetupRuntimeHooks();
             }
 
             isSetup = true;
             interrupted = false;
         }
 
-        static void SetupProxyObject()
+        static void SetupRuntimeHooks()
         {
-            ReGizmoProxy proxyComp = null;
-            if (GameObject.FindObjectOfType<ReGizmoProxy>() is ReGizmoProxy proxy)
-            {
-                proxyObject = proxy.gameObject;
-                proxyComp = proxy;
-            }
-            else
-            {
-                proxyObject = new GameObject("ReGizmoProxy");
-                proxyComp = proxyObject.AddComponent<ReGizmoProxy>();
-            }
-
-            GameObject.DontDestroyOnLoad(proxyObject);
-
 #if RG_LEGACY
-            proxyComp.inUpdate += OnUpdate;
+            PlayerLoopInject.Inject(PlayerLoopInjectionPoint.Update, OnUpdate);
 #endif
 
-            proxyComp.inDestroy += Dispose;
-            proxyComp.inEnable += () => SetActive(true);
-            proxyComp.inDisable += () => SetActive(false);
+            Application.quitting += Dispose;
         }
 
 #if RG_URP

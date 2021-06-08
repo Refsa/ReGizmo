@@ -40,7 +40,7 @@ namespace ReGizmo.Samples
 #if UNITY_EDITOR
             if (!Application.isPlaying)
             {
-                time = (float)EditorApplication.timeSinceStartup;
+                time = (float)TimeHelper.Time;
             }
 #endif
 
@@ -348,12 +348,12 @@ namespace ReGizmo.Samples
 
             for (int x = 0; x < 16; x++)
             {
-                ReDraw.Circle2(new Vector3(-30f, Mathf.Sin(x + (float)UnityEditor.EditorApplication.timeSinceStartup * 0.1f) * 5f, 0f), Vector3.up, 3f, 36);
+                ReDraw.Circle2(new Vector3(-30f, Mathf.Sin(x + (float)TimeHelper.Time * 0.1f) * 5f, 0f), Vector3.up, 3f, 36);
             }
 
             for (int x = 0; x < 16; x++)
             {
-                ReDraw.Circle(new Vector3(-40f, Mathf.Sin(x + (float)UnityEditor.EditorApplication.timeSinceStartup * 0.1f) * 5f, 0f), Vector3.up, DrawMode.AxisAligned, Size.Units(3f), FillMode.Outline, Color.red);
+                ReDraw.Circle(new Vector3(-40f, Mathf.Sin(x + (float)TimeHelper.Time * 0.1f) * 5f, 0f), Vector3.up, DrawMode.AxisAligned, Size.Units(3f), FillMode.Outline, Color.red);
             }
 
             // Arrows
