@@ -154,9 +154,11 @@ namespace ReGizmo.Core
 
         static void SetupProxyObject()
         {
-#if REGIZMO_LEGACY
+#if RG_LEGACY
             PlayerLoopInject.Inject(PlayerLoopInjectionPoint.Update, OnUpdate);
 #endif
+
+            Application.quitting += Dispose;
         }
 
 #if RG_URP
