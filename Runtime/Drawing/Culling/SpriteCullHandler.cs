@@ -20,7 +20,9 @@ namespace ReGizmo.Drawing
             }
             outputBuffer.SetCounterValue(0);
 
+#if REGIZMO_DEV
             cullingDebug.Hook(commandBuffer, CullingCompute, KernelID, drawCount);
+#endif
 
             commandBuffer.SetComputeIntParam(CullingCompute, "_Count", drawCount);
             commandBuffer.SetComputeBufferParam(CullingCompute, KernelID, InputID, inputBuffer);
