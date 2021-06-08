@@ -22,8 +22,7 @@ namespace ReGizmo.Editor
             DeAttachEventHooks();
             AttachEventHooks();
 
-            startTime = EditorApplication.timeSinceStartup;
-            EditorApplication.update += AwaitSetup;
+            HookAwaitSetup();
         }
 
         static void AttachEventHooks()
@@ -92,28 +91,28 @@ namespace ReGizmo.Editor
 
         static void OnBeforeAssemblyReloaded()
         {
-            Core.ReGizmo.Dispose(); 
+            Core.ReGizmo.Dispose();
         }
 
         static void OnAfterAssemblyReloaded()
         {
+
         }
 
         static void OnSceneChanged(Scene arg0, Scene arg1)
         {
-            ComputeBufferPool.FreeAll();
-            Core.ReGizmo.Dispose();
-            Init();
+            ReGizmo.Core.ReGizmo.Initialize();
+            ReGizmo.Core.ReGizmo.SetActive(true);
+        }
+
+        static void HookAwaitSetup()
+        {
+            startTime = EditorApplication.timeSinceStartup;
+            EditorApplication.update += AwaitSetup;
         }
 
         static void AwaitSetup()
         {
-            if (startTime < 5.0)
-            {
-                EditorApplication.update -= AwaitSetup;
-                return;
-            }
-
             if (EditorApplication.timeSinceStartup - startTime > 0.25)
             {
                 ReGizmo.Core.ReGizmo.Initialize();

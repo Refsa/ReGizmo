@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using ReGizmo.Drawing;
 using ReGizmo.Utils;
 using UnityEngine;
@@ -45,50 +46,10 @@ namespace ReGizmo.Core
 #if UNITY_EDITOR || REGIZMO_RUNTIME
             ReGizmoSettings.Load();
 
-            Setup();
             activeCameras = new Dictionary<Camera, CameraData>();
+            Setup();
             isActive = true;
 #endif
-        }
-
-        public static void Reload()
-        {
-            Interrupt();
-            shouldReset = true;
-        }
-
-        public static void Interrupt()
-        {
-            interrupted = true;
-            activeCameras?.Clear();
-        }
-
-        public static void SetActive(bool state)
-        {
-            isActive = state;
-
-            if (isActive)
-            {
-#if RG_URP
-                Core.URP.ReGizmoRenderFeature.OnPassExecute += OnPassExecute;
-#elif RG_HDRP
-                RenderPipelineManager.endCameraRendering += OnEndCameraRendering;
-#endif
-            }
-            else
-            {
-#if RG_URP
-                Core.URP.ReGizmoRenderFeature.OnPassExecute -= OnPassExecute;
-#elif RG_HDRP
-                RenderPipelineManager.endCameraRendering -= OnEndCameraRendering;
-#endif
-                foreach (var camera in activeCameras)
-                {
-                    camera.Value.SetActive(state);
-                }
-
-                activeCameras.Clear();
-            }
         }
 
         public static void Setup()
@@ -171,6 +132,46 @@ namespace ReGizmo.Core
         }
 #endif
 
+        public static void Reload()
+        {
+            Interrupt();
+            shouldReset = true;
+        }
+
+        public static void Interrupt()
+        {
+            interrupted = true;
+            activeCameras?.Clear();
+        }
+
+        public static void SetActive(bool state)
+        {
+            isActive = state;
+
+            if (isActive)
+            {
+#if RG_URP
+                Core.URP.ReGizmoRenderFeature.OnPassExecute += OnPassExecute;
+#elif RG_HDRP
+                RenderPipelineManager.endCameraRendering += OnEndCameraRendering;
+#endif
+            }
+            else
+            {
+#if RG_URP
+                Core.URP.ReGizmoRenderFeature.OnPassExecute -= OnPassExecute;
+#elif RG_HDRP
+                RenderPipelineManager.endCameraRendering -= OnEndCameraRendering;
+#endif
+                foreach (var camera in activeCameras)
+                {
+                    camera.Value.SetActive(state);
+                }
+
+                activeCameras.Clear();
+            }
+        }
+
         public static void OnUpdate()
         {
             if (drawers == null) return;
@@ -208,9 +209,19 @@ namespace ReGizmo.Core
 #endif 
 
             Profiler.BeginSample("ReGizmo::OnUpdate::PreRender");
+
+            bool rebuild = false;
             foreach (var cameraData in activeCameras.Values)
             {
-                cameraData.PreRender();
+                if (!cameraData.PreRender())
+                {
+                    rebuild = true;
+                }
+            }
+
+            if (rebuild)
+            {
+                activeCameras = activeCameras.Where(kvp => kvp.Key != null).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             }
             Profiler.EndSample();
 

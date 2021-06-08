@@ -51,8 +51,10 @@ namespace ReGizmo.Drawing
             isActive = state;
         }
 
-        public void PreRender()
+        public bool PreRender()
         {
+            if (camera == null) return false;
+
             commandBuffer.Clear();
             frustum.UpdateCameraFrustum();
 
@@ -68,6 +70,8 @@ namespace ReGizmo.Drawing
             {
                 commandBuffer.DisableShaderKeyword(ReGizmoHelpers.ShaderFontSuperSamplingKeyword);
             }
+
+            return true;
         }
 
         public void PostRender()
