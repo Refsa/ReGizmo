@@ -154,27 +154,9 @@ namespace ReGizmo.Core
 
         static void SetupProxyObject()
         {
-            ReGizmoProxy proxyComp = null;
-            if (GameObject.FindObjectOfType<ReGizmoProxy>() is ReGizmoProxy proxy)
-            {
-                proxyObject = proxy.gameObject;
-                proxyComp = proxy;
-            }
-            else
-            {
-                proxyObject = new GameObject("ReGizmoProxy");
-                proxyComp = proxyObject.AddComponent<ReGizmoProxy>();
-            }
-
-            GameObject.DontDestroyOnLoad(proxyObject);
-
-#if RG_LEGACY
-            proxyComp.inUpdate += OnUpdate;
+#if REGIZMO_LEGACY
+            PlayerLoopInject.Inject(PlayerLoopInjectionPoint.Update, OnUpdate);
 #endif
-
-            proxyComp.inDestroy += Dispose;
-            proxyComp.inEnable += () => SetActive(true);
-            proxyComp.inDisable += () => SetActive(false);
         }
 
 #if RG_URP
