@@ -58,6 +58,9 @@ namespace ReGizmo.Drawing
     /// </summary>
     public partial class ReDraw
     {
+        static Vector3 V3One = Vector3.one;
+        static Vector3 V3Zero = Vector3.zero;
+
         internal static Vector3 currentPosition = Vector3.zero;
         internal static Quaternion currentRotation = Quaternion.Euler(0f, 0f, 0f);
         internal static Vector3 currentScale = Vector3.zero;

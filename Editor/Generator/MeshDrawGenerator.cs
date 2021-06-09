@@ -19,17 +19,17 @@ namespace ReGizmo.Generator
                 ref var shaderData = ref drawer.GetShaderData();
 
                 shaderData.Position = $PARAM_1;
-                shaderData.Rotation = $PARAM_2.ToVector4();
+                shaderData.Rotation.Copy($PARAM_2);
                 shaderData.Scale = $PARAM_3;
-                shaderData.Color = $PARAM_4;
+                shaderData.Color.Copy($PARAM_4);
             }
         }";
             methodShell = methodShell.Replace("$METHOD_NAME", name).Replace("$DRAWER_NAME", drawerName);
 
             variables = new Variable[] {
-                new Variable(typeof(Vector3), "position", "currentPosition", "currentPosition + position", 255),
+                new Variable(typeof(Vector3), "position", "currentPosition", "position.Add(currentPosition)", 255),
                 new Variable(typeof(Quaternion), "rotation", "currentRotation", "(currentRotation * rotation)"),
-                new Variable(typeof(Vector3), "scale", "Vector3.one", "currentScale + scale"),
+                new Variable(typeof(Vector3), "scale", "V3One", "scale.Add(currentScale)"),
                 new Variable(typeof(Color), "color", "currentColor", "color") };
         }
 

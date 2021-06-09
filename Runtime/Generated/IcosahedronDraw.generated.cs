@@ -13,10 +13,10 @@ namespace ReGizmo.Drawing
             {
                 ref var shaderData = ref drawer.GetShaderData();
 
-                shaderData.Position = currentPosition + position;
-                shaderData.Rotation = (currentRotation * rotation).ToVector4();
-                shaderData.Scale = currentScale + scale;
-                shaderData.Color = color;
+                shaderData.Position = position.Add(currentPosition);
+                shaderData.Rotation.Copy((currentRotation * rotation));
+                shaderData.Scale = scale.Add(currentScale);
+                shaderData.Color.Copy(color);
             }
         }
         public static void Icosahedron(UnityEngine.Vector3 position, UnityEngine.Quaternion rotation, UnityEngine.Vector3 scale)
@@ -25,10 +25,10 @@ namespace ReGizmo.Drawing
             {
                 ref var shaderData = ref drawer.GetShaderData();
 
-                shaderData.Position = currentPosition + position;
-                shaderData.Rotation = (currentRotation * rotation).ToVector4();
-                shaderData.Scale = currentScale + scale;
-                shaderData.Color = currentColor;
+                shaderData.Position = position.Add(currentPosition);
+                shaderData.Rotation.Copy((currentRotation * rotation));
+                shaderData.Scale = scale.Add(currentScale);
+                shaderData.Color.Copy(currentColor);
             }
         }
         public static void Icosahedron(UnityEngine.Vector3 position, UnityEngine.Quaternion rotation, UnityEngine.Color color)
@@ -37,10 +37,10 @@ namespace ReGizmo.Drawing
             {
                 ref var shaderData = ref drawer.GetShaderData();
 
-                shaderData.Position = currentPosition + position;
-                shaderData.Rotation = (currentRotation * rotation).ToVector4();
-                shaderData.Scale = Vector3.one;
-                shaderData.Color = color;
+                shaderData.Position = position.Add(currentPosition);
+                shaderData.Rotation.Copy((currentRotation * rotation));
+                shaderData.Scale = V3One;
+                shaderData.Color.Copy(color);
             }
         }
         public static void Icosahedron(UnityEngine.Vector3 position, UnityEngine.Vector3 scale, UnityEngine.Color color)
@@ -49,10 +49,10 @@ namespace ReGizmo.Drawing
             {
                 ref var shaderData = ref drawer.GetShaderData();
 
-                shaderData.Position = currentPosition + position;
-                shaderData.Rotation = currentRotation.ToVector4();
-                shaderData.Scale = currentScale + scale;
-                shaderData.Color = color;
+                shaderData.Position = position.Add(currentPosition);
+                shaderData.Rotation.Copy(currentRotation);
+                shaderData.Scale = scale.Add(currentScale);
+                shaderData.Color.Copy(color);
             }
         }
         public static void Icosahedron(UnityEngine.Vector3 position, UnityEngine.Quaternion rotation)
@@ -61,10 +61,10 @@ namespace ReGizmo.Drawing
             {
                 ref var shaderData = ref drawer.GetShaderData();
 
-                shaderData.Position = currentPosition + position;
-                shaderData.Rotation = (currentRotation * rotation).ToVector4();
-                shaderData.Scale = Vector3.one;
-                shaderData.Color = currentColor;
+                shaderData.Position = position.Add(currentPosition);
+                shaderData.Rotation.Copy((currentRotation * rotation));
+                shaderData.Scale = V3One;
+                shaderData.Color.Copy(currentColor);
             }
         }
         public static void Icosahedron(UnityEngine.Vector3 position, UnityEngine.Vector3 scale)
@@ -73,10 +73,10 @@ namespace ReGizmo.Drawing
             {
                 ref var shaderData = ref drawer.GetShaderData();
 
-                shaderData.Position = currentPosition + position;
-                shaderData.Rotation = currentRotation.ToVector4();
-                shaderData.Scale = currentScale + scale;
-                shaderData.Color = currentColor;
+                shaderData.Position = position.Add(currentPosition);
+                shaderData.Rotation.Copy(currentRotation);
+                shaderData.Scale = scale.Add(currentScale);
+                shaderData.Color.Copy(currentColor);
             }
         }
         public static void Icosahedron(UnityEngine.Vector3 position, UnityEngine.Color color)
@@ -85,10 +85,10 @@ namespace ReGizmo.Drawing
             {
                 ref var shaderData = ref drawer.GetShaderData();
 
-                shaderData.Position = currentPosition + position;
-                shaderData.Rotation = currentRotation.ToVector4();
-                shaderData.Scale = Vector3.one;
-                shaderData.Color = color;
+                shaderData.Position = position.Add(currentPosition);
+                shaderData.Rotation.Copy(currentRotation);
+                shaderData.Scale = V3One;
+                shaderData.Color.Copy(color);
             }
         }
         public static void Icosahedron(UnityEngine.Quaternion rotation, UnityEngine.Color color)
@@ -98,9 +98,9 @@ namespace ReGizmo.Drawing
                 ref var shaderData = ref drawer.GetShaderData();
 
                 shaderData.Position = currentPosition;
-                shaderData.Rotation = (currentRotation * rotation).ToVector4();
-                shaderData.Scale = Vector3.one;
-                shaderData.Color = color;
+                shaderData.Rotation.Copy((currentRotation * rotation));
+                shaderData.Scale = V3One;
+                shaderData.Color.Copy(color);
             }
         }
         public static void Icosahedron(UnityEngine.Vector3 position)
@@ -109,10 +109,10 @@ namespace ReGizmo.Drawing
             {
                 ref var shaderData = ref drawer.GetShaderData();
 
-                shaderData.Position = currentPosition + position;
-                shaderData.Rotation = currentRotation.ToVector4();
-                shaderData.Scale = Vector3.one;
-                shaderData.Color = currentColor;
+                shaderData.Position = position.Add(currentPosition);
+                shaderData.Rotation.Copy(currentRotation);
+                shaderData.Scale = V3One;
+                shaderData.Color.Copy(currentColor);
             }
         }
         public static void Icosahedron(UnityEngine.Quaternion rotation)
@@ -122,9 +122,9 @@ namespace ReGizmo.Drawing
                 ref var shaderData = ref drawer.GetShaderData();
 
                 shaderData.Position = currentPosition;
-                shaderData.Rotation = (currentRotation * rotation).ToVector4();
-                shaderData.Scale = Vector3.one;
-                shaderData.Color = currentColor;
+                shaderData.Rotation.Copy((currentRotation * rotation));
+                shaderData.Scale = V3One;
+                shaderData.Color.Copy(currentColor);
             }
         }
         public static void Icosahedron(UnityEngine.Color color)
@@ -134,9 +134,9 @@ namespace ReGizmo.Drawing
                 ref var shaderData = ref drawer.GetShaderData();
 
                 shaderData.Position = currentPosition;
-                shaderData.Rotation = currentRotation.ToVector4();
-                shaderData.Scale = Vector3.one;
-                shaderData.Color = color;
+                shaderData.Rotation.Copy(currentRotation);
+                shaderData.Scale = V3One;
+                shaderData.Color.Copy(color);
             }
         }
         public static void Icosahedron()
@@ -146,9 +146,9 @@ namespace ReGizmo.Drawing
                 ref var shaderData = ref drawer.GetShaderData();
 
                 shaderData.Position = currentPosition;
-                shaderData.Rotation = currentRotation.ToVector4();
-                shaderData.Scale = Vector3.one;
-                shaderData.Color = currentColor;
+                shaderData.Rotation.Copy(currentRotation);
+                shaderData.Scale = V3One;
+                shaderData.Color.Copy(currentColor);
             }
         }
     }
