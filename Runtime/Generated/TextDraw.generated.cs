@@ -12,9 +12,9 @@ namespace ReGizmo.Drawing
             if (ReGizmoResolver<TextDrawer>.TryGet(out var drawer))
             {
                 ref var textData = ref drawer.GetTextShaderData(out uint id);
-                textData.Position = currentPosition + position;
+                textData.Position = position.Add(currentPosition);
                 textData.Scale = scale;
-                textData.Color = new Vector3(color.r, color.g, color.b);
+                textData.Color.Copy(color);
                 
                 float totalAdvance = 0f;
                 for (int i = 0; i < text.Length; i++)
@@ -38,9 +38,9 @@ namespace ReGizmo.Drawing
             if (ReGizmoResolver<TextDrawer>.TryGet(out var drawer))
             {
                 ref var textData = ref drawer.GetTextShaderData(out uint id);
-                textData.Position = currentPosition + position;
+                textData.Position = position.Add(currentPosition);
                 textData.Scale = scale;
-                textData.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
+                textData.Color.Copy(currentColor);
                 
                 float totalAdvance = 0f;
                 for (int i = 0; i < text.Length; i++)
@@ -64,9 +64,9 @@ namespace ReGizmo.Drawing
             if (ReGizmoResolver<TextDrawer>.TryGet(out var drawer))
             {
                 ref var textData = ref drawer.GetTextShaderData(out uint id);
-                textData.Position = currentPosition + position;
+                textData.Position = position.Add(currentPosition);
                 textData.Scale = 16f;
-                textData.Color = new Vector3(color.r, color.g, color.b);
+                textData.Color.Copy(color);
                 
                 float totalAdvance = 0f;
                 for (int i = 0; i < text.Length; i++)
@@ -92,7 +92,7 @@ namespace ReGizmo.Drawing
                 ref var textData = ref drawer.GetTextShaderData(out uint id);
                 textData.Position = currentPosition;
                 textData.Scale = scale;
-                textData.Color = new Vector3(color.r, color.g, color.b);
+                textData.Color.Copy(color);
                 
                 float totalAdvance = 0f;
                 for (int i = 0; i < text.Length; i++)
@@ -116,9 +116,9 @@ namespace ReGizmo.Drawing
             if (ReGizmoResolver<TextDrawer>.TryGet(out var drawer))
             {
                 ref var textData = ref drawer.GetTextShaderData(out uint id);
-                textData.Position = currentPosition + position;
+                textData.Position = position.Add(currentPosition);
                 textData.Scale = 16f;
-                textData.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
+                textData.Color.Copy(currentColor);
                 
                 float totalAdvance = 0f;
                 for (int i = 0; i < text.Length; i++)
@@ -144,7 +144,7 @@ namespace ReGizmo.Drawing
                 ref var textData = ref drawer.GetTextShaderData(out uint id);
                 textData.Position = currentPosition;
                 textData.Scale = scale;
-                textData.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
+                textData.Color.Copy(currentColor);
                 
                 float totalAdvance = 0f;
                 for (int i = 0; i < text.Length; i++)
@@ -170,7 +170,7 @@ namespace ReGizmo.Drawing
                 ref var textData = ref drawer.GetTextShaderData(out uint id);
                 textData.Position = currentPosition;
                 textData.Scale = 16f;
-                textData.Color = new Vector3(color.r, color.g, color.b);
+                textData.Color.Copy(color);
                 
                 float totalAdvance = 0f;
                 for (int i = 0; i < text.Length; i++)
@@ -196,7 +196,7 @@ namespace ReGizmo.Drawing
                 ref var textData = ref drawer.GetTextShaderData(out uint id);
                 textData.Position = currentPosition;
                 textData.Scale = 16f;
-                textData.Color = new Vector3(currentColor.r, currentColor.g, currentColor.b);
+                textData.Color.Copy(currentColor);
                 
                 float totalAdvance = 0f;
                 for (int i = 0; i < text.Length; i++)
