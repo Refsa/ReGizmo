@@ -16,8 +16,8 @@ namespace ReGizmo.Samples.Performance
                 {
                     var color = Random.ColorHSV();
 
-                    Vector3 p1 = Random.insideUnitSphere * 50f;
-                    Vector3 p2 = Random.insideUnitSphere * 50f;
+                    Vector3 p1 = Random.insideUnitSphere * 250f;
+                    Vector3 p2 = Random.insideUnitSphere * 250f;
                     ReDraw.Line(p1, p2, color);
                 }
             }

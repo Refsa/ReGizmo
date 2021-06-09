@@ -66,6 +66,11 @@ namespace ReGizmo.Samples.Performance
             sw.Stop();
             Debug.Log($"{this.GetType().Name} took {sw.ElapsedTicks / 10_000f} ms");
         }
+#else
+        void Update()
+        {
+            RunInternal();
+        }
 #endif
     }
 }

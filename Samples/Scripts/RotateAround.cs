@@ -10,9 +10,11 @@ namespace ReGizmo.Samples
 #endif
     internal class RotateAround : MonoBehaviour
     {
+        [SerializeField] Transform pivot;
+
         void Update()
         {
-            transform.RotateAround(Vector3.zero, Vector3.up, 10f * Time.deltaTime);
+            transform.RotateAround(pivot == null ? Vector3.zero : pivot.position, Vector3.up, 10f * Time.deltaTime);
         }
     }
 }

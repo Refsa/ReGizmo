@@ -7,7 +7,11 @@ public class DrawCubes : MonoBehaviour
 {
     [SerializeField] int sizeSqr = 64;
 
+#if UNITY_EDITOR
     void OnDrawGizmos()
+#else
+    void Update()
+#endif
     {
         using (new TransformScope(transform))
         {
