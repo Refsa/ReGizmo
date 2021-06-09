@@ -8,8 +8,7 @@ namespace ReGizmo.Utils
     {
         static InjectedSystemCallbacks injectedSystem;
 
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        static void Inject()
+        public static void Setup()
         {
             var playerLoop = PlayerLoop.GetCurrentPlayerLoop();
             injectedSystem = new InjectedSystemCallbacks();

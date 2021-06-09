@@ -104,6 +104,7 @@ namespace ReGizmo.Core
 
             if (Application.isPlaying)
             {
+                PlayerLoopInject.Setup();
                 SetupRuntimeHooks();
             }
 
@@ -114,7 +115,7 @@ namespace ReGizmo.Core
         static void SetupRuntimeHooks()
         {
 #if RG_LEGACY
-            PlayerLoopInject.Inject(PlayerLoopInjectionPoint.Update, OnUpdate);
+            PlayerLoopInject.Inject(PlayerLoopInjectionPoint.PostUpdate, OnUpdate);
 #endif
 
             Application.quitting += Dispose;
@@ -189,10 +190,12 @@ namespace ReGizmo.Core
 
 #if RG_LEGACY
             {
-                var camera = Camera.main;
-                if (!activeCameras.ContainsKey(camera))
+                foreach (var camera in Camera.allCameras)
                 {
-                    activeCameras.Add(camera, new CameraData(camera, CAMERA_EVENT));
+                    if (!activeCameras.ContainsKey(camera))
+                    {
+                        activeCameras.Add(camera, new CameraData(camera, CAMERA_EVENT));
+                    }
                 }
             }
 #endif

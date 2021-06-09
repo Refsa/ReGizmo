@@ -34,7 +34,7 @@ namespace ReGizmo.Editor
             BuildHook.onAfterBuild += OnAfterBuild;
             BuildHook.onBeforeBuild += OnBeforeBuild;
 
-            EditorSceneManager.activeSceneChangedInEditMode += OnSceneChanged;
+            EditorSceneManager.activeSceneChangedInEditMode += OnSceneChangedInEditMode;
 
             EditorApplication.projectChanged += OnProjectChanged;
         }
@@ -48,7 +48,7 @@ namespace ReGizmo.Editor
             BuildHook.onAfterBuild -= OnAfterBuild;
             BuildHook.onBeforeBuild -= OnBeforeBuild;
 
-            EditorSceneManager.activeSceneChangedInEditMode -= OnSceneChanged;
+            EditorSceneManager.activeSceneChangedInEditMode -= OnSceneChangedInEditMode;
 
             SceneView.duringSceneGui -= OnDuringSceneGUI;
 
@@ -86,6 +86,8 @@ namespace ReGizmo.Editor
             else if (change == PlayModeStateChange.EnteredPlayMode)
             {
                 SceneView.duringSceneGui -= OnDuringSceneGUI;
+                Core.ReGizmo.Initialize();
+                Core.ReGizmo.SetActive(true);
             }
         }
 
@@ -99,7 +101,7 @@ namespace ReGizmo.Editor
 
         }
 
-        static void OnSceneChanged(Scene arg0, Scene arg1)
+        static void OnSceneChangedInEditMode(Scene arg0, Scene arg1)
         {
             ReGizmo.Core.ReGizmo.Initialize();
             ReGizmo.Core.ReGizmo.SetActive(true);
