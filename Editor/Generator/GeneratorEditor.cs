@@ -38,15 +38,15 @@ namespace ReGizmo.Generator
         {
             MeshDrawGenerator[] targets = new MeshDrawGenerator[]
             {
-                new MeshDrawGenerator("Cube", "ReGizmoCubeDrawer"),
-                new MeshDrawGenerator("Sphere", "ReGizmoSphereDrawer"),
-                new MeshDrawGenerator("Quad", "ReGizmoQuadDrawer"),
-                new MeshDrawGenerator("Cylinder", "ReGizmoCylinderDrawer"),
-                new MeshDrawGenerator("Capsule", "ReGizmoCapsuleDrawer"),
-                new MeshDrawGenerator("Cone", "ReGizmoConeDrawer"),
-                new MeshDrawGenerator("Octahedron", "ReGizmoOctahedronDrawer"),
-                new MeshDrawGenerator("Pyramid", "ReGizmoPyramidDrawer"),
-                new MeshDrawGenerator("Icosahedron", "ReGizmoIcosahedronDrawer"),
+                new MeshDrawGenerator("Cube", "CubeDrawer"),
+                new MeshDrawGenerator("Sphere", "SphereDrawer"),
+                new MeshDrawGenerator("Quad", "QuadDrawer"),
+                new MeshDrawGenerator("Cylinder", "CylinderDrawer"),
+                new MeshDrawGenerator("Capsule", "CapsuleDrawer"),
+                new MeshDrawGenerator("Cone", "ConeDrawer"),
+                new MeshDrawGenerator("Octahedron", "OctahedronDrawer"),
+                new MeshDrawGenerator("Pyramid", "PyramidDrawer"),
+                new MeshDrawGenerator("Icosahedron", "IcosahedronDrawer"),
             };
 
             foreach (var target in targets)
