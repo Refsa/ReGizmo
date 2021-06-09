@@ -40,11 +40,36 @@ namespace ReGizmo.Utils
                     }
                 }
 
-                return ref shaderDataPool[Interlocked.Increment(ref writeCursor)];
+                int pos = writeCursor;
+                Interlocked.Increment(ref writeCursor);
+                return ref shaderDataPool[pos];
             }
             catch
             {
                 return ref ghostData;
+            }
+        }
+
+        public RefRange<T> GetRange(int count)
+        {
+            // HACK: Kinda dirty, but we dont care about 100% accuracy in the chance that the buffer was resized
+            try
+            {
+                if (writeCursor + count >= shaderDataPool.Length - 1) 
+                {
+                    lock (shaderDataPool)
+                    {
+                        Expand((int)(shaderDataPool.Length * 1.5f));
+                    }
+                }
+
+                int start = writeCursor;
+                Interlocked.Add(ref writeCursor, count);
+                return new RefRange<T>(shaderDataPool, start, count);
+            }
+            catch
+            {
+                return RefRange<T>.Null();
             }
         }
 
