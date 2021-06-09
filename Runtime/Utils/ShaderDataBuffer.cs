@@ -1,4 +1,6 @@
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Threading;
 using ReGizmo.Core;
 using UnityEngine;
 
@@ -9,8 +11,9 @@ namespace ReGizmo.Utils
     {
         T[] shaderDataPool;
         ComputeBuffer shaderDataBuffer;
+        T ghostData;
 
-        int writeCursor;
+        volatile int writeCursor;
 
         public T[] ShaderDataPool => shaderDataPool;
         public ComputeBuffer ComputeBuffer => shaderDataBuffer;
@@ -23,14 +26,28 @@ namespace ReGizmo.Utils
             writeCursor = 0;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ref T Get()
         {
-            if (writeCursor >= shaderDataPool.Length)
+            if (writeCursor >= shaderDataPool.Length - 1) 
             {
-                Expand((int)(shaderDataPool.Length * 1.5f));
+                lock (shaderDataPool)
+                {
+                    if (writeCursor >= shaderDataPool.Length - 1)
+                    {
+                        Expand((int)(shaderDataPool.Length * 1.5f));
+                    }
+                }
             }
 
-            return ref shaderDataPool[writeCursor++];
+            try
+            {
+                return ref shaderDataPool[Interlocked.Increment(ref writeCursor)];
+            }
+            catch
+            {
+                return ref ghostData;
+            }
         }
 
         public void Reset()
