@@ -21,6 +21,10 @@ namespace ReGizmo.Drawing
 
         public void Hook(CommandBuffer commandBuffer, ComputeShader compute, int kernelID, int len) 
         {
+#if !UNITY_EDITOR
+            return;
+#endif
+
             if (buffer == null || buffer.Equals(null))
             {
                 buffer = ComputeBufferPool.Get(len, System.Runtime.InteropServices.Marshal.SizeOf<CullingDebug.BoundingBox>(), name: "CullingDebugBuffer");
