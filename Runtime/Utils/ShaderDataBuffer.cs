@@ -29,19 +29,17 @@ namespace ReGizmo.Utils
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ref T Get()
         {
-            if (writeCursor >= shaderDataPool.Length - 1) 
+            // HACK: Kinda dirty, but we dont care about 100% accuracy in the chance that the buffer was resized
+            try
             {
-                lock (shaderDataPool)
+                if (writeCursor >= shaderDataPool.Length - 1) 
                 {
-                    if (writeCursor >= shaderDataPool.Length - 1)
+                    lock (shaderDataPool)
                     {
                         Expand((int)(shaderDataPool.Length * 1.5f));
                     }
                 }
-            }
 
-            try
-            {
                 return ref shaderDataPool[Interlocked.Increment(ref writeCursor)];
             }
             catch
@@ -73,6 +71,12 @@ namespace ReGizmo.Utils
 
         public void PushData()
         {
+            if (shaderDataBuffer == null || shaderDataBuffer.count < shaderDataPool.Length)
+            {
+                ComputeBufferPool.Free(shaderDataBuffer);
+                shaderDataBuffer = ComputeBufferPool.Get(shaderDataPool.Length, Marshal.SizeOf<T>());
+            }
+
             shaderDataBuffer.SetData(shaderDataPool, 0, 0, writeCursor);
         }
 
@@ -82,9 +86,6 @@ namespace ReGizmo.Utils
 
             int currentLength = shaderDataPool == null ? 0 : shaderDataPool.Length;
             shaderDataPool = new T[currentLength + amount];
-
-            ComputeBufferPool.Free(shaderDataBuffer);
-            shaderDataBuffer = ComputeBufferPool.Get(shaderDataPool.Length, Marshal.SizeOf<T>());
 
             System.Array.Copy(oldPool, shaderDataPool, writeCursor);
         }
