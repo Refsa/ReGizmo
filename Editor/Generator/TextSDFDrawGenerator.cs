@@ -18,7 +18,7 @@ namespace ReGizmo.Generator
                 ref var textData = ref drawer.GetTextShaderData(out uint id);
                 textData.Position = $PARAM_1;
                 textData.Scale = $PARAM_2;
-                textData.Color = new Vector3($PARAM_3.r, $PARAM_3.g, $PARAM_3.b);
+                textData.Color.Copy($PARAM_3);
                 
                 float totalAdvance = 0f;
                 for (int i = 0; i < text.Length; i++)
@@ -39,7 +39,7 @@ namespace ReGizmo.Generator
         }";
             variables = new Variable[]
             {
-                new Variable(typeof(Vector3), "position", "currentPosition", "currentPosition + position", 255),
+                new Variable(typeof(Vector3), "position", "currentPosition", "position.Add(currentPosition)", 255),
                 new Variable(typeof(float), "scale", "16f", "scale"),
                 new Variable(typeof(Color), "color", "currentColor", "color")
             };
