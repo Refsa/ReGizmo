@@ -16,6 +16,15 @@ namespace ReGizmo.Utils
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 Mul(this ref Vector3 self, in Vector3 other)
+        {
+            self.x *= other.x;
+            self.y *= other.y;
+            self.z *= other.z;
+            return self;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void SetAdd(this ref Vector3 self, in Vector3 a, in Vector3 b)
         {
             self.x = a.x + b.x;
