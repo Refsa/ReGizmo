@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace ReGizmo.Drawing
@@ -30,6 +31,24 @@ namespace ReGizmo.Drawing
 
             return self * percent;
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Copy(this ref Vector3 self, in Color color)
+        {
+            self.x = color.r;
+            self.y = color.g;
+            self.z = color.b;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Copy(this ref Vector4 self, in Color color)
+        {
+            self.x = color.r;
+            self.y = color.g;
+            self.z = color.b;
+            self.w = color.a;
+        }
+
         public static Color Random()
         {
             return new Color(
