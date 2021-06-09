@@ -6,7 +6,13 @@
         probably need another heuristic to also account for depth and not just surface normal against view direction
     - @low Persisting draw-calls, where the user can define a time/duration it will be active for
     - @high comments on public facing methods/types
-    
+    - @high culling frustum doesnt scale properly with viewport rect
+    - @high refactor color.ToVector3() to instead set the values directly to the shader data
+        use Color::Copy extension method
+    - @high refactor Vector3 additions to use Vector3::SetAdd(a, b) extension method
+    - @critical ComputeBufferParam crash in CullingHandler
+    - @high change Text and SDFText to use GetShaderDataRange to avoid concurrency issues
+
 Z-Sort:
     - @low Proper Z-Sorting within and between each drawer
         Avoids an issue where two drawers are overlapping, causing the AA area to not blend

@@ -14,7 +14,7 @@ namespace ReGizmo.Samples
                 ReDraw.Cone(Color.red);
             } */
 
-            ReDraw.Cone(transform.position, transform.rotation, transform.lossyScale, Color.red);
+            ReDraw.Cone(transform.position, transform.rotation, transform.localScale, Color.red);
         }
     }
 }
