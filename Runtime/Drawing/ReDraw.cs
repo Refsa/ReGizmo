@@ -60,6 +60,10 @@ namespace ReGizmo.Drawing
     {
         static Vector3 V3One = Vector3.one;
         static Vector3 V3Zero = Vector3.zero;
+        static Vector3 V3Back = Vector3.back;
+        static Vector3 V3Forward = Vector3.forward;
+        static Vector3 V3Up = Vector3.up;
+        static Vector3 V3Right = Vector3.right;
 
         internal static Vector3 currentPosition = Vector3.zero;
         internal static Quaternion currentRotation = Quaternion.Euler(0f, 0f, 0f);
