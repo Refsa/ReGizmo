@@ -15,12 +15,10 @@ namespace ReGizmo.Utils
 
         volatile int writeCursor;
 
-        public T[] ShaderDataPool => shaderDataPool;
         public ComputeBuffer ComputeBuffer => shaderDataBuffer;
 
         public ShaderDataBuffer(int capacity = 1024)
         {
-            shaderDataPool = new T[0];
             Expand(capacity);
 
             writeCursor = 0;
@@ -32,7 +30,7 @@ namespace ReGizmo.Utils
             // HACK: Kinda dirty, but we dont care about 100% accuracy in the chance that the buffer was resized
             try
             {
-                if (writeCursor >= shaderDataPool.Length - 1) 
+                if (writeCursor >= shaderDataPool.Length - 1)
                 {
                     lock (shaderDataPool)
                     {
@@ -40,8 +38,8 @@ namespace ReGizmo.Utils
                     }
                 }
 
-                int pos = writeCursor;
-                Interlocked.Increment(ref writeCursor);
+                int pos = Interlocked.Increment(ref writeCursor);
+                pos -= 1;
                 return ref shaderDataPool[pos];
             }
             catch
@@ -55,7 +53,7 @@ namespace ReGizmo.Utils
             // HACK: Kinda dirty, but we dont care about 100% accuracy in the chance that the buffer was resized
             try
             {
-                if (writeCursor + count >= shaderDataPool.Length - 1) 
+                if (writeCursor + count >= shaderDataPool.Length - 1)
                 {
                     lock (shaderDataPool)
                     {
@@ -63,8 +61,8 @@ namespace ReGizmo.Utils
                     }
                 }
 
-                int start = writeCursor;
-                Interlocked.Add(ref writeCursor, count);
+                int start = Interlocked.Add(ref writeCursor, count);
+                start -= count;
                 return new RefRange<T>(shaderDataPool, start, count);
             }
             catch
@@ -112,7 +110,10 @@ namespace ReGizmo.Utils
             int currentLength = shaderDataPool == null ? 0 : shaderDataPool.Length;
             shaderDataPool = new T[currentLength + amount];
 
-            System.Array.Copy(oldPool, shaderDataPool, writeCursor);
+            if (oldPool != null)
+            {
+                System.Array.Copy(oldPool, shaderDataPool, writeCursor);
+            }
         }
 
         public void Dispose()
