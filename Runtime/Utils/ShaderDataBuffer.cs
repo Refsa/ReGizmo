@@ -14,12 +14,15 @@ namespace ReGizmo.Utils
         T ghostData;
 
         volatile int writeCursor;
+        Mutex mutex;
 
         public ComputeBuffer ComputeBuffer => shaderDataBuffer;
 
         public ShaderDataBuffer(int capacity = 1024)
         {
             Expand(capacity);
+
+            mutex = new Mutex();
 
             writeCursor = 0;
         }
@@ -61,9 +64,8 @@ namespace ReGizmo.Utils
                     }
                 }
 
-                int start = Interlocked.Add(ref writeCursor, count);
-                start -= count;
-                return new RefRange<T>(shaderDataPool, start, count);
+                int end = Interlocked.Add(ref writeCursor, count);
+                return new RefRange<T>(shaderDataPool, end - count, end);
             }
             catch
             {
