@@ -33,15 +33,9 @@ namespace ReGizmo.Utils
             // HACK: Kinda dirty, but we dont care about 100% accuracy in the chance that the buffer was resized
             try
             {
-                if (writeCursor >= shaderDataPool.Length - 1)
-                {
-                    lock (shaderDataPool)
-                    {
-                        Expand((int)(shaderDataPool.Length * 1.5f));
-                    }
-                }
-
                 int pos = Interlocked.Increment(ref writeCursor);
+                EnsureCapacity(pos);
+
                 pos -= 1;
                 return ref shaderDataPool[pos];
             }
@@ -56,15 +50,9 @@ namespace ReGizmo.Utils
             // HACK: Kinda dirty, but we dont care about 100% accuracy in the chance that the buffer was resized
             try
             {
-                if (writeCursor + count >= shaderDataPool.Length - 1)
-                {
-                    lock (shaderDataPool)
-                    {
-                        Expand((int)(shaderDataPool.Length * 1.5f));
-                    }
-                }
-
                 int end = Interlocked.Add(ref writeCursor, count);
+                EnsureCapacity(end);
+
                 return new RefRange<T>(shaderDataPool, end - count, end);
             }
             catch
@@ -103,6 +91,19 @@ namespace ReGizmo.Utils
             }
 
             shaderDataBuffer.SetData(shaderDataPool, 0, 0, writeCursor);
+        }
+
+        void EnsureCapacity(int capacity)
+        {
+            if (capacity >= shaderDataPool.Length - 1)
+            {
+                lock (shaderDataPool)
+                {
+                    if (capacity < shaderDataPool.Length - 1) return;
+
+                    Expand((int)(shaderDataPool.Length * 1.5f));
+                }
+            }
         }
 
         void Expand(int amount)
