@@ -29,7 +29,11 @@ namespace ReGizmo.Drawing
 
             percent = Mathf.Clamp01(percent);
 
-            return self * percent;
+            self.r *= percent;
+            self.g *= percent;
+            self.b *= percent;
+
+            return self;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
