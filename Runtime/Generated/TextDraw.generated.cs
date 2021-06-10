@@ -15,11 +15,13 @@ namespace ReGizmo.Drawing
                 textData.Position = position.Add(currentPosition);
                 textData.Scale = scale;
                 textData.Color.Copy(color);
+
+                var charDatas = drawer.GetShaderDataRange(text.Length);
                 
                 float totalAdvance = 0f;
                 for (int i = 0; i < text.Length; i++)
                 {
-                    ref var charData = ref drawer.GetShaderData();
+                    ref var charData = ref charDatas.Next();
 
                     charData.TextID = id;
                     charData.Advance = totalAdvance;
@@ -41,11 +43,13 @@ namespace ReGizmo.Drawing
                 textData.Position = position.Add(currentPosition);
                 textData.Scale = scale;
                 textData.Color.Copy(currentColor);
+
+                var charDatas = drawer.GetShaderDataRange(text.Length);
                 
                 float totalAdvance = 0f;
                 for (int i = 0; i < text.Length; i++)
                 {
-                    ref var charData = ref drawer.GetShaderData();
+                    ref var charData = ref charDatas.Next();
 
                     charData.TextID = id;
                     charData.Advance = totalAdvance;
@@ -67,11 +71,13 @@ namespace ReGizmo.Drawing
                 textData.Position = position.Add(currentPosition);
                 textData.Scale = 16f;
                 textData.Color.Copy(color);
+
+                var charDatas = drawer.GetShaderDataRange(text.Length);
                 
                 float totalAdvance = 0f;
                 for (int i = 0; i < text.Length; i++)
                 {
-                    ref var charData = ref drawer.GetShaderData();
+                    ref var charData = ref charDatas.Next();
 
                     charData.TextID = id;
                     charData.Advance = totalAdvance;
@@ -93,11 +99,13 @@ namespace ReGizmo.Drawing
                 textData.Position = currentPosition;
                 textData.Scale = scale;
                 textData.Color.Copy(color);
+
+                var charDatas = drawer.GetShaderDataRange(text.Length);
                 
                 float totalAdvance = 0f;
                 for (int i = 0; i < text.Length; i++)
                 {
-                    ref var charData = ref drawer.GetShaderData();
+                    ref var charData = ref charDatas.Next();
 
                     charData.TextID = id;
                     charData.Advance = totalAdvance;
@@ -119,11 +127,13 @@ namespace ReGizmo.Drawing
                 textData.Position = position.Add(currentPosition);
                 textData.Scale = 16f;
                 textData.Color.Copy(currentColor);
+
+                var charDatas = drawer.GetShaderDataRange(text.Length);
                 
                 float totalAdvance = 0f;
                 for (int i = 0; i < text.Length; i++)
                 {
-                    ref var charData = ref drawer.GetShaderData();
+                    ref var charData = ref charDatas.Next();
 
                     charData.TextID = id;
                     charData.Advance = totalAdvance;
@@ -145,11 +155,13 @@ namespace ReGizmo.Drawing
                 textData.Position = currentPosition;
                 textData.Scale = scale;
                 textData.Color.Copy(currentColor);
+
+                var charDatas = drawer.GetShaderDataRange(text.Length);
                 
                 float totalAdvance = 0f;
                 for (int i = 0; i < text.Length; i++)
                 {
-                    ref var charData = ref drawer.GetShaderData();
+                    ref var charData = ref charDatas.Next();
 
                     charData.TextID = id;
                     charData.Advance = totalAdvance;
@@ -171,11 +183,13 @@ namespace ReGizmo.Drawing
                 textData.Position = currentPosition;
                 textData.Scale = 16f;
                 textData.Color.Copy(color);
+
+                var charDatas = drawer.GetShaderDataRange(text.Length);
                 
                 float totalAdvance = 0f;
                 for (int i = 0; i < text.Length; i++)
                 {
-                    ref var charData = ref drawer.GetShaderData();
+                    ref var charData = ref charDatas.Next();
 
                     charData.TextID = id;
                     charData.Advance = totalAdvance;
@@ -197,11 +211,13 @@ namespace ReGizmo.Drawing
                 textData.Position = currentPosition;
                 textData.Scale = 16f;
                 textData.Color.Copy(currentColor);
+
+                var charDatas = drawer.GetShaderDataRange(text.Length);
                 
                 float totalAdvance = 0f;
                 for (int i = 0; i < text.Length; i++)
                 {
-                    ref var charData = ref drawer.GetShaderData();
+                    ref var charData = ref charDatas.Next();
 
                     charData.TextID = id;
                     charData.Advance = totalAdvance;

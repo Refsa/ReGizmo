@@ -19,11 +19,13 @@ namespace ReGizmo.Generator
                 textData.Position = $PARAM_1;
                 textData.Scale = $PARAM_2;
                 textData.Color.Copy($PARAM_3);
+
+                var charDatas = drawer.GetShaderDataRange(text.Length);
                 
                 float totalAdvance = 0f;
                 for (int i = 0; i < text.Length; i++)
                 {
-                    ref var charData = ref drawer.GetShaderData();
+                    ref var charData = ref charDatas.Next();
 
                     charData.TextID = id;
                     charData.Advance = totalAdvance;
