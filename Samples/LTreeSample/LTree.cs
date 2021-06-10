@@ -39,8 +39,8 @@ namespace ReGizmo.Samples
         where TMode : Enum
     {
         TMode RuleFor { get; }
-        TState Build(TState current, Stack<TState> stack);
         LinkedListNode<TMode> Generate(LL<TMode> ltree, LinkedListNode<TMode> current);
+        TState Build(TState current, Stack<TState> stack);
     }
 
     public interface ILTree

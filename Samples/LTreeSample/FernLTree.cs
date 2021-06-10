@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using ReGizmo.Drawing;
 using UnityEngine;
 
-namespace ReGizmo.Samples
+namespace ReGizmo.Samples.FernLSys
 {
     public struct FernState : IState<FernMode>
     {
