@@ -1,7 +1,8 @@
 {
     "name": "ReGizmo.Samples",
     "references": [
-        "GUID:6afc6f943b2232447afb72516ae9fddc"
+        "GUID:6afc6f943b2232447afb72516ae9fddc",
+        "GUID:d8b63aba1907145bea998dd612889d6b"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

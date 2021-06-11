@@ -20,7 +20,10 @@ namespace ReGizmo.Samples.Performance
     {
         [SerializeField] float duration = 10f;
         [SerializeField] protected int testSizeSqr = 100;
+
+        [Header("Preview")]
         [SerializeField] bool previewParallel;
+        [SerializeField] bool logTime;
 
         FrameTimeDebug _frameTimeDebug;
 
@@ -144,7 +147,11 @@ namespace ReGizmo.Samples.Performance
             Preview();
 
             sw.Stop();
-            Debug.Log($"{this.GetType().Name} took {sw.ElapsedTicks / 10_000f} ms");
+
+            if (logTime)
+            {
+                Debug.Log($"{this.GetType().Name} took {sw.ElapsedTicks / 10_000f} ms");
+            }
         }
 #else
         void Update()

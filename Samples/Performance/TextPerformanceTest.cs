@@ -22,7 +22,7 @@ namespace ReGizmo.Samples.Performance
                     int x = val / testSizeSqr;
                     int y = val % testSizeSqr;
 
-                    ReDraw.Text(text, new Vector3(x * 2, 0, y * 2), 12f, Color.green);
+                    ReDraw.Text(text, new Vector3(x, 0, y) * 5, 12f, Color.green);
                 });
         }
 
@@ -32,7 +32,7 @@ namespace ReGizmo.Samples.Performance
             {
                 for (int y = 0; y < testSizeSqr; y++)
                 {
-                    ReDraw.Text(text, new Vector3(x * 2, 0, y * 2), 12f, Color.green);
+                    ReDraw.Text(text, new Vector3(x, 0, y) * 5, 12f, Color.green);
                 }
             }
         }
@@ -43,7 +43,7 @@ namespace ReGizmo.Samples.Performance
             {
                 for (int y = 0; y < testSizeSqr; y++)
                 {
-                    ReDraw.Text(text, new Vector3(x * 2, 0, y * 2), 12f, Color.green);
+                    ReDraw.Text(text, new Vector3(x, 0, y) * 5, 12f, Color.green);
                 }
             }
         }
