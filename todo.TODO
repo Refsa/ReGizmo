@@ -7,11 +7,7 @@
     - @low Persisting draw-calls, where the user can define a time/duration it will be active for
     - @high comments on public facing methods/types
     - @high culling frustum doesnt scale properly with viewport rect
-    - @high refactor color.ToVector3() to instead set the values directly to the shader data
-        use Color::Copy extension method
-    - @high refactor Vector3 additions to use Vector3::SetAdd(a, b) extension method
-    - @critical ComputeBufferParam crash in CullingHandler
-    - @high change Text and SDFText to use GetShaderDataRange to avoid concurrency issues
+    - @low flickering when lots of alpha overlap in close proximity
 
 Z-Sort:
     - @low Proper Z-Sorting within and between each drawer
@@ -48,6 +44,7 @@ Fonts:
 
 Lines:
     - @low Poly lines needs proper miters, mostly a requirements for thicker lines
+    - @low flickering issue when many lines are overlapping in close proximity
 
 Generator:
     - @low Code Generator is extremely hard-coded atm, so some work here would be nice
@@ -67,6 +64,11 @@ Readme:
     - Add a third-party library section
 
 Archive:
+  ✔ @high refactor color.ToVector3() to instead set the values directly to the shader data @done(21-06-14 23:16) @project(General)
+    use Color::Copy extension method
+  ✔ @high refactor Vector3 additions to use Vector3::SetAdd(a, b) extension method @done(21-06-14 23:16) @project(General)
+  ✔ @critical ComputeBufferParam crash in CullingHandler @done(21-06-14 23:16) @project(General)
+  ✔ @high change Text and SDFText to use GetShaderDataRange to avoid concurrency issues @done(21-06-14 23:16) @project(General)
   ✔ @high need a different Capsule to visualize Physics Capsules, since the current ones dont scale correctly @done(21-06-07 21:26) @project(Physics)
   ✔ @critical ensure proper frustum culling is done @done(21-06-07 21:26) @project(General)
     This is mostly ignore now, need to set up proper render bounds in the draw call and

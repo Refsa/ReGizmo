@@ -93,10 +93,14 @@ namespace ReGizmo.Drawing
             return (uint)currentDrawCount;
         }
 
+        // HACK: Just to avoid having duplicate ShaderDataBuffer:Get methods
+        //       We cant pass the Get(out int count) into the void so we need
+        //       to store it in an unused local
+        uint _hack;
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ref TShaderData GetShaderData()
         {
-            return ref shaderDataBuffer.Get();
+            return ref shaderDataBuffer.Get(out _hack);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

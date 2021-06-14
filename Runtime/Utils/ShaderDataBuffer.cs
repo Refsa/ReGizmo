@@ -28,23 +28,11 @@ namespace ReGizmo.Utils
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public ref T Get()
-        {
-            // HACK: Kinda dirty, but we dont care about 100% accuracy in the chance that the buffer was resized
-            int pos = Interlocked.Increment(ref writeCursor);
-            EnsureCapacity(pos);
-
-            pos -= 1;
-            return ref shaderDataPool[pos];
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ref T Get(out uint atCount)
         {
             // HACK: Kinda dirty, but we dont care about 100% accuracy in the chance that the buffer was resized
             int pos = Interlocked.Increment(ref writeCursor);
             EnsureCapacity(pos);
-
             pos -= 1;
             atCount = (uint)pos;
             return ref shaderDataPool[pos];
