@@ -31,34 +31,33 @@ namespace ReGizmo.Utils
         public ref T Get()
         {
             // HACK: Kinda dirty, but we dont care about 100% accuracy in the chance that the buffer was resized
-            try
-            {
-                int pos = Interlocked.Increment(ref writeCursor);
-                EnsureCapacity(pos);
+            int pos = Interlocked.Increment(ref writeCursor);
+            EnsureCapacity(pos);
 
-                pos -= 1;
-                return ref shaderDataPool[pos];
-            }
-            catch
-            {
-                return ref ghostData;
-            }
+            pos -= 1;
+            return ref shaderDataPool[pos];
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ref T Get(out uint atCount)
+        {
+            // HACK: Kinda dirty, but we dont care about 100% accuracy in the chance that the buffer was resized
+            int pos = Interlocked.Increment(ref writeCursor);
+            EnsureCapacity(pos);
+
+            pos -= 1;
+            atCount = (uint)pos;
+            return ref shaderDataPool[pos];
         }
 
         public RefRange<T> GetRange(int count)
         {
             // HACK: Kinda dirty, but we dont care about 100% accuracy in the chance that the buffer was resized
-            try
-            {
-                int end = Interlocked.Add(ref writeCursor, count);
-                EnsureCapacity(end);
+            int end = Interlocked.Add(ref writeCursor, count);
+            EnsureCapacity(end);
 
-                return new RefRange<T>(shaderDataPool, end - count, end);
-            }
-            catch
-            {
-                return RefRange<T>.Null();
-            }
+            int start = end - count;
+            return new RefRange<T>(shaderDataPool, start, end);
         }
 
         public void Reset()
@@ -115,7 +114,7 @@ namespace ReGizmo.Utils
 
             if (oldPool != null)
             {
-                System.Array.Copy(oldPool, shaderDataPool, writeCursor);
+                System.Array.Copy(oldPool, shaderDataPool, oldPool.Length);
             }
         }
 

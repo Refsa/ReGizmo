@@ -77,8 +77,7 @@ namespace ReGizmo.Drawing
 
         public ref TextData GetTextShaderData(out uint id)
         {
-            id = (uint)textDataBuffers.Count();
-            return ref textDataBuffers.Get();
+            return ref textDataBuffers.Get(out id);
         }
 
         protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData)
