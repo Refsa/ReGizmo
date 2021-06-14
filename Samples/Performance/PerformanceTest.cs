@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ReGizmo.Samples.Performance
 {
@@ -140,7 +137,7 @@ namespace ReGizmo.Samples.Performance
 #if UNITY_EDITOR
         void OnDrawGizmosSelected()
         {
-            if (Selection.activeGameObject != this.gameObject) return;
+            if (UnityEditor.Selection.activeGameObject != this.gameObject) return;
 
             var sw = System.Diagnostics.Stopwatch.StartNew();
 
@@ -152,11 +149,6 @@ namespace ReGizmo.Samples.Performance
             {
                 Debug.Log($"{this.GetType().Name} took {sw.ElapsedTicks / 10_000f} ms");
             }
-        }
-#else
-        void Update()
-        {
-            Preview();
         }
 #endif
     }

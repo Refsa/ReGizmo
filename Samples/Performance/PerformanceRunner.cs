@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace ReGizmo.Samples.Performance
@@ -62,21 +60,34 @@ namespace ReGizmo.Samples.Performance
 
         IEnumerator RunTest(PerformanceTest test)
         {
-            test.Prepare();
-
             while (test.Warmup())
             {
                 yield return null;
             }
 
-            while (test.Run())
+            if (test.IsSequential())
             {
-                yield return null;
+                test.Prepare();
+                while (test.RunSequential())
+                {
+                    yield return null;
+                }
+                string result = $"{test.GetType().Name} Sequential: {test.AverageFrameTime} fps - {test.AverageFrameTime / baseLine * 100f:F2}%";
+                results.Add(result);
+                Debug.Log(result);
             }
 
-            string result = $"{test.GetType().Name}: {test.AverageFrameTime} fps - {test.AverageFrameTime / baseLine * 100f:F2}%";
-            results.Add(result);
-            Debug.Log(result);
+            if (test.IsParallel())
+            {
+                test.Prepare();
+                while (test.RunParallel())
+                {
+                    yield return null;
+                }
+                string result = $"{test.GetType().Name} Parallel: {test.AverageFrameTime} fps - {test.AverageFrameTime / baseLine * 100f:F2}%";
+                results.Add(result);
+                Debug.Log(result);
+            }
 
             if (++currentTest < tests.Count)
             {
