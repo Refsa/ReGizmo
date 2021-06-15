@@ -64,6 +64,7 @@ Readme:
     - Add a third-party library section
 
 Archive:
+  ✘ @high store mesh primitives as assets to avoid generating them each reload @cancelled(21-06-15 18:55) @project(General)
   ✔ @high refactor color.ToVector3() to instead set the values directly to the shader data @done(21-06-14 23:16) @project(General)
     use Color::Copy extension method
   ✔ @high refactor Vector3 additions to use Vector3::SetAdd(a, b) extension method @done(21-06-14 23:16) @project(General)

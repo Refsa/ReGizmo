@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   font: {fileID: 12800000, guid: 3d8a0d70fdbefa44dbd1b6f539abe373, type: 3}
   sdfFont: {fileID: 11400000, guid: 041e00bee8dd65949be2fad834f2bd8d, type: 2}
+  fontSuperSample: 1
+  showDebugGizmos: 0

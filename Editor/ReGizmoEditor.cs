@@ -74,6 +74,8 @@ namespace ReGizmo.Editor
         {
             if (change == PlayModeStateChange.ExitingEditMode)
             {
+                DeAttachEventHooks();
+                Core.ReGizmo.Dispose();
             }
             else if (change == PlayModeStateChange.EnteredEditMode)
             {
@@ -81,13 +83,10 @@ namespace ReGizmo.Editor
             else if (change == PlayModeStateChange.ExitingPlayMode)
             {
                 Core.ReGizmo.Dispose();
-                ComputeBufferPool.FreeAll();
             }
             else if (change == PlayModeStateChange.EnteredPlayMode)
             {
-                SceneView.duringSceneGui -= OnDuringSceneGUI;
-                Core.ReGizmo.Initialize();
-                Core.ReGizmo.SetActive(true);
+
             }
         }
 
