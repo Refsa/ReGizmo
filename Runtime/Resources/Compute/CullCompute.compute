@@ -16,7 +16,7 @@ struct BoundingBox
 
 RWStructuredBuffer<BoundingBox> _DebugAABB;
 #define DEBUG 0
- 
+
 int _Count;
 float4 _CameraFrustum[6];
 float2 _CameraClips;
@@ -40,13 +40,15 @@ void Mesh_CameraCulling (uint3 id : SV_DispatchThreadID)
     MeshProperties ld = _MeshInput[id.x];
     bool in_frustum = box_inside_frustum(ld.Position, ld.Scale);
 
-#if DEBUG
-    BoundingBox bb = (BoundingBox)0;
-    bb.Center = ld.Position;
-    bb.Extents = ld.Scale;
-    bb.Visible = in_frustum;
-    _DebugAABB[id.x] = bb;
-#endif
+    #if DEBUG == 1
+        {
+            BoundingBox bb = (BoundingBox)0;
+            bb.Center = ld.Position;
+            bb.Extents = ld.Scale;
+            bb.Visible = in_frustum;
+            _DebugAABB[id.x] = bb;
+        }
+    #endif
 
     if (in_frustum)
     {
@@ -96,14 +98,14 @@ void Font_CameraCulling (uint3 id : SV_DispatchThreadID)
 
     bool in_frustum = box_inside_frustum(center, extents);
 
-    #if DEBUG
-    {
-        BoundingBox bb = (BoundingBox)0;
-        bb.Center = center;
-        bb.Extents = extents;
-        bb.Visible = in_frustum;
-        _DebugAABB[id.x] = bb;
-    }
+    #if DEBUG == 1
+        {
+            BoundingBox bb = (BoundingBox)0;
+            bb.Center = center;
+            bb.Extents = extents;
+            bb.Visible = in_frustum;
+            _DebugAABB[id.x] = bb;
+        }
     #endif
 
     if (in_frustum)
@@ -149,14 +151,14 @@ void Icon_CameraCulling (uint3 id : SV_DispatchThreadID)
 
     bool in_frustum = box_inside_frustum(center, extents);
 
-    #if DEBUG
-    {
-        BoundingBox bb = (BoundingBox)0;
-        bb.Center = center;
-        bb.Extents = extents;
-        bb.Visible = in_frustum;
-        _DebugAABB[id.x] = bb;
-    }
+    #if DEBUG == 1
+        {
+            BoundingBox bb = (BoundingBox)0;
+            bb.Center = center;
+            bb.Extents = extents;
+            bb.Visible = in_frustum;
+            _DebugAABB[id.x] = bb;
+        }
     #endif
 
     if (in_frustum)
@@ -199,14 +201,14 @@ void Sprite_CameraCulling (uint3 id : SV_DispatchThreadID)
 
     bool in_frustum = box_inside_frustum(center, extents);
 
-    #if DEBUG
-    {
-        BoundingBox bb = (BoundingBox)0;
-        bb.Center = center;
-        bb.Extents = extents;
-        bb.Visible = in_frustum;
-        _DebugAABB[id.x] = bb;
-    }
+    #if DEBUG == 1
+        {
+            BoundingBox bb = (BoundingBox)0;
+            bb.Center = center;
+            bb.Extents = extents;
+            bb.Visible = in_frustum;
+            _DebugAABB[id.x] = bb;
+        }
     #endif
 
     if (in_frustum)
@@ -230,14 +232,14 @@ void Line_CameraCulling (uint3 id : SV_DispatchThreadID)
 
     bool in_frustum = box_inside_frustum(center, extents);
 
-    #if DEBUG
-    {
-        BoundingBox bb = (BoundingBox)0;
-        bb.Center = center;
-        bb.Extents = extents;
-        bb.Visible = in_frustum;
-        _DebugAABB[id.x] = bb;
-    }
+    #if DEBUG == 1
+        {
+            BoundingBox bb = (BoundingBox)0;
+            bb.Center = center;
+            bb.Extents = extents;
+            bb.Visible = in_frustum;
+            _DebugAABB[id.x] = bb;
+        }
     #endif
 
     if (in_frustum)

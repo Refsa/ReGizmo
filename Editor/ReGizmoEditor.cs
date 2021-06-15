@@ -82,6 +82,7 @@ namespace ReGizmo.Editor
             }
             else if (change == PlayModeStateChange.ExitingPlayMode)
             {
+                DeAttachEventHooks();
                 Core.ReGizmo.Dispose();
             }
             else if (change == PlayModeStateChange.EnteredPlayMode)

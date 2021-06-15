@@ -11,6 +11,7 @@ namespace ReGizmo.Drawing
         static readonly string InputID = "_FontInput";
         static readonly string OutputID = "_FontOutput";
         static readonly string TextDataID = "_FontTextData";
+        static readonly string CharInfoID = "_FontCharacterInfos";
 
         public void SetData(CommandBuffer commandBuffer, ComputeBuffer textDataBuffer, ComputeBuffer charInfoBuffer)
         {
@@ -20,8 +21,8 @@ namespace ReGizmo.Drawing
                 return;
             }
 
-            commandBuffer.SetComputeBufferParam(CullingCompute, KernelID, "_FontTextData", textDataBuffer);
-            commandBuffer.SetComputeBufferParam(CullingCompute, KernelID, "_FontCharacterInfos", charInfoBuffer);
+            commandBuffer.SetComputeBufferParam(CullingCompute, KernelID, TextDataID, textDataBuffer);
+            commandBuffer.SetComputeBufferParam(CullingCompute, KernelID, CharInfoID, charInfoBuffer);
         }
 
         public override void PerformCulling<TShaderData>(CommandBuffer commandBuffer, int drawCount, ComputeBuffer argsBuffer, int argsBufferOffset, ComputeBuffer inputBufer, ComputeBuffer outputBuffer)

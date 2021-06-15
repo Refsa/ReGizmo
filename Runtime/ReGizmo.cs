@@ -117,10 +117,7 @@ namespace ReGizmo.Core
 
         static void SetupRuntimeHooks()
         {
-#if RG_LEGACY
             PlayerLoopInject.Inject(PlayerLoopInjectionPoint.PostUpdate, OnUpdate);
-#endif
-
             Application.quitting += Dispose;
         }
 
@@ -135,7 +132,10 @@ namespace ReGizmo.Core
 #elif RG_HDRP
         private static void OnEndCameraRendering(ScriptableRenderContext context, Camera camera)
         {
-            context.ExecuteCommandBuffer(drawBuffers.Current());
+            foreach (var cameraData in activeCameras)
+            {
+                context.ExecuteCommandBuffer(cameraData.Value.CommandBuffer);
+            }
         }
 #endif
 
