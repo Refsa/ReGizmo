@@ -10,6 +10,7 @@ using Debug = UnityEngine.Debug;
 
 #if RG_URP
 using UnityEngine.Rendering.Universal;
+using CameraData = ReGizmo.Drawing.CameraData;
 #elif RG_HDRP
 using UnityEngine.Rendering.HighDefinition;
 #endif
@@ -126,10 +127,13 @@ namespace ReGizmo.Core
 #if RG_URP
         private static void OnPassExecute(ScriptableRenderContext context, bool isGameView)
         {
-            context.ExecuteCommandBuffer(drawBuffers.Current());
+            foreach (var cameraData in activeCameras)
+            {
+                context.ExecuteCommandBuffer(cameraData.Value.CommandBuffer);
+            }
         }
 #elif RG_HDRP
-        private static void OnEndCameraRendering(ScriptableRenderContext context, Camera arg2)
+        private static void OnEndCameraRendering(ScriptableRenderContext context, Camera camera)
         {
             context.ExecuteCommandBuffer(drawBuffers.Current());
         }
@@ -190,25 +194,31 @@ namespace ReGizmo.Core
             Profiler.BeginSample("ReGizmo::OnUpdate");
 #endif
 
-#if RG_LEGACY
             {
                 foreach (var camera in Camera.allCameras)
                 {
                     if (!activeCameras.ContainsKey(camera))
                     {
-                        activeCameras.Add(camera, new CameraData(camera, CAMERA_EVENT));
+#if RG_LEGACY
+                        activeCameras.Add(camera, CameraData.Legacy(camera, CAMERA_EVENT));
+#else
+                        activeCameras.Add(camera, CameraData.SRP(camera));
+#endif
                     }
                 }
             }
-#endif
 
-#if UNITY_EDITOR && RG_LEGACY
+#if UNITY_EDITOR
             if (UnityEditor.SceneView.lastActiveSceneView != null)
             {
                 var camera = UnityEditor.SceneView.lastActiveSceneView.camera;
                 if (!activeCameras.ContainsKey(camera))
                 {
-                    activeCameras.Add(camera, new CameraData(camera, CAMERA_EVENT));
+#if RG_LEGACY
+                    activeCameras.Add(camera, CameraData.Legacy(camera, CAMERA_EVENT));
+#else
+                    activeCameras.Add(camera, CameraData.SRP(camera));
+#endif
                 }
             }
 #endif 

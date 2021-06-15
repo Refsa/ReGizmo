@@ -131,7 +131,7 @@ namespace ReGizmo.Editor.Preferences
 
             // SDF Font Setup Window
             var openSDFFontWindow = new Button(() => ReFontSetup.Open());
-            openSDFFontWindow.text = "SDF Font Creator";
+            openSDFFontWindow.text = "SDF Font Creator"; 
 
 #if REGIZMO_DEV
             var devSettingsLabel = new Label("Dev Settings");

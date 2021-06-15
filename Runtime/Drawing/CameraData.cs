@@ -23,20 +23,41 @@ namespace ReGizmo.Drawing
         public CommandBuffer CommandBuffer => commandBuffer;
         public Camera Camera => camera;
 
-        public CameraData(Camera camera, CameraEvent cameraEvent)
+        public static CameraData Legacy(Camera camera, CameraEvent cameraEvent)
         {
-            this.camera = camera;
-            frustum = new CameraFrustum(camera);
-            uniqueDrawDatas = new Dictionary<IReGizmoDrawer, UniqueDrawData>();
+            var cameraData = new CameraData();
 
-            commandBuffer = new CommandBuffer();
-            commandBuffer.name = $"ReGizmo Draw Buffer: {camera.name}";
+            cameraData.camera = camera;
+            cameraData.frustum = new CameraFrustum(camera);
+            cameraData.uniqueDrawDatas = new Dictionary<IReGizmoDrawer, UniqueDrawData>();
 
-            isActive = true;
-            profilerKey = $"ReGizmo Camera: {camera.name}";
+            cameraData.commandBuffer = new CommandBuffer();
+            cameraData.commandBuffer.name = $"ReGizmo Draw Buffer: {camera.name}";
 
-            this.cameraEvent = cameraEvent;
-            camera.AddCommandBuffer(cameraEvent, commandBuffer);
+            cameraData.isActive = true;
+            cameraData.profilerKey = $"ReGizmo Camera: {camera.name}";
+
+            cameraData.cameraEvent = cameraEvent;
+            camera.AddCommandBuffer(cameraEvent, cameraData.commandBuffer);
+
+            return cameraData;
+        }
+
+        public static CameraData SRP(Camera camera)
+        {
+            var cameraData = new CameraData();
+
+            cameraData.camera = camera;
+            cameraData.frustum = new CameraFrustum(camera);
+            cameraData.uniqueDrawDatas = new Dictionary<IReGizmoDrawer, UniqueDrawData>();
+
+            cameraData.commandBuffer = new CommandBuffer();
+            cameraData.commandBuffer.name = $"ReGizmo Draw Buffer: {camera.name}";
+
+            cameraData.isActive = true;
+            cameraData.profilerKey = $"ReGizmo Camera: {camera.name}";
+
+            return cameraData;
         }
 
         public void DeAttach()
