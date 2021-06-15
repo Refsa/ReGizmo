@@ -48,7 +48,14 @@ namespace ReGizmo.Samples.Performance
                 return false;
             }
 
-            RunInternal();
+            if (IsSequential())
+            {
+                RunSequential();
+            }
+            else if (IsParallel())
+            {
+                RunParallel();
+            }
 
             return false;
         }
@@ -116,8 +123,6 @@ namespace ReGizmo.Samples.Performance
             return true;
         }
 
-        protected abstract void RunInternal();
-
         void Preview()
         {
             if (previewParallel && this is IParallelTest parallelTest)
@@ -127,10 +132,6 @@ namespace ReGizmo.Samples.Performance
             else if (this is ISequentialTest sequentialTest)
             {
                 sequentialTest.RunSequentialTest();
-            }
-            else
-            {
-                RunInternal();
             }
         }
 

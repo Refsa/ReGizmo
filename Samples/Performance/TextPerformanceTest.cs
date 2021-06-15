@@ -36,16 +36,5 @@ namespace ReGizmo.Samples.Performance
                 }
             }
         }
-
-        protected override void RunInternal()
-        {
-            for (int x = 0; x < testSizeSqr; x++)
-            {
-                for (int y = 0; y < testSizeSqr; y++)
-                {
-                    ReDraw.Text(text, new Vector3(x, 0, y) * 5, 12f, Color.green);
-                }
-            }
-        }
     }
 }

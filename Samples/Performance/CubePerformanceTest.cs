@@ -33,16 +33,5 @@ namespace ReGizmo.Samples.Performance
                 ReDraw.Cube(new Vector3(x, 0, y) * 2, Color.blue);
             }
         }
-
-        protected override void RunInternal()
-        {
-            for (int i = 0; i < testSizeSqr * testSizeSqr; i++)
-            {
-                int x = i / testSizeSqr;
-                int y = i % testSizeSqr;
-
-                ReDraw.Cube(new Vector3(x, 0, y) * 2, Color.blue);
-            }
-        }
     }
 }
