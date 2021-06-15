@@ -34,7 +34,7 @@ namespace ReGizmo.Core
 
         public static bool IsSetup => isSetup;
 
-#if !UNITY_EDITOR
+#if !UNITY_EDITOR && REGIZMO_RUNTIME
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
 #endif
         public static void Initialize()
@@ -46,7 +46,6 @@ namespace ReGizmo.Core
 #if UNITY_EDITOR || REGIZMO_RUNTIME
             ReGizmoSettings.Load();
 
-            activeCameras = new Dictionary<Camera, CameraData>();
             Setup();
             isActive = true;
 #endif
@@ -55,6 +54,7 @@ namespace ReGizmo.Core
         public static void Setup()
         {
             Dispose();
+            activeCameras = new Dictionary<Camera, CameraData>();
 
 #if RG_URP
             Core.URP.ReGizmoRenderFeature.OnPassExecute += OnPassExecute;
@@ -102,11 +102,13 @@ namespace ReGizmo.Core
                 ReGizmoResolver<TriangleDrawer>.Init(new TriangleDrawer()),
             };
 
+#if !UNITY_EDITOR
             if (Application.isPlaying)
             {
                 PlayerLoopInject.Setup();
                 SetupRuntimeHooks();
             }
+#endif
 
             isSetup = true;
             interrupted = false;
@@ -293,6 +295,8 @@ namespace ReGizmo.Core
 
                 drawers.Clear();
             }
+
+            ComputeBufferPool.FreeAll();
         }
     }
 }

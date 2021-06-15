@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using ReGizmo.Core;
 using ReGizmo.Utils;
 using UnityEngine;
@@ -42,6 +43,7 @@ namespace ReGizmo.Drawing
             shaderDataBuffer.Reset();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal virtual ShaderDataBuffer<TShaderData> GetShaderDataBuffer()
         {
             return shaderDataBuffer;
@@ -91,9 +93,20 @@ namespace ReGizmo.Drawing
             return (uint)currentDrawCount;
         }
 
+        // HACK: Just to avoid having duplicate ShaderDataBuffer:Get methods
+        //       We cant pass the Get(out int count) into the void so we need
+        //       to store it in an unused local
+        uint _hack;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ref TShaderData GetShaderData()
         {
-            return ref shaderDataBuffer.Get();
+            return ref shaderDataBuffer.Get(out _hack);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public RefRange<TShaderData> GetShaderDataRange(int count)
+        {
+            return shaderDataBuffer.GetRange(count);
         }
 
         protected abstract void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData);

@@ -1,4 +1,6 @@
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Threading;
 using ReGizmo.Core;
 using UnityEngine;
 
@@ -9,28 +11,41 @@ namespace ReGizmo.Utils
     {
         T[] shaderDataPool;
         ComputeBuffer shaderDataBuffer;
+        T ghostData;
 
-        int writeCursor;
+        volatile int writeCursor;
+        Mutex mutex;
 
-        public T[] ShaderDataPool => shaderDataPool;
         public ComputeBuffer ComputeBuffer => shaderDataBuffer;
 
         public ShaderDataBuffer(int capacity = 1024)
         {
-            shaderDataPool = new T[0];
             Expand(capacity);
+
+            mutex = new Mutex();
 
             writeCursor = 0;
         }
 
-        public ref T Get()
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ref T Get(out uint atCount)
         {
-            if (writeCursor >= shaderDataPool.Length)
-            {
-                Expand((int)(shaderDataPool.Length * 1.5f));
-            }
+            // HACK: Kinda dirty, but we dont care about 100% accuracy in the chance that the buffer was resized
+            int pos = Interlocked.Increment(ref writeCursor);
+            EnsureCapacity(pos);
+            pos -= 1;
+            atCount = (uint)pos;
+            return ref shaderDataPool[pos];
+        }
 
-            return ref shaderDataPool[writeCursor++];
+        public RefRange<T> GetRange(int count)
+        {
+            // HACK: Kinda dirty, but we dont care about 100% accuracy in the chance that the buffer was resized
+            int end = Interlocked.Add(ref writeCursor, count);
+            EnsureCapacity(end);
+
+            int start = end - count;
+            return new RefRange<T>(shaderDataPool, start, end);
         }
 
         public void Reset()
@@ -56,7 +71,26 @@ namespace ReGizmo.Utils
 
         public void PushData()
         {
+            if (shaderDataBuffer == null || shaderDataBuffer.count < shaderDataPool.Length)
+            {
+                ComputeBufferPool.Free(shaderDataBuffer);
+                shaderDataBuffer = ComputeBufferPool.Get(shaderDataPool.Length, Marshal.SizeOf<T>());
+            }
+
             shaderDataBuffer.SetData(shaderDataPool, 0, 0, writeCursor);
+        }
+
+        void EnsureCapacity(int capacity)
+        {
+            if (capacity >= shaderDataPool.Length - 1)
+            {
+                lock (shaderDataPool)
+                {
+                    if (capacity < shaderDataPool.Length - 1) return;
+
+                    Expand((int)(shaderDataPool.Length * 1.5f));
+                }
+            }
         }
 
         void Expand(int amount)
@@ -66,10 +100,10 @@ namespace ReGizmo.Utils
             int currentLength = shaderDataPool == null ? 0 : shaderDataPool.Length;
             shaderDataPool = new T[currentLength + amount];
 
-            ComputeBufferPool.Free(shaderDataBuffer);
-            shaderDataBuffer = ComputeBufferPool.Get(shaderDataPool.Length, Marshal.SizeOf<T>());
-
-            System.Array.Copy(oldPool, shaderDataPool, writeCursor);
+            if (oldPool != null)
+            {
+                System.Array.Copy(oldPool, shaderDataPool, oldPool.Length);
+            }
         }
 
         public void Dispose()

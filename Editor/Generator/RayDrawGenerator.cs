@@ -16,9 +16,9 @@ namespace ReGizmo.Generator
             if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
-                shaderData.Position1 = currentPosition + origin;
-                shaderData.Position2 = (currentPosition + origin) + direction;
-                shaderData.Color = $PARAM_1.ToVector3();
+                shaderData.Position1 = origin.Add(currentPosition);
+                shaderData.Position2 = direction.Add(shaderData.Position1);
+                shaderData.Color.Copy($PARAM_1);
                 shaderData.Width = $PARAM_2;
             }
         }";

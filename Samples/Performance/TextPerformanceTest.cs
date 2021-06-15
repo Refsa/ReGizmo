@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using ReGizmo.Drawing;
 using UnityEngine;
 
@@ -8,17 +9,30 @@ namespace ReGizmo.Samples.Performance
 #if !REGIZMO_DEV
     [AddComponentMenu("")]
 #endif
-    public class TextPerformanceTest : PerformanceTest
+    public class TextPerformanceTest : PerformanceTest, ISequentialTest, IParallelTest
     {
         const string text = "Hello";
 
-        protected override void RunInternal()
+        public void RunParallelTest()
         {
-            for (int x = 0; x < 64; x++)
-            {
-                for (int y = 0; y < 64; y++)
+            Enumerable.Range(0, testSizeSqr * testSizeSqr)
+                .AsParallel()
+                .ForAll(val =>
                 {
-                    ReDraw.Text(text, new Vector3(x, 0, y), 12f, Color.green);
+                    int x = val / testSizeSqr;
+                    int y = val % testSizeSqr;
+
+                    ReDraw.Text(text, new Vector3(x, 0, y) * 5, 12f, Color.green);
+                });
+        }
+
+        public void RunSequentialTest()
+        {
+            for (int x = 0; x < testSizeSqr; x++)
+            {
+                for (int y = 0; y < testSizeSqr; y++)
+                {
+                    ReDraw.Text(text, new Vector3(x, 0, y) * 5, 12f, Color.green);
                 }
             }
         }

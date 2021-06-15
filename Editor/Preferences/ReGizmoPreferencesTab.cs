@@ -125,6 +125,7 @@ namespace ReGizmo.Editor.Preferences
                 fontSuperSampleToggle.RegisterValueChangedCallback(ce =>
                 {
                     ReGizmoSettings.ToggleFontSuperSampling();
+                    ReGizmoEditorUtils.SaveAsset(ReGizmoSettings.Instance);
                 });
             }
 
@@ -137,7 +138,11 @@ namespace ReGizmo.Editor.Preferences
             var showDebugGizmosButton = new Toggle("Show Debug Gizmos");
             {
                 showDebugGizmosButton.value = ReGizmoSettings.ShowDebugGizmos;
-                showDebugGizmosButton.RegisterValueChangedCallback(ce => ReGizmoSettings.ToggleShowDebugGizmos());
+                showDebugGizmosButton.RegisterValueChangedCallback(ce =>
+                {
+                    ReGizmoSettings.ToggleShowDebugGizmos();
+                    ReGizmoEditorUtils.SaveAsset(ReGizmoSettings.Instance);
+                });
             }
 #endif
 

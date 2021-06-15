@@ -14,13 +14,20 @@ namespace ReGizmo.Drawing
 
         public void SetData(CommandBuffer commandBuffer, ComputeBuffer textDataBuffer, ComputeBuffer charInfoBuffer)
         {
+            if (textDataBuffer == null || charInfoBuffer == null ||
+                !textDataBuffer.IsValid() || !charInfoBuffer.IsValid())
+            {
+                return;
+            }
+
             commandBuffer.SetComputeBufferParam(CullingCompute, KernelID, "_FontTextData", textDataBuffer);
             commandBuffer.SetComputeBufferParam(CullingCompute, KernelID, "_FontCharacterInfos", charInfoBuffer);
         }
 
         public override void PerformCulling<TShaderData>(CommandBuffer commandBuffer, int drawCount, ComputeBuffer argsBuffer, int argsBufferOffset, ComputeBuffer inputBufer, ComputeBuffer outputBuffer)
         {
-            if (inputBufer == null || outputBuffer == null)
+            if (inputBufer == null || outputBuffer == null ||
+                !inputBufer.IsValid() || !outputBuffer.IsValid())
             {
                 return;
             }
@@ -28,7 +35,7 @@ namespace ReGizmo.Drawing
             outputBuffer.SetCounterValue(0);
 
 #if REGIZMO_DEV
-            cullingDebug.Hook(commandBuffer, CullingCompute, KernelID, drawCount); 
+            cullingDebug.Hook(commandBuffer, CullingCompute, KernelID, drawCount);
 #endif
 
             commandBuffer.SetComputeIntParam(CullingCompute, "_Count", drawCount);

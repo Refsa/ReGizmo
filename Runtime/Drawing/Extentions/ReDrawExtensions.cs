@@ -7,52 +7,48 @@ namespace ReGizmo.Drawing
     {
         public static void Line(Vector3 p1, Vector3 p2, Color color, float width)
         {
-            Vector3 vecColor = color.ToVector3();
             if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
-                shaderData.Position1 = currentPosition + p1;
-                shaderData.Position2 = currentPosition + p2;
-                shaderData.Color = vecColor;
+                shaderData.Position1.SetAdd(currentPosition, p1);
+                shaderData.Position2.SetAdd(currentPosition, p2);
+                shaderData.Color.Copy(color);
                 shaderData.Width = width;
             }
         }
 
         public static void Line(Vector3 p1, Vector3 p2, Color color)
         {
-            Vector3 vecColor = color.ToVector3();
             if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
-                shaderData.Position1 = currentPosition + p1;
-                shaderData.Position2 = currentPosition + p2;
-                shaderData.Color = vecColor;
+                shaderData.Position1.SetAdd(p1, currentPosition);
+                shaderData.Position2.SetAdd(p2, currentPosition);
+                shaderData.Color.Copy(color);
                 shaderData.Width = 1f;
             }
         }
 
         public static void Line(Vector3 p1, Vector3 p2, float width)
         {
-            Vector3 vecColor = currentColor.ToVector3();
             if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
-                shaderData.Position1 = currentPosition + p1;
-                shaderData.Position2 = currentPosition + p2;
-                shaderData.Color = vecColor;
+                shaderData.Position1.SetAdd(currentPosition, p1);
+                shaderData.Position2.SetAdd(currentPosition, p2);
+                shaderData.Color.Copy(currentColor);
                 shaderData.Width = width;
             }
         }
 
         public static void Line(Vector3 p1, Vector3 p2)
         {
-            Vector3 vecColor = currentColor.ToVector3();
             if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
-                shaderData.Position1 = currentPosition + p1;
-                shaderData.Position2 = currentPosition + p2;
-                shaderData.Color = vecColor;
+                shaderData.Position1.SetAdd(currentPosition, p1);
+                shaderData.Position2.SetAdd(currentPosition, p2);
+                shaderData.Color.Copy(currentColor);
                 shaderData.Width = 1f;
             }
         }
@@ -87,44 +83,42 @@ namespace ReGizmo.Drawing
             {
                 ref var data = ref drawers.GetShaderData(sprite);
 
-                data.Position = currentPosition + pos + Vector3.back * sorting;
+                data.Position.SetAdd(currentPosition, pos);
                 data.Scale = sprite.pixelsPerUnit * scale;
             }
         }
 
         public static void Rect(Rect rect, Color color, float depth = 0f)
         {
-            Vector3 p1 = currentPosition + new Vector3(rect.xMin, rect.yMin, depth);
-            Vector3 p2 = currentPosition + new Vector3(rect.xMin, rect.yMax, depth);
-            Vector3 p3 = currentPosition + new Vector3(rect.xMax, rect.yMax, depth);
-            Vector3 p4 = currentPosition + new Vector3(rect.xMax, rect.yMin, depth);
-
-            Vector3 vecColor = color.ToVector3();
+            Vector3 p1 = new Vector3(rect.xMin + currentPosition.x, rect.yMin + currentPosition.y, depth + currentPosition.z);
+            Vector3 p2 = new Vector3(rect.xMin + currentPosition.x, rect.yMax + currentPosition.y, depth + currentPosition.z);
+            Vector3 p3 = new Vector3(rect.xMax + currentPosition.x, rect.yMax + currentPosition.y, depth + currentPosition.z);
+            Vector3 p4 = new Vector3(rect.xMax + currentPosition.x, rect.yMin + currentPosition.y, depth + currentPosition.z);
 
             if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
                 shaderData.Position1 = p1;
                 shaderData.Position2 = p2;
-                shaderData.Color = vecColor;
+                shaderData.Color.Copy(color);
                 shaderData.Width = 1f;
 
                 shaderData = ref drawer.GetShaderData();
                 shaderData.Position1 = p2;
                 shaderData.Position2 = p3;
-                shaderData.Color = vecColor;
+                shaderData.Color.Copy(color);
                 shaderData.Width = 1f;
 
                 shaderData = ref drawer.GetShaderData();
                 shaderData.Position1 = p3;
                 shaderData.Position2 = p4;
-                shaderData.Color = vecColor;
+                shaderData.Color.Copy(color);
                 shaderData.Width = 1f;
 
                 shaderData = ref drawer.GetShaderData();
                 shaderData.Position1 = p4;
                 shaderData.Position2 = p1;
-                shaderData.Color = vecColor;
+                shaderData.Color.Copy(color);
                 shaderData.Width = 1f;
             }
         }
@@ -133,11 +127,9 @@ namespace ReGizmo.Drawing
         {
             if (ReGizmoResolver<GridDrawer>.TryGet(out var drawer))
             {
-                var color = lineColor.ToVector3();
-
                 ref var shaderData = ref drawer.GetShaderData();
 
-                shaderData.LineColor = color;
+                shaderData.LineColor.Copy(lineColor);
                 shaderData.Position = origin;
                 shaderData.Range = distance;
                 shaderData.Flags = 0;
@@ -157,14 +149,14 @@ namespace ReGizmo.Drawing
 
         public static void WireSphere(Vector3 center, Quaternion orientation, float radius, Color color)
         {
-            ReDraw.Circle(center, orientation * Vector3.up, DrawMode.AxisAligned, Size.Units(radius), FillMode.Outline, color);
-            ReDraw.Circle(center, orientation * Vector3.right, DrawMode.AxisAligned, Size.Units(radius), FillMode.Outline, color);
-            ReDraw.Circle(center, orientation * Vector3.forward, DrawMode.AxisAligned, Size.Units(radius), FillMode.Outline, color);
+            ReDraw.Circle(center, orientation * V3Up, DrawMode.AxisAligned, Size.Units(radius), FillMode.Outline, color);
+            ReDraw.Circle(center, orientation * V3Right, DrawMode.AxisAligned, Size.Units(radius), FillMode.Outline, color);
+            ReDraw.Circle(center, orientation * V3Forward, DrawMode.AxisAligned, Size.Units(radius), FillMode.Outline, color);
         }
 
         public static void WireCapsule(Vector3 center, Quaternion orientation, float radius, float height, Color color)
         {
-            Vector3 dir = orientation * Vector3.up;
+            Vector3 dir = orientation * V3Up;
             float halfHeight = height * 0.5f;
 
             Vector3 top = center + dir * halfHeight;
@@ -173,12 +165,15 @@ namespace ReGizmo.Drawing
             WireSphere(top, orientation, radius, color);
             WireSphere(bottom, orientation, radius, color);
 
-            Vector3 perp1 = Mathf.Approximately(Mathf.Abs(Vector3.Dot(dir, Vector3.right)), 1f) ?
-                Vector3.Cross(dir, Vector3.up).normalized * radius
+            Vector3 perp1 = Mathf.Approximately(Mathf.Abs(Vector3.Dot(dir, V3Right)), 1f) ?
+                Vector3.Cross(dir, V3Up).normalized
                 :
-                Vector3.Cross(dir, Vector3.right).normalized * radius;
+                Vector3.Cross(dir, V3Right).normalized;
 
-            Vector3 perp2 = Vector3.Cross(dir, perp1).normalized * radius;
+            Vector3 perp2 = Vector3.Cross(dir, perp1);
+
+            perp1.Mul(radius);
+            perp2.Mul(radius);
 
             Line(bottom + perp1, top + perp1, color, 1f);
             Line(bottom - perp1, top - perp1, color, 1f);
@@ -223,8 +218,8 @@ namespace ReGizmo.Drawing
         {
             float theta = 0f;
             float step = 360f / (float)resolution;
-            Vector3 dir = Vector3.right;
-            if (Mathf.Abs(Vector3.Dot(dir, normal)) == 1.0) dir = Vector3.up;
+            Vector3 dir = V3Right;
+            if (Mathf.Abs(Vector3.Dot(dir, normal)) == 1.0) dir = V3Up;
             dir = Vector3.Cross(dir, normal);
 
             Vector3 prevPoint = center + Quaternion.Euler(normal * theta) * dir * radius;

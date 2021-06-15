@@ -12,9 +12,9 @@ namespace ReGizmo.Drawing
             if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
-                shaderData.Position1 = currentPosition + origin;
-                shaderData.Position2 = (currentPosition + origin) + direction;
-                shaderData.Color = color.ToVector3();
+                shaderData.Position1 = origin.Add(currentPosition);
+                shaderData.Position2 = direction.Add(shaderData.Position1);
+                shaderData.Color.Copy(color);
                 shaderData.Width = width;
             }
         }
@@ -23,9 +23,9 @@ namespace ReGizmo.Drawing
             if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
-                shaderData.Position1 = currentPosition + origin;
-                shaderData.Position2 = (currentPosition + origin) + direction;
-                shaderData.Color = color.ToVector3();
+                shaderData.Position1 = origin.Add(currentPosition);
+                shaderData.Position2 = direction.Add(shaderData.Position1);
+                shaderData.Color.Copy(color);
                 shaderData.Width = 1f;
             }
         }
@@ -34,9 +34,9 @@ namespace ReGizmo.Drawing
             if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
-                shaderData.Position1 = currentPosition + origin;
-                shaderData.Position2 = (currentPosition + origin) + direction;
-                shaderData.Color = currentColor.ToVector3();
+                shaderData.Position1 = origin.Add(currentPosition);
+                shaderData.Position2 = direction.Add(shaderData.Position1);
+                shaderData.Color.Copy(currentColor);
                 shaderData.Width = width;
             }
         }
@@ -45,9 +45,9 @@ namespace ReGizmo.Drawing
             if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer))
             {
                 ref var shaderData = ref drawer.GetShaderData();
-                shaderData.Position1 = currentPosition + origin;
-                shaderData.Position2 = (currentPosition + origin) + direction;
-                shaderData.Color = currentColor.ToVector3();
+                shaderData.Position1 = origin.Add(currentPosition);
+                shaderData.Position2 = direction.Add(shaderData.Position1);
+                shaderData.Color.Copy(currentColor);
                 shaderData.Width = 1f;
             }
         }

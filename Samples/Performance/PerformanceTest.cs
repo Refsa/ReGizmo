@@ -1,14 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ReGizmo.Samples.Performance
 {
+    internal interface IParallelTest
+    {
+        void RunParallelTest();
+    }
+
+    internal interface ISequentialTest
+    {
+        void RunSequentialTest();
+    }
+
+
     public abstract class PerformanceTest : MonoBehaviour
     {
         [SerializeField] float duration = 10f;
         [SerializeField] protected int testSizeSqr = 100;
+
+        [Header("Preview")]
+        [SerializeField] bool previewParallel;
+        [SerializeField] bool logTime;
 
         FrameTimeDebug _frameTimeDebug;
 
@@ -36,9 +48,58 @@ namespace ReGizmo.Samples.Performance
                 return false;
             }
 
-            RunInternal();
+            if (IsSequential())
+            {
+                RunSequential();
+            }
+            else if (IsParallel())
+            {
+                RunParallel();
+            }
 
             return false;
+        }
+
+        public bool IsParallel()
+        {
+            return this is IParallelTest;
+        }
+
+        public bool IsSequential()
+        {
+            return this is ISequentialTest;
+        }
+
+        public bool RunParallel()
+        {
+            if (Time.time - startTime > duration)
+            {
+                averageFrameTime = _frameTimeDebug.LastAvgFrameTime;
+                return false;
+            }
+
+            if (this is IParallelTest parallelTest)
+            {
+                parallelTest.RunParallelTest();
+            }
+
+            return true;
+        }
+
+        public bool RunSequential()
+        {
+            if (Time.time - startTime > duration)
+            {
+                averageFrameTime = _frameTimeDebug.LastAvgFrameTime;
+                return false;
+            }
+
+            if (this is ISequentialTest sequentialTest)
+            {
+                sequentialTest.RunSequentialTest();
+            }
+
+            return true;
         }
 
         public bool Run()
@@ -49,27 +110,46 @@ namespace ReGizmo.Samples.Performance
                 return false;
             }
 
-            RunInternal();
+            if (this is IParallelTest parallelTest)
+            {
+                parallelTest.RunParallelTest();
+            }
+
+            if (this is ISequentialTest sequentialTest)
+            {
+                sequentialTest.RunSequentialTest();
+            }
 
             return true;
         }
 
-        protected abstract void RunInternal();
+        void Preview()
+        {
+            if (previewParallel && this is IParallelTest parallelTest)
+            {
+                parallelTest.RunParallelTest();
+            }
+            else if (this is ISequentialTest sequentialTest)
+            {
+                sequentialTest.RunSequentialTest();
+            }
+        }
 
 #if UNITY_EDITOR
         void OnDrawGizmosSelected()
         {
-            if (Selection.activeGameObject != this.gameObject) return;
+            if (UnityEditor.Selection.activeGameObject != this.gameObject) return;
 
             var sw = System.Diagnostics.Stopwatch.StartNew();
-            RunInternal();
+
+            Preview();
+
             sw.Stop();
-            Debug.Log($"{this.GetType().Name} took {sw.ElapsedTicks / 10_000f} ms");
-        }
-#else
-        void Update()
-        {
-            RunInternal();
+
+            if (logTime)
+            {
+                Debug.Log($"{this.GetType().Name} took {sw.ElapsedTicks / 10_000f} ms");
+            }
         }
 #endif
     }

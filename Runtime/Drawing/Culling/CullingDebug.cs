@@ -21,7 +21,7 @@ namespace ReGizmo.Drawing
 
         public void Hook(CommandBuffer commandBuffer, ComputeShader compute, int kernelID, int len) 
         {
-#if !UNITY_EDITOR
+#if !UNITY_EDITOR || !REGIZMO_DEV
             return;
 #endif
 
