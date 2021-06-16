@@ -1,4 +1,4 @@
-#if RG_SRP
+#if RG_URP
 using System;
 using UnityEngine;
 using UnityEngine.Rendering;
