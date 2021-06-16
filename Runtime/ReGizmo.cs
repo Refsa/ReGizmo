@@ -154,21 +154,6 @@ namespace ReGizmo.Core
                 kvp.Value.RemoveCommandBuffer();
             }
         }
-/* #elif RG_HDRP
-        private static void OnEndCameraRendering(ScriptableRenderContext context, Camera camera)
-        {
-            if (!activeCameras.TryGetValue(camera, out var cameraData))
-            {
-                return;
-            }
-
-            Render(cameraData);
-            context.ExecuteCommandBuffer(cameraData.CommandBuffer);
-
-#if UNITY_EDITOR
-            foreach (var drawer in drawers) drawer.Clear();
-#endif
-        } */
 #endif
 
         public static void Reload()
