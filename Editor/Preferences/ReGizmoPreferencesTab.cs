@@ -180,6 +180,7 @@ namespace ReGizmo.Editor.Preferences
             SettingsService.OpenUserPreferences("Preferences/ReGizmo");
         }
 
+#if REGIZMO_DEV
         static void ChangePipeline(RenderPipelineUtils.Pipeline pipeline)
         {
             List<System.Func<Request>> requests = new List<System.Func<Request>>();
@@ -209,7 +210,7 @@ namespace ReGizmo.Editor.Preferences
                 while (r.Status == UnityEditor.PackageManager.StatusCode.InProgress) continue;
                 if (r.Status == UnityEditor.PackageManager.StatusCode.Failure)
                 {
-                    Debug.Log(r.Error.errorCode + ": " + r.Error.message);
+                    Debug.LogError(r.Error.errorCode + ": " + r.Error.message);
                     continue;
                 }
 
@@ -256,6 +257,6 @@ namespace ReGizmo.Editor.Preferences
 
             ReGizmoEditor.DetectPipeline();
         }
+#endif
     }
-
 }

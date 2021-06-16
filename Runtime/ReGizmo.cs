@@ -57,12 +57,9 @@ namespace ReGizmo.Core
 
 #if RG_URP
             Core.URP.ReGizmoURPRenderFeature.OnPassExecute += OnPassExecute;
-#elif RG_HDRP && !UNITY_EDITOR
-            ReGizmoHDRPRenderPass.OnPassExecute += OnHDRPPassExecute;
-            ReGizmoHDRPRenderPass.OnPassCleanup += OnHDRPPassCleanup;
-
 #elif RG_HDRP
-            RenderPipelineManager.endCameraRendering += OnEndCameraRendering;
+            Core.HDRP.ReGizmoHDRPRenderPass.OnPassExecute += OnHDRPPassExecute;
+            Core.HDRP.ReGizmoHDRPRenderPass.OnPassCleanup += OnHDRPPassCleanup;
 #endif
 
             ComputeBufferPool.Init();
@@ -120,6 +117,7 @@ namespace ReGizmo.Core
         static void SetupRuntimeHooks()
         {
             PlayerLoopInject.Inject(PlayerLoopInjectionPoint.PostUpdate, OnUpdate);
+            PlayerLoopInject.Inject(PlayerLoopInjectionPoint.EndOfFrame, OnFrameCleanup);
             Application.quitting += Dispose;
         }
 
@@ -134,21 +132,19 @@ namespace ReGizmo.Core
             Render(cameraData);
             context.ExecuteCommandBuffer(cameraData.CommandBuffer);
         }
-#elif RG_HDRP && !UNITY_EDITOR
+#elif RG_HDRP
         static void OnHDRPPassExecute(CommandBuffer commandBuffer, Camera camera)
         {
             if (!activeCameras.TryGetValue(camera, out var cameraData))
             {
-                return;
+                return; 
             }
 
             cameraData.CommandBufferOverride(commandBuffer);
             Render(cameraData);
-
-            foreach (var drawer in drawers)
-            {
-                drawer.Clear();
-            }
+#if UNITY_EDITOR
+            OnFrameCleanup();
+#endif
         }
 
         static void OnHDRPPassCleanup()
@@ -158,17 +154,21 @@ namespace ReGizmo.Core
                 kvp.Value.RemoveCommandBuffer();
             }
         }
-#elif RG_HDRP
+/* #elif RG_HDRP
         private static void OnEndCameraRendering(ScriptableRenderContext context, Camera camera)
         {
-            return;
             if (!activeCameras.TryGetValue(camera, out var cameraData))
             {
                 return;
             }
 
+            Render(cameraData);
             context.ExecuteCommandBuffer(cameraData.CommandBuffer);
-        }
+
+#if UNITY_EDITOR
+            foreach (var drawer in drawers) drawer.Clear();
+#endif
+        } */
 #endif
 
         public static void Reload()
@@ -191,22 +191,18 @@ namespace ReGizmo.Core
             {
 #if RG_URP
                 Core.URP.ReGizmoURPRenderFeature.OnPassExecute += OnPassExecute;
-#elif RG_HDRP && !UNITY_EDITOR
-                ReGizmoHDRPRenderPass.OnPassExecute += OnHDRPPassExecute;
-                ReGizmoHDRPRenderPass.OnPassCleanup += OnHDRPPassCleanup;
 #elif RG_HDRP
-                RenderPipelineManager.endCameraRendering += OnEndCameraRendering;
+                Core.HDRP.ReGizmoHDRPRenderPass.OnPassExecute += OnHDRPPassExecute;
+                Core.HDRP.ReGizmoHDRPRenderPass.OnPassCleanup += OnHDRPPassCleanup;
 #endif
             }
-            else
+            else 
             {
 #if RG_URP
                 Core.URP.ReGizmoURPRenderFeature.OnPassExecute -= OnPassExecute;
-#elif RG_HDRP && !UNITY_EDITOR
-                ReGizmoHDRPRenderPass.OnPassExecute -= OnHDRPPassExecute;
-                ReGizmoHDRPRenderPass.OnPassCleanup -= OnHDRPPassCleanup;
 #elif RG_HDRP
-                RenderPipelineManager.endCameraRendering -= OnEndCameraRendering;
+                Core.HDRP.ReGizmoHDRPRenderPass.OnPassExecute -= OnHDRPPassExecute;
+                Core.HDRP.ReGizmoHDRPRenderPass.OnPassCleanup -= OnHDRPPassCleanup;
 #endif
                 foreach (var camera in activeCameras)
                 {
@@ -228,9 +224,7 @@ namespace ReGizmo.Core
 
             OnRender?.Invoke();
 
-#if UNITY_EDITOR
             Profiler.BeginSample("ReGizmo::OnUpdate");
-#endif
 
             {
                 foreach (var camera in Camera.allCameras)
@@ -260,17 +254,16 @@ namespace ReGizmo.Core
                 drawer.PushSharedData();
             }
 
-#if RG_LEGACY
+#if RG_LEGACY || RG_URP
             foreach (var cameraData in activeCameras)
             {
                 Render(cameraData.Value);
             }
 #endif
 
-            foreach (var drawer in drawers)
-            {
-                drawer.Clear();
-            }
+#if UNITY_EDITOR && (RG_LEGACY || RG_UPR)
+            OnFrameCleanup();
+#endif
 
             if (shouldReset)
             {
@@ -280,9 +273,17 @@ namespace ReGizmo.Core
 
             interrupted = false;
 
-#if UNITY_EDITOR
             Profiler.EndSample();
-#endif
+        }
+
+        static void OnFrameCleanup()
+        {
+            if (drawers == null) return;
+
+            foreach (var drawer in drawers)
+            {
+                drawer.Clear();
+            }
         }
 
         static void Render(CameraData cameraData)

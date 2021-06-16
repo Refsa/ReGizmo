@@ -768,9 +768,9 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: ReGizmoHDRPRenderPass, ns: , asm: ReGizmo}
+      type: {class: ReGizmoHDRPRenderPass, ns: ReGizmo.Core.HDRP, asm: ReGizmo}
       data:
-        m_Name: ReGizmo Render Pass
+        m_Name: Custom Pass
         enabled: 1
         targetColorBuffer: 2
         targetDepthBuffer: 2
