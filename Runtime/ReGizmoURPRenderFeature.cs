@@ -6,7 +6,7 @@ using UnityEngine.Rendering.Universal;
 
 namespace ReGizmo.Core.URP
 {
-    public class ReGizmoRenderFeature : ScriptableRendererFeature
+    public class ReGizmoURPRenderFeature : ScriptableRendererFeature
     {
         public static event Action<ScriptableRenderContext, Camera, bool> OnPassExecute;
 

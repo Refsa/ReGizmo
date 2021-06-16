@@ -23,48 +23,42 @@ namespace ReGizmo.Drawing
         public CommandBuffer CommandBuffer => commandBuffer;
         public Camera Camera => camera;
 
-        public static CameraData Legacy(Camera camera, CameraEvent cameraEvent)
+        public CameraData(Camera camera, CameraEvent cameraEvent)
         {
-            var cameraData = new CameraData();
+            this.camera = camera;
+            this.cameraEvent = cameraEvent;
 
-            cameraData.camera = camera;
-            cameraData.frustum = new CameraFrustum(camera);
-            cameraData.uniqueDrawDatas = new Dictionary<IReGizmoDrawer, UniqueDrawData>();
+            frustum = new CameraFrustum(camera);
+            uniqueDrawDatas = new Dictionary<IReGizmoDrawer, UniqueDrawData>();
 
-            cameraData.commandBuffer = new CommandBuffer();
-            cameraData.commandBuffer.name = $"ReGizmo Draw Buffer: {camera.name}";
+            commandBuffer = new CommandBuffer();
+            commandBuffer.name = $"ReGizmo Draw Buffer: {camera.name}";
 
-            cameraData.isActive = true;
-            cameraData.profilerKey = $"ReGizmo Camera: {camera.name}";
+            isActive = true;
+            profilerKey = $"ReGizmo Camera: {camera.name}";
 
-            cameraData.cameraEvent = cameraEvent;
-            camera.AddCommandBuffer(cameraEvent, cameraData.commandBuffer);
-
-            return cameraData;
+#if RG_LEGACY
+            camera.AddCommandBuffer(cameraEvent, commandBuffer);
+#endif
         }
 
-        public static CameraData SRP(Camera camera)
+        public void CommandBufferOverride(CommandBuffer commandBuffer)
         {
-            var cameraData = new CameraData();
+            this.commandBuffer = commandBuffer;
+        }
 
-            cameraData.camera = camera;
-            cameraData.frustum = new CameraFrustum(camera);
-            cameraData.uniqueDrawDatas = new Dictionary<IReGizmoDrawer, UniqueDrawData>();
-
-            cameraData.commandBuffer = new CommandBuffer();
-            cameraData.commandBuffer.name = $"ReGizmo Draw Buffer: {camera.name}";
-
-            cameraData.isActive = true;
-            cameraData.profilerKey = $"ReGizmo Camera: {camera.name}";
-
-            return cameraData;
+        public void RemoveCommandBuffer()
+        {
+            this.commandBuffer = null;
         }
 
         public void DeAttach()
         {
             if (camera == null || camera.Equals(null)) return;
 
+#if RG_LEGACY
             camera.RemoveCommandBuffer(cameraEvent, commandBuffer);
+#endif
         }
 
         public void SetActive(bool state)
@@ -76,7 +70,9 @@ namespace ReGizmo.Drawing
         {
             if (camera == null) return false;
 
+#if !RG_HDRP
             commandBuffer.Clear();
+#endif
             frustum.UpdateCameraFrustum();
 
 #if REGIZMO_DEV

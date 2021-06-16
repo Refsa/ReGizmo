@@ -19,9 +19,7 @@ namespace ReGizmo.Core
 {
     public static class ReGizmo
     {
-#if RG_LEGACY
         const CameraEvent CAMERA_EVENT = CameraEvent.AfterForwardAlpha;
-#endif
 
         internal static event System.Action OnRender;
 
@@ -58,7 +56,11 @@ namespace ReGizmo.Core
             activeCameras = new Dictionary<Camera, CameraData>();
 
 #if RG_URP
-            Core.URP.ReGizmoRenderFeature.OnPassExecute += OnPassExecute;
+            Core.URP.ReGizmoURPRenderFeature.OnPassExecute += OnPassExecute;
+#elif RG_HDRP && !UNITY_EDITOR
+            ReGizmoHDRPRenderPass.OnPassExecute += OnHDRPPassExecute;
+            ReGizmoHDRPRenderPass.OnPassCleanup += OnHDRPPassCleanup;
+
 #elif RG_HDRP
             RenderPipelineManager.endCameraRendering += OnEndCameraRendering;
 #endif
@@ -132,15 +134,39 @@ namespace ReGizmo.Core
             Render(cameraData);
             context.ExecuteCommandBuffer(cameraData.CommandBuffer);
         }
-#elif RG_HDRP
-        private static void OnEndCameraRendering(ScriptableRenderContext context, Camera camera)
+#elif RG_HDRP && !UNITY_EDITOR
+        static void OnHDRPPassExecute(CommandBuffer commandBuffer, Camera camera)
         {
             if (!activeCameras.TryGetValue(camera, out var cameraData))
             {
                 return;
             }
 
+            cameraData.CommandBufferOverride(commandBuffer);
             Render(cameraData);
+
+            foreach (var drawer in drawers)
+            {
+                drawer.Clear();
+            }
+        }
+
+        static void OnHDRPPassCleanup()
+        {
+            foreach (var kvp in activeCameras)
+            {
+                kvp.Value.RemoveCommandBuffer();
+            }
+        }
+#elif RG_HDRP
+        private static void OnEndCameraRendering(ScriptableRenderContext context, Camera camera)
+        {
+            return;
+            if (!activeCameras.TryGetValue(camera, out var cameraData))
+            {
+                return;
+            }
+
             context.ExecuteCommandBuffer(cameraData.CommandBuffer);
         }
 #endif
@@ -164,7 +190,10 @@ namespace ReGizmo.Core
             if (isActive)
             {
 #if RG_URP
-                Core.URP.ReGizmoRenderFeature.OnPassExecute += OnPassExecute;
+                Core.URP.ReGizmoURPRenderFeature.OnPassExecute += OnPassExecute;
+#elif RG_HDRP && !UNITY_EDITOR
+                ReGizmoHDRPRenderPass.OnPassExecute += OnHDRPPassExecute;
+                ReGizmoHDRPRenderPass.OnPassCleanup += OnHDRPPassCleanup;
 #elif RG_HDRP
                 RenderPipelineManager.endCameraRendering += OnEndCameraRendering;
 #endif
@@ -172,7 +201,10 @@ namespace ReGizmo.Core
             else
             {
 #if RG_URP
-                Core.URP.ReGizmoRenderFeature.OnPassExecute -= OnPassExecute;
+                Core.URP.ReGizmoURPRenderFeature.OnPassExecute -= OnPassExecute;
+#elif RG_HDRP && !UNITY_EDITOR
+                ReGizmoHDRPRenderPass.OnPassExecute -= OnHDRPPassExecute;
+                ReGizmoHDRPRenderPass.OnPassCleanup -= OnHDRPPassCleanup;
 #elif RG_HDRP
                 RenderPipelineManager.endCameraRendering -= OnEndCameraRendering;
 #endif
@@ -205,11 +237,7 @@ namespace ReGizmo.Core
                 {
                     if (!activeCameras.ContainsKey(camera))
                     {
-#if RG_LEGACY
-                        activeCameras.Add(camera, CameraData.Legacy(camera, CAMERA_EVENT));
-#else
-                        activeCameras.Add(camera, CameraData.SRP(camera));
-#endif
+                        activeCameras.Add(camera, new CameraData(camera, CAMERA_EVENT));
                     }
                 }
             }
@@ -220,16 +248,17 @@ namespace ReGizmo.Core
                 var camera = UnityEditor.SceneView.lastActiveSceneView.camera;
                 if (!activeCameras.ContainsKey(camera))
                 {
-#if RG_LEGACY
-                    activeCameras.Add(camera, CameraData.Legacy(camera, CAMERA_EVENT));
-#else
-                    activeCameras.Add(camera, CameraData.SRP(camera));
-#endif
+                    activeCameras.Add(camera, new CameraData(camera, CAMERA_EVENT));
                 }
             }
 #endif
 
             activeCameras = activeCameras.Where(kvp => kvp.Key != null && kvp.Value.Camera != null).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+
+            foreach (var drawer in drawers)
+            {
+                drawer.PushSharedData();
+            }
 
 #if RG_LEGACY
             foreach (var cameraData in activeCameras)
@@ -237,6 +266,11 @@ namespace ReGizmo.Core
                 Render(cameraData.Value);
             }
 #endif
+
+            foreach (var drawer in drawers)
+            {
+                drawer.Clear();
+            }
 
             if (shouldReset)
             {
@@ -253,28 +287,17 @@ namespace ReGizmo.Core
 
         static void Render(CameraData cameraData)
         {
-            Profiler.BeginSample("ReGizmo::OnUpdate::PreRender");
             if (!cameraData.PreRender())
             {
                 return;
             }
-            Profiler.EndSample();
 
-            Profiler.BeginSample("ReGizmo::OnUpdate::Render");
             foreach (var drawer in drawers)
             {
-                Profiler.BeginSample("ReGizmo::OnUpdate::PushSharedData");
-                drawer.PushSharedData();
-                Profiler.EndSample();
-
                 cameraData.Render(drawer);
-                drawer.Clear();
             }
-            Profiler.EndSample();
 
-            Profiler.BeginSample("ReGizmo::OnUpdate::PostRender");
             cameraData.PostRender();
-            Profiler.EndSample();
         }
 
         public static void ClearAll()

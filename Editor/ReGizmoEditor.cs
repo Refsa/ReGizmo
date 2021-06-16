@@ -14,6 +14,8 @@ namespace ReGizmo.Editor
         static double startTime;
         static bool isSetup;
 
+        public static RenderPipelineUtils.Pipeline CurrentPipeline => currentPipeline;
+
         [InitializeOnLoadMethod]
         static void Init()
         {
