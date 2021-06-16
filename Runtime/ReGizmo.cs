@@ -122,20 +122,26 @@ namespace ReGizmo.Core
         }
 
 #if RG_URP
-        private static void OnPassExecute(ScriptableRenderContext context, bool isGameView)
+        private static void OnPassExecute(ScriptableRenderContext context, Camera camera, bool isGameView)
         {
-            foreach (var cameraData in activeCameras)
+            if (!activeCameras.TryGetValue(camera, out var cameraData))
             {
-                context.ExecuteCommandBuffer(cameraData.Value.CommandBuffer);
+                return;
             }
+
+            Render(cameraData);
+            context.ExecuteCommandBuffer(cameraData.CommandBuffer);
         }
 #elif RG_HDRP
         private static void OnEndCameraRendering(ScriptableRenderContext context, Camera camera)
         {
-            foreach (var cameraData in activeCameras)
+            if (!activeCameras.TryGetValue(camera, out var cameraData))
             {
-                context.ExecuteCommandBuffer(cameraData.Value.CommandBuffer);
+                return;
             }
+
+            Render(cameraData);
+            context.ExecuteCommandBuffer(cameraData.CommandBuffer);
         }
 #endif
 
@@ -221,46 +227,16 @@ namespace ReGizmo.Core
 #endif
                 }
             }
-#endif 
+#endif
 
-            Profiler.BeginSample("ReGizmo::OnUpdate::PreRender");
+            activeCameras = activeCameras.Where(kvp => kvp.Key != null && kvp.Value.Camera != null).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
-            bool rebuild = false;
-            foreach (var cameraData in activeCameras.Values)
+#if RG_LEGACY
+            foreach (var cameraData in activeCameras)
             {
-                if (!cameraData.PreRender())
-                {
-                    rebuild = true;
-                }
+                Render(cameraData.Value);
             }
-
-            if (rebuild)
-            {
-                activeCameras = activeCameras.Where(kvp => kvp.Key != null).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-            }
-            Profiler.EndSample();
-
-            Profiler.BeginSample("ReGizmo::OnUpdate::Render");
-            foreach (var drawer in drawers)
-            {
-                Profiler.BeginSample("ReGizmo::OnUpdate::PushSharedData");
-                drawer.PushSharedData();
-                Profiler.EndSample();
-
-                foreach (var cameraData in activeCameras.Values)
-                {
-                    cameraData.Render(drawer);
-                }
-                drawer.Clear();
-            }
-            Profiler.EndSample();
-
-            Profiler.BeginSample("ReGizmo::OnUpdate::PostRender");
-            foreach (var cameraData in activeCameras.Values)
-            {
-                cameraData.PostRender();
-            }
-            Profiler.EndSample();
+#endif
 
             if (shouldReset)
             {
@@ -273,6 +249,32 @@ namespace ReGizmo.Core
 #if UNITY_EDITOR
             Profiler.EndSample();
 #endif
+        }
+
+        static void Render(CameraData cameraData)
+        {
+            Profiler.BeginSample("ReGizmo::OnUpdate::PreRender");
+            if (!cameraData.PreRender())
+            {
+                return;
+            }
+            Profiler.EndSample();
+
+            Profiler.BeginSample("ReGizmo::OnUpdate::Render");
+            foreach (var drawer in drawers)
+            {
+                Profiler.BeginSample("ReGizmo::OnUpdate::PushSharedData");
+                drawer.PushSharedData();
+                Profiler.EndSample();
+
+                cameraData.Render(drawer);
+                drawer.Clear();
+            }
+            Profiler.EndSample();
+
+            Profiler.BeginSample("ReGizmo::OnUpdate::PostRender");
+            cameraData.PostRender();
+            Profiler.EndSample();
         }
 
         public static void ClearAll()
