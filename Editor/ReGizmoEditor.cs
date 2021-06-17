@@ -13,6 +13,9 @@ namespace ReGizmo.Editor
         static RenderPipelineUtils.Pipeline currentPipeline;
         static double startTime;
         static bool isSetup;
+        static bool isBuilding;
+
+        public static RenderPipelineUtils.Pipeline CurrentPipeline => currentPipeline;
 
         [InitializeOnLoadMethod]
         static void Init()
@@ -50,6 +53,7 @@ namespace ReGizmo.Editor
 
             EditorSceneManager.activeSceneChangedInEditMode -= OnSceneChangedInEditMode;
 
+            EditorApplication.update -= AwaitSetup;
             SceneView.duringSceneGui -= OnDuringSceneGUI;
 
             EditorApplication.projectChanged -= OnProjectChanged;
@@ -63,22 +67,23 @@ namespace ReGizmo.Editor
         static void OnBeforeBuild()
         {
             Core.ReGizmo.Dispose();
+            isBuilding = true;
         }
 
         static void OnAfterBuild()
         {
-            Init();
+            isBuilding = false;
         }
 
         static void OnPlaymodeChanged(PlayModeStateChange change)
         {
             if (change == PlayModeStateChange.ExitingEditMode)
             {
-                DeAttachEventHooks();
                 Core.ReGizmo.Dispose();
             }
             else if (change == PlayModeStateChange.EnteredEditMode)
             {
+                Core.ReGizmo.SetActive(true);
             }
             else if (change == PlayModeStateChange.ExitingPlayMode)
             {
@@ -102,6 +107,8 @@ namespace ReGizmo.Editor
 
         static void OnSceneChangedInEditMode(Scene arg0, Scene arg1)
         {
+            if (isBuilding) return;
+
             ReGizmo.Core.ReGizmo.Initialize();
             ReGizmo.Core.ReGizmo.SetActive(true);
         }
@@ -109,17 +116,28 @@ namespace ReGizmo.Editor
         static void HookAwaitSetup()
         {
             startTime = EditorApplication.timeSinceStartup;
+            if (isSetup)
+            {
+                EditorApplication.update -= AwaitSetup;
+                isSetup = false;
+            }
             EditorApplication.update += AwaitSetup;
         }
 
         static void AwaitSetup()
         {
+            if (isSetup)
+            {
+                EditorApplication.update -= AwaitSetup;
+                return;
+            }
+
             if (EditorApplication.timeSinceStartup - startTime > 0.25)
             {
                 ReGizmo.Core.ReGizmo.Initialize();
 
-                EditorApplication.update -= AwaitSetup;
                 SceneView.duringSceneGui += OnDuringSceneGUI;
+                EditorApplication.update -= AwaitSetup;
 
                 isSetup = true;
             }
@@ -179,5 +197,26 @@ namespace ReGizmo.Editor
 
             UnityEditor.PlayerSettings.SetScriptingDefineSymbolsForGroup(UnityEditor.BuildTargetGroup.Standalone, defines);
         }
+
+#if RG_HDRP
+        [MenuItem("Window/ReGizmo/HDRP Scene Setup")]
+        static void SetupHDRPProxy()
+        {
+            if (GameObject.Find("ReGizmo_HDRP_Proxy")) return;
+
+            var assets = AssetDatabase.FindAssets($"ReGizmo_HDRP_Proxy");
+            if (assets != null && assets.Length > 0)
+            {
+                var asset = AssetDatabase.LoadAssetAtPath<GameObject>(AssetDatabase.GUIDToAssetPath(assets[0]));
+                var go = GameObject.Instantiate(asset);
+                go.name = "ReGizmo_HDRP_Proxy";
+                Debug.Log("Added ReGizmo HDRP Proxy object to scene");
+            }
+            else
+            {
+                Debug.LogError("Couldn't find ReGizmo HDRP Proxy prefab");
+            }
+        }
+#endif
     }
 }

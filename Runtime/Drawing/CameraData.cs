@@ -26,6 +26,8 @@ namespace ReGizmo.Drawing
         public CameraData(Camera camera, CameraEvent cameraEvent)
         {
             this.camera = camera;
+            this.cameraEvent = cameraEvent;
+
             frustum = new CameraFrustum(camera);
             uniqueDrawDatas = new Dictionary<IReGizmoDrawer, UniqueDrawData>();
 
@@ -35,15 +37,28 @@ namespace ReGizmo.Drawing
             isActive = true;
             profilerKey = $"ReGizmo Camera: {camera.name}";
 
-            this.cameraEvent = cameraEvent;
+#if RG_LEGACY
             camera.AddCommandBuffer(cameraEvent, commandBuffer);
+#endif
+        }
+
+        public void CommandBufferOverride(CommandBuffer commandBuffer)
+        {
+            this.commandBuffer = commandBuffer;
+        }
+
+        public void RemoveCommandBuffer()
+        {
+            this.commandBuffer = null;
         }
 
         public void DeAttach()
         {
             if (camera == null || camera.Equals(null)) return;
 
+#if RG_LEGACY
             camera.RemoveCommandBuffer(cameraEvent, commandBuffer);
+#endif
         }
 
         public void SetActive(bool state)
@@ -55,7 +70,9 @@ namespace ReGizmo.Drawing
         {
             if (camera == null) return false;
 
+#if !RG_HDRP
             commandBuffer.Clear();
+#endif
             frustum.UpdateCameraFrustum();
 
 #if REGIZMO_DEV
@@ -96,9 +113,7 @@ namespace ReGizmo.Drawing
 
         public void Dispose()
         {
-            commandBuffer?.Release();
-
-            foreach (var data in uniqueDrawDatas.Values)
+            foreach (var data in uniqueDrawDatas.Values) 
             {
                 data?.Dispose();
             }

@@ -62,10 +62,11 @@ namespace ReGizmo.Utils
             return this;
         }
 
-        public Mesh ToMesh()
+        public Mesh ToMesh(string name = "default")
         {
             var mesh = new Mesh();
-            
+            mesh.name = name;
+
             mesh.SetVertices(vertices);
             mesh.SetIndices(indices, MeshTopology.Triangles, 0);
             mesh.SetNormals(normals);

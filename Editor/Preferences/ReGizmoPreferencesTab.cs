@@ -6,6 +6,8 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEditor.PackageManager.Requests;
+using UnityEngine.Rendering;
 
 namespace ReGizmo.Editor.Preferences
 {
@@ -144,6 +146,20 @@ namespace ReGizmo.Editor.Preferences
                     ReGizmoEditorUtils.SaveAsset(ReGizmoSettings.Instance);
                 });
             }
+
+
+            // var targetPipelineDropdown = new DropdownMenu();
+            // targetPipelineDropdown.AppendAction("Legacy", (dma) => { }, dma => dma.name == "Legacy" ? DropdownMenuAction.Status.Checked : DropdownMenuAction.Status.Normal);
+            // targetPipelineDropdown.AppendAction("HDRP", (dma) => { }, dma => dma.name == "HDRP" ? DropdownMenuAction.Status.Checked : DropdownMenuAction.Status.Normal);
+            // targetPipelineDropdown.AppendAction("URP", (dma) => { }, dma => dma.name == "URP" ? DropdownMenuAction.Status.Checked : DropdownMenuAction.Status.Normal);
+            var targetPipelineDropdown = new EnumField("Target Render Pipeline", ReGizmoEditor.CurrentPipeline);
+            targetPipelineDropdown.RegisterValueChangedCallback(val =>
+            {
+                var pipeline = (RenderPipelineUtils.Pipeline)val.newValue;
+                if (pipeline == ReGizmoEditor.CurrentPipeline) return;
+
+                ChangePipeline(pipeline);
+            });
 #endif
 
             contentContainer.Add(enableRuntimeToggle);
@@ -155,6 +171,7 @@ namespace ReGizmo.Editor.Preferences
 #if REGIZMO_DEV
             contentContainer.Add(devSettingsLabel);
             contentContainer.Add(showDebugGizmosButton);
+            contentContainer.Add(targetPipelineDropdown);
 #endif
         }
 
@@ -162,5 +179,83 @@ namespace ReGizmo.Editor.Preferences
         {
             SettingsService.OpenUserPreferences("Preferences/ReGizmo");
         }
+
+#if REGIZMO_DEV
+        static void ChangePipeline(RenderPipelineUtils.Pipeline pipeline)
+        {
+            List<System.Func<Request>> requests = new List<System.Func<Request>>();
+            pipelineChange = pipeline;
+
+            switch (pipeline)
+            {
+                case RenderPipelineUtils.Pipeline.Legacy:
+                    requests.Add(() => UnityEditor.PackageManager.Client.Remove("com.unity.render-pipelines.high-definition"));
+                    requests.Add(() => UnityEditor.PackageManager.Client.Remove("com.unity.render-pipelines.universal"));
+                    break;
+                case RenderPipelineUtils.Pipeline.HDRP:
+                    requests.Add(() => UnityEditor.PackageManager.Client.Remove("com.unity.render-pipelines.universal"));
+                    requests.Add(() => UnityEditor.PackageManager.Client.Add("com.unity.render-pipelines.high-definition"));
+                    break;
+                case RenderPipelineUtils.Pipeline.URP:
+                    requests.Add(() => UnityEditor.PackageManager.Client.Remove("com.unity.render-pipelines.high-definition"));
+                    requests.Add(() => UnityEditor.PackageManager.Client.Add("com.unity.render-pipelines.universal"));
+                    break;
+            }
+
+            foreach (var request in requests)
+            {
+                var r = request.Invoke();
+                if (r == null) continue;
+
+                while (r.Status == UnityEditor.PackageManager.StatusCode.InProgress) continue;
+                if (r.Status == UnityEditor.PackageManager.StatusCode.Failure)
+                {
+                    Debug.LogError(r.Error.errorCode + ": " + r.Error.message);
+                    continue;
+                }
+
+                if (r is AddRequest)
+                {
+                    AwaitPipelineChange();
+                }
+            }
+        }
+
+        static RenderPipelineUtils.Pipeline pipelineChange;
+        static void AwaitPipelineChange()
+        {
+            AssemblyReloadEvents.afterAssemblyReload -= AwaitPipelineChange;
+
+            string pipelineAsset = null;
+
+            switch (pipelineChange)
+            {
+                case RenderPipelineUtils.Pipeline.Legacy:
+                    break;
+                case RenderPipelineUtils.Pipeline.HDRP:
+                    pipelineAsset = "HDRenderPipelineAsset";
+                    break;
+                case RenderPipelineUtils.Pipeline.URP:
+                    pipelineAsset = "UniversalRenderPipelineAsset";
+                    break;
+            }
+
+            if (string.IsNullOrEmpty(pipelineAsset))
+            {
+                GraphicsSettings.renderPipelineAsset = null;
+            }
+            else
+            {
+                var assets = AssetDatabase.FindAssets($"{pipelineAsset} t:{typeof(RenderPipelineAsset).Name}");
+                if (assets != null && assets.Length > 0)
+                {
+                    var asset = AssetDatabase.LoadAssetAtPath<RenderPipelineAsset>(AssetDatabase.GUIDToAssetPath(assets[0]));
+                    GraphicsSettings.renderPipelineAsset = asset;
+                }
+            }
+
+            ReGizmoEditor.DetectPipeline();
+        }
+#endif
     }
 }

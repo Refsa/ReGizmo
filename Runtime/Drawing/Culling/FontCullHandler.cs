@@ -11,22 +11,28 @@ namespace ReGizmo.Drawing
         static readonly string InputID = "_FontInput";
         static readonly string OutputID = "_FontOutput";
         static readonly string TextDataID = "_FontTextData";
+        static readonly string CharInfoID = "_FontCharacterInfos";
+
+        bool additionalDataSet;
 
         public void SetData(CommandBuffer commandBuffer, ComputeBuffer textDataBuffer, ComputeBuffer charInfoBuffer)
         {
+            additionalDataSet = false;
             if (textDataBuffer == null || charInfoBuffer == null ||
                 !textDataBuffer.IsValid() || !charInfoBuffer.IsValid())
             {
                 return;
             }
 
-            commandBuffer.SetComputeBufferParam(CullingCompute, KernelID, "_FontTextData", textDataBuffer);
-            commandBuffer.SetComputeBufferParam(CullingCompute, KernelID, "_FontCharacterInfos", charInfoBuffer);
-        }
+            commandBuffer.SetComputeBufferParam(CullingCompute, KernelID, TextDataID, textDataBuffer);
+            commandBuffer.SetComputeBufferParam(CullingCompute, KernelID, CharInfoID, charInfoBuffer);
+            additionalDataSet = true;
+        } 
 
         public override void PerformCulling<TShaderData>(CommandBuffer commandBuffer, int drawCount, ComputeBuffer argsBuffer, int argsBufferOffset, ComputeBuffer inputBufer, ComputeBuffer outputBuffer)
         {
-            if (inputBufer == null || outputBuffer == null ||
+            if (!additionalDataSet ||
+                inputBufer == null || outputBuffer == null ||
                 !inputBufer.IsValid() || !outputBuffer.IsValid())
             {
                 return;

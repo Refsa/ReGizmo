@@ -1,4 +1,4 @@
-#if RG_SRP
+#if RG_URP
 using System;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -6,9 +6,9 @@ using UnityEngine.Rendering.Universal;
 
 namespace ReGizmo.Core.URP
 {
-    public class ReGizmoRenderFeature : ScriptableRendererFeature
+    public class ReGizmoURPRenderFeature : ScriptableRendererFeature
     {
-        public static event Action<ScriptableRenderContext, bool> OnPassExecute;
+        public static event Action<ScriptableRenderContext, Camera, bool> OnPassExecute;
 
         public class ReGizmoRenderPass : ScriptableRenderPass
         {
@@ -21,7 +21,7 @@ namespace ReGizmo.Core.URP
             {
                 bool gameView = !renderingData.cameraData.isSceneViewCamera;
 
-                OnPassExecute?.Invoke(context, gameView);
+                OnPassExecute?.Invoke(context, renderingData.cameraData.camera, gameView);
             }
         }
 

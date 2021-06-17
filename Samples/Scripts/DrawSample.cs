@@ -306,7 +306,7 @@ namespace ReGizmo.Samples
             }
 
             // Dots and lines
-            if (someMesh != null)
+            if (someMesh != null && someMesh.isReadable)
             {
                 if (someMeshVertices == null || someMeshVertices.Length != someMesh.vertexCount)
                 {
