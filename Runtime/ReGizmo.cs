@@ -103,11 +103,8 @@ namespace ReGizmo.Core
             };
 
 #if !UNITY_EDITOR
-            if (Application.isPlaying)
-            {
-                PlayerLoopInject.Setup();
-                SetupRuntimeHooks();
-            }
+            PlayerLoopInject.Setup();
+            SetupRuntimeHooks();
 #endif
 
             isSetup = true;
@@ -129,7 +126,7 @@ namespace ReGizmo.Core
                 return;
             }
 
-            Render(cameraData);
+            // Render(cameraData);
             context.ExecuteCommandBuffer(cameraData.CommandBuffer);
         }
 #elif RG_HDRP
@@ -181,7 +178,7 @@ namespace ReGizmo.Core
                 Core.HDRP.ReGizmoHDRPRenderPass.OnPassCleanup += OnHDRPPassCleanup;
 #endif
             }
-            else 
+            else
             {
 #if RG_URP
                 Core.URP.ReGizmoURPRenderFeature.OnPassExecute -= OnPassExecute;
@@ -246,7 +243,7 @@ namespace ReGizmo.Core
             }
 #endif
 
-#if UNITY_EDITOR && (RG_LEGACY || RG_UPR)
+#if UNITY_EDITOR && (RG_LEGACY || RG_URP)
             OnFrameCleanup();
 #endif
 
