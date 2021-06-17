@@ -128,7 +128,7 @@ Shader "Hidden/ReGizmo/Grid"
 
             float depth = Linear01Depth(i.pos.z / i.pos.w);
             depth = max(0, (1.0 - depth));
-            depth = pow(depth, 2.5);
+            depth = pow(depth, 0.5);
             grid.a *= depth * view_dot;
 
             clip(grid.a == 0 ? -1 : 1);
