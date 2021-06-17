@@ -42,6 +42,8 @@ namespace ReGizmo.Core
             throw new System.InvalidOperationException("ReGizmo runtime is not enabled!");
 #endif
 
+            // Debug.Log("#### ReGizmo Init ####");
+
 #if UNITY_EDITOR || REGIZMO_RUNTIME
             ReGizmoSettings.Load();
 
@@ -126,7 +128,7 @@ namespace ReGizmo.Core
                 return;
             }
 
-            // Render(cameraData);
+            Render(cameraData);
             context.ExecuteCommandBuffer(cameraData.CommandBuffer);
         }
 #elif RG_HDRP
@@ -236,7 +238,7 @@ namespace ReGizmo.Core
                 drawer.PushSharedData();
             }
 
-#if RG_LEGACY || RG_URP
+#if RG_LEGACY
             foreach (var cameraData in activeCameras)
             {
                 Render(cameraData.Value);
@@ -293,6 +295,13 @@ namespace ReGizmo.Core
 
         public static void Dispose()
         {
+#if RG_URP
+            Core.URP.ReGizmoURPRenderFeature.OnPassExecute -= OnPassExecute;
+#elif RG_HDRP
+            Core.HDRP.ReGizmoHDRPRenderPass.OnPassExecute -= OnHDRPPassExecute;
+            Core.HDRP.ReGizmoHDRPRenderPass.OnPassCleanup -= OnHDRPPassCleanup;
+#endif
+
             if (activeCameras != null)
             {
                 foreach (var cameraData in activeCameras.Values)
@@ -302,6 +311,7 @@ namespace ReGizmo.Core
                 }
 
                 activeCameras.Clear();
+                activeCameras = null;
             }
 
             if (drawers != null)
@@ -312,6 +322,7 @@ namespace ReGizmo.Core
                 }
 
                 drawers.Clear();
+                drawers = null;
             }
 
             ComputeBufferPool.FreeAll();

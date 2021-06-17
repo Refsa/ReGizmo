@@ -13,6 +13,7 @@ namespace ReGizmo.Editor
         static RenderPipelineUtils.Pipeline currentPipeline;
         static double startTime;
         static bool isSetup;
+        static bool isBuilding;
 
         public static RenderPipelineUtils.Pipeline CurrentPipeline => currentPipeline;
 
@@ -52,6 +53,7 @@ namespace ReGizmo.Editor
 
             EditorSceneManager.activeSceneChangedInEditMode -= OnSceneChangedInEditMode;
 
+            EditorApplication.update -= AwaitSetup;
             SceneView.duringSceneGui -= OnDuringSceneGUI;
 
             EditorApplication.projectChanged -= OnProjectChanged;
@@ -65,18 +67,18 @@ namespace ReGizmo.Editor
         static void OnBeforeBuild()
         {
             Core.ReGizmo.Dispose();
+            isBuilding = true;
         }
 
         static void OnAfterBuild()
         {
-            Init();
+            isBuilding = false;
         }
 
         static void OnPlaymodeChanged(PlayModeStateChange change)
         {
             if (change == PlayModeStateChange.ExitingEditMode)
             {
-                DeAttachEventHooks();
                 Core.ReGizmo.Dispose();
             }
             else if (change == PlayModeStateChange.EnteredEditMode)
@@ -105,6 +107,8 @@ namespace ReGizmo.Editor
 
         static void OnSceneChangedInEditMode(Scene arg0, Scene arg1)
         {
+            if (isBuilding) return;
+
             ReGizmo.Core.ReGizmo.Initialize();
             ReGizmo.Core.ReGizmo.SetActive(true);
         }
@@ -112,17 +116,28 @@ namespace ReGizmo.Editor
         static void HookAwaitSetup()
         {
             startTime = EditorApplication.timeSinceStartup;
+            if (isSetup)
+            {
+                EditorApplication.update -= AwaitSetup;
+                isSetup = false;
+            }
             EditorApplication.update += AwaitSetup;
         }
 
         static void AwaitSetup()
         {
+            if (isSetup)
+            {
+                EditorApplication.update -= AwaitSetup;
+                return;
+            }
+
             if (EditorApplication.timeSinceStartup - startTime > 0.25)
             {
                 ReGizmo.Core.ReGizmo.Initialize();
 
-                EditorApplication.update -= AwaitSetup;
                 SceneView.duringSceneGui += OnDuringSceneGUI;
+                EditorApplication.update -= AwaitSetup;
 
                 isSetup = true;
             }
