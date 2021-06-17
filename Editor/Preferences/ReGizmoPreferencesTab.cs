@@ -247,7 +247,6 @@ namespace ReGizmo.Editor.Preferences
             else
             {
                 var assets = AssetDatabase.FindAssets($"{pipelineAsset} t:{typeof(RenderPipelineAsset).Name}");
-
                 if (assets != null && assets.Length > 0)
                 {
                     var asset = AssetDatabase.LoadAssetAtPath<RenderPipelineAsset>(AssetDatabase.GUIDToAssetPath(assets[0]));

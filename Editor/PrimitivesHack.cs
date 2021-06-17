@@ -1,11 +1,12 @@
-﻿using System.Collections;
+﻿#if REGIZMO_DEV
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class PrimitivesHack : MonoBehaviour
+public static class PrimitivesHack
 {
-    [MenuItem("ReGizmo/Create Primitive Data")]
+    [MenuItem("Window/ReGizmo/Dev/Create Primitive Data")]
     public static void Generate()
     {
         var cubeGO = GameObject.CreatePrimitive(PrimitiveType.Capsule).GetComponent<MeshFilter>();
@@ -31,12 +32,13 @@ public class PrimitivesHack : MonoBehaviour
         }
 
         string contents = verts + "\n\n" + indices + "\n\n" + normals;
-        
+
         System.IO.File.WriteAllText(Application.dataPath + "/primitiveData.txt", contents);
         AssetDatabase.Refresh();
-        
+
         GameObject.DestroyImmediate(cubeGO.gameObject);
     }
-    
-    
+
+
 }
+#endif

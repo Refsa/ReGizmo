@@ -113,9 +113,7 @@ namespace ReGizmo.Drawing
 
         public void Dispose()
         {
-            commandBuffer?.Release();
-
-            foreach (var data in uniqueDrawDatas.Values)
+            foreach (var data in uniqueDrawDatas.Values) 
             {
                 data?.Dispose();
             }

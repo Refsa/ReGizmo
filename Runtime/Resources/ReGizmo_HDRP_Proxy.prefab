@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &739202925264885052
+--- !u!1 &7271819378312245687
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 739202925264885055}
-  - component: {fileID: 739202925264885054}
+  - component: {fileID: 7271819378312245684}
+  - component: {fileID: 7271819378312245685}
   m_Layer: 0
   m_Name: ReGizmo_HDRP_Proxy
   m_TagString: Untagged
@@ -17,13 +17,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &739202925264885055
+--- !u!4 &7271819378312245684
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 739202925264885052}
+  m_GameObject: {fileID: 7271819378312245687}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 4.502426, y: 3.2147713, z: -41.432426}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -31,13 +31,13 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &739202925264885054
+--- !u!114 &7271819378312245685
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 739202925264885052}
+  m_GameObject: {fileID: 7271819378312245687}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 26d6499a6bd256e47b859377446493a1, type: 3}
@@ -52,9 +52,9 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: ReGizmoHDRPRenderPass, ns: , asm: ReGizmo}
+      type: {class: ReGizmoHDRPRenderPass, ns: ReGizmo.Core.HDRP, asm: ReGizmo}
       data:
-        m_Name: ReGizmo Render Pass
+        m_Name: Custom Pass
         enabled: 1
         targetColorBuffer: 2
         targetDepthBuffer: 2

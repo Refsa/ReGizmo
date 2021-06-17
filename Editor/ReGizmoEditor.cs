@@ -182,5 +182,26 @@ namespace ReGizmo.Editor
 
             UnityEditor.PlayerSettings.SetScriptingDefineSymbolsForGroup(UnityEditor.BuildTargetGroup.Standalone, defines);
         }
+
+#if RG_HDRP
+        [MenuItem("Window/ReGizmo/HDRP Scene Setup")]
+        static void SetupHDRPProxy()
+        {
+            if (GameObject.Find("ReGizmo_HDRP_Proxy")) return;
+
+            var assets = AssetDatabase.FindAssets($"ReGizmo_HDRP_Proxy");
+            if (assets != null && assets.Length > 0)
+            {
+                var asset = AssetDatabase.LoadAssetAtPath<GameObject>(AssetDatabase.GUIDToAssetPath(assets[0]));
+                var go = GameObject.Instantiate(asset);
+                go.name = "ReGizmo_HDRP_Proxy";
+                Debug.Log("Added ReGizmo HDRP Proxy object to scene");
+            }
+            else
+            {
+                Debug.LogError("Couldn't find ReGizmo HDRP Proxy prefab");
+            }
+        }
+#endif
     }
 }

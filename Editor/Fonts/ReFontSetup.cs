@@ -16,7 +16,9 @@ namespace ReGizmo.Editor
 {
     internal class ReFontSetup : EditorWindow
     {
+#if REGIZMO_DEV
         [MenuItem("Window/ReGizmo/SDF Font Setup")]
+#endif
         public static void Open()
         {
             var window = ReFontSetup.GetWindow<ReFontSetup>();
