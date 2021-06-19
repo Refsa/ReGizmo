@@ -29,7 +29,7 @@ namespace ReGizmo.Drawing
             argsBufferCountOffset = 0;
         }
 
-        protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData)
+        protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData, bool depth)
         {
             uniqueDrawData.SetInstanceCount(1);
 

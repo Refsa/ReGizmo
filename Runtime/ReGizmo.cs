@@ -19,7 +19,7 @@ namespace ReGizmo.Core
 {
     public static class ReGizmo
     {
-        const CameraEvent CAMERA_EVENT = CameraEvent.AfterForwardAlpha;
+        const CameraEvent CAMERA_EVENT = CameraEvent.AfterImageEffects;
 
         internal static event System.Action OnRender;
 
@@ -68,11 +68,6 @@ namespace ReGizmo.Core
 
             drawers = new List<IReGizmoDrawer>()
             {
-                // Lines
-                ReGizmoResolver<LineDrawer>.Init(new LineDrawer()),
-                ReGizmoResolver<PolyLineDrawer>.Init(new PolyLineDrawer()),
-                ReGizmoResolver<GridDrawer>.Init(new GridDrawer()),
-
                 // Textures
                 ReGizmoResolver<IconsDrawer>.Init(new IconsDrawer()),
                 ReGizmoResolver<SpritesDrawer>.Init(new SpritesDrawer()),
@@ -94,6 +89,11 @@ namespace ReGizmo.Core
 
                 ReGizmoResolver<CustomMeshDrawer>.Init(new CustomMeshDrawer()),
                 ReGizmoResolver<CustomMeshWireframeDrawer>.Init(new CustomMeshWireframeDrawer()),
+
+                // Lines
+                ReGizmoResolver<LineDrawer>.Init(new LineDrawer()),
+                ReGizmoResolver<PolyLineDrawer>.Init(new PolyLineDrawer()),
+                ReGizmoResolver<GridDrawer>.Init(new GridDrawer()),
 
 #if REGIZMO_DEV
                 ReGizmoResolver<AABBDebugDrawer>.Init(new AABBDebugDrawer()),
@@ -272,9 +272,14 @@ namespace ReGizmo.Core
 
         static void Render(CameraData cameraData)
         {
-            if (!cameraData.PreRender())
+            if (!cameraData.FrameSetup())
             {
                 return;
+            }
+
+            foreach (var drawer in drawers)
+            {
+                cameraData.PreRender(drawer);
             }
 
             foreach (var drawer in drawers)

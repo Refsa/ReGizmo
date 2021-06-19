@@ -40,14 +40,6 @@ namespace ReGizmo.Drawing
             }
         }
 
-        public void Render(CommandBuffer commandBuffer, CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData)
-        {
-            foreach (var drawer in _drawers)
-            {
-                drawer.drawer.Render(commandBuffer, cameraFrustum, drawer.uniqueDrawData);
-            }
-        }
-
         public uint CurrentDrawCount()
         {
             uint total = 0;
@@ -56,6 +48,30 @@ namespace ReGizmo.Drawing
                 total += drawer.drawer.CurrentDrawCount();
             }
             return total;
+        }
+
+        public void PreRender(CommandBuffer commandBuffer, CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData)
+        {
+            foreach (var drawer in _drawers)
+            {
+                drawer.drawer.PreRender(commandBuffer, cameraFrustum, drawer.uniqueDrawData);
+            }
+        }
+
+        public void RenderDepth(CommandBuffer commandBuffer, CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData)
+        {
+            foreach (var drawer in _drawers)
+            {
+                drawer.drawer.RenderDepth(commandBuffer, cameraFrustum, drawer.uniqueDrawData);
+            }
+        }
+
+        public void Render(CommandBuffer commandBuffer, CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData)
+        {
+            foreach (var drawer in _drawers)
+            {
+                drawer.drawer.Render(commandBuffer, cameraFrustum, drawer.uniqueDrawData);
+            }
         }
     }
 }

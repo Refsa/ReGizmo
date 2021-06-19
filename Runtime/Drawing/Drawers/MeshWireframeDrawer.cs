@@ -21,7 +21,7 @@ namespace ReGizmo.Drawing
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh_Wireframe");
         }
 
-        protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData)
+        protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData, bool depth)
         {
             if (indexCount == 0)
             {

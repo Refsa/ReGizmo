@@ -13,6 +13,8 @@ namespace ReGizmo.Drawing
         void Clear();
         void Dispose();
         void PushSharedData();
+        void PreRender(CommandBuffer commandBuffer, CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData);
+        void RenderDepth(CommandBuffer commandBuffer, CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData);
         void Render(CommandBuffer commandBuffer, CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData);
         uint CurrentDrawCount();
     }
@@ -56,10 +58,10 @@ namespace ReGizmo.Drawing
             shaderDataBuffer.PushData();
         }
 
-        public void Render(CommandBuffer commandBuffer, CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData)
+        public void PreRender(CommandBuffer commandBuffer, CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData)
         {
             if (currentDrawCount == 0) return;
-            Profiler.BeginSample("ReGizmoDrawer::Render");
+            Profiler.BeginSample("ReGizmoDrawer::PreRender");
 
             if (cullingHandler != null)
             {
@@ -75,16 +77,32 @@ namespace ReGizmo.Drawing
 
                 uniqueDrawData.MaterialPropertyBlock.SetBuffer(PropertiesName, culledBuffer);
                 SetMaterialPropertyBlockData(uniqueDrawData.MaterialPropertyBlock);
-                RenderInternal(commandBuffer, uniqueDrawData);
             }
             else
             {
                 uniqueDrawData.SetDrawCount((uint)currentDrawCount);
                 uniqueDrawData.MaterialPropertyBlock.SetBuffer(PropertiesName, shaderDataBuffer.ComputeBuffer);
                 SetMaterialPropertyBlockData(uniqueDrawData.MaterialPropertyBlock);
-                RenderInternal(commandBuffer, uniqueDrawData);
             }
 
+            Profiler.EndSample();
+        }
+
+        public void RenderDepth(CommandBuffer commandBuffer, CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData)
+        {
+            if (currentDrawCount == 0) return;
+
+            Profiler.BeginSample("ReGizmoDrawer::RenderDepth");
+            RenderInternal(commandBuffer, uniqueDrawData, true);
+            Profiler.EndSample();
+        }
+
+        public void Render(CommandBuffer commandBuffer, CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData)
+        {
+            if (currentDrawCount == 0) return;
+
+            Profiler.BeginSample("ReGizmoDrawer::Render");
+            RenderInternal(commandBuffer, uniqueDrawData);
             Profiler.EndSample();
         }
 
@@ -109,7 +127,7 @@ namespace ReGizmo.Drawing
             return shaderDataBuffer.GetRange(count);
         }
 
-        protected abstract void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData);
+        protected abstract void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData, bool depth = false);
         protected virtual void SetMaterialPropertyBlockData(MaterialPropertyBlock materialPropertyBlock) { }
         protected virtual void SetCullingData(CommandBuffer cmd) { }
 

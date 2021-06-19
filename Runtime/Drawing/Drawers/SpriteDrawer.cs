@@ -46,7 +46,7 @@ namespace ReGizmo.Drawing
             oldSpriteSize.y = sprite.texture.height;
         }
 
-        protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData)
+        protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData, bool depth)
         {
             if (oldSpriteSize.x != sprite.texture.width || oldSpriteSize.y != sprite.texture.height)
             {

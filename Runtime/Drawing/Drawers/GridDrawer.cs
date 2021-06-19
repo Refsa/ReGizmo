@@ -36,16 +36,27 @@ namespace ReGizmo.Drawing
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Grid");
         }
 
-        protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData)
+        protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData, bool depth)
         {
             uniqueDrawData.SetVertexCount(quad.GetIndexCount(0));
             uniqueDrawData.SetInstanceCount(uniqueDrawData.DrawCount);
 
-            cmd.DrawMeshInstancedIndirect(
-                quad, 0, material, 0,
-                uniqueDrawData.ArgsBuffer, 0,
-                uniqueDrawData.MaterialPropertyBlock
-            );
+            if (depth)
+            {
+                cmd.DrawMeshInstancedIndirect(
+                    quad, 0, material, 1,
+                    uniqueDrawData.ArgsBuffer, 0,
+                    uniqueDrawData.MaterialPropertyBlock
+                );
+            }
+            else
+            {
+                cmd.DrawMeshInstancedIndirect(
+                    quad, 0, material, 0,
+                    uniqueDrawData.ArgsBuffer, 0,
+                    uniqueDrawData.MaterialPropertyBlock
+                );
+            }
         }
 
         protected override void SetMaterialPropertyBlockData(MaterialPropertyBlock materialPropertyBlock)
