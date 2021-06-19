@@ -130,8 +130,9 @@ Shader "Hidden/ReGizmo/Grid"
             depth = max(0, (1.0 - depth));
             depth = pow(depth, 0.5);
             grid.a *= depth * view_dot;
+            grid.a = smoothstep(0, 1, grid.a);
 
-            clip(grid.a == 0 ? -1 : 1);
+            clip(grid.a <= 0.01 ? -1 : 1);
 
             return grid;
         }
@@ -141,7 +142,7 @@ Shader "Hidden/ReGizmo/Grid"
         {
             Blend SrcAlpha OneMinusSrcAlpha
             ZTest LEqual
-            ZWrite On
+            ZWrite Off
             Cull Off
 
             CGPROGRAM
@@ -150,6 +151,28 @@ Shader "Hidden/ReGizmo/Grid"
             #pragma multi_compile_instancing
             #pragma instancing_options procedural:setup
             #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+            ENDCG
+        }
+
+        Pass
+        {
+            ZTest LEqual
+            ZWrite On
+            Cull Off
+
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment depth_frag
+            #pragma multi_compile_instancing
+            #pragma instancing_options procedural:setup
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+
+            float depth_frag(v2f i) : SV_TARGET1
+            {
+                float4 col = frag(i);
+                clip(col.a == 0 ? -1 : 1);
+                return i.pos.z;
+            }
             ENDCG
         }
     }
