@@ -81,13 +81,14 @@ Shader "Hidden/ReGizmo/Mesh"
         Pass
         {
             ZTest LEqual
-            Cull Back
             ZWrite On
+            Cull Back
 
             CGPROGRAM
             struct v2f_depth
             {
                 float4 pos: SV_POSITION;
+                float alpha: TEXCOORD0;
             };
 
             v2f_depth depth_vert(vertex i, uint instanceID: SV_INSTANCEID)
@@ -98,6 +99,7 @@ Shader "Hidden/ReGizmo/Mesh"
                     MeshProperties prop = _Properties[instanceID]; 
                     float4 cloc = TRS(prop.Position, prop.Rotation, prop.Scale, i.pos);
                     o.pos = mul(UNITY_MATRIX_VP, cloc);
+                    o.alpha = prop.Color.a;
                 #endif
 
                 return o;
@@ -105,6 +107,7 @@ Shader "Hidden/ReGizmo/Mesh"
 
             float depth_frag(v2f_depth i) : SV_TARGET1
             {
+                // clip (i.alpha >= 0.99 ? 1 : -1);
                 return i.pos.z;
             }
 
