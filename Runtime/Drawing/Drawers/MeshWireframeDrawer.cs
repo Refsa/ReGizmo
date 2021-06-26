@@ -30,11 +30,22 @@ namespace ReGizmo.Drawing
 
             uniqueDrawData.SetVertexCount(indexCount);
 
-            cmd.DrawMeshInstancedIndirect(
-                mesh, 0, material, 0,
-                uniqueDrawData.ArgsBuffer, 0,
-                uniqueDrawData.MaterialPropertyBlock
-            );
+            if (depth)
+            {
+                cmd.DrawMeshInstancedIndirect(
+                    mesh, 0, material, 1,
+                    uniqueDrawData.ArgsBuffer, 0,
+                    uniqueDrawData.MaterialPropertyBlock
+                );
+            }
+            else
+            {
+                cmd.DrawMeshInstancedIndirect(
+                    mesh, 0, material, 0,
+                    uniqueDrawData.ArgsBuffer, 0,
+                    uniqueDrawData.MaterialPropertyBlock
+                );
+            }
         }
 
         protected override void SetMaterialPropertyBlockData(MaterialPropertyBlock materialPropertyBlock)
