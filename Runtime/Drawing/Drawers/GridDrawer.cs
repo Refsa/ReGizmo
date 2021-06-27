@@ -41,7 +41,7 @@ namespace ReGizmo.Drawing
             uniqueDrawData.SetVertexCount(quad.GetIndexCount(0));
             uniqueDrawData.SetInstanceCount(uniqueDrawData.DrawCount);
 
-            if (depth)
+            /* if (depth)
             {
                 cmd.DrawMeshInstancedIndirect(
                     quad, 0, material, 1,
@@ -49,7 +49,7 @@ namespace ReGizmo.Drawing
                     uniqueDrawData.MaterialPropertyBlock
                 );
             }
-            else
+            else */
             {
                 cmd.DrawMeshInstancedIndirect(
                     quad, 0, material, 0,

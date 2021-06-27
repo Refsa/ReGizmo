@@ -115,7 +115,7 @@ Shader "Hidden/ReGizmo/Grid"
             return _color;
         }
 
-        float4 frag(v2f i) : SV_Target
+        float4 multi_grid(v2f i)
         {
             float4 small_grid = grid(i.world_pos, i.flags, 1, float3(0.2,0.2,0.2));
             float4 large_grid = grid(i.world_pos, i.flags, 0.1, float3(0.5,0.5,0.5));
@@ -132,8 +132,12 @@ Shader "Hidden/ReGizmo/Grid"
             grid.a *= depth * view_dot;
             grid.a = smoothstep(0, 1, grid.a);
 
-            clip(grid.a <= 0.01 ? -1 : 1);
+            return grid;
+        }
 
+        float4 frag(v2f i) : SV_Target
+        {
+            float4 grid = multi_grid(i);
             return grid;
         }
         ENDCG
@@ -169,8 +173,8 @@ Shader "Hidden/ReGizmo/Grid"
 
             float depth_frag(v2f i) : SV_TARGET1
             {
-                float4 col = frag(i);
-                clip(col.a == 0 ? -1 : 1);
+                float4 col = multi_grid(i);
+                clip(col.a == 1.0 ? 1 : -1);
                 return i.pos.z;
             }
             ENDCG
