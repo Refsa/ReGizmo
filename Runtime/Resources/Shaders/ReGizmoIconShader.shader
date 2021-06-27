@@ -134,7 +134,7 @@ Shader "Hidden/ReGizmo/Icon"
             CGPROGRAM
             #pragma vertex vert
             #pragma geometry geom
-            #pragma fragment frag
+            #pragma fragment frag_depth
             #pragma multi_compile_instancing
             #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
 

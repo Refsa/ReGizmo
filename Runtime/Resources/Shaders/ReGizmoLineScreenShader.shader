@@ -106,8 +106,8 @@ Shader "Hidden/ReGizmo/Line_Screen"
             }
             triangleStream.RestartStrip();
         }
-        
-        float4 frag_line(g2f_line g) : SV_Target
+
+        float4 _frag_line(g2f_line g)
         {
             float4 col = float4(g.color, 0.0);
         
@@ -124,7 +124,27 @@ Shader "Hidden/ReGizmo/Line_Screen"
         
             return col;
         }
+        
+        float4 frag_line(g2f_line g) : SV_Target
+        {
+            return _frag_line(g);
+        }
         ENDCG
+
+        Pass
+        {
+            Blend SrcAlpha OneMinusSrcAlpha
+            ZWrite Off
+            ZTest LEqual
+
+            CGPROGRAM
+            #pragma vertex vert_line
+            #pragma geometry geom_line
+            #pragma fragment frag_line
+            #pragma multi_compile_instancing
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+            ENDCG
+        }
 
         Pass
         {
@@ -135,9 +155,14 @@ Shader "Hidden/ReGizmo/Line_Screen"
             CGPROGRAM
             #pragma vertex vert_line
             #pragma geometry geom_line
-            #pragma fragment frag_line
+            #pragma fragment frag_depth
             #pragma multi_compile_instancing
             #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+
+            float frag_depth(g2f_line g) : SV_TARGET1
+            {
+                return g.pos.z;
+            }
             ENDCG
         }
     }
