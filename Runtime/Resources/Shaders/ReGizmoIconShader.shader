@@ -93,26 +93,41 @@ Shader "Hidden/ReGizmo/Icon"
             triangleStream.RestartStrip();
         }
 
-        float4 frag(g2f i) : SV_Target
+        float4 _frag(g2f i)
         {
             float4 color = float4(i.color, 1.0);
 
             float4 tex_col = tex2D(_IconTexture, i.uv);
             color *= tex_col.a;
 
-            clip(color.a == 0 ? -1 : 1);
-            if (color.a == 0)
-            {
-                return float4(1,0,1,1);
-            }
-
             return lerp(tex_col, color, 0.5);
+        }
+
+        float4 frag(g2f i) : SV_Target
+        {
+            float4 col = _frag(i);
+            clip(col.a == 0 ? -1 : 1);
+            return col;
         }
         ENDCG
 
         Pass
         {
             Blend SrcAlpha OneMinusSrcAlpha
+            ZTest LEqual
+            ZWrite Off
+
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma geometry geom
+            #pragma fragment frag
+            #pragma multi_compile_instancing
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+            ENDCG
+        }
+
+        Pass
+        {
             ZTest LEqual
             ZWrite On
 
@@ -122,6 +137,13 @@ Shader "Hidden/ReGizmo/Icon"
             #pragma fragment frag
             #pragma multi_compile_instancing
             #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+
+            float frag_depth(g2f i) : SV_TARGET1
+            {
+                float4 col = _frag(i);
+                clip(col.a == 0 ? -1 : 1);
+                return i.pos.z;
+            }
             ENDCG
         }
     }
