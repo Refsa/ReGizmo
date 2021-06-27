@@ -15,12 +15,17 @@
 
         CGINCLUDE
         #include "Utils/ReGizmoFontUtils.cginc"
-        
-        float4 frag(font_g2f i) : SV_Target
+
+        float4 _frag(font_g2f i)
         {
             float op = tex2D(_MainTex, i.uv).a;
             float4 col = float4(i.color, smoothstep(0, 1, op));
-
+            return col;
+        }
+        
+        float4 frag(font_g2f i) : SV_Target
+        {
+            float4 col = _frag(i);
             clip(col.a == 0 ? -1 : 1);
 
             return col;
@@ -31,6 +36,19 @@
         {
             Blend SrcAlpha OneMinusSrcAlpha
             ZTest LEqual
+            ZWrite Off
+
+            CGPROGRAM
+            #pragma vertex font_vert
+            #pragma geometry font_geom
+            #pragma fragment frag
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+            ENDCG
+        }
+
+        Pass
+        {
+            ZTest LEqual
             ZWrite On
 
             CGPROGRAM
@@ -38,6 +56,14 @@
             #pragma geometry font_geom
             #pragma fragment frag
             #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+
+            float frag_depth(font_g2f i) : SV_TARGET1
+            {
+                float4 col = _frag(i);
+                clip(col.a == 0 ? -1 : 1);
+
+                return i.pos.z;
+            }
             ENDCG
         }
     }
