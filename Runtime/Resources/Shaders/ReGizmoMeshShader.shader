@@ -51,14 +51,14 @@ Shader "Hidden/ReGizmo/Mesh"
 
             return f;
         }
-
+        
         float4 frag(v2f f) : SV_Target
         {
-            float4 c = f.col;
-            float3 shade = lerp(c.rgb, 0, _Shaded);
-            c.rgb = saturate(lerp(shade, c.rgb, f.strength));
+            float4 col = f.col;
+            float3 shade = lerp(col.rgb, 0, _Shaded);
+            col.rgb = saturate(lerp(shade, col.rgb, f.strength));
 
-            return c;
+            return col;
         }
         ENDCG
 
@@ -85,6 +85,12 @@ Shader "Hidden/ReGizmo/Mesh"
             Cull Back
 
             CGPROGRAM
+            #pragma vertex depth_vert
+            #pragma fragment depth_frag
+            #pragma multi_compile_instancing
+            #pragma instancing_options procedural:setup
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+
             struct v2f_depth
             {
                 float4 pos: SV_POSITION;
@@ -107,15 +113,8 @@ Shader "Hidden/ReGizmo/Mesh"
 
             float depth_frag(v2f_depth i) : SV_TARGET1
             {
-                // clip (i.alpha >= 0.99 ? 1 : -1);
                 return i.pos.z;
             }
-
-            #pragma vertex depth_vert
-            #pragma fragment depth_frag
-            #pragma multi_compile_instancing
-            #pragma instancing_options procedural:setup
-            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
             ENDCG
         }
     }
