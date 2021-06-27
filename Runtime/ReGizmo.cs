@@ -68,14 +68,6 @@ namespace ReGizmo.Core
 
             drawers = new List<IReGizmoDrawer>()
             {
-                // Textures
-                ReGizmoResolver<IconsDrawer>.Init(new IconsDrawer()),
-                ReGizmoResolver<SpritesDrawer>.Init(new SpritesDrawer()),
-
-                // Fonts
-                ReGizmoResolver<TextDrawer>.Init(new TextDrawer(ReGizmoSettings.Font)),
-                ReGizmoResolver<SDFTextDrawer>.Init(new SDFTextDrawer(ReGizmoSettings.SDFFont)),
-
                 // 3D
                 ReGizmoResolver<CubeDrawer>.Init(new CubeDrawer()),
                 ReGizmoResolver<SphereDrawer>.Init(new SphereDrawer()),
@@ -90,18 +82,26 @@ namespace ReGizmo.Core
                 ReGizmoResolver<CustomMeshDrawer>.Init(new CustomMeshDrawer()),
                 ReGizmoResolver<CustomMeshWireframeDrawer>.Init(new CustomMeshWireframeDrawer()),
 
-                // Lines
-                ReGizmoResolver<LineDrawer>.Init(new LineDrawer()),
-                ReGizmoResolver<PolyLineDrawer>.Init(new PolyLineDrawer()),
-                ReGizmoResolver<GridDrawer>.Init(new GridDrawer()),
-
 #if REGIZMO_DEV
                 ReGizmoResolver<AABBDebugDrawer>.Init(new AABBDebugDrawer()),
 #endif
 
+                // Textures
+                ReGizmoResolver<IconsDrawer>.Init(new IconsDrawer()),
+                ReGizmoResolver<SpritesDrawer>.Init(new SpritesDrawer()),
+
+                // Fonts
+                ReGizmoResolver<TextDrawer>.Init(new TextDrawer(ReGizmoSettings.Font)),
+                ReGizmoResolver<SDFTextDrawer>.Init(new SDFTextDrawer(ReGizmoSettings.SDFFont)),
+
                 // 2D
                 ReGizmoResolver<CircleDrawer>.Init(new CircleDrawer()),
                 ReGizmoResolver<TriangleDrawer>.Init(new TriangleDrawer()),
+
+                // Lines
+                ReGizmoResolver<LineDrawer>.Init(new LineDrawer()),
+                ReGizmoResolver<PolyLineDrawer>.Init(new PolyLineDrawer()),
+                ReGizmoResolver<GridDrawer>.Init(new GridDrawer()),
             };
 
 #if !UNITY_EDITOR
