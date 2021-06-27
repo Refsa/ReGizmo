@@ -81,9 +81,7 @@
         float4 frag(g2f i) : SV_Target
         {
             float4 tex_col = tex2D(_SpriteTexture, i.uv);
-
             clip(tex_col.a == 0 ? -1 : 1);
-
             return tex_col;
         }
         ENDCG
@@ -100,6 +98,27 @@
             #pragma fragment frag
             #pragma multi_compile_instancing
             #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+            ENDCG
+        }
+
+        Pass
+        {
+            ZTest LEqual
+            ZWrite On
+
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma geometry geom
+            #pragma fragment frag
+            #pragma multi_compile_instancing
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+
+            float depth_frag(g2f i) : SV_TARGET1
+            {
+                float4 tex_col = tex2D(_SpriteTexture, i.uv);
+                clip(tex_col.a == 0 ? -1 : 1);
+                return i.pos.z;
+            }
             ENDCG
         }
     }
