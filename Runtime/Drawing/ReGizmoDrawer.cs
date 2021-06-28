@@ -17,6 +17,7 @@ namespace ReGizmo.Drawing
         void RenderDepth(CommandBuffer commandBuffer, CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData);
         void Render(CommandBuffer commandBuffer, CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData);
         uint CurrentDrawCount();
+        void SetDepthMode(DepthMode depthMode);
     }
 
     internal abstract class ReGizmoDrawer<TShaderData> : System.IDisposable, IReGizmoDrawer
@@ -121,6 +122,11 @@ namespace ReGizmo.Drawing
         public uint CurrentDrawCount()
         {
             return (uint)currentDrawCount;
+        }
+
+        public void SetDepthMode(DepthMode depthMode)
+        {
+            this.depthMode = depthMode;
         }
 
         // HACK: Just to avoid having duplicate ShaderDataBuffer:Get methods
