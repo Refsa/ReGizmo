@@ -73,5 +73,13 @@ namespace ReGizmo.Drawing
                 drawer.drawer.Render(commandBuffer, cameraFrustum, drawer.uniqueDrawData);
             }
         }
+
+        public void SetDepthMode(DepthMode depthMode)
+        {
+            foreach (var drawer in _drawers)
+            {
+                drawer.drawer.SetDepthMode(depthMode);
+            }
+        }
     }
 }

@@ -3,7 +3,7 @@
 namespace ReGizmo.Drawing
 {
     internal static class ReGizmoResolver<TDrawer>
-        where TDrawer : IReGizmoDrawer
+        where TDrawer : class, IReGizmoDrawer
     {
         static TDrawer _drawerSorted;
         static TDrawer _drawerOverlay;
@@ -20,7 +20,19 @@ namespace ReGizmo.Drawing
 
         public static bool TryGet(out TDrawer drawer, DepthMode depthMode = DepthMode.Sorted)
         {
-            drawer = _drawerSorted;
+            switch (depthMode)
+            {
+                case DepthMode.Sorted:
+                    drawer = _drawerSorted;
+                    break;
+                case DepthMode.Overlay:
+                    drawer = _drawerOverlay;
+                    break;
+                default:
+                    drawer = null;
+                    break;
+            }
+
             if (drawer == null)
             {
                 return false;
