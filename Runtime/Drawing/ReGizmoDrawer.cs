@@ -24,11 +24,13 @@ namespace ReGizmo.Drawing
     {
         protected virtual string PropertiesName { get; } = "_Properties";
 
-        protected Material material;
         ShaderDataBuffer<TShaderData> shaderDataBuffer;
         int currentDrawCount;
+
+        protected Material material;
         protected CullingHandler cullingHandler;
         protected int argsBufferCountOffset;
+        protected DepthMode depthMode;
 
         public ReGizmoDrawer()
         {
@@ -62,6 +64,16 @@ namespace ReGizmo.Drawing
         {
             if (currentDrawCount == 0) return;
             Profiler.BeginSample("ReGizmoDrawer::PreRender");
+
+            switch (depthMode)
+            {
+                case DepthMode.Sorted:
+                    material.SetInt("_ZTest", (int)CompareFunction.LessEqual);
+                    break;
+                case DepthMode.Overlay:
+                    material.SetInt("_ZTest", (int)CompareFunction.Always);
+                    break;
+            }
 
             if (cullingHandler != null)
             {

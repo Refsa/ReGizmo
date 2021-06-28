@@ -24,6 +24,12 @@ namespace ReGizmo.Drawing
         Outline = 1 << 21,
     }
 
+    public enum DepthMode : int
+    {
+        Sorted = 0,
+        Overlay = 1,
+    }
+
     public struct Size
     {
         public int SizeMode;
