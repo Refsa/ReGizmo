@@ -129,8 +129,8 @@ Shader "Hidden/ReGizmo/PolyLine_Screen" {
             triangleStream.RestartStrip();
         }
 
-        float4 frag(g2f g) : SV_Target
-        {   
+        float4 _frag(g2f g)
+        {
             float4 col = g.color;
 
             const float2 center_uv = float2(0.5, g.uv.y);
@@ -145,18 +145,40 @@ Shader "Hidden/ReGizmo/PolyLine_Screen" {
 
             return col;
         }
+
+        float4 frag(g2f g) : SV_Target
+        {   
+            return _frag(g);
+        }
         ENDCG
 
 		Pass {
             Blend SrcAlpha OneMinusSrcAlpha
-            ZWrite On
-            ZTest LEqual
+            ZWrite Off
+            ZTest [_ZTest]
 
 			CGPROGRAM
 			#pragma vertex vert
             #pragma geometry geom
 			#pragma fragment frag
             #pragma multi_compile_instancing
+            ENDCG
+		}
+
+        Pass {
+            ZWrite On
+            ZTest [_ZTest]
+
+			CGPROGRAM
+			#pragma vertex vert
+            #pragma geometry geom
+			#pragma fragment depth_frag
+            #pragma multi_compile_instancing
+
+            float depth_frag(g2f g) : SV_TARGET1
+            {
+                return g.pos.z;
+            }
             ENDCG
 		}
 	}
