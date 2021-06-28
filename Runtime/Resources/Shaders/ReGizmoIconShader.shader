@@ -114,7 +114,7 @@ Shader "Hidden/ReGizmo/Icon"
         Pass
         {
             Blend SrcAlpha OneMinusSrcAlpha
-            ZTest LEqual
+            ZTest [_ZTest]
             ZWrite Off
 
             CGPROGRAM
@@ -128,7 +128,7 @@ Shader "Hidden/ReGizmo/Icon"
 
         Pass
         {
-            ZTest LEqual
+            ZTest [_ZTest]
             ZWrite On
 
             CGPROGRAM

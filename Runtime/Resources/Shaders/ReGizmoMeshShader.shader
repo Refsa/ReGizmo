@@ -65,7 +65,7 @@ Shader "Hidden/ReGizmo/Mesh"
         Pass
         {
             Blend SrcAlpha OneMinusSrcAlpha
-            ZTest LEqual
+            ZTest [_ZTest]
             ZWrite Off
             Cull Back
 
@@ -80,7 +80,7 @@ Shader "Hidden/ReGizmo/Mesh"
 
         Pass
         {
-            ZTest LEqual
+            ZTest [_ZTest]
             ZWrite On
             Cull Back
 

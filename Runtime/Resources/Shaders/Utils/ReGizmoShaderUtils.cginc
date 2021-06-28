@@ -19,6 +19,9 @@ static const int SIZE_MODE_UNIT = 1 << 13;
 static const int FILL_MODE_FILL = 1 << 20;
 static const int FILL_MODE_OUTLINE = 1 << 21;
 
+// Shared Data (cbuffer)
+int _ZTest;
+
 float4x4 rotation_matrix(float3 rotation)
 {
     float cosX = cos(rotation.x), sinX = sin(rotation.x);
