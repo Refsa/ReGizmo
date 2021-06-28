@@ -125,12 +125,11 @@ Shader "Hidden/ReGizmo/Grid"
             grid.a += large_grid.a;
 
             float view_dot = abs(dot(i.normal, normalize(_WorldSpaceCameraPos.xyz - i.world_pos)));
-
             float depth = Linear01Depth(i.pos.z / i.pos.w);
             depth = max(0, (1.0 - depth));
             depth = pow(depth, 0.5);
             grid.a *= depth * view_dot;
-            grid.a = smoothstep(0, 1, grid.a);
+            // grid.a = smoothstep(0, 1, grid.a * 0.5);
 
             return grid;
         }
@@ -138,6 +137,7 @@ Shader "Hidden/ReGizmo/Grid"
         float4 frag(v2f i) : SV_Target
         {
             float4 grid = multi_grid(i);
+            clip(grid.a == 0.0 ? -1 : 1);
             return grid;
         }
         ENDCG
@@ -174,7 +174,7 @@ Shader "Hidden/ReGizmo/Grid"
             float depth_frag(v2f i) : SV_TARGET1
             {
                 float4 col = multi_grid(i);
-                clip(col.a == 1.0 ? 1 : -1);
+                clip(col.a == 0.0 ? -1 : 1);
                 return i.pos.z;
             }
             ENDCG

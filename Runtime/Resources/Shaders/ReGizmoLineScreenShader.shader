@@ -115,7 +115,7 @@ Shader "Hidden/ReGizmo/Line_Screen"
             const float2 center_uv = float2(0.5, g.uv.y);
             const float dist = distance(g.uv, center_uv) * 2;
         
-            static const float width_factor = 0.2;
+            static const float width_factor = 0.4;
             static const float sharpness = 2.7;
             static const float smoothing = 3.5;
         

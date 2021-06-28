@@ -41,15 +41,15 @@ namespace ReGizmo.Drawing
             uniqueDrawData.SetVertexCount(quad.GetIndexCount(0));
             uniqueDrawData.SetInstanceCount(uniqueDrawData.DrawCount);
 
-            /* if (depth)
+            if (depth)
             {
-                cmd.DrawMeshInstancedIndirect(
+                /* cmd.DrawMeshInstancedIndirect(
                     quad, 0, material, 1,
                     uniqueDrawData.ArgsBuffer, 0,
                     uniqueDrawData.MaterialPropertyBlock
-                );
+                ); */
             }
-            else */
+            else
             {
                 cmd.DrawMeshInstancedIndirect(
                     quad, 0, material, 0,
