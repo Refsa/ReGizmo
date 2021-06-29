@@ -14,7 +14,7 @@ namespace ReGizmo.Generator
 @"
         public static void $METHOD_NAME($PARAMS)
         {
-            if (ReGizmoResolver<$DRAWER_NAME>.TryGet(out var drawer))
+            if (ReGizmoResolver<$DRAWER_NAME>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData();
 
@@ -24,6 +24,7 @@ namespace ReGizmo.Generator
                 shaderData.Color.Copy($PARAM_4);
             }
         }";
+
             methodShell = methodShell.Replace("$METHOD_NAME", name).Replace("$DRAWER_NAME", drawerName);
 
             variables = new Variable[] {
@@ -39,8 +40,12 @@ namespace ReGizmo.Generator
 
             foreach (var perm in Permutation.GenerateOverrides(variables))
             {
+                string args = perm.Item2;
+                if (!string.IsNullOrEmpty(args)) args += ", ";
+                args += "DepthMode depthMode = DepthMode.Sorted";
+
                 string method = methodShell;
-                method = method.Replace("$PARAMS", perm.Item2);
+                method = method.Replace("$PARAMS", args);
 
                 string[] chars = perm.Item1.Split(',');
                 method = method
