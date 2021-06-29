@@ -27,8 +27,8 @@ namespace ReGizmo.Drawing
     public enum DepthMode : int
     {
         None = 0,
-        Sorted = 1,
-        Overlay = 2,
+        Sorted = UnityEngine.Rendering.CompareFunction.LessEqual,
+        Overlay = UnityEngine.Rendering.CompareFunction.Always,
     }
 
     public struct Size
