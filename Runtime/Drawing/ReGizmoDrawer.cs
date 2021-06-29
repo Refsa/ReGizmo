@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using ReGizmo.Core;
@@ -16,6 +17,7 @@ namespace ReGizmo.Drawing
         void PreRender(CommandBuffer commandBuffer, CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData);
         void RenderDepth(CommandBuffer commandBuffer, CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData);
         void Render(CommandBuffer commandBuffer, CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData);
+        void RenderWithMaterial(CommandBuffer commandBuffer, CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData, Material material);
         uint CurrentDrawCount();
         void SetDepthMode(DepthMode depthMode);
     }
@@ -111,6 +113,15 @@ namespace ReGizmo.Drawing
             Profiler.EndSample();
         }
 
+        public void RenderWithMaterial(CommandBuffer commandBuffer, CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData, Material material)
+        {
+            if (currentDrawCount == 0) return;
+
+            Profiler.BeginSample("ReGizmoDraw::RenderWithMaterial");
+            RenderWithMaterialInternal(commandBuffer, uniqueDrawData, material);
+            Profiler.EndSample();
+        }
+
         public uint CurrentDrawCount()
         {
             return (uint)currentDrawCount;
@@ -138,6 +149,7 @@ namespace ReGizmo.Drawing
         }
 
         protected abstract void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData, bool depth = false);
+        protected virtual void RenderWithMaterialInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData, Material material) {}
         protected virtual void SetMaterialPropertyBlockData(MaterialPropertyBlock materialPropertyBlock) { }
         protected virtual void SetCullingData(CommandBuffer cmd) { }
 
