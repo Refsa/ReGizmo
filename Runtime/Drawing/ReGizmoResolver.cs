@@ -14,6 +14,7 @@ namespace ReGizmo.Drawing
         public static void Init(System.Func<TDrawer> producer)
         {
             _drawerSorted = producer.Invoke();
+            _drawerSorted.SetDepthMode(DepthMode.Sorted);
             _drawerOverlay = producer.Invoke();
             _drawerOverlay.SetDepthMode(DepthMode.Overlay);
         }

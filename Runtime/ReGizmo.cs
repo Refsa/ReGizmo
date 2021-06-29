@@ -150,7 +150,7 @@ namespace ReGizmo.Core
                 ReGizmoResolver<TriangleDrawer>.DrawerOverlay,
                 ReGizmoResolver<LineDrawer>.DrawerOverlay,
                 ReGizmoResolver<PolyLineDrawer>.DrawerOverlay,
-                ReGizmoResolver<GridDrawer>.DrawerOverlay,
+                // ReGizmoResolver<GridDrawer>.DrawerOverlay,
 
 #if REGIZMO_DEV
                 ReGizmoResolver<AABBDebugDrawer>.DrawerSorted,
