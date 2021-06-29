@@ -10,6 +10,7 @@ namespace ReGizmo.Drawing
         where TDrawer : IReGizmoDrawer
     {
         protected abstract IEnumerable<(TDrawer drawer, UniqueDrawData uniqueDrawData)> _drawers { get; }
+        protected DepthMode depthMode;
 
         public ReGizmoContentDrawer()
         {
@@ -76,6 +77,7 @@ namespace ReGizmo.Drawing
 
         public void SetDepthMode(DepthMode depthMode)
         {
+            this.depthMode = depthMode;
             foreach (var drawer in _drawers)
             {
                 drawer.drawer.SetDepthMode(depthMode);
