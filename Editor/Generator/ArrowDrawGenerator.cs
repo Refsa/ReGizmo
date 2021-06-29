@@ -21,18 +21,18 @@ namespace ReGizmo.Generator
             switch (cap)
             {
                 case ArrowCap.Triangle:
-                    ReDraw.Triangle(endPoint, direction, DrawMode.BillboardAligned, $PARAM_2, 0f, $PARAM_4);
+                    ReDraw.Triangle(endPoint, direction, DrawMode.BillboardAligned, $PARAM_2, 0f, $PARAM_4, depthMode);
                     break;
                 case ArrowCap.Cone:
                     Quaternion rotation = Quaternion.FromToRotation(Vector3.up, direction);
-                    ReDraw.Cone(endPoint, rotation, Vector3.one * $PARAM_2.Value + Vector3.up * $PARAM_2.Value, $PARAM_4);
+                    ReDraw.Cone(endPoint, rotation, Vector3.one * $PARAM_2.Value + Vector3.up * $PARAM_2.Value, $PARAM_4, depthMode);
                     break;
                 case ArrowCap.Sphere:
-                    ReDraw.Sphere(endPoint, Quaternion.identity, Vector3.one * $PARAM_2.Value, $PARAM_4);
+                    ReDraw.Sphere(endPoint, Quaternion.identity, Vector3.one * $PARAM_2.Value, $PARAM_4, depthMode);
                     break;
                 case ArrowCap.Cube:
                     rotation = Quaternion.FromToRotation(Vector3.up, direction);
-                    ReDraw.Cube(endPoint, rotation, Vector3.one * $PARAM_2.Value, $PARAM_4);
+                    ReDraw.Cube(endPoint, rotation, Vector3.one * $PARAM_2.Value, $PARAM_4, depthMode);
                     break;
             }
         }";

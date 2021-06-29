@@ -7,7 +7,7 @@ namespace ReGizmo.Drawing
     public partial class ReDraw
     {
 
-        public static void Arrow(Vector3 position, Vector3 direction, ArrowCap cap, System.Single length, ReGizmo.Drawing.Size arrowSize, System.Single lineWidth, UnityEngine.Color color)
+        public static void Arrow(Vector3 position, Vector3 direction, ArrowCap cap, System.Single length, ReGizmo.Drawing.Size arrowSize, System.Single lineWidth, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
             Vector3 endPoint = position + direction * length;
             ReDraw.Line(position, endPoint, color, lineWidth);
@@ -15,22 +15,22 @@ namespace ReGizmo.Drawing
             switch (cap)
             {
                 case ArrowCap.Triangle:
-                    ReDraw.Triangle(endPoint, direction, DrawMode.BillboardAligned, arrowSize, 0f, color);
+                    ReDraw.Triangle(endPoint, direction, DrawMode.BillboardAligned, arrowSize, 0f, color, depthMode);
                     break;
                 case ArrowCap.Cone:
                     Quaternion rotation = Quaternion.FromToRotation(Vector3.up, direction);
-                    ReDraw.Cone(endPoint, rotation, Vector3.one * arrowSize.Value + Vector3.up * arrowSize.Value, color);
+                    ReDraw.Cone(endPoint, rotation, Vector3.one * arrowSize.Value + Vector3.up * arrowSize.Value, color, depthMode);
                     break;
                 case ArrowCap.Sphere:
-                    ReDraw.Sphere(endPoint, Quaternion.identity, Vector3.one * arrowSize.Value, color);
+                    ReDraw.Sphere(endPoint, Quaternion.identity, Vector3.one * arrowSize.Value, color, depthMode);
                     break;
                 case ArrowCap.Cube:
                     rotation = Quaternion.FromToRotation(Vector3.up, direction);
-                    ReDraw.Cube(endPoint, rotation, Vector3.one * arrowSize.Value, color);
+                    ReDraw.Cube(endPoint, rotation, Vector3.one * arrowSize.Value, color, depthMode);
                     break;
             }
         }
-        public static void Arrow(Vector3 position, Vector3 direction, ArrowCap cap, System.Single length, ReGizmo.Drawing.Size arrowSize, System.Single lineWidth)
+        public static void Arrow(Vector3 position, Vector3 direction, ArrowCap cap, System.Single length, ReGizmo.Drawing.Size arrowSize, System.Single lineWidth, DepthMode depthMode = DepthMode.Sorted)
         {
             Vector3 endPoint = position + direction * length;
             ReDraw.Line(position, endPoint, currentColor, lineWidth);
@@ -38,22 +38,22 @@ namespace ReGizmo.Drawing
             switch (cap)
             {
                 case ArrowCap.Triangle:
-                    ReDraw.Triangle(endPoint, direction, DrawMode.BillboardAligned, arrowSize, 0f, currentColor);
+                    ReDraw.Triangle(endPoint, direction, DrawMode.BillboardAligned, arrowSize, 0f, currentColor, depthMode);
                     break;
                 case ArrowCap.Cone:
                     Quaternion rotation = Quaternion.FromToRotation(Vector3.up, direction);
-                    ReDraw.Cone(endPoint, rotation, Vector3.one * arrowSize.Value + Vector3.up * arrowSize.Value, currentColor);
+                    ReDraw.Cone(endPoint, rotation, Vector3.one * arrowSize.Value + Vector3.up * arrowSize.Value, currentColor, depthMode);
                     break;
                 case ArrowCap.Sphere:
-                    ReDraw.Sphere(endPoint, Quaternion.identity, Vector3.one * arrowSize.Value, currentColor);
+                    ReDraw.Sphere(endPoint, Quaternion.identity, Vector3.one * arrowSize.Value, currentColor, depthMode);
                     break;
                 case ArrowCap.Cube:
                     rotation = Quaternion.FromToRotation(Vector3.up, direction);
-                    ReDraw.Cube(endPoint, rotation, Vector3.one * arrowSize.Value, currentColor);
+                    ReDraw.Cube(endPoint, rotation, Vector3.one * arrowSize.Value, currentColor, depthMode);
                     break;
             }
         }
-        public static void Arrow(Vector3 position, Vector3 direction, ArrowCap cap, System.Single length, System.Single lineWidth, UnityEngine.Color color)
+        public static void Arrow(Vector3 position, Vector3 direction, ArrowCap cap, System.Single length, System.Single lineWidth, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
             Vector3 endPoint = position + direction * length;
             ReDraw.Line(position, endPoint, color, lineWidth);
@@ -61,22 +61,22 @@ namespace ReGizmo.Drawing
             switch (cap)
             {
                 case ArrowCap.Triangle:
-                    ReDraw.Triangle(endPoint, direction, DrawMode.BillboardAligned, Size.Units(0.2f), 0f, color);
+                    ReDraw.Triangle(endPoint, direction, DrawMode.BillboardAligned, Size.Units(0.2f), 0f, color, depthMode);
                     break;
                 case ArrowCap.Cone:
                     Quaternion rotation = Quaternion.FromToRotation(Vector3.up, direction);
-                    ReDraw.Cone(endPoint, rotation, Vector3.one * Size.Units(0.2f).Value + Vector3.up * Size.Units(0.2f).Value, color);
+                    ReDraw.Cone(endPoint, rotation, Vector3.one * Size.Units(0.2f).Value + Vector3.up * Size.Units(0.2f).Value, color, depthMode);
                     break;
                 case ArrowCap.Sphere:
-                    ReDraw.Sphere(endPoint, Quaternion.identity, Vector3.one * Size.Units(0.2f).Value, color);
+                    ReDraw.Sphere(endPoint, Quaternion.identity, Vector3.one * Size.Units(0.2f).Value, color, depthMode);
                     break;
                 case ArrowCap.Cube:
                     rotation = Quaternion.FromToRotation(Vector3.up, direction);
-                    ReDraw.Cube(endPoint, rotation, Vector3.one * Size.Units(0.2f).Value, color);
+                    ReDraw.Cube(endPoint, rotation, Vector3.one * Size.Units(0.2f).Value, color, depthMode);
                     break;
             }
         }
-        public static void Arrow(Vector3 position, Vector3 direction, ArrowCap cap, ReGizmo.Drawing.Size arrowSize, System.Single lineWidth, UnityEngine.Color color)
+        public static void Arrow(Vector3 position, Vector3 direction, ArrowCap cap, ReGizmo.Drawing.Size arrowSize, System.Single lineWidth, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
             Vector3 endPoint = position + direction * 1f;
             ReDraw.Line(position, endPoint, color, lineWidth);
@@ -84,22 +84,22 @@ namespace ReGizmo.Drawing
             switch (cap)
             {
                 case ArrowCap.Triangle:
-                    ReDraw.Triangle(endPoint, direction, DrawMode.BillboardAligned, arrowSize, 0f, color);
+                    ReDraw.Triangle(endPoint, direction, DrawMode.BillboardAligned, arrowSize, 0f, color, depthMode);
                     break;
                 case ArrowCap.Cone:
                     Quaternion rotation = Quaternion.FromToRotation(Vector3.up, direction);
-                    ReDraw.Cone(endPoint, rotation, Vector3.one * arrowSize.Value + Vector3.up * arrowSize.Value, color);
+                    ReDraw.Cone(endPoint, rotation, Vector3.one * arrowSize.Value + Vector3.up * arrowSize.Value, color, depthMode);
                     break;
                 case ArrowCap.Sphere:
-                    ReDraw.Sphere(endPoint, Quaternion.identity, Vector3.one * arrowSize.Value, color);
+                    ReDraw.Sphere(endPoint, Quaternion.identity, Vector3.one * arrowSize.Value, color, depthMode);
                     break;
                 case ArrowCap.Cube:
                     rotation = Quaternion.FromToRotation(Vector3.up, direction);
-                    ReDraw.Cube(endPoint, rotation, Vector3.one * arrowSize.Value, color);
+                    ReDraw.Cube(endPoint, rotation, Vector3.one * arrowSize.Value, color, depthMode);
                     break;
             }
         }
-        public static void Arrow(Vector3 position, Vector3 direction, ArrowCap cap, System.Single length, System.Single lineWidth)
+        public static void Arrow(Vector3 position, Vector3 direction, ArrowCap cap, System.Single length, System.Single lineWidth, DepthMode depthMode = DepthMode.Sorted)
         {
             Vector3 endPoint = position + direction * length;
             ReDraw.Line(position, endPoint, currentColor, lineWidth);
@@ -107,22 +107,22 @@ namespace ReGizmo.Drawing
             switch (cap)
             {
                 case ArrowCap.Triangle:
-                    ReDraw.Triangle(endPoint, direction, DrawMode.BillboardAligned, Size.Units(0.2f), 0f, currentColor);
+                    ReDraw.Triangle(endPoint, direction, DrawMode.BillboardAligned, Size.Units(0.2f), 0f, currentColor, depthMode);
                     break;
                 case ArrowCap.Cone:
                     Quaternion rotation = Quaternion.FromToRotation(Vector3.up, direction);
-                    ReDraw.Cone(endPoint, rotation, Vector3.one * Size.Units(0.2f).Value + Vector3.up * Size.Units(0.2f).Value, currentColor);
+                    ReDraw.Cone(endPoint, rotation, Vector3.one * Size.Units(0.2f).Value + Vector3.up * Size.Units(0.2f).Value, currentColor, depthMode);
                     break;
                 case ArrowCap.Sphere:
-                    ReDraw.Sphere(endPoint, Quaternion.identity, Vector3.one * Size.Units(0.2f).Value, currentColor);
+                    ReDraw.Sphere(endPoint, Quaternion.identity, Vector3.one * Size.Units(0.2f).Value, currentColor, depthMode);
                     break;
                 case ArrowCap.Cube:
                     rotation = Quaternion.FromToRotation(Vector3.up, direction);
-                    ReDraw.Cube(endPoint, rotation, Vector3.one * Size.Units(0.2f).Value, currentColor);
+                    ReDraw.Cube(endPoint, rotation, Vector3.one * Size.Units(0.2f).Value, currentColor, depthMode);
                     break;
             }
         }
-        public static void Arrow(Vector3 position, Vector3 direction, ArrowCap cap, ReGizmo.Drawing.Size arrowSize, System.Single lineWidth)
+        public static void Arrow(Vector3 position, Vector3 direction, ArrowCap cap, ReGizmo.Drawing.Size arrowSize, System.Single lineWidth, DepthMode depthMode = DepthMode.Sorted)
         {
             Vector3 endPoint = position + direction * 1f;
             ReDraw.Line(position, endPoint, currentColor, lineWidth);
@@ -130,22 +130,22 @@ namespace ReGizmo.Drawing
             switch (cap)
             {
                 case ArrowCap.Triangle:
-                    ReDraw.Triangle(endPoint, direction, DrawMode.BillboardAligned, arrowSize, 0f, currentColor);
+                    ReDraw.Triangle(endPoint, direction, DrawMode.BillboardAligned, arrowSize, 0f, currentColor, depthMode);
                     break;
                 case ArrowCap.Cone:
                     Quaternion rotation = Quaternion.FromToRotation(Vector3.up, direction);
-                    ReDraw.Cone(endPoint, rotation, Vector3.one * arrowSize.Value + Vector3.up * arrowSize.Value, currentColor);
+                    ReDraw.Cone(endPoint, rotation, Vector3.one * arrowSize.Value + Vector3.up * arrowSize.Value, currentColor, depthMode);
                     break;
                 case ArrowCap.Sphere:
-                    ReDraw.Sphere(endPoint, Quaternion.identity, Vector3.one * arrowSize.Value, currentColor);
+                    ReDraw.Sphere(endPoint, Quaternion.identity, Vector3.one * arrowSize.Value, currentColor, depthMode);
                     break;
                 case ArrowCap.Cube:
                     rotation = Quaternion.FromToRotation(Vector3.up, direction);
-                    ReDraw.Cube(endPoint, rotation, Vector3.one * arrowSize.Value, currentColor);
+                    ReDraw.Cube(endPoint, rotation, Vector3.one * arrowSize.Value, currentColor, depthMode);
                     break;
             }
         }
-        public static void Arrow(Vector3 position, Vector3 direction, ArrowCap cap, ReGizmo.Drawing.Size arrowSize, UnityEngine.Color color)
+        public static void Arrow(Vector3 position, Vector3 direction, ArrowCap cap, ReGizmo.Drawing.Size arrowSize, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
             Vector3 endPoint = position + direction * 1f;
             ReDraw.Line(position, endPoint, color, 1f);
@@ -153,22 +153,22 @@ namespace ReGizmo.Drawing
             switch (cap)
             {
                 case ArrowCap.Triangle:
-                    ReDraw.Triangle(endPoint, direction, DrawMode.BillboardAligned, arrowSize, 0f, color);
+                    ReDraw.Triangle(endPoint, direction, DrawMode.BillboardAligned, arrowSize, 0f, color, depthMode);
                     break;
                 case ArrowCap.Cone:
                     Quaternion rotation = Quaternion.FromToRotation(Vector3.up, direction);
-                    ReDraw.Cone(endPoint, rotation, Vector3.one * arrowSize.Value + Vector3.up * arrowSize.Value, color);
+                    ReDraw.Cone(endPoint, rotation, Vector3.one * arrowSize.Value + Vector3.up * arrowSize.Value, color, depthMode);
                     break;
                 case ArrowCap.Sphere:
-                    ReDraw.Sphere(endPoint, Quaternion.identity, Vector3.one * arrowSize.Value, color);
+                    ReDraw.Sphere(endPoint, Quaternion.identity, Vector3.one * arrowSize.Value, color, depthMode);
                     break;
                 case ArrowCap.Cube:
                     rotation = Quaternion.FromToRotation(Vector3.up, direction);
-                    ReDraw.Cube(endPoint, rotation, Vector3.one * arrowSize.Value, color);
+                    ReDraw.Cube(endPoint, rotation, Vector3.one * arrowSize.Value, color, depthMode);
                     break;
             }
         }
-        public static void Arrow(Vector3 position, Vector3 direction, ArrowCap cap, System.Single lineWidth, UnityEngine.Color color)
+        public static void Arrow(Vector3 position, Vector3 direction, ArrowCap cap, System.Single lineWidth, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
             Vector3 endPoint = position + direction * 1f;
             ReDraw.Line(position, endPoint, color, lineWidth);
@@ -176,22 +176,22 @@ namespace ReGizmo.Drawing
             switch (cap)
             {
                 case ArrowCap.Triangle:
-                    ReDraw.Triangle(endPoint, direction, DrawMode.BillboardAligned, Size.Units(0.2f), 0f, color);
+                    ReDraw.Triangle(endPoint, direction, DrawMode.BillboardAligned, Size.Units(0.2f), 0f, color, depthMode);
                     break;
                 case ArrowCap.Cone:
                     Quaternion rotation = Quaternion.FromToRotation(Vector3.up, direction);
-                    ReDraw.Cone(endPoint, rotation, Vector3.one * Size.Units(0.2f).Value + Vector3.up * Size.Units(0.2f).Value, color);
+                    ReDraw.Cone(endPoint, rotation, Vector3.one * Size.Units(0.2f).Value + Vector3.up * Size.Units(0.2f).Value, color, depthMode);
                     break;
                 case ArrowCap.Sphere:
-                    ReDraw.Sphere(endPoint, Quaternion.identity, Vector3.one * Size.Units(0.2f).Value, color);
+                    ReDraw.Sphere(endPoint, Quaternion.identity, Vector3.one * Size.Units(0.2f).Value, color, depthMode);
                     break;
                 case ArrowCap.Cube:
                     rotation = Quaternion.FromToRotation(Vector3.up, direction);
-                    ReDraw.Cube(endPoint, rotation, Vector3.one * Size.Units(0.2f).Value, color);
+                    ReDraw.Cube(endPoint, rotation, Vector3.one * Size.Units(0.2f).Value, color, depthMode);
                     break;
             }
         }
-        public static void Arrow(Vector3 position, Vector3 direction, ArrowCap cap, ReGizmo.Drawing.Size arrowSize)
+        public static void Arrow(Vector3 position, Vector3 direction, ArrowCap cap, ReGizmo.Drawing.Size arrowSize, DepthMode depthMode = DepthMode.Sorted)
         {
             Vector3 endPoint = position + direction * 1f;
             ReDraw.Line(position, endPoint, currentColor, 1f);
@@ -199,22 +199,22 @@ namespace ReGizmo.Drawing
             switch (cap)
             {
                 case ArrowCap.Triangle:
-                    ReDraw.Triangle(endPoint, direction, DrawMode.BillboardAligned, arrowSize, 0f, currentColor);
+                    ReDraw.Triangle(endPoint, direction, DrawMode.BillboardAligned, arrowSize, 0f, currentColor, depthMode);
                     break;
                 case ArrowCap.Cone:
                     Quaternion rotation = Quaternion.FromToRotation(Vector3.up, direction);
-                    ReDraw.Cone(endPoint, rotation, Vector3.one * arrowSize.Value + Vector3.up * arrowSize.Value, currentColor);
+                    ReDraw.Cone(endPoint, rotation, Vector3.one * arrowSize.Value + Vector3.up * arrowSize.Value, currentColor, depthMode);
                     break;
                 case ArrowCap.Sphere:
-                    ReDraw.Sphere(endPoint, Quaternion.identity, Vector3.one * arrowSize.Value, currentColor);
+                    ReDraw.Sphere(endPoint, Quaternion.identity, Vector3.one * arrowSize.Value, currentColor, depthMode);
                     break;
                 case ArrowCap.Cube:
                     rotation = Quaternion.FromToRotation(Vector3.up, direction);
-                    ReDraw.Cube(endPoint, rotation, Vector3.one * arrowSize.Value, currentColor);
+                    ReDraw.Cube(endPoint, rotation, Vector3.one * arrowSize.Value, currentColor, depthMode);
                     break;
             }
         }
-        public static void Arrow(Vector3 position, Vector3 direction, ArrowCap cap, System.Single lineWidth)
+        public static void Arrow(Vector3 position, Vector3 direction, ArrowCap cap, System.Single lineWidth, DepthMode depthMode = DepthMode.Sorted)
         {
             Vector3 endPoint = position + direction * 1f;
             ReDraw.Line(position, endPoint, currentColor, lineWidth);
@@ -222,22 +222,22 @@ namespace ReGizmo.Drawing
             switch (cap)
             {
                 case ArrowCap.Triangle:
-                    ReDraw.Triangle(endPoint, direction, DrawMode.BillboardAligned, Size.Units(0.2f), 0f, currentColor);
+                    ReDraw.Triangle(endPoint, direction, DrawMode.BillboardAligned, Size.Units(0.2f), 0f, currentColor, depthMode);
                     break;
                 case ArrowCap.Cone:
                     Quaternion rotation = Quaternion.FromToRotation(Vector3.up, direction);
-                    ReDraw.Cone(endPoint, rotation, Vector3.one * Size.Units(0.2f).Value + Vector3.up * Size.Units(0.2f).Value, currentColor);
+                    ReDraw.Cone(endPoint, rotation, Vector3.one * Size.Units(0.2f).Value + Vector3.up * Size.Units(0.2f).Value, currentColor, depthMode);
                     break;
                 case ArrowCap.Sphere:
-                    ReDraw.Sphere(endPoint, Quaternion.identity, Vector3.one * Size.Units(0.2f).Value, currentColor);
+                    ReDraw.Sphere(endPoint, Quaternion.identity, Vector3.one * Size.Units(0.2f).Value, currentColor, depthMode);
                     break;
                 case ArrowCap.Cube:
                     rotation = Quaternion.FromToRotation(Vector3.up, direction);
-                    ReDraw.Cube(endPoint, rotation, Vector3.one * Size.Units(0.2f).Value, currentColor);
+                    ReDraw.Cube(endPoint, rotation, Vector3.one * Size.Units(0.2f).Value, currentColor, depthMode);
                     break;
             }
         }
-        public static void Arrow(Vector3 position, Vector3 direction, ArrowCap cap, UnityEngine.Color color)
+        public static void Arrow(Vector3 position, Vector3 direction, ArrowCap cap, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
             Vector3 endPoint = position + direction * 1f;
             ReDraw.Line(position, endPoint, color, 1f);
@@ -245,22 +245,22 @@ namespace ReGizmo.Drawing
             switch (cap)
             {
                 case ArrowCap.Triangle:
-                    ReDraw.Triangle(endPoint, direction, DrawMode.BillboardAligned, Size.Units(0.2f), 0f, color);
+                    ReDraw.Triangle(endPoint, direction, DrawMode.BillboardAligned, Size.Units(0.2f), 0f, color, depthMode);
                     break;
                 case ArrowCap.Cone:
                     Quaternion rotation = Quaternion.FromToRotation(Vector3.up, direction);
-                    ReDraw.Cone(endPoint, rotation, Vector3.one * Size.Units(0.2f).Value + Vector3.up * Size.Units(0.2f).Value, color);
+                    ReDraw.Cone(endPoint, rotation, Vector3.one * Size.Units(0.2f).Value + Vector3.up * Size.Units(0.2f).Value, color, depthMode);
                     break;
                 case ArrowCap.Sphere:
-                    ReDraw.Sphere(endPoint, Quaternion.identity, Vector3.one * Size.Units(0.2f).Value, color);
+                    ReDraw.Sphere(endPoint, Quaternion.identity, Vector3.one * Size.Units(0.2f).Value, color, depthMode);
                     break;
                 case ArrowCap.Cube:
                     rotation = Quaternion.FromToRotation(Vector3.up, direction);
-                    ReDraw.Cube(endPoint, rotation, Vector3.one * Size.Units(0.2f).Value, color);
+                    ReDraw.Cube(endPoint, rotation, Vector3.one * Size.Units(0.2f).Value, color, depthMode);
                     break;
             }
         }
-        public static void Arrow(Vector3 position, Vector3 direction, ArrowCap cap)
+        public static void Arrow(Vector3 position, Vector3 direction, ArrowCap cap, DepthMode depthMode = DepthMode.Sorted)
         {
             Vector3 endPoint = position + direction * 1f;
             ReDraw.Line(position, endPoint, currentColor, 1f);
@@ -268,18 +268,18 @@ namespace ReGizmo.Drawing
             switch (cap)
             {
                 case ArrowCap.Triangle:
-                    ReDraw.Triangle(endPoint, direction, DrawMode.BillboardAligned, Size.Units(0.2f), 0f, currentColor);
+                    ReDraw.Triangle(endPoint, direction, DrawMode.BillboardAligned, Size.Units(0.2f), 0f, currentColor, depthMode);
                     break;
                 case ArrowCap.Cone:
                     Quaternion rotation = Quaternion.FromToRotation(Vector3.up, direction);
-                    ReDraw.Cone(endPoint, rotation, Vector3.one * Size.Units(0.2f).Value + Vector3.up * Size.Units(0.2f).Value, currentColor);
+                    ReDraw.Cone(endPoint, rotation, Vector3.one * Size.Units(0.2f).Value + Vector3.up * Size.Units(0.2f).Value, currentColor, depthMode);
                     break;
                 case ArrowCap.Sphere:
-                    ReDraw.Sphere(endPoint, Quaternion.identity, Vector3.one * Size.Units(0.2f).Value, currentColor);
+                    ReDraw.Sphere(endPoint, Quaternion.identity, Vector3.one * Size.Units(0.2f).Value, currentColor, depthMode);
                     break;
                 case ArrowCap.Cube:
                     rotation = Quaternion.FromToRotation(Vector3.up, direction);
-                    ReDraw.Cube(endPoint, rotation, Vector3.one * Size.Units(0.2f).Value, currentColor);
+                    ReDraw.Cube(endPoint, rotation, Vector3.one * Size.Units(0.2f).Value, currentColor, depthMode);
                     break;
             }
         }
