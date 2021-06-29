@@ -150,6 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86d1b98a147a8fb4d83ecfa41144accf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  depthMode: 4
   width: 1
 --- !u!4 &236348964
 Transform:
@@ -342,6 +343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad1330c028c14f64492122a4dbac2bda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  depthMode: 4
   icons:
   - {fileID: 2800000, guid: 3c81332ee024c5449aee6117403446a7, type: 3}
   - {fileID: 2800000, guid: a8b6d49b88122ef49a4bea5b35d1acf3, type: 3}
@@ -1296,7 +1298,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1919104111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1309,6 +1311,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bad18d7bf9b1f34ead10394ca030e20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  depthMode: 4
   text: Hello World
   fontSize: 32
 --- !u!4 &1919104112
@@ -1433,6 +1436,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1d5fcb80c6fdbc4f963c0b528c6dc02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  depthMode: 4
   sprites:
   - {fileID: -1223380547400649768, guid: 0bfe2ee1959888c47b45c2b7584d3311, type: 3}
   - {fileID: 2489410512950625930, guid: 0bfe2ee1959888c47b45c2b7584d3311, type: 3}
@@ -1480,6 +1484,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef76a2aa37740074c97a21bd4b31c50a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  depthMode: 4
   point1: {fileID: 1397039912}
   point2: {fileID: 1417674047}
 --- !u!4 &2125213979

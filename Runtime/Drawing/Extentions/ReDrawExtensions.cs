@@ -53,11 +53,11 @@ namespace ReGizmo.Drawing
             }
         }
 
-        public static void PolyLine(in PolyLine polyLine, DepthMode depthMode = DepthMode.Sorted)
+        public static void PolyLine(in PolyLine polyLine)
         {
             polyLine.Build();
 
-            if (ReGizmoResolver<PolyLineDrawer>.TryGet(out var drawer, depthMode))
+            if (ReGizmoResolver<PolyLineDrawer>.TryGet(out var drawer, polyLine.depthMode))
             {
                 drawer.GetShaderDataBuffer().Copy(polyLine.Points);
             }

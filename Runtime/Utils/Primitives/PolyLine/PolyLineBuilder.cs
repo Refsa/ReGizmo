@@ -29,6 +29,13 @@ namespace ReGizmo.Drawing
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static PolyLine WithDepthMode(this PolyLine self, DepthMode depthMode)
+        {
+            self.depthMode = depthMode;
+            return self;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Draw(this PolyLine self)
         {
             ReDraw.PolyLine(self);

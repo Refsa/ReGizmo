@@ -5,20 +5,20 @@ using UnityEngine;
 
 namespace ReGizmo.Samples
 {
-    internal class DrawLines : MonoBehaviour
+    internal class DrawLines : DrawSampleBase
     {
         [SerializeField, Range(1f, 32f)] private float width = 1f;
 
         PolyLine cachedPolyLine;
 
-        private void OnDrawGizmos()
+        protected override void Draw()
         {
             using (new TransformScope(transform))
             {
                 for (int i = 0; i < 32; i++)
                 {
-                    ReDraw.Ray(new Vector3(i, 0, 0), (Vector3.up + Vector3.right + Vector3.forward).normalized * (i + 1), Color.red, width + (i * 0.25f));
-                    ReDraw.Ray(new Vector3(i, 0, 0), (Vector3.up).normalized * (i + 1), Color.blue, width + (i * 0.25f));
+                    ReDraw.Ray(new Vector3(i, 0, 0), (Vector3.up + Vector3.right + Vector3.forward).normalized * (i + 1), Color.red, width + (i * 0.25f), depthMode);
+                    ReDraw.Ray(new Vector3(i, 0, 0), (Vector3.up).normalized * (i + 1), Color.blue, width + (i * 0.25f), depthMode);
                 }
 
                 {
@@ -28,6 +28,7 @@ namespace ReGizmo.Samples
                         .Point(Vector3.back * 4 + Vector3.up, Color.blue, 1f)
                         .Point(Vector3.back * 6, Color.cyan, 1f)
                         .ClosedLoop()
+                        .WithDepthMode(depthMode)
                         .Draw();
 
                     new PolyLine(false)
@@ -35,6 +36,7 @@ namespace ReGizmo.Samples
                         .Point(Vector3.right + Vector3.back * 2 + Vector3.up, Color.green, 2f)
                         .Point(Vector3.right + Vector3.back * 4 + Vector3.up, Color.blue, 4f)
                         .Point(Vector3.right + Vector3.back * 6, Color.cyan, 8f)
+                        .WithDepthMode(depthMode)
                         .Draw();
 
                     new PolyLine(false)
@@ -42,12 +44,14 @@ namespace ReGizmo.Samples
                         .Point(Vector3.right * 2 + Vector3.back * 2 + Vector3.up, Color.green, 20f)
                         .Point(Vector3.right * 2 + Vector3.back * 4 + Vector3.up, Color.blue, 30f)
                         .Point(Vector3.right * 2 + Vector3.back * 6, Color.cyan, 40f)
+                        .WithDepthMode(depthMode)
                         .Draw();
 
                     new PolyLine(false)
                         .Point(Vector3.right * 3 + Vector3.back, Color.red, 10f)
                         .Point(Vector3.right * 3 + Vector3.back + Vector3.up, Color.green, 20f)
                         .Point(Vector3.right * 3 + Vector3.back * 4 + Vector3.up, Color.blue, 30f)
+                        .WithDepthMode(depthMode)
                         .Draw();
                 }
 
@@ -67,7 +71,7 @@ namespace ReGizmo.Samples
             {
                 if (!cachedPolyLine.Initialized || cachedPolyLine.Count == 0)
                 {
-                    cachedPolyLine = new PolyLine(false).DontDispose();
+                    cachedPolyLine = new PolyLine(false).WithDepthMode(depthMode).DontDispose();
 
                     Vector3 point = Random.insideUnitSphere * 0.001f;
                     float maxTheta = 10f;

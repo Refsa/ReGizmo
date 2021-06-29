@@ -9,7 +9,7 @@ using UnityEngine.XR;
 namespace ReGizmo.Samples
 {
     [AddComponentMenu("ReGizmo Samples/Draw SDF Text")]
-    internal class DrawSDFText : DrawBase
+    internal class DrawSDFText : DrawSampleBase
     {
         [SerializeField] string text = "Hello";
         [SerializeField, Range(8f, 1024f)] float fontSize = 1f;
@@ -18,21 +18,9 @@ namespace ReGizmo.Samples
         {
             using (new TransformScope(transform))
             {
-                ReDraw.TextSDF("SDF: " + text, Vector3.zero, fontSize, Color.white);
-                ReDraw.Text("Regular: " + text, Vector3.up * 5, fontSize, Color.white);
+                ReDraw.TextSDF("SDF: " + text, Vector3.zero, fontSize, Color.white, depthMode);
+                ReDraw.Text("Regular: " + text, Vector3.up * 5, fontSize, Color.white, depthMode);
             }
-        }
-
-        protected override void DrawGizmos()
-        {
-            if (!Application.isPlaying)
-            {
-                Draw();
-            }
-
-#if UNITY_EDITOR
-            Handles.Label(transform.position + Vector3.down * 5f, text);
-#endif
         }
     }
 }

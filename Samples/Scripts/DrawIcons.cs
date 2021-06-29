@@ -5,12 +5,12 @@ using UnityEngine;
 
 namespace ReGizmo.Samples
 {
-    internal class DrawIcons : MonoBehaviour
+    internal class DrawIcons : DrawSampleBase
     {
         [SerializeField] List<Texture2D> icons;
         [SerializeField, Range(8f, 128f)] float size = 64f;
 
-        void OnDrawGizmos()
+        protected override void Draw()
         {
             if (icons == null) return;
 
@@ -19,7 +19,7 @@ namespace ReGizmo.Samples
                 int index = 0;
                 foreach (var icon in icons)
                 {
-                    ReDraw.Icon(icon, Vector3.up * 12 * index++, Color.black, Size.Pixels(size));
+                    ReDraw.Icon(icon, Vector3.up * 12 * index++, Color.black, Size.Pixels(size), depthMode);
                 }
             }
         }
