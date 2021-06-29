@@ -13,7 +13,7 @@ namespace ReGizmo.Generator
                 @"
         public static void TextSDF($PARAMS)
         {
-            if (ReGizmoResolver<SDFTextDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<SDFTextDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var textData = ref drawer.GetTextShaderData(out uint id);
                 textData.Position = $PARAM_1;
@@ -54,13 +54,14 @@ namespace ReGizmo.Generator
             foreach (var perm in Permutation.GenerateOverrides(variables))
             {
                 string method = methodShell;
-                string parameters = "string text";
+                string arguments = "string text, ";
                 if (!string.IsNullOrEmpty(perm.Item2))
                 {
-                    parameters += ", " + perm.Item2;
+                    arguments += perm.Item2 + ", ";
                 }
+                arguments += "DepthMode depthMode = DepthMode.Sorted";
 
-                method = method.Replace("$PARAMS", parameters);
+                method = method.Replace("$PARAMS", arguments);
 
                 string[] chars = perm.Item1.Split(',');
                 method = method

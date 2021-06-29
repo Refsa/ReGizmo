@@ -14,7 +14,7 @@ namespace ReGizmo.Generator
 @"
         public static void Line($PARAMS)
         {
-            if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData();
                 shaderData.Position1 = point1;
@@ -38,12 +38,14 @@ namespace ReGizmo.Generator
             foreach (var perm in Permutation.GenerateOverrides(variables))
             {
                 string method = methodShell;
-                string parameters = "Vector3 point1, Vector3 point2";
+                string arguments = "Vector3 point1, Vector3 point2, ";
                 if (!string.IsNullOrEmpty(perm.Item2))
                 {
-                    parameters += ", " + perm.Item2;
+                    arguments += perm.Item2 + ", ";
                 }
-                method = method.Replace("$PARAMS", parameters);
+                arguments += "DepthMode depthMode = DepthMode.Sorted";
+
+                method = method.Replace("$PARAMS", arguments);
 
                 string[] chars = perm.Item1.Split(',');
                 method = method

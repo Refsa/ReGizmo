@@ -15,7 +15,7 @@ namespace ReGizmo.Generator
 @"
         public static void Icon($PARAMS)
         {
-            if (ReGizmoResolver<IconsDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<IconsDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData(texture);
 
@@ -39,12 +39,16 @@ namespace ReGizmo.Generator
             foreach (var perm in Permutation.GenerateOverrides(variables))
             {
                 string method = methodShell;
-                string parameters = "Texture2D texture";
+                string arguments = "Texture2D texture, ";
+
                 if (!string.IsNullOrEmpty(perm.Item2))
                 {
-                    parameters += ", " + perm.Item2;
+                    arguments += perm.Item2 + ", ";
                 }
-                method = method.Replace("$PARAMS", parameters);
+
+                arguments += "DepthMode depthMode = DepthMode.Sorted";
+
+                method = method.Replace("$PARAMS", arguments);
 
                 string[] chars = perm.Item1.Split(',');
                 method = method
