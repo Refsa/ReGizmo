@@ -42,7 +42,7 @@
         Pass
         {
             Blend SrcAlpha OneMinusSrcAlpha
-            ZTest LEqual
+            ZTest [_ZTest]
             ZWrite Off
             Cull Off
 
