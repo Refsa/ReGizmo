@@ -36,7 +36,7 @@
         Pass
         {
             Blend SrcAlpha OneMinusSrcAlpha
-            ZTest[_ZTest]
+            ZTest [_ZTest]
             ZWrite Off
 
             CGPROGRAM
@@ -50,7 +50,7 @@
 
         Pass
         {
-            ZTest[_ZTest]
+            ZTest LEqual
             ZWrite On
 
             CGPROGRAM

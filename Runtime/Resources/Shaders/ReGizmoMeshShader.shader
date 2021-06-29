@@ -80,7 +80,7 @@ Shader "Hidden/ReGizmo/Mesh"
 
         Pass
         {
-            ZTest [_ZTest]
+            ZTest LEqual
             ZWrite On
             Cull Back
 

@@ -103,13 +103,13 @@
 
         Pass
         {
-            ZTest [_ZTest]
+            ZTest LEqual
             ZWrite On
 
             CGPROGRAM
             #pragma vertex vert
             #pragma geometry geom
-            #pragma fragment frag_depth
+            #pragma fragment depth_frag
             #pragma multi_compile_instancing
             #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
 

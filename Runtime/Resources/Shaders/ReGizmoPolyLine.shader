@@ -167,7 +167,7 @@ Shader "Hidden/ReGizmo/PolyLine_Screen" {
 
         Pass {
             ZWrite On
-            ZTest [_ZTest]
+            ZTest LEqual
 
 			CGPROGRAM
 			#pragma vertex vert

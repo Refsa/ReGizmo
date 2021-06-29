@@ -150,7 +150,7 @@ Shader "Hidden/ReGizmo/Line_Screen"
         {
             Blend SrcAlpha OneMinusSrcAlpha
             ZWrite On
-            ZTest [_ZTest]
+            ZTest LEqual
 
             CGPROGRAM
             #pragma vertex vert_line

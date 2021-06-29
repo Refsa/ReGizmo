@@ -138,7 +138,7 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
 
         Pass
         {
-            ZTest [_ZTest]
+            ZTest LEqual
             ZWrite On
             Cull Off
 

@@ -48,7 +48,7 @@
 
         Pass
         {
-            ZTest [_ZTest]
+            ZTest LEqual
             ZWrite On
 
             CGPROGRAM
