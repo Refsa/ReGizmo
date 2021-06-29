@@ -115,7 +115,7 @@ Shader "Hidden/ReGizmo/Grid"
             return _color;
         }
 
-        float4 frag(v2f i) : SV_Target
+        float4 multi_grid(v2f i)
         {
             float4 small_grid = grid(i.world_pos, i.flags, 1, float3(0.2,0.2,0.2));
             float4 large_grid = grid(i.world_pos, i.flags, 0.1, float3(0.5,0.5,0.5));
@@ -125,14 +125,19 @@ Shader "Hidden/ReGizmo/Grid"
             grid.a += large_grid.a;
 
             float view_dot = abs(dot(i.normal, normalize(_WorldSpaceCameraPos.xyz - i.world_pos)));
-
             float depth = Linear01Depth(i.pos.z / i.pos.w);
             depth = max(0, (1.0 - depth));
             depth = pow(depth, 0.5);
             grid.a *= depth * view_dot;
+            // grid.a = smoothstep(0, 1, grid.a * 0.5);
 
-            clip(grid.a == 0 ? -1 : 1);
+            return grid;
+        }
 
+        float4 frag(v2f i) : SV_Target
+        {
+            float4 grid = multi_grid(i);
+            clip(grid.a == 0.0 ? -1 : 1);
             return grid;
         }
         ENDCG
@@ -141,7 +146,7 @@ Shader "Hidden/ReGizmo/Grid"
         {
             Blend SrcAlpha OneMinusSrcAlpha
             ZTest LEqual
-            ZWrite On
+            ZWrite Off
             Cull Off
 
             CGPROGRAM
@@ -150,6 +155,28 @@ Shader "Hidden/ReGizmo/Grid"
             #pragma multi_compile_instancing
             #pragma instancing_options procedural:setup
             #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+            ENDCG
+        }
+
+        Pass
+        {
+            ZTest LEqual
+            ZWrite On
+            Cull Off
+
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment depth_frag
+            #pragma multi_compile_instancing
+            #pragma instancing_options procedural:setup
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+
+            float depth_frag(v2f i) : SV_TARGET1
+            {
+                float4 col = multi_grid(i);
+                clip(col.a == 0.0 ? -1 : 1);
+                return i.pos.z;
+            }
             ENDCG
         }
     }

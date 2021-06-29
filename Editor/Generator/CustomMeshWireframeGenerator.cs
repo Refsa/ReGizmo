@@ -13,7 +13,7 @@ namespace ReGizmo.Generator
                 @"
         public static void WireframeMesh($PARAMS)
         {
-            if (ReGizmoResolver<CustomMeshWireframeDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<CustomMeshWireframeDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData(mesh);
 
@@ -39,13 +39,16 @@ namespace ReGizmo.Generator
             foreach (var perm in Permutation.GenerateOverrides(variables))
             {
                 string method = methodShell;
-                string parameters = "Mesh mesh";
+                string arguments = "Mesh mesh, ";
+
                 if (!string.IsNullOrEmpty(perm.Item2))
                 {
-                    parameters += ", " + perm.Item2;
+                    arguments += perm.Item2 + ", ";
                 }
 
-                method = method.Replace("$PARAMS", parameters);
+                arguments += "DepthMode depthMode = DepthMode.Sorted";
+
+                method = method.Replace("$PARAMS", arguments);
 
                 string[] chars = perm.Item1.Split(',');
                 method = method

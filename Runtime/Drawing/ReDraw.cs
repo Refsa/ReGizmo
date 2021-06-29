@@ -24,6 +24,13 @@ namespace ReGizmo.Drawing
         Outline = 1 << 21,
     }
 
+    public enum DepthMode : int
+    {
+        None = 0,
+        Sorted = UnityEngine.Rendering.CompareFunction.LessEqual,
+        Overlay = UnityEngine.Rendering.CompareFunction.Always,
+    }
+
     public struct Size
     {
         public int SizeMode;
@@ -69,5 +76,6 @@ namespace ReGizmo.Drawing
         internal static Quaternion currentRotation = Quaternion.Euler(0f, 0f, 0f);
         internal static Vector3 currentScale = Vector3.zero;
         internal static Color currentColor = Color.white;
+        internal static DepthMode currentDepthMode = DepthMode.None;
     }
 }

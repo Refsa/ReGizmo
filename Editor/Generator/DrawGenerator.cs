@@ -40,13 +40,20 @@ $CONTENT
             foreach (var perm in Permutation.GenerateOverrides(variables))
             {
                 string method = methodShell;
-                string parameters = defaultParams;
+
+                string arguments = defaultParams;
                 if (!string.IsNullOrEmpty(perm.Item2))
                 {
-                    if (!string.IsNullOrEmpty(parameters)) parameters += ", ";
-                    parameters += perm.Item2;
+                    if (!string.IsNullOrEmpty(arguments)) arguments += ", ";
+                    arguments += perm.Item2 + ", DepthMode depthMode = DepthMode.Sorted";
                 }
-                method = method.Replace("$PARAMS", parameters);
+                else
+                {
+                    if (!string.IsNullOrEmpty(arguments)) arguments += ", ";
+                    arguments += "DepthMode depthMode = DepthMode.Sorted";
+                }
+
+                method = method.Replace("$PARAMS", arguments);
 
                 string[] chars = perm.Item1.Split(',');
                 for (int i = 0; i < chars.Length; i++)

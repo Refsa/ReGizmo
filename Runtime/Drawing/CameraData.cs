@@ -66,13 +66,14 @@ namespace ReGizmo.Drawing
             isActive = state;
         }
 
-        public bool PreRender()
+        public bool FrameSetup()
         {
             if (camera == null) return false;
 
 #if !RG_HDRP
             commandBuffer.Clear();
 #endif
+
             frustum.UpdateCameraFrustum();
 
 #if REGIZMO_DEV
@@ -89,6 +90,20 @@ namespace ReGizmo.Drawing
             }
 
             return true;
+        }
+
+        public void PreRender(IReGizmoDrawer drawer)
+        {
+            if (!isActive) return;
+
+            if (!uniqueDrawDatas.TryGetValue(drawer, out var uniqueDrawData))
+            {
+                uniqueDrawData = new UniqueDrawData();
+                uniqueDrawDatas.Add(drawer, uniqueDrawData);
+            }
+
+            drawer.PreRender(commandBuffer, frustum, uniqueDrawData);
+            drawer.RenderDepth(commandBuffer, frustum, uniqueDrawData);
         }
 
         public void PostRender()

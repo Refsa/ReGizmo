@@ -29,17 +29,30 @@ namespace ReGizmo.Drawing
             argsBufferCountOffset = 0;
         }
 
-        protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData)
+        protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData, bool depth)
         {
             uniqueDrawData.SetInstanceCount(1);
 
-            cmd.DrawProceduralIndirect(
-                Matrix4x4.identity,
-                material, 0,
-                MeshTopology.Points,
-                uniqueDrawData.ArgsBuffer, 0,
-                uniqueDrawData.MaterialPropertyBlock
-            );
+            if (depth)
+            {
+                cmd.DrawProceduralIndirect(
+                    Matrix4x4.identity,
+                    material, 1,
+                    MeshTopology.Points,
+                    uniqueDrawData.ArgsBuffer, 0,
+                    uniqueDrawData.MaterialPropertyBlock
+                );
+            }
+            else
+            {
+                cmd.DrawProceduralIndirect(
+                    Matrix4x4.identity,
+                    material, 0,
+                    MeshTopology.Points,
+                    uniqueDrawData.ArgsBuffer, 0,
+                    uniqueDrawData.MaterialPropertyBlock
+                );
+            }
         }
 
         protected override void SetMaterialPropertyBlockData(MaterialPropertyBlock materialPropertyBlock)

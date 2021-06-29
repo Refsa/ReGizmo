@@ -5,9 +5,9 @@ namespace ReGizmo.Drawing
 {
     public partial class ReDraw
     {
-        public static void Line(Vector3 p1, Vector3 p2, Color color, float width)
+        public static void Line(Vector3 p1, Vector3 p2, Color color, float width, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData();
                 shaderData.Position1.SetAdd(currentPosition, p1);
@@ -17,9 +17,9 @@ namespace ReGizmo.Drawing
             }
         }
 
-        public static void Line(Vector3 p1, Vector3 p2, Color color)
+        public static void Line(Vector3 p1, Vector3 p2, Color color, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData();
                 shaderData.Position1.SetAdd(p1, currentPosition);
@@ -29,9 +29,9 @@ namespace ReGizmo.Drawing
             }
         }
 
-        public static void Line(Vector3 p1, Vector3 p2, float width)
+        public static void Line(Vector3 p1, Vector3 p2, float width, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData();
                 shaderData.Position1.SetAdd(currentPosition, p1);
@@ -41,9 +41,9 @@ namespace ReGizmo.Drawing
             }
         }
 
-        public static void Line(Vector3 p1, Vector3 p2)
+        public static void Line(Vector3 p1, Vector3 p2, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData();
                 shaderData.Position1.SetAdd(currentPosition, p1);
@@ -57,7 +57,7 @@ namespace ReGizmo.Drawing
         {
             polyLine.Build();
 
-            if (ReGizmoResolver<PolyLineDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<PolyLineDrawer>.TryGet(out var drawer, polyLine.depthMode))
             {
                 drawer.GetShaderDataBuffer().Copy(polyLine.Points);
             }
@@ -77,9 +77,9 @@ namespace ReGizmo.Drawing
         /// <param name="pos">World position</param>
         /// <param name="scale">Scale, internally multiplied with PPU</param>
         /// <param name="sorting">No functionality atm</param>
-        public static void Sprite(Sprite sprite, Vector3 pos, float scale, float sorting = 0f)
+        public static void Sprite(Sprite sprite, Vector3 pos, float scale, float sorting = 0f, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<SpritesDrawer>.TryGet(out var drawers))
+            if (ReGizmoResolver<SpritesDrawer>.TryGet(out var drawers, depthMode))
             {
                 ref var data = ref drawers.GetShaderData(sprite);
 
@@ -88,14 +88,14 @@ namespace ReGizmo.Drawing
             }
         }
 
-        public static void Rect(Rect rect, Color color, float depth = 0f)
+        public static void Rect(Rect rect, Color color, float depth = 0f, DepthMode depthMode = DepthMode.Sorted)
         {
             Vector3 p1 = new Vector3(rect.xMin + currentPosition.x, rect.yMin + currentPosition.y, depth + currentPosition.z);
             Vector3 p2 = new Vector3(rect.xMin + currentPosition.x, rect.yMax + currentPosition.y, depth + currentPosition.z);
             Vector3 p3 = new Vector3(rect.xMax + currentPosition.x, rect.yMax + currentPosition.y, depth + currentPosition.z);
             Vector3 p4 = new Vector3(rect.xMax + currentPosition.x, rect.yMin + currentPosition.y, depth + currentPosition.z);
 
-            if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<LineDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData();
                 shaderData.Position1 = p1;
@@ -147,14 +147,14 @@ namespace ReGizmo.Drawing
             }
         }
 
-        public static void WireSphere(Vector3 center, Quaternion orientation, float radius, Color color)
+        public static void WireSphere(Vector3 center, Quaternion orientation, float radius, Color color, DepthMode depthMode = DepthMode.Sorted)
         {
-            ReDraw.Circle(center, orientation * V3Up, DrawMode.AxisAligned, Size.Units(radius), FillMode.Outline, color);
-            ReDraw.Circle(center, orientation * V3Right, DrawMode.AxisAligned, Size.Units(radius), FillMode.Outline, color);
-            ReDraw.Circle(center, orientation * V3Forward, DrawMode.AxisAligned, Size.Units(radius), FillMode.Outline, color);
+            ReDraw.Circle(center, orientation * V3Up, DrawMode.AxisAligned, Size.Units(radius), FillMode.Outline, color, depthMode);
+            ReDraw.Circle(center, orientation * V3Right, DrawMode.AxisAligned, Size.Units(radius), FillMode.Outline, color, depthMode);
+            ReDraw.Circle(center, orientation * V3Forward, DrawMode.AxisAligned, Size.Units(radius), FillMode.Outline, color, depthMode);
         }
 
-        public static void WireCapsule(Vector3 center, Quaternion orientation, float radius, float height, Color color)
+        public static void WireCapsule(Vector3 center, Quaternion orientation, float radius, float height, Color color, DepthMode depthMode = DepthMode.Sorted)
         {
             Vector3 dir = orientation * V3Up;
             float halfHeight = height * 0.5f;
@@ -162,8 +162,8 @@ namespace ReGizmo.Drawing
             Vector3 top = center + dir * halfHeight;
             Vector3 bottom = center - dir * halfHeight;
 
-            WireSphere(top, orientation, radius, color);
-            WireSphere(bottom, orientation, radius, color);
+            WireSphere(top, orientation, radius, color, depthMode);
+            WireSphere(bottom, orientation, radius, color, depthMode);
 
             Vector3 perp1 = Mathf.Approximately(Mathf.Abs(Vector3.Dot(dir, V3Right)), 1f) ?
                 Vector3.Cross(dir, V3Up).normalized
@@ -175,14 +175,14 @@ namespace ReGizmo.Drawing
             perp1.Mul(radius);
             perp2.Mul(radius);
 
-            Line(bottom + perp1, top + perp1, color, 1f);
-            Line(bottom - perp1, top - perp1, color, 1f);
+            Line(bottom + perp1, top + perp1, color, 1f, depthMode);
+            Line(bottom - perp1, top - perp1, color, 1f, depthMode);
 
-            Line(bottom + perp2, top + perp2, color, 1f);
-            Line(bottom - perp2, top - perp2, color, 1f);
+            Line(bottom + perp2, top + perp2, color, 1f, depthMode);
+            Line(bottom - perp2, top - perp2, color, 1f, depthMode);
         }
 
-        public static void WireCube(Vector3 center, Quaternion rotation, Vector3 extents, Color color)
+        public static void WireCube(Vector3 center, Quaternion rotation, Vector3 extents, Color color, DepthMode depthMode = DepthMode.Sorted)
         {
             var halfExtents = extents / 2f;
 
@@ -196,25 +196,25 @@ namespace ReGizmo.Drawing
             Vector3 p7 = center + rotation * new Vector3(-halfExtents.x, -halfExtents.y, -halfExtents.z);
 
             // TOP
-            Line(p0, p1, color, 1f);
-            Line(p1, p2, color, 1f);
-            Line(p2, p3, color, 1f);
-            Line(p3, p0, color, 1f);
+            Line(p0, p1, color, 1f, depthMode);
+            Line(p1, p2, color, 1f, depthMode);
+            Line(p2, p3, color, 1f, depthMode);
+            Line(p3, p0, color, 1f, depthMode);
 
             // BOTTOM
-            Line(p4, p5, color, 1f);
-            Line(p5, p6, color, 1f);
-            Line(p6, p7, color, 1f);
-            Line(p7, p4, color, 1f);
+            Line(p4, p5, color, 1f, depthMode);
+            Line(p5, p6, color, 1f, depthMode);
+            Line(p6, p7, color, 1f, depthMode);
+            Line(p7, p4, color, 1f, depthMode);
 
             // CONNECTORS
-            Line(p0, p4, color, 1f);
-            Line(p1, p5, color, 1f);
-            Line(p2, p6, color, 1f);
-            Line(p3, p7, color, 1f);
+            Line(p0, p4, color, 1f, depthMode);
+            Line(p1, p5, color, 1f, depthMode);
+            Line(p2, p6, color, 1f, depthMode);
+            Line(p3, p7, color, 1f, depthMode);
         }
 
-        public static void Circle2(Vector3 center, Vector3 normal, float radius, int resolution)
+        public static void Circle2(Vector3 center, Vector3 normal, float radius, int resolution, DepthMode depthMode = DepthMode.Sorted)
         {
             float theta = 0f;
             float step = 360f / (float)resolution;
@@ -227,7 +227,7 @@ namespace ReGizmo.Drawing
             {
                 Vector3 point = center + Quaternion.Euler(normal * theta) * dir * radius;
 
-                Line(prevPoint, point, Color.red, 1f);
+                Line(prevPoint, point, Color.red, 1f, depthMode);
                 prevPoint = point;
                 theta += step;
             }

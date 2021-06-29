@@ -7,9 +7,9 @@ namespace ReGizmo.Drawing
     public partial class ReDraw
     {
 
-        public static void WireframeMesh(Mesh mesh, UnityEngine.Vector3 position, UnityEngine.Quaternion rotation, UnityEngine.Vector3 scale, UnityEngine.Color color)
+        public static void WireframeMesh(Mesh mesh, UnityEngine.Vector3 position, UnityEngine.Quaternion rotation, UnityEngine.Vector3 scale, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<CustomMeshWireframeDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<CustomMeshWireframeDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData(mesh);
 
@@ -19,9 +19,9 @@ namespace ReGizmo.Drawing
                 shaderData.Color = color;
             }
         }
-        public static void WireframeMesh(Mesh mesh, UnityEngine.Vector3 position, UnityEngine.Quaternion rotation, UnityEngine.Vector3 scale)
+        public static void WireframeMesh(Mesh mesh, UnityEngine.Vector3 position, UnityEngine.Quaternion rotation, UnityEngine.Vector3 scale, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<CustomMeshWireframeDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<CustomMeshWireframeDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData(mesh);
 
@@ -31,9 +31,9 @@ namespace ReGizmo.Drawing
                 shaderData.Color = currentColor;
             }
         }
-        public static void WireframeMesh(Mesh mesh, UnityEngine.Vector3 position, UnityEngine.Quaternion rotation, UnityEngine.Color color)
+        public static void WireframeMesh(Mesh mesh, UnityEngine.Vector3 position, UnityEngine.Quaternion rotation, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<CustomMeshWireframeDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<CustomMeshWireframeDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData(mesh);
 
@@ -43,9 +43,9 @@ namespace ReGizmo.Drawing
                 shaderData.Color = color;
             }
         }
-        public static void WireframeMesh(Mesh mesh, UnityEngine.Vector3 position, UnityEngine.Vector3 scale, UnityEngine.Color color)
+        public static void WireframeMesh(Mesh mesh, UnityEngine.Vector3 position, UnityEngine.Vector3 scale, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<CustomMeshWireframeDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<CustomMeshWireframeDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData(mesh);
 
@@ -55,9 +55,9 @@ namespace ReGizmo.Drawing
                 shaderData.Color = color;
             }
         }
-        public static void WireframeMesh(Mesh mesh, UnityEngine.Vector3 position, UnityEngine.Quaternion rotation)
+        public static void WireframeMesh(Mesh mesh, UnityEngine.Vector3 position, UnityEngine.Quaternion rotation, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<CustomMeshWireframeDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<CustomMeshWireframeDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData(mesh);
 
@@ -67,9 +67,9 @@ namespace ReGizmo.Drawing
                 shaderData.Color = currentColor;
             }
         }
-        public static void WireframeMesh(Mesh mesh, UnityEngine.Vector3 position, UnityEngine.Vector3 scale)
+        public static void WireframeMesh(Mesh mesh, UnityEngine.Vector3 position, UnityEngine.Vector3 scale, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<CustomMeshWireframeDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<CustomMeshWireframeDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData(mesh);
 
@@ -79,9 +79,9 @@ namespace ReGizmo.Drawing
                 shaderData.Color = currentColor;
             }
         }
-        public static void WireframeMesh(Mesh mesh, UnityEngine.Vector3 position, UnityEngine.Color color)
+        public static void WireframeMesh(Mesh mesh, UnityEngine.Vector3 position, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<CustomMeshWireframeDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<CustomMeshWireframeDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData(mesh);
 
@@ -91,9 +91,9 @@ namespace ReGizmo.Drawing
                 shaderData.Color = color;
             }
         }
-        public static void WireframeMesh(Mesh mesh, UnityEngine.Quaternion rotation, UnityEngine.Color color)
+        public static void WireframeMesh(Mesh mesh, UnityEngine.Quaternion rotation, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<CustomMeshWireframeDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<CustomMeshWireframeDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData(mesh);
 
@@ -103,9 +103,9 @@ namespace ReGizmo.Drawing
                 shaderData.Color = color;
             }
         }
-        public static void WireframeMesh(Mesh mesh, UnityEngine.Vector3 position)
+        public static void WireframeMesh(Mesh mesh, UnityEngine.Vector3 position, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<CustomMeshWireframeDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<CustomMeshWireframeDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData(mesh);
 
@@ -115,9 +115,9 @@ namespace ReGizmo.Drawing
                 shaderData.Color = currentColor;
             }
         }
-        public static void WireframeMesh(Mesh mesh, UnityEngine.Quaternion rotation)
+        public static void WireframeMesh(Mesh mesh, UnityEngine.Quaternion rotation, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<CustomMeshWireframeDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<CustomMeshWireframeDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData(mesh);
 
@@ -127,9 +127,9 @@ namespace ReGizmo.Drawing
                 shaderData.Color = currentColor;
             }
         }
-        public static void WireframeMesh(Mesh mesh, UnityEngine.Color color)
+        public static void WireframeMesh(Mesh mesh, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<CustomMeshWireframeDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<CustomMeshWireframeDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData(mesh);
 
@@ -139,9 +139,9 @@ namespace ReGizmo.Drawing
                 shaderData.Color = color;
             }
         }
-        public static void WireframeMesh(Mesh mesh)
+        public static void WireframeMesh(Mesh mesh, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<CustomMeshWireframeDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<CustomMeshWireframeDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData(mesh);
 

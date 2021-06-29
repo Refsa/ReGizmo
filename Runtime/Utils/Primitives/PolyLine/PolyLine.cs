@@ -15,6 +15,7 @@ namespace ReGizmo.Drawing
         internal bool Looping;
         internal bool AutoDispose;
         internal bool AutoDraw;
+        internal DepthMode depthMode;
 
         int id;
 
@@ -30,6 +31,7 @@ namespace ReGizmo.Drawing
             id = GenerateID();
             AutoDispose = true;
             AutoDraw = false;
+            depthMode = DepthMode.Sorted;
         }
 
         /// <summary>

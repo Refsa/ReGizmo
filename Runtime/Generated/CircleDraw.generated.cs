@@ -7,7 +7,7 @@ namespace ReGizmo.Drawing
     public partial class ReDraw
     {
 
-        public static void Circle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.Size radius, ReGizmo.Drawing.FillMode fillMode, UnityEngine.Color color)
+        public static void Circle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.Size radius, ReGizmo.Drawing.FillMode fillMode, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -20,7 +20,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)drawMode | radius.SizeMode | (int)fillMode;
             }
         }
-        public static void Circle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.Size radius, ReGizmo.Drawing.FillMode fillMode)
+        public static void Circle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.Size radius, ReGizmo.Drawing.FillMode fillMode, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -33,7 +33,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)drawMode | radius.SizeMode | (int)fillMode;
             }
         }
-        public static void Circle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.Size radius, UnityEngine.Color color)
+        public static void Circle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.Size radius, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -46,7 +46,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)drawMode | radius.SizeMode | (int)FillMode.Fill;
             }
         }
-        public static void Circle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.FillMode fillMode, UnityEngine.Color color)
+        public static void Circle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.FillMode fillMode, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -59,7 +59,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)drawMode | Size.Pixels(32f).SizeMode | (int)fillMode;
             }
         }
-        public static void Circle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.Size radius, ReGizmo.Drawing.FillMode fillMode, UnityEngine.Color color)
+        public static void Circle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.Size radius, ReGizmo.Drawing.FillMode fillMode, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -72,7 +72,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)DrawMode.BillboardFree | radius.SizeMode | (int)fillMode;
             }
         }
-        public static void Circle(UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.Size radius, ReGizmo.Drawing.FillMode fillMode, UnityEngine.Color color)
+        public static void Circle(UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.Size radius, ReGizmo.Drawing.FillMode fillMode, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -85,7 +85,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)drawMode | radius.SizeMode | (int)fillMode;
             }
         }
-        public static void Circle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.Size radius)
+        public static void Circle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.Size radius, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -98,7 +98,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)drawMode | radius.SizeMode | (int)FillMode.Fill;
             }
         }
-        public static void Circle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.FillMode fillMode)
+        public static void Circle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.FillMode fillMode, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -111,7 +111,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)drawMode | Size.Pixels(32f).SizeMode | (int)fillMode;
             }
         }
-        public static void Circle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, UnityEngine.Color color)
+        public static void Circle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -124,7 +124,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)drawMode | Size.Pixels(32f).SizeMode | (int)FillMode.Fill;
             }
         }
-        public static void Circle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.Size radius, ReGizmo.Drawing.FillMode fillMode)
+        public static void Circle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.Size radius, ReGizmo.Drawing.FillMode fillMode, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -137,7 +137,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)DrawMode.BillboardFree | radius.SizeMode | (int)fillMode;
             }
         }
-        public static void Circle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.Size radius, UnityEngine.Color color)
+        public static void Circle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.Size radius, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -150,7 +150,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)DrawMode.BillboardFree | radius.SizeMode | (int)FillMode.Fill;
             }
         }
-        public static void Circle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.FillMode fillMode, UnityEngine.Color color)
+        public static void Circle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.FillMode fillMode, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -163,7 +163,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)DrawMode.BillboardFree | Size.Pixels(32f).SizeMode | (int)fillMode;
             }
         }
-        public static void Circle(UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.Size radius, ReGizmo.Drawing.FillMode fillMode)
+        public static void Circle(UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.Size radius, ReGizmo.Drawing.FillMode fillMode, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -176,7 +176,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)drawMode | radius.SizeMode | (int)fillMode;
             }
         }
-        public static void Circle(UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.Size radius, UnityEngine.Color color)
+        public static void Circle(UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.Size radius, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -189,7 +189,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)drawMode | radius.SizeMode | (int)FillMode.Fill;
             }
         }
-        public static void Circle(UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.FillMode fillMode, UnityEngine.Color color)
+        public static void Circle(UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.FillMode fillMode, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -202,7 +202,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)drawMode | Size.Pixels(32f).SizeMode | (int)fillMode;
             }
         }
-        public static void Circle(UnityEngine.Vector3 normal, ReGizmo.Drawing.Size radius, ReGizmo.Drawing.FillMode fillMode, UnityEngine.Color color)
+        public static void Circle(UnityEngine.Vector3 normal, ReGizmo.Drawing.Size radius, ReGizmo.Drawing.FillMode fillMode, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -215,7 +215,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)DrawMode.BillboardFree | radius.SizeMode | (int)fillMode;
             }
         }
-        public static void Circle(ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.Size radius, ReGizmo.Drawing.FillMode fillMode, UnityEngine.Color color)
+        public static void Circle(ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.Size radius, ReGizmo.Drawing.FillMode fillMode, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -228,7 +228,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)drawMode | radius.SizeMode | (int)fillMode;
             }
         }
-        public static void Circle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode)
+        public static void Circle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -241,7 +241,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)drawMode | Size.Pixels(32f).SizeMode | (int)FillMode.Fill;
             }
         }
-        public static void Circle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.Size radius)
+        public static void Circle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.Size radius, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -254,7 +254,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)DrawMode.BillboardFree | radius.SizeMode | (int)FillMode.Fill;
             }
         }
-        public static void Circle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.FillMode fillMode)
+        public static void Circle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, ReGizmo.Drawing.FillMode fillMode, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -267,7 +267,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)DrawMode.BillboardFree | Size.Pixels(32f).SizeMode | (int)fillMode;
             }
         }
-        public static void Circle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, UnityEngine.Color color)
+        public static void Circle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -280,7 +280,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)DrawMode.BillboardFree | Size.Pixels(32f).SizeMode | (int)FillMode.Fill;
             }
         }
-        public static void Circle(UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.Size radius)
+        public static void Circle(UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.Size radius, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -293,7 +293,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)drawMode | radius.SizeMode | (int)FillMode.Fill;
             }
         }
-        public static void Circle(UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.FillMode fillMode)
+        public static void Circle(UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.FillMode fillMode, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -306,7 +306,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)drawMode | Size.Pixels(32f).SizeMode | (int)fillMode;
             }
         }
-        public static void Circle(UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, UnityEngine.Color color)
+        public static void Circle(UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -319,7 +319,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)drawMode | Size.Pixels(32f).SizeMode | (int)FillMode.Fill;
             }
         }
-        public static void Circle(UnityEngine.Vector3 normal, ReGizmo.Drawing.Size radius, ReGizmo.Drawing.FillMode fillMode)
+        public static void Circle(UnityEngine.Vector3 normal, ReGizmo.Drawing.Size radius, ReGizmo.Drawing.FillMode fillMode, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -332,7 +332,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)DrawMode.BillboardFree | radius.SizeMode | (int)fillMode;
             }
         }
-        public static void Circle(UnityEngine.Vector3 normal, ReGizmo.Drawing.Size radius, UnityEngine.Color color)
+        public static void Circle(UnityEngine.Vector3 normal, ReGizmo.Drawing.Size radius, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -345,7 +345,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)DrawMode.BillboardFree | radius.SizeMode | (int)FillMode.Fill;
             }
         }
-        public static void Circle(UnityEngine.Vector3 normal, ReGizmo.Drawing.FillMode fillMode, UnityEngine.Color color)
+        public static void Circle(UnityEngine.Vector3 normal, ReGizmo.Drawing.FillMode fillMode, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -358,7 +358,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)DrawMode.BillboardFree | Size.Pixels(32f).SizeMode | (int)fillMode;
             }
         }
-        public static void Circle(ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.Size radius, ReGizmo.Drawing.FillMode fillMode)
+        public static void Circle(ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.Size radius, ReGizmo.Drawing.FillMode fillMode, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -371,7 +371,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)drawMode | radius.SizeMode | (int)fillMode;
             }
         }
-        public static void Circle(ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.Size radius, UnityEngine.Color color)
+        public static void Circle(ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.Size radius, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -384,7 +384,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)drawMode | radius.SizeMode | (int)FillMode.Fill;
             }
         }
-        public static void Circle(ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.FillMode fillMode, UnityEngine.Color color)
+        public static void Circle(ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.FillMode fillMode, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -397,7 +397,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)drawMode | Size.Pixels(32f).SizeMode | (int)fillMode;
             }
         }
-        public static void Circle(ReGizmo.Drawing.Size radius, ReGizmo.Drawing.FillMode fillMode, UnityEngine.Color color)
+        public static void Circle(ReGizmo.Drawing.Size radius, ReGizmo.Drawing.FillMode fillMode, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -410,7 +410,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)DrawMode.BillboardFree | radius.SizeMode | (int)fillMode;
             }
         }
-        public static void Circle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal)
+        public static void Circle(UnityEngine.Vector3 position, UnityEngine.Vector3 normal, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -423,7 +423,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)DrawMode.BillboardFree | Size.Pixels(32f).SizeMode | (int)FillMode.Fill;
             }
         }
-        public static void Circle(UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode)
+        public static void Circle(UnityEngine.Vector3 normal, ReGizmo.Drawing.DrawMode drawMode, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -436,7 +436,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)drawMode | Size.Pixels(32f).SizeMode | (int)FillMode.Fill;
             }
         }
-        public static void Circle(UnityEngine.Vector3 normal, ReGizmo.Drawing.Size radius)
+        public static void Circle(UnityEngine.Vector3 normal, ReGizmo.Drawing.Size radius, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -449,7 +449,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)DrawMode.BillboardFree | radius.SizeMode | (int)FillMode.Fill;
             }
         }
-        public static void Circle(UnityEngine.Vector3 normal, ReGizmo.Drawing.FillMode fillMode)
+        public static void Circle(UnityEngine.Vector3 normal, ReGizmo.Drawing.FillMode fillMode, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -462,7 +462,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)DrawMode.BillboardFree | Size.Pixels(32f).SizeMode | (int)fillMode;
             }
         }
-        public static void Circle(UnityEngine.Vector3 normal, UnityEngine.Color color)
+        public static void Circle(UnityEngine.Vector3 normal, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -475,7 +475,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)DrawMode.BillboardFree | Size.Pixels(32f).SizeMode | (int)FillMode.Fill;
             }
         }
-        public static void Circle(ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.Size radius)
+        public static void Circle(ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.Size radius, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -488,7 +488,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)drawMode | radius.SizeMode | (int)FillMode.Fill;
             }
         }
-        public static void Circle(ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.FillMode fillMode)
+        public static void Circle(ReGizmo.Drawing.DrawMode drawMode, ReGizmo.Drawing.FillMode fillMode, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -501,7 +501,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)drawMode | Size.Pixels(32f).SizeMode | (int)fillMode;
             }
         }
-        public static void Circle(ReGizmo.Drawing.DrawMode drawMode, UnityEngine.Color color)
+        public static void Circle(ReGizmo.Drawing.DrawMode drawMode, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -514,7 +514,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)drawMode | Size.Pixels(32f).SizeMode | (int)FillMode.Fill;
             }
         }
-        public static void Circle(ReGizmo.Drawing.Size radius, ReGizmo.Drawing.FillMode fillMode)
+        public static void Circle(ReGizmo.Drawing.Size radius, ReGizmo.Drawing.FillMode fillMode, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -527,7 +527,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)DrawMode.BillboardFree | radius.SizeMode | (int)fillMode;
             }
         }
-        public static void Circle(ReGizmo.Drawing.Size radius, UnityEngine.Color color)
+        public static void Circle(ReGizmo.Drawing.Size radius, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -540,7 +540,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)DrawMode.BillboardFree | radius.SizeMode | (int)FillMode.Fill;
             }
         }
-        public static void Circle(ReGizmo.Drawing.FillMode fillMode, UnityEngine.Color color)
+        public static void Circle(ReGizmo.Drawing.FillMode fillMode, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -553,7 +553,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)DrawMode.BillboardFree | Size.Pixels(32f).SizeMode | (int)fillMode;
             }
         }
-        public static void Circle(UnityEngine.Vector3 normal)
+        public static void Circle(UnityEngine.Vector3 normal, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -566,7 +566,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)DrawMode.BillboardFree | Size.Pixels(32f).SizeMode | (int)FillMode.Fill;
             }
         }
-        public static void Circle(ReGizmo.Drawing.DrawMode drawMode)
+        public static void Circle(ReGizmo.Drawing.DrawMode drawMode, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -579,7 +579,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)drawMode | Size.Pixels(32f).SizeMode | (int)FillMode.Fill;
             }
         }
-        public static void Circle(ReGizmo.Drawing.Size radius)
+        public static void Circle(ReGizmo.Drawing.Size radius, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -592,7 +592,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)DrawMode.BillboardFree | radius.SizeMode | (int)FillMode.Fill;
             }
         }
-        public static void Circle(ReGizmo.Drawing.FillMode fillMode)
+        public static void Circle(ReGizmo.Drawing.FillMode fillMode, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -605,7 +605,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)DrawMode.BillboardFree | Size.Pixels(32f).SizeMode | (int)fillMode;
             }
         }
-        public static void Circle(UnityEngine.Color color)
+        public static void Circle(UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {
@@ -618,7 +618,7 @@ namespace ReGizmo.Drawing
                 data.Flags = (int)DrawMode.BillboardFree | Size.Pixels(32f).SizeMode | (int)FillMode.Fill;
             }
         }
-        public static void Circle()
+        public static void Circle(DepthMode depthMode = DepthMode.Sorted)
         {
             if (ReGizmoResolver<CircleDrawer>.TryGet(out var drawer))
             {

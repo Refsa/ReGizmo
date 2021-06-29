@@ -7,9 +7,9 @@ namespace ReGizmo.Drawing
     public partial class ReDraw
     {
 
-        public static void Icon(Texture2D texture, UnityEngine.Vector3 position, UnityEngine.Color color, ReGizmo.Drawing.Size size)
+        public static void Icon(Texture2D texture, UnityEngine.Vector3 position, UnityEngine.Color color, ReGizmo.Drawing.Size size, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<IconsDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<IconsDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData(texture);
 
@@ -19,9 +19,9 @@ namespace ReGizmo.Drawing
                 shaderData.Flags = size.SizeMode;
             }
         }
-        public static void Icon(Texture2D texture, UnityEngine.Vector3 position, UnityEngine.Color color)
+        public static void Icon(Texture2D texture, UnityEngine.Vector3 position, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<IconsDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<IconsDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData(texture);
 
@@ -31,9 +31,9 @@ namespace ReGizmo.Drawing
                 shaderData.Flags = Size.Pixels(32f).SizeMode;
             }
         }
-        public static void Icon(Texture2D texture, UnityEngine.Vector3 position, ReGizmo.Drawing.Size size)
+        public static void Icon(Texture2D texture, UnityEngine.Vector3 position, ReGizmo.Drawing.Size size, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<IconsDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<IconsDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData(texture);
 
@@ -43,9 +43,9 @@ namespace ReGizmo.Drawing
                 shaderData.Flags = size.SizeMode;
             }
         }
-        public static void Icon(Texture2D texture, UnityEngine.Color color, ReGizmo.Drawing.Size size)
+        public static void Icon(Texture2D texture, UnityEngine.Color color, ReGizmo.Drawing.Size size, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<IconsDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<IconsDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData(texture);
 
@@ -55,9 +55,9 @@ namespace ReGizmo.Drawing
                 shaderData.Flags = size.SizeMode;
             }
         }
-        public static void Icon(Texture2D texture, UnityEngine.Vector3 position)
+        public static void Icon(Texture2D texture, UnityEngine.Vector3 position, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<IconsDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<IconsDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData(texture);
 
@@ -67,9 +67,9 @@ namespace ReGizmo.Drawing
                 shaderData.Flags = Size.Pixels(32f).SizeMode;
             }
         }
-        public static void Icon(Texture2D texture, UnityEngine.Color color)
+        public static void Icon(Texture2D texture, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<IconsDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<IconsDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData(texture);
 
@@ -79,9 +79,9 @@ namespace ReGizmo.Drawing
                 shaderData.Flags = Size.Pixels(32f).SizeMode;
             }
         }
-        public static void Icon(Texture2D texture, ReGizmo.Drawing.Size size)
+        public static void Icon(Texture2D texture, ReGizmo.Drawing.Size size, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<IconsDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<IconsDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData(texture);
 
@@ -91,9 +91,9 @@ namespace ReGizmo.Drawing
                 shaderData.Flags = size.SizeMode;
             }
         }
-        public static void Icon(Texture2D texture)
+        public static void Icon(Texture2D texture, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<IconsDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<IconsDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData(texture);
 

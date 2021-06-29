@@ -11,7 +11,7 @@ namespace ReGizmo.Drawing
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Line_Screen");
         } 
 
-        protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData)
+        protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData, bool depth)
         {
             uniqueDrawData.SetInstanceCount(1);
             uniqueDrawData.SetVertexCount(uniqueDrawData.DrawCount);

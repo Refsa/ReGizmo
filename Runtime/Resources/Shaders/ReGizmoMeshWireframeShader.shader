@@ -100,8 +100,9 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
             triangleStream.Append(o);
         }
 
-        float4 _frag(g2f i, float color_scale)
+        float4 _frag(g2f i)
         {
+            float color_scale = i.dir < -0.5 ? 0.33 : 1.0;
             float d = min(i.dist[0], min(i.dist[1], i.dist[2]));
             float I = exp2(-0.5 * d * d * d * d);
 
@@ -113,8 +114,7 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
 
         float4 frag(g2f i) : SV_Target
         {
-            float4 color = _frag(i, i.dir < -0.5 ? 0.33 : 1.0);
-            clip(color.a == 0 ? -1 : 1);
+            float4 color = _frag(i);
             return color;
         }
         ENDCG
@@ -122,8 +122,8 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
         Pass
         {
             Blend SrcAlpha OneMinusSrcAlpha
-            ZTest LEqual
-            ZWrite On
+            ZTest [_ZTest]
+            ZWrite Off
             Cull Off
 
             CGPROGRAM
@@ -133,6 +133,29 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
             #pragma multi_compile_instancing
             #pragma instancing_options procedural:setup
             #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+            ENDCG
+        }
+
+        Pass
+        {
+            ZTest LEqual
+            ZWrite On
+            Cull Off
+
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma geometry geom
+            #pragma fragment depth_frag
+            #pragma multi_compile_instancing
+            #pragma instancing_options procedural:setup
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+
+            float depth_frag(g2f i) : SV_TARGET1
+            {
+                float4 color = _frag(i);
+                clip(color.a <= 0.01 ? -1 : 1);
+                return i.pos.z;
+            }
             ENDCG
         }
     }

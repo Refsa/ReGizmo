@@ -8,13 +8,10 @@
     - @high comments on public facing methods/types
     - @high culling frustum doesnt scale properly with viewport rect
     - @low flickering when lots of alpha overlap in close proximity
+    - @low some materials should be shared between drawers
+        - MeshDrawer
 
 Z-Sort:
-    - @low Proper Z-Sorting within and between each drawer
-        Avoids an issue where two drawers are overlapping, causing the AA area to not blend
-        Would be a nice feature, but feels out of scope for a project aiming to draw gizmos
-        The cost of drawing would also go up and would be very expensive once the amount of gizmos is high
-        This would allow for shaders to overlay others though, so more benefits than just avoiding the AA blend issue
     - @high allow drawers to overlay other objects
         Has to be set per material, cant be set via MaterialPropertyBlock
         material.SetInt("_ZTest", (int)UnityEngine.Rendering.CompareFunction.Always);
@@ -28,6 +25,7 @@ Fonts:
     - @low make a pre-pass for font/text drawing to generate bounding box in screen and world space
         since Text Culling requires converting to and from screen space it would be better to do this in a pre-pass
         and that calculates data for both rendering and culling.
+    - @high Label drawer that combines a rounded background rectangle with text in front
 
 2D Drawing:
     - @high Unit scaling doesnt work for free billboard drawing mode
@@ -64,6 +62,11 @@ Readme:
     - Add a third-party library section
 
 Archive:
+  ✔ @low Proper Z-Sorting within and between each drawer @done(21-06-28 23:30) @project(Z-Sort)
+    Avoids an issue where two drawers are overlapping, causing the AA area to not blend
+    Would be a nice feature, but feels out of scope for a project aiming to draw gizmos
+    The cost of drawing would also go up and would be very expensive once the amount of gizmos is high
+    This would allow for shaders to overlay others though, so more benefits than just avoiding the AA blend issue
   ✘ @high store mesh primitives as assets to avoid generating them each reload @cancelled(21-06-15 18:55) @project(General)
   ✔ @high refactor color.ToVector3() to instead set the values directly to the shader data @done(21-06-14 23:16) @project(General)
     use Color::Copy extension method

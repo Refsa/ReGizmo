@@ -42,8 +42,8 @@
         Pass
         {
             Blend SrcAlpha OneMinusSrcAlpha
-            ZTest LEqual
-            ZWrite On
+            ZTest [_ZTest]
+            ZWrite Off
             Cull Off
 
             CGPROGRAM
@@ -52,6 +52,27 @@
             #pragma fragment frag
             #pragma multi_compile_instancing
             #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+            ENDCG
+        }
+
+        Pass
+        {
+            ZTest LEqual
+            ZWrite On
+            Cull Off
+
+            CGPROGRAM
+            #pragma vertex vert_2d
+            #pragma geometry geom_2d
+            #pragma fragment depth_frag
+            #pragma multi_compile_instancing
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+
+            float depth_frag(g2f_2d i) : SV_TARGET1
+            {
+                float4 col = frag(i);
+                return i.pos.z;
+            }
             ENDCG
         }
     }

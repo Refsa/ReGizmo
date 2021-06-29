@@ -294,6 +294,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: DrawLines
       objectReference: {fileID: 0}
+    - target: {fileID: 8867304643084439122, guid: 47778261bef5e44418c63bc9e57568ef,
+        type: 3}
+      propertyPath: logTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8867304643084439122, guid: 47778261bef5e44418c63bc9e57568ef,
+        type: 3}
+      propertyPath: previewParallel
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8867304643084439123, guid: 47778261bef5e44418c63bc9e57568ef,
         type: 3}
       propertyPath: m_RootOrder
@@ -799,12 +809,12 @@ PrefabInstance:
     - target: {fileID: 58354032043627218, guid: 0c1186736b57ad44293f907e4eff645b,
         type: 3}
       propertyPath: logTime
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 58354032043627218, guid: 0c1186736b57ad44293f907e4eff645b,
         type: 3}
       propertyPath: previewParallel
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1728009312531646549, guid: 0c1186736b57ad44293f907e4eff645b,
         type: 3}

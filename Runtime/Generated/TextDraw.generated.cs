@@ -7,9 +7,9 @@ namespace ReGizmo.Drawing
     public partial class ReDraw
     {
 
-        public static void Text(string text, UnityEngine.Vector3 position, System.Single scale, UnityEngine.Color color)
+        public static void Text(string text, UnityEngine.Vector3 position, System.Single scale, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<TextDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TextDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var textData = ref drawer.GetTextShaderData(out uint id);
                 textData.Position = position.Add(currentPosition);
@@ -35,9 +35,9 @@ namespace ReGizmo.Drawing
                 textData.CenterOffset = totalAdvance / 2.0f;
             }
         }
-        public static void Text(string text, UnityEngine.Vector3 position, System.Single scale)
+        public static void Text(string text, UnityEngine.Vector3 position, System.Single scale, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<TextDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TextDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var textData = ref drawer.GetTextShaderData(out uint id);
                 textData.Position = position.Add(currentPosition);
@@ -63,9 +63,9 @@ namespace ReGizmo.Drawing
                 textData.CenterOffset = totalAdvance / 2.0f;
             }
         }
-        public static void Text(string text, UnityEngine.Vector3 position, UnityEngine.Color color)
+        public static void Text(string text, UnityEngine.Vector3 position, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<TextDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TextDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var textData = ref drawer.GetTextShaderData(out uint id);
                 textData.Position = position.Add(currentPosition);
@@ -91,9 +91,9 @@ namespace ReGizmo.Drawing
                 textData.CenterOffset = totalAdvance / 2.0f;
             }
         }
-        public static void Text(string text, System.Single scale, UnityEngine.Color color)
+        public static void Text(string text, System.Single scale, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<TextDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TextDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var textData = ref drawer.GetTextShaderData(out uint id);
                 textData.Position = currentPosition;
@@ -119,9 +119,9 @@ namespace ReGizmo.Drawing
                 textData.CenterOffset = totalAdvance / 2.0f;
             }
         }
-        public static void Text(string text, UnityEngine.Vector3 position)
+        public static void Text(string text, UnityEngine.Vector3 position, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<TextDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TextDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var textData = ref drawer.GetTextShaderData(out uint id);
                 textData.Position = position.Add(currentPosition);
@@ -147,9 +147,9 @@ namespace ReGizmo.Drawing
                 textData.CenterOffset = totalAdvance / 2.0f;
             }
         }
-        public static void Text(string text, System.Single scale)
+        public static void Text(string text, System.Single scale, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<TextDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TextDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var textData = ref drawer.GetTextShaderData(out uint id);
                 textData.Position = currentPosition;
@@ -175,9 +175,9 @@ namespace ReGizmo.Drawing
                 textData.CenterOffset = totalAdvance / 2.0f;
             }
         }
-        public static void Text(string text, UnityEngine.Color color)
+        public static void Text(string text, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<TextDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TextDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var textData = ref drawer.GetTextShaderData(out uint id);
                 textData.Position = currentPosition;
@@ -203,9 +203,9 @@ namespace ReGizmo.Drawing
                 textData.CenterOffset = totalAdvance / 2.0f;
             }
         }
-        public static void Text(string text)
+        public static void Text(string text, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<TextDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<TextDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var textData = ref drawer.GetTextShaderData(out uint id);
                 textData.Position = currentPosition;

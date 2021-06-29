@@ -7,9 +7,9 @@ namespace ReGizmo.Drawing
     public partial class ReDraw
     {
 
-        public static void Octahedron(UnityEngine.Vector3 position, UnityEngine.Quaternion rotation, UnityEngine.Vector3 scale, UnityEngine.Color color)
+        public static void Octahedron(UnityEngine.Vector3 position, UnityEngine.Quaternion rotation, UnityEngine.Vector3 scale, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<OctahedronDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<OctahedronDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData();
 
@@ -19,9 +19,9 @@ namespace ReGizmo.Drawing
                 shaderData.Color.Copy(color);
             }
         }
-        public static void Octahedron(UnityEngine.Vector3 position, UnityEngine.Quaternion rotation, UnityEngine.Vector3 scale)
+        public static void Octahedron(UnityEngine.Vector3 position, UnityEngine.Quaternion rotation, UnityEngine.Vector3 scale, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<OctahedronDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<OctahedronDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData();
 
@@ -31,9 +31,9 @@ namespace ReGizmo.Drawing
                 shaderData.Color.Copy(currentColor);
             }
         }
-        public static void Octahedron(UnityEngine.Vector3 position, UnityEngine.Quaternion rotation, UnityEngine.Color color)
+        public static void Octahedron(UnityEngine.Vector3 position, UnityEngine.Quaternion rotation, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<OctahedronDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<OctahedronDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData();
 
@@ -43,9 +43,9 @@ namespace ReGizmo.Drawing
                 shaderData.Color.Copy(color);
             }
         }
-        public static void Octahedron(UnityEngine.Vector3 position, UnityEngine.Vector3 scale, UnityEngine.Color color)
+        public static void Octahedron(UnityEngine.Vector3 position, UnityEngine.Vector3 scale, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<OctahedronDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<OctahedronDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData();
 
@@ -55,9 +55,9 @@ namespace ReGizmo.Drawing
                 shaderData.Color.Copy(color);
             }
         }
-        public static void Octahedron(UnityEngine.Vector3 position, UnityEngine.Quaternion rotation)
+        public static void Octahedron(UnityEngine.Vector3 position, UnityEngine.Quaternion rotation, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<OctahedronDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<OctahedronDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData();
 
@@ -67,9 +67,9 @@ namespace ReGizmo.Drawing
                 shaderData.Color.Copy(currentColor);
             }
         }
-        public static void Octahedron(UnityEngine.Vector3 position, UnityEngine.Vector3 scale)
+        public static void Octahedron(UnityEngine.Vector3 position, UnityEngine.Vector3 scale, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<OctahedronDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<OctahedronDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData();
 
@@ -79,9 +79,9 @@ namespace ReGizmo.Drawing
                 shaderData.Color.Copy(currentColor);
             }
         }
-        public static void Octahedron(UnityEngine.Vector3 position, UnityEngine.Color color)
+        public static void Octahedron(UnityEngine.Vector3 position, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<OctahedronDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<OctahedronDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData();
 
@@ -91,9 +91,9 @@ namespace ReGizmo.Drawing
                 shaderData.Color.Copy(color);
             }
         }
-        public static void Octahedron(UnityEngine.Quaternion rotation, UnityEngine.Color color)
+        public static void Octahedron(UnityEngine.Quaternion rotation, UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<OctahedronDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<OctahedronDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData();
 
@@ -103,9 +103,9 @@ namespace ReGizmo.Drawing
                 shaderData.Color.Copy(color);
             }
         }
-        public static void Octahedron(UnityEngine.Vector3 position)
+        public static void Octahedron(UnityEngine.Vector3 position, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<OctahedronDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<OctahedronDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData();
 
@@ -115,9 +115,9 @@ namespace ReGizmo.Drawing
                 shaderData.Color.Copy(currentColor);
             }
         }
-        public static void Octahedron(UnityEngine.Quaternion rotation)
+        public static void Octahedron(UnityEngine.Quaternion rotation, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<OctahedronDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<OctahedronDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData();
 
@@ -127,9 +127,9 @@ namespace ReGizmo.Drawing
                 shaderData.Color.Copy(currentColor);
             }
         }
-        public static void Octahedron(UnityEngine.Color color)
+        public static void Octahedron(UnityEngine.Color color, DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<OctahedronDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<OctahedronDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData();
 
@@ -139,9 +139,9 @@ namespace ReGizmo.Drawing
                 shaderData.Color.Copy(color);
             }
         }
-        public static void Octahedron()
+        public static void Octahedron(DepthMode depthMode = DepthMode.Sorted)
         {
-            if (ReGizmoResolver<OctahedronDrawer>.TryGet(out var drawer))
+            if (ReGizmoResolver<OctahedronDrawer>.TryGet(out var drawer, depthMode))
             {
                 ref var shaderData = ref drawer.GetShaderData();
 

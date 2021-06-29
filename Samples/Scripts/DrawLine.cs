@@ -6,14 +6,14 @@ using ReGizmo.Drawing;
 namespace ReGizmo.Samples
 {
     [AddComponentMenu("ReGizmo Samples/Draw Line")]
-    internal class DrawLine : MonoBehaviour
+    internal class DrawLine : DrawSampleBase
     {
         [SerializeField] Transform point1;
         [SerializeField] Transform point2;
 
-        void OnDrawGizmos()
+        protected override void Draw()
         {
-            ReDraw.Line(point1.position, point2.position, Color.blue, 5f);
+            ReDraw.Line(point1.position, point2.position, Color.blue, 5f, depthMode);
         }
     }
 }
