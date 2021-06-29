@@ -147,14 +147,14 @@ namespace ReGizmo.Drawing
             }
         }
 
-        public static void WireSphere(Vector3 center, Quaternion orientation, float radius, Color color)
+        public static void WireSphere(Vector3 center, Quaternion orientation, float radius, Color color, DepthMode depthMode = DepthMode.Sorted)
         {
-            ReDraw.Circle(center, orientation * V3Up, DrawMode.AxisAligned, Size.Units(radius), FillMode.Outline, color);
-            ReDraw.Circle(center, orientation * V3Right, DrawMode.AxisAligned, Size.Units(radius), FillMode.Outline, color);
-            ReDraw.Circle(center, orientation * V3Forward, DrawMode.AxisAligned, Size.Units(radius), FillMode.Outline, color);
+            ReDraw.Circle(center, orientation * V3Up, DrawMode.AxisAligned, Size.Units(radius), FillMode.Outline, color, depthMode);
+            ReDraw.Circle(center, orientation * V3Right, DrawMode.AxisAligned, Size.Units(radius), FillMode.Outline, color, depthMode);
+            ReDraw.Circle(center, orientation * V3Forward, DrawMode.AxisAligned, Size.Units(radius), FillMode.Outline, color, depthMode);
         }
 
-        public static void WireCapsule(Vector3 center, Quaternion orientation, float radius, float height, Color color)
+        public static void WireCapsule(Vector3 center, Quaternion orientation, float radius, float height, Color color, DepthMode depthMode = DepthMode.Sorted)
         {
             Vector3 dir = orientation * V3Up;
             float halfHeight = height * 0.5f;
@@ -162,8 +162,8 @@ namespace ReGizmo.Drawing
             Vector3 top = center + dir * halfHeight;
             Vector3 bottom = center - dir * halfHeight;
 
-            WireSphere(top, orientation, radius, color);
-            WireSphere(bottom, orientation, radius, color);
+            WireSphere(top, orientation, radius, color, depthMode);
+            WireSphere(bottom, orientation, radius, color, depthMode);
 
             Vector3 perp1 = Mathf.Approximately(Mathf.Abs(Vector3.Dot(dir, V3Right)), 1f) ?
                 Vector3.Cross(dir, V3Up).normalized
@@ -175,11 +175,11 @@ namespace ReGizmo.Drawing
             perp1.Mul(radius);
             perp2.Mul(radius);
 
-            Line(bottom + perp1, top + perp1, color, 1f);
-            Line(bottom - perp1, top - perp1, color, 1f);
+            Line(bottom + perp1, top + perp1, color, 1f, depthMode);
+            Line(bottom - perp1, top - perp1, color, 1f, depthMode);
 
-            Line(bottom + perp2, top + perp2, color, 1f);
-            Line(bottom - perp2, top - perp2, color, 1f);
+            Line(bottom + perp2, top + perp2, color, 1f, depthMode);
+            Line(bottom - perp2, top - perp2, color, 1f, depthMode);
         }
 
         public static void WireCube(Vector3 center, Quaternion rotation, Vector3 extents, Color color, DepthMode depthMode = DepthMode.Sorted)
@@ -214,7 +214,7 @@ namespace ReGizmo.Drawing
             Line(p3, p7, color, 1f, depthMode);
         }
 
-        public static void Circle2(Vector3 center, Vector3 normal, float radius, int resolution)
+        public static void Circle2(Vector3 center, Vector3 normal, float radius, int resolution, DepthMode depthMode = DepthMode.Sorted)
         {
             float theta = 0f;
             float step = 360f / (float)resolution;
@@ -227,7 +227,7 @@ namespace ReGizmo.Drawing
             {
                 Vector3 point = center + Quaternion.Euler(normal * theta) * dir * radius;
 
-                Line(prevPoint, point, Color.red, 1f);
+                Line(prevPoint, point, Color.red, 1f, depthMode);
                 prevPoint = point;
                 theta += step;
             }
