@@ -78,6 +78,7 @@ namespace ReGizmo.Drawing
         (MeshWireframeDrawer, UniqueDrawData) AddSubDrawer(Mesh mesh)
         {
             var drawer = new MeshWireframeDrawer(mesh);
+            drawer.SetDepthMode(depthMode);
             var uniqueDrawData = new UniqueDrawData();
 
             drawers.Add(mesh, (drawer, uniqueDrawData));
