@@ -108,4 +108,20 @@ namespace ReGizmo.Drawing
             ReDraw.currentColor = oldColor;
         }
     }
+
+    public struct DepthModeScope : IDisposable
+    {
+        DepthMode oldDepthMode;
+
+        public DepthModeScope(DepthMode depthMode)
+        {
+            oldDepthMode = ReDraw.currentDepthMode;
+            ReDraw.currentDepthMode = depthMode;
+        }
+
+        public void Dispose()
+        {
+            ReDraw.currentDepthMode = oldDepthMode;
+        }
+    }
 }

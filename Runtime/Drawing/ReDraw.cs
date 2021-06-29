@@ -26,8 +26,9 @@ namespace ReGizmo.Drawing
 
     public enum DepthMode : int
     {
-        Sorted = 0,
-        Overlay = 1,
+        None = 0,
+        Sorted = 1,
+        Overlay = 2,
     }
 
     public struct Size
@@ -75,5 +76,6 @@ namespace ReGizmo.Drawing
         internal static Quaternion currentRotation = Quaternion.Euler(0f, 0f, 0f);
         internal static Vector3 currentScale = Vector3.zero;
         internal static Color currentColor = Color.white;
+        internal static DepthMode currentDepthMode = DepthMode.None;
     }
 }
