@@ -75,6 +75,22 @@ namespace ReGizmo.Drawing
             }
         }
 
+        public void RenderWithPass(CommandBuffer commandBuffer, CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData, int pass)
+        {
+            foreach (var drawer in _drawers)
+            {
+                drawer.drawer.RenderWithPass(commandBuffer, cameraFrustum, uniqueDrawData, pass);
+            }
+        }
+
+        public void RenderWithMaterial(CommandBuffer commandBuffer, CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData, Material material)
+        {
+            foreach (var drawer in _drawers)
+            {
+                drawer.drawer.RenderWithMaterial(commandBuffer, cameraFrustum, uniqueDrawData, material);
+            }
+        }
+
         public void SetDepthMode(DepthMode depthMode)
         {
             this.depthMode = depthMode;
