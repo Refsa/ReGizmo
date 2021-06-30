@@ -10,9 +10,8 @@ namespace ReGizmo
     {
         RenderTexture accumulateTexture;
         RenderTexture revealageTexture;
+        RenderTexture tempTargetTexture;
 
-        Material accumulateMaterial;
-        Material revealageMaterial;
         Material blendMaterial;
 
         Camera camera;
@@ -24,41 +23,65 @@ namespace ReGizmo
 
             accumulateTexture = new RenderTexture(camera.pixelWidth, camera.pixelHeight, 0, RenderTextureFormat.ARGBHalf, RenderTextureReadWrite.Linear);
             revealageTexture = new RenderTexture(camera.pixelWidth, camera.pixelHeight, 0, RenderTextureFormat.RHalf, RenderTextureReadWrite.Linear);
+            tempTargetTexture = new RenderTexture(camera.pixelWidth, camera.pixelHeight, 24, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Linear);
 
-            accumulateMaterial = ReGizmoHelpers.PrepareMaterial("Hidden/OIT/Accumulate");
-            revealageMaterial  = ReGizmoHelpers.PrepareMaterial("Hidden/OIT/Revealage");
-            blendMaterial    = ReGizmoHelpers.PrepareMaterial("Hidden/OIT/Blend");
+            blendMaterial = ReGizmoHelpers.PrepareMaterial("Hidden/OIT/Blend");
         }
 
-        public void Render(CommandBuffer cmd, IReGizmoDrawer drawer, CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData)
+        public void Setup(CommandBuffer cmd)
+        {
+            cmd.SetRenderTarget(accumulateTexture);
+            cmd.ClearRenderTarget(true, true, Color.clear);
+
+            cmd.SetRenderTarget(revealageTexture);
+            cmd.ClearRenderTarget(true, true, Color.white);
+        }
+
+        public void Render(CommandBuffer cmd, IReGizmoDrawer drawer, 
+            CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData, 
+            RenderTexture cameraTexture, RenderTargetIdentifier depthTexture)
         {
             if (camera.pixelHeight != accumulateTexture.height || camera.pixelWidth != accumulateTexture.width)
             {
                 Resize();
             }
 
-            cmd.SetRenderTarget(accumulateTexture.colorBuffer);
-            cmd.ClearRenderTarget(false, true, Color.clear);
-            drawer.RenderWithMaterial(cmd, cameraFrustum, uniqueDrawData, accumulateMaterial);
+            cmd.SetRenderTarget(accumulateTexture.colorBuffer, depthTexture);
+            drawer.RenderWithPass(cmd, cameraFrustum, uniqueDrawData, 2);
 
-            cmd.SetRenderTarget(revealageTexture.colorBuffer);
-            cmd.ClearRenderTarget(false, true, Color.white);
-            drawer.RenderWithMaterial(cmd, cameraFrustum, uniqueDrawData, revealageMaterial);
+            cmd.SetRenderTarget(revealageTexture);
+            drawer.RenderWithPass(cmd, cameraFrustum, uniqueDrawData, 3);
+
+            cmd.SetRenderTarget(camera.activeTexture);
+        }
+
+        public void Blend(CommandBuffer commandBuffer, RenderTargetIdentifier cameraTexture)
+        {
+            blendMaterial.SetTexture("_AccumTex", accumulateTexture);
+            blendMaterial.SetTexture("_RevealageTex", revealageTexture);
+
+            commandBuffer.Blit(cameraTexture, tempTargetTexture, blendMaterial);
+            commandBuffer.Blit(tempTargetTexture, cameraTexture);
         }
 
         void Resize()
         {
+            Debug.Log("OIT::Resize");
+
             accumulateTexture.Release();
             revealageTexture.Release();
+            tempTargetTexture.Release();
 
             accumulateTexture = new RenderTexture(camera.pixelWidth, camera.pixelHeight, 0, RenderTextureFormat.ARGBHalf, RenderTextureReadWrite.Linear);
             revealageTexture = new RenderTexture(camera.pixelWidth, camera.pixelHeight, 0, RenderTextureFormat.RHalf, RenderTextureReadWrite.Linear);
+            tempTargetTexture = new RenderTexture(camera.pixelWidth, camera.pixelHeight, 24, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Linear);
         }
 
         public void Dispose()
         {
             accumulateTexture.Release();
             revealageTexture.Release();
+            tempTargetTexture.Release();
         }
     }
 }
