@@ -63,8 +63,9 @@ Shader "Hidden/OIT/Blend" {
                 float4 background = tex2D(_MainTex, uv);
                 float4 accum = tex2D(_AccumTex, uv);
                 float revealage = tex2D(_RevealageTex, uv).r;
-                float4 col = float4(accum.rgb / clamp(accum.a, 1e-4, 5e4), revealage);
-                return (1.0 - col.a) * col + col.a * background;
+                float4 blend = float4(accum.rgb / clamp(accum.a, 1e-4, 5e4), revealage);
+                blend = saturate(blend);
+                return (1.0 - blend.a) * blend + blend.a * background;
             }
             
             ENDCG
