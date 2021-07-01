@@ -18,9 +18,6 @@ namespace ReGizmo.Drawing
         CommandBuffer commandBuffer;
         Dictionary<IReGizmoDrawer, UniqueDrawData> uniqueDrawDatas;
 
-        RenderTargetIdentifier depthTexture;
-        Material depthBlitMaterial;
-
         bool isActive;
         string profilerKey;
 
@@ -42,10 +39,6 @@ namespace ReGizmo.Drawing
 
             isActive = true;
             profilerKey = $"ReGizmo Camera: {camera.name}";
-
-            depthTexture = new RenderTargetIdentifier(DepthTextureID);
-
-            depthBlitMaterial = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/BlitDepth");
 
 #if RG_LEGACY
             camera.AddCommandBuffer(cameraEvent, commandBuffer);
@@ -102,12 +95,6 @@ namespace ReGizmo.Drawing
                 commandBuffer.DisableShaderKeyword(ReGizmoHelpers.ShaderFontSuperSamplingKeyword);
             }
 
-            commandBuffer.GetTemporaryRT(DepthTextureID, camera.pixelWidth, camera.pixelHeight, 24, FilterMode.Point, UnityEngine.Experimental.Rendering.GraphicsFormat.R32_SFloat);
-            commandBuffer.SetRenderTarget(depthTexture);
-            commandBuffer.ClearRenderTarget(true, true, Color.black);
-            commandBuffer.SetRenderTarget(camera.activeTexture);
-            commandBuffer.Blit(depthTexture, depthTexture, depthBlitMaterial);
-
             return true;
         }
 
@@ -123,7 +110,7 @@ namespace ReGizmo.Drawing
 
             drawer.PreRender(commandBuffer, frustum, uniqueDrawData);
 
-            commandBuffer.SetRenderTarget(depthTexture);
+            commandBuffer.SetRenderTarget(BuiltinRenderTextureType.Depth);
             drawer.RenderDepth(commandBuffer, frustum, uniqueDrawData);
             commandBuffer.SetRenderTarget(camera.activeTexture);
         }
@@ -139,14 +126,16 @@ namespace ReGizmo.Drawing
             }
 
             // drawer.Render(commandBuffer, frustum, uniqueDrawData);
-            oit.Render(commandBuffer, drawer, frustum, uniqueDrawData, camera.activeTexture, depthTexture);
+            oit.Render(commandBuffer, drawer, frustum, uniqueDrawData, camera.activeTexture, BuiltinRenderTextureType.Depth);
         }
 
         public void PostRender()
         {
             oit.Blend(commandBuffer, camera.activeTexture);
-            // commandBuffer.Blit(depthTexture, camera.activeTexture);
-            commandBuffer.ReleaseTemporaryRT(DepthTextureID);
+            // commandBuffer.Blit(BuiltinRenderTextureType.Depth, camera.activeTexture);
+            // commandBuffer.Blit(oit.AccumulateTexture, camera.activeTexture);
+            // commandBuffer.Blit(oit.RevealageTexture, camera.activeTexture);
+            // commandBuffer.ReleaseTemporaryRT(DepthTextureID);
 
 #if REGIZMO_DEV
             commandBuffer.EndSample(profilerKey);
