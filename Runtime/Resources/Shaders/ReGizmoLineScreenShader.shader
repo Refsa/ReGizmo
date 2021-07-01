@@ -162,13 +162,8 @@ Shader "Hidden/ReGizmo/Line_Screen"
             #pragma multi_compile_instancing
             #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
 
-            UNITY_DECLARE_DEPTH_TEXTURE(_CameraDepthTexture);
-
             float frag_depth(g2f_line g, out float depth : SV_DEPTH) : SV_TARGET
             {
-                float cdepth = tex2Dproj(_CameraDepthTexture, ComputeScreenPos(g.pos));
-                clip(cdepth > g.pos.z ? -1 : 1);
-
                 depth = g.pos.z;
                 return depth;
             }
@@ -192,7 +187,7 @@ Shader "Hidden/ReGizmo/Line_Screen"
             float4 frag_revealage(g2f_line i) : SV_TARGET
             {
                 float4 col = _frag_line(i);
-                return col.aaaa;
+                return col.a;
             }
             ENDCG
         }
