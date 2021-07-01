@@ -29,10 +29,10 @@ float4x4 rotation_matrix(float3 rotation)
     float cosZ = cos(rotation.z), sinZ = sin(rotation.z);
 
     return float4x4(
-        cosZ * cosY, -sinZ * cosX + cosZ * sinY * sinX, sinZ * sinX + cosZ * sinY * cosX, 0,
-        sinZ * cosY, cosZ * cosX + sinZ * sinY * sinX, -cosZ * sinX + sinZ * sinY * cosX, 0,
-        -sinY, cosY * sinX, cosY * cosX, 0,
-        0,0,0,1
+    cosZ * cosY, -sinZ * cosX + cosZ * sinY * sinX, sinZ * sinX + cosZ * sinY * cosX, 0,
+    sinZ * cosY, cosZ * cosX + sinZ * sinY * sinX, -cosZ * sinX + sinZ * sinY * cosX, 0,
+    -sinY, cosY * sinX, cosY * cosX, 0,
+    0,0,0,1
     );
 }
 
@@ -47,8 +47,8 @@ float4 q_inverse(float4 q)
 float4 q_mul(float4 q1, float4 q2)
 {
     return float4(
-        q2.xyz * q1.w + q1.xyz * q2.w + cross(q1.xyz, q2.xyz),
-        q1.w * q2.w - dot(q1.xyz, q2.xyz)
+    q2.xyz * q1.w + q1.xyz * q2.w + cross(q1.xyz, q2.xyz),
+    q1.w * q2.w - dot(q1.xyz, q2.xyz)
     );
 }
 
@@ -77,25 +77,25 @@ float4x4 inverse(float4x4 input)
     #define minor(a,b,c) determinant(float3x3(input.a, input.b, input.c))
 
     float4x4 cofactors = float4x4(
-        minor(_22_23_24, _32_33_34, _42_43_44),
-        -minor(_21_23_24, _31_33_34, _41_43_44),
-        minor(_21_22_24, _31_32_34, _41_42_44),
-        -minor(_21_22_23, _31_32_33, _41_42_43),
+    minor(_22_23_24, _32_33_34, _42_43_44),
+    -minor(_21_23_24, _31_33_34, _41_43_44),
+    minor(_21_22_24, _31_32_34, _41_42_44),
+    -minor(_21_22_23, _31_32_33, _41_42_43),
 
-        -minor(_12_13_14, _32_33_34, _42_43_44),
-        minor(_11_13_14, _31_33_34, _41_43_44),
-        -minor(_11_12_14, _31_32_34, _41_42_44),
-        minor(_11_12_13, _31_32_33, _41_42_43),
+    -minor(_12_13_14, _32_33_34, _42_43_44),
+    minor(_11_13_14, _31_33_34, _41_43_44),
+    -minor(_11_12_14, _31_32_34, _41_42_44),
+    minor(_11_12_13, _31_32_33, _41_42_43),
 
-        minor(_12_13_14, _22_23_24, _42_43_44),
-        -minor(_11_13_14, _21_23_24, _41_43_44),
-        minor(_11_12_14, _21_22_24, _41_42_44),
-        -minor(_11_12_13, _21_22_23, _41_42_43),
+    minor(_12_13_14, _22_23_24, _42_43_44),
+    -minor(_11_13_14, _21_23_24, _41_43_44),
+    minor(_11_12_14, _21_22_24, _41_42_44),
+    -minor(_11_12_13, _21_22_23, _41_42_43),
 
-        -minor(_12_13_14, _22_23_24, _32_33_34),
-        minor(_11_13_14, _21_23_24, _31_33_34),
-        -minor(_11_12_14, _21_22_24, _31_32_34),
-        minor(_11_12_13, _21_22_23, _31_32_33)
+    -minor(_12_13_14, _22_23_24, _32_33_34),
+    minor(_11_13_14, _21_23_24, _31_33_34),
+    -minor(_11_12_14, _21_22_24, _31_32_34),
+    minor(_11_12_13, _21_22_23, _31_32_33)
     );
     #undef minor
     return transpose(cofactors) / determinant(input);
@@ -128,12 +128,12 @@ float CamDistSampleFactorLine(float3 pos, float3 cameraPos)
 
 bool ProjectionFlipped()
 {
-#if UNITY_UV_STARTS_AT_TOP
-    if (_ProjectionParams.x > 0)
-    {
-        return true;
-    }
-#endif
+    #if UNITY_UV_STARTS_AT_TOP
+        if (_ProjectionParams.x > 0)
+        {
+            return true;
+        }
+    #endif
 
     return false;
 }
@@ -141,11 +141,11 @@ bool ProjectionFlipped()
 float SincFilter(float2 uv, float radius)
 {
     return
-        radius *
-        float2(
-            sin(uv.x) / uv.x,
-            sin(uv.y) / uv.y
-        );
+    radius *
+    float2(
+    sin(uv.x) / uv.x,
+    sin(uv.y) / uv.y
+    );
 }
 
 float PixelVariance(float2 uv, float sigma2, out float2 ddu, out float2 ddv)
@@ -215,7 +215,7 @@ float3 BlinnPhong(float3 lightDir, float3 viewDir, float3 normal, float3 specCol
     float lambertian = max(dot(lightDir, normal), 0);
 
     return
-        float3(1, 1, 1) * specular * lambertian;
+    float3(1, 1, 1) * specular * lambertian;
 }
 
 float3 ViewRefract(float3 viewDir, float3 lightDir, float3 normal)
@@ -239,8 +239,8 @@ struct TrFrag
 float computeWeight(float4 color, float z)
 {
     float weight =
-        max(min(1.0, max(max(color.r, color.g), color.b) * color.a), color.a) *
-        clamp(0.03 / (0.00001 + pow(z / 200, 4.0)), 0.01, 3000);
+    max(min(1.0, max(max(color.r, color.g), color.b) * color.a), color.a) *
+    clamp(0.03 / (0.00001 + pow(z / 200, 4.0)), 0.01, 3000);
     return weight;
 }
 
@@ -274,9 +274,9 @@ float lineWu(float2 a, float2 b, float2 c)
 
     // crop line segment
     if (c.x < floor(minX) || c.x > ceil(maxX))
-        return 0.0;
+    return 0.0;
     if (c.y < floor(minY) || c.y > ceil(maxY))
-        return 0.0;
+    return 0.0;
 
     // swap X and Y
     float2 d = float2(abs(a.x - b.x), abs(a.y - b.y));
@@ -294,9 +294,9 @@ float lineWu(float2 a, float2 b, float2 c)
     // handle end points
     float k = 1.0;
     if (c.x == floor(minX))
-        k = 1.0 - frac(minX);
+    k = 1.0 - frac(minX);
     if (c.x == ceil(maxX))
-        k = frac(maxX);
+    k = frac(maxX);
 
 
     // find Y by two-point form of linear equation
@@ -312,4 +312,12 @@ float GetDepthFromClip(float4 clipPos)
 {
     float4 screenPos = ComputeScreenPos(clipPos);
     return UNITY_Z_0_FAR_FROM_CLIPSPACE(screenPos.z);
+}
+
+// Weighted-Blended OIT
+
+float wb_oit(float z, float alpha) {
+    // return pow(z, -2.5);
+    // return alpha * max(1e-2, min(3 * 1e3, 10.0/(1e-5 + pow(z/5, 2) + pow(z/200, 6))));
+    return alpha * max(1e-2, min(3 * 1e3, 0.03/(1e-5 + pow(z/200, 4))));
 }
