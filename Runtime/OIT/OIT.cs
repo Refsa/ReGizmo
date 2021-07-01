@@ -26,8 +26,10 @@ namespace ReGizmo
 
             accumulateTexture = new RenderTexture(camera.pixelWidth, camera.pixelHeight, 0, 
                 RenderTextureFormat.ARGBFloat, RenderTextureReadWrite.Linear);
+
             revealageTexture = new RenderTexture(camera.pixelWidth, camera.pixelHeight, 0, 
                 RenderTextureFormat.RHalf, RenderTextureReadWrite.Linear);
+                
             tempTargetTexture = new RenderTexture(camera.pixelWidth, camera.pixelHeight, 32, 
                 RenderTextureFormat.ARGB32, RenderTextureReadWrite.Linear);
 
@@ -55,7 +57,7 @@ namespace ReGizmo
             cmd.SetRenderTarget(accumulateTexture, depthTexture);
             drawer.RenderWithPass(cmd, cameraFrustum, uniqueDrawData, 0);
 
-            cmd.SetRenderTarget(revealageTexture);
+            cmd.SetRenderTarget(revealageTexture, depthTexture);
             drawer.RenderWithPass(cmd, cameraFrustum, uniqueDrawData, 2);
 
             cmd.SetRenderTarget(camera.activeTexture);
@@ -78,9 +80,17 @@ namespace ReGizmo
             revealageTexture.Release();
             tempTargetTexture.Release();
 
-            accumulateTexture = new RenderTexture(camera.pixelWidth, camera.pixelHeight, 0, RenderTextureFormat.ARGBHalf, RenderTextureReadWrite.Linear);
-            revealageTexture = new RenderTexture(camera.pixelWidth, camera.pixelHeight, 0, RenderTextureFormat.RHalf, RenderTextureReadWrite.Linear);
-            tempTargetTexture = new RenderTexture(camera.pixelWidth, camera.pixelHeight, 24, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Linear);
+            accumulateTexture = new RenderTexture(camera.pixelWidth, 
+                camera.pixelHeight, 0, 
+                RenderTextureFormat.ARGBHalf, RenderTextureReadWrite.Linear);
+
+            revealageTexture = new RenderTexture(camera.pixelWidth, 
+                camera.pixelHeight, 0, 
+                RenderTextureFormat.RHalf, RenderTextureReadWrite.Linear);
+
+            tempTargetTexture = new RenderTexture(camera.pixelWidth, 
+                camera.pixelHeight, 24, 
+                RenderTextureFormat.ARGB32, RenderTextureReadWrite.Linear);
         }
 
         public void Dispose()
