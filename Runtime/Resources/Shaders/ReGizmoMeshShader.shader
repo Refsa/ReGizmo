@@ -98,8 +98,7 @@ Shader "Hidden/ReGizmo/Mesh"
             struct v2f_depth
             {
                 float4 pos: SV_POSITION;
-                float alpha: TEXCOORD0;
-                float4 screen_pos: TEXCOORD1;
+                float depth: TEXCOORD2;
             };
 
             v2f_depth depth_vert(vertex i, uint instanceID: SV_INSTANCEID)
@@ -110,23 +109,17 @@ Shader "Hidden/ReGizmo/Mesh"
                     MeshProperties prop = _Properties[instanceID]; 
                     float4 cloc = TRS(prop.Position, prop.Rotation, prop.Scale, i.pos);
                     o.pos = mul(UNITY_MATRIX_VP, cloc);
-                    o.alpha = prop.Color.a;
-                    o.screen_pos = ComputeScreenPos(o.pos);
+                    o.depth = compute_depth(cloc);
                 #endif
-
 
                 return o;
             }
 
             UNITY_DECLARE_DEPTH_TEXTURE(_CameraDepthTexture);
 
-            float depth_frag(v2f_depth i, out float depth : SV_DEPTH) : SV_TARGET
+            void depth_frag(v2f_depth i, out float depth : SV_DEPTH)
             {
-                float cdepth = tex2Dproj(_CameraDepthTexture, i.screen_pos);
-                clip(cdepth > i.pos.z ? -1 : 1);
-
                 depth = i.pos.z;
-                return depth;
             }
             ENDCG
         }
@@ -146,7 +139,7 @@ Shader "Hidden/ReGizmo/Mesh"
 
             float4 revealage_frag(v2f i) : SV_TARGET
             {
-                return i.col.aaaa;
+                return i.col.a;
             }
 
             ENDCG
