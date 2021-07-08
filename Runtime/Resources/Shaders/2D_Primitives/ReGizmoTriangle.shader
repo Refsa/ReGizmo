@@ -10,7 +10,7 @@ Shader "Hidden/ReGizmo/TriangleShader"
 
         float4 _frag(g2f_2d i)
         {
-            float sdf = sdEquilateralTriangle(i.uv - float2(0.55, 0.29), 0.56);
+            float sdf = sdTriangle(i.uv - float2(0.05, 0.05), float2(0.5, 1), float2(0, 0), float2(1, 0));
             sdf = sample_sdf(sdf);
             return lerp(float4(i.color.rgb, 0), i.color, sdf);
         }
