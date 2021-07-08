@@ -19,7 +19,7 @@ namespace ReGizmo.Samples
                 int index = 0;
                 foreach (var icon in icons)
                 {
-                    ReDraw.Icon(icon, Vector3.up * 12 * index++, Color.black, Size.Pixels(size), depthMode);
+                    ReDraw.Icon(icon, Vector3.up * 12 * index++, Color.white, Size.Pixels(size), depthMode);
                 }
             }
         }

@@ -7,14 +7,10 @@ namespace ReGizmo.Samples
 {
     public class DrawPrimitive : MonoBehaviour
     {
+        [SerializeField] Color color = Color.white;
         void OnDrawGizmos()
         {
-            /* using (new TransformScope(transform))
-            {
-                ReDraw.Cone(Color.red);
-            } */
-
-            ReDraw.Cone(transform.position, transform.rotation, transform.localScale, Color.red);
+            ReDraw.Cone(transform.position, transform.rotation, transform.localScale, color);
         }
     }
 }
