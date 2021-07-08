@@ -31,7 +31,7 @@ namespace ReGizmo.Drawing
                     material, 1,
                     MeshTopology.Points,
                     uniqueDrawData.ArgsBuffer, 0,
-                    uniqueDrawData.MaterialPropertyBlock 
+                    uniqueDrawData.MaterialPropertyBlock
                 );
             }
             else
@@ -44,6 +44,20 @@ namespace ReGizmo.Drawing
                     uniqueDrawData.MaterialPropertyBlock
                 );
             }
+        }
+
+        protected override void RenderWithPassInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData, int pass)
+        {
+            uniqueDrawData.SetInstanceCount(1);
+            uniqueDrawData.SetVertexCount(uniqueDrawData.DrawCount);
+
+            cmd.DrawProceduralIndirect(
+                Matrix4x4.identity,
+                material, pass,
+                MeshTopology.Points,
+                uniqueDrawData.ArgsBuffer, 0,
+                uniqueDrawData.MaterialPropertyBlock
+            );
         }
     }
 }
