@@ -20,9 +20,10 @@ Shader "Hidden/ReGizmo/Icon"
 
         struct g2f
         {
-            float4 pos : SV_POSITION;
-            float2 uv: TEXCOORD0;
-            float3 color: TEXCOORD1;
+            float4 pos   : SV_POSITION;
+            float2 uv    : TEXCOORD0;
+            float3 color : TEXCOORD1;
+            float  z     : TEXCOORD2;
         };
 
         sampler2D _IconTexture;
@@ -44,6 +45,7 @@ Shader "Hidden/ReGizmo/Icon"
         {
             IconProperties bd = _DrawData[i[0].vertexID];
             float4 clip = mul(UNITY_MATRIX_VP, float4(bd.position, 1.0));
+            float z = abs(mul(UNITY_MATRIX_MV, float4(bd.position, 1.0)));
 
             float halfOffset = bd.scale;
             float2 size = float2(-halfOffset * _IconAspect, -halfOffset);
@@ -70,21 +72,25 @@ Shader "Hidden/ReGizmo/Icon"
             g1.pos = cp1;
             g1.uv = float2(1, 0);
             g1.color = bd.color;
+            g1.z = z;
 
             g2f g2;
             g2.pos = cp2;
             g2.uv = float2(1, 1);
             g2.color = bd.color;
+            g2.z = z;
 
             g2f g3;
             g3.pos = cp3;
             g3.uv = float2(0, 1);
             g3.color = bd.color;
+            g3.z = z;
 
             g2f g4;
             g4.pos = cp4;
             g4.uv = float2(0, 0);
             g4.color = bd.color;
+            g4.z = z;
 
             triangleStream.Append(g2);
             triangleStream.Append(g1);
@@ -98,22 +104,19 @@ Shader "Hidden/ReGizmo/Icon"
             float4 color = float4(i.color, 1.0);
 
             float4 tex_col = tex2D(_IconTexture, i.uv);
-            color *= tex_col.a;
+            color.rgb *= tex_col.a;
+            color.a = tex_col.a;
+            color.rgb *= tex_col;
 
-            return lerp(tex_col, color, 0.5);
-        }
-
-        float4 frag(g2f i) : SV_Target
-        {
-            float4 col = _frag(i);
-            clip(col.a == 0 ? -1 : 1);
-            return col;
+            return color;
         }
         ENDCG
 
         Pass
         {
-            Blend SrcAlpha OneMinusSrcAlpha
+            Name "Render"
+
+            Blend One One
             ZTest [_ZTest]
             ZWrite Off
 
@@ -123,11 +126,20 @@ Shader "Hidden/ReGizmo/Icon"
             #pragma fragment frag
             #pragma multi_compile_instancing
             #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+
+            float4 frag(g2f i) : SV_Target
+            {
+                float4 col = _frag(i);
+                clip(col.a == 0 ? -1 : 1);
+                return col;
+            }
             ENDCG
         }
 
         Pass
         {
+            Name "Depth"
+
             ZTest LEqual
             ZWrite On
 
@@ -138,11 +150,34 @@ Shader "Hidden/ReGizmo/Icon"
             #pragma multi_compile_instancing
             #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
 
-            float frag_depth(g2f i) : SV_TARGET1
+            float frag_depth(g2f i, out float depth : SV_DEPTH) : SV_TARGET
             {
                 float4 col = _frag(i);
                 clip(col.a == 0 ? -1 : 1);
-                return i.pos.z;
+                
+                depth = i.z;
+                return depth;
+            }
+            ENDCG
+        }
+
+        Pass
+        {
+            Name "OIT_Revealage"
+            ZWrite Off
+            Blend Zero OneMinusSrcAlpha
+
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma geometry geom
+            #pragma fragment frag_revealage
+            #pragma multi_compile_instancing
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+
+            float4 frag_revealage(g2f i) : SV_TARGET
+            {
+                float4 col = _frag(i);
+                return col.aaaa;
             }
             ENDCG
         }
