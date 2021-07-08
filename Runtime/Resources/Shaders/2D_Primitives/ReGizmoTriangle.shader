@@ -14,18 +14,12 @@ Shader "Hidden/ReGizmo/TriangleShader"
             sdf = sample_sdf(sdf);
             return lerp(float4(i.color.rgb, 0), i.color, sdf);
         }
-
-        float4 frag (g2f_2d i) : SV_Target
-        {
-            float4 col = _frag(i);
-            clip(col.a == 0 ? -1 : 1);
-            return col;
-        }
         ENDCG
 
         Pass
         {
-            Blend SrcAlpha OneMinusSrcAlpha
+            Name "Render"
+            Blend One One
             ZTest [_ZTest]
             ZWrite Off
             Cull Off
@@ -36,11 +30,19 @@ Shader "Hidden/ReGizmo/TriangleShader"
             #pragma fragment frag
             #pragma multi_compile_instancing
             #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+
+            float4 frag (g2f_2d i) : SV_Target
+            {
+                float4 col = _frag(i);
+                clip(col.a == 0 ? -1 : 1);
+                return col;
+            }
             ENDCG
         }
 
         Pass
         {
+            Name "Depth"
             ZTest LEqual
             ZWrite On
             Cull Off
@@ -52,11 +54,34 @@ Shader "Hidden/ReGizmo/TriangleShader"
             #pragma multi_compile_instancing
             #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
 
-            float frag_depth(g2f_2d i) : SV_TARGET1
+            float frag_depth(g2f_2d i, out float depth : SV_DEPTH) : SV_TARGET
             {
                 float4 col = _frag(i);
                 clip(col.a == 0 ? -1 : 1);
-                return i.pos.z;
+
+                depth = i.pos.z;
+                return depth;
+            }
+            ENDCG
+        }
+
+        Pass
+        {
+            Name "OIT_Revealage"
+            Blend Zero OneMinusSrcAlpha
+            ZWrite Off
+
+            CGPROGRAM
+            #pragma vertex vert_2d
+            #pragma geometry geom_2d
+            #pragma fragment revealage_frag
+            #pragma multi_compile_instancing
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+
+            float revealage_frag(g2f_2d i) : SV_TARGET
+            {
+                float4 col = _frag(i);
+                return col.aaaa;
             }
             ENDCG
         }
