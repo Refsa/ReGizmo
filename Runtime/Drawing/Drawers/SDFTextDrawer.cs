@@ -93,7 +93,6 @@ namespace ReGizmo.Drawing
         protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData, bool depth)
         {
             uniqueDrawData.SetInstanceCount(1);
-            uniqueDrawData.SetVertexCount(uniqueDrawData.DrawCount);
 
             if (depth)
             {
@@ -115,6 +114,19 @@ namespace ReGizmo.Drawing
                     uniqueDrawData.MaterialPropertyBlock
                 );
             }
+        }
+
+        protected override void RenderWithPassInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData, int pass)
+        {
+            uniqueDrawData.SetInstanceCount(1);
+
+            cmd.DrawProceduralIndirect(
+                Matrix4x4.identity,
+                material, pass,
+                MeshTopology.Points,
+                uniqueDrawData.ArgsBuffer, 0,
+                uniqueDrawData.MaterialPropertyBlock
+            );
         }
 
         protected override void SetMaterialPropertyBlockData(MaterialPropertyBlock materialPropertyBlock)
