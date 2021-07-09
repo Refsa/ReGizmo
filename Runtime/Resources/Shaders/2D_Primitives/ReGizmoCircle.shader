@@ -95,6 +95,7 @@
 
             ZWrite Off
             Blend Zero OneMinusSrcAlpha
+            Cull Off
 
             CGPROGRAM
             #pragma vertex vert_2d
@@ -103,7 +104,7 @@
             #pragma multi_compile_instancing
             #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
 
-            float revealage_frag(g2f_2d i) : SV_TARGET
+            float4 revealage_frag(g2f_2d i) : SV_TARGET
             {
                 float4 col = _frag(i);
                 return col.aaaa;
