@@ -129,7 +129,7 @@ Shader "Hidden/ReGizmo/Line_Screen"
         Pass
         {
             Name "Render"
-            Blend SrcAlpha OneMinusSrcAlpha
+            Blend One One
             ZWrite Off
             ZTest [_ZTest]
 
