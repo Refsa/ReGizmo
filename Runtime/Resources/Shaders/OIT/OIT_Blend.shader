@@ -25,12 +25,6 @@ Shader "Hidden/OIT/Blend" {
             
             #pragma vertex vert
             #pragma fragment frag
-
-            sampler2D _MainTex;
-            sampler2D _AccumTex;
-            sampler2D _RevealageTex;
-
-            sampler2D _CameraDepthTexture;
             
             struct a2v {
                 float4 vertex : POSITION;
@@ -49,23 +43,36 @@ Shader "Hidden/OIT/Blend" {
                 
                 return o;
             }
-            
+
+            sampler2D _MainTex;
+            sampler2D _AccumTex;
+            sampler2D _RevealageTex;
+
+            sampler2D _CameraDepthTexture;
+
             float4 frag(v2f i) : SV_Target {
                 // float depth = tex2D(_CameraDepthTexture, i.uv);
                 // return float4(depth, depth, depth, 1.0);
 
                 float2 uv = i.uv;
+
+                float2 fuv = uv;
                 if (ProjectionFlipped())
                 {
-                    uv.y = 1 - uv.y;
+                    fuv.y = 1 - fuv.y;
                 }
 
-                float4 background = tex2D(_MainTex, uv);
+                float4 background = tex2D(_MainTex, fuv);
                 float4 accum = tex2D(_AccumTex, uv);
                 float revealage = tex2D(_RevealageTex, uv).r;
+
                 float4 blend = float4(accum.rgb / clamp(accum.a, 1e-4, 5e4), revealage);
                 blend = saturate(blend);
-                return (1.0 - blend.a) * blend + blend.a * background;
+                if (length(blend.rgb) == 0.0) return background;
+
+                float4 col = (1.0 - blend.a) * blend + blend.a * background;
+
+                return col;
             }
             
             ENDCG
