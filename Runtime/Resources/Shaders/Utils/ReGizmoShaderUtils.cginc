@@ -138,6 +138,11 @@ bool ProjectionFlipped()
     return false;
 }
 
+inline float compute_depth(float4 vpos)
+{
+    return -(UnityObjectToViewPos( vpos ).z * _ProjectionParams.w);
+}
+
 float SincFilter(float2 uv, float radius)
 {
     return
