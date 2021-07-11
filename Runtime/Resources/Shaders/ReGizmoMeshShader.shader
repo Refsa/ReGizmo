@@ -75,7 +75,7 @@ Shader "Hidden/ReGizmo/Mesh"
                 float3 shade = lerp(col.rgb, 0, _Shaded);
                 col.rgb = saturate(lerp(shade, col.rgb, f.strength));
 
-                return col * wb_oit(f.pos.z, col.a);
+                return col;// * wb_oit(f.pos.z, col.a);
             }
             ENDCG
         }
@@ -115,8 +115,6 @@ Shader "Hidden/ReGizmo/Mesh"
                 return o;
             }
 
-            UNITY_DECLARE_DEPTH_TEXTURE(_CameraDepthTexture);
-
             void depth_frag(v2f_depth i, out float depth : SV_DEPTH)
             {
                 depth = i.pos.z;
@@ -139,7 +137,7 @@ Shader "Hidden/ReGizmo/Mesh"
 
             float4 revealage_frag(v2f i) : SV_TARGET
             {
-                return i.col.a;
+                return i.col.aaaa;
             }
 
             ENDCG

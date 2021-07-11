@@ -143,7 +143,7 @@ Shader "Hidden/ReGizmo/Line_Screen"
             float4 frag_line(g2f_line g) : SV_Target
             {
                 float4 col = _frag_line(g);
-                col *= wb_oit(g.pos.z, col.a);
+                // col *= wb_oit(g.pos.z, col.a);
                 return col;
             }
             ENDCG
