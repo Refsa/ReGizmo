@@ -79,7 +79,7 @@ namespace ReGizmo.Drawing
         {
             foreach (var drawer in _drawers)
             {
-                drawer.drawer.RenderWithPass(commandBuffer, cameraFrustum, uniqueDrawData, pass);
+                drawer.drawer.RenderWithPass(commandBuffer, cameraFrustum, drawer.uniqueDrawData, pass);
             }
         }
 
