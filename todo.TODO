@@ -11,6 +11,10 @@
     - @low some materials should be shared between drawers
         - MeshDrawer
 
+Culling:
+    - @high Circle drawer
+    - @high Triangle drawer
+
 Z-Sort:
     - @high allow drawers to overlay other objects
         Has to be set per material, cant be set via MaterialPropertyBlock
