@@ -42,6 +42,7 @@ namespace ReGizmo.Drawing
 
 #if RG_LEGACY
             camera.AddCommandBuffer(cameraEvent, commandBuffer);
+            camera.depthTextureMode |= DepthTextureMode.Depth;
 #endif
         }
 
@@ -135,7 +136,6 @@ namespace ReGizmo.Drawing
             // commandBuffer.Blit(BuiltinRenderTextureType.Depth, camera.activeTexture);
             // commandBuffer.Blit(oit.AccumulateTexture, camera.activeTexture);
             // commandBuffer.Blit(oit.RevealageTexture, camera.activeTexture);
-            // commandBuffer.ReleaseTemporaryRT(DepthTextureID);
 
 #if REGIZMO_DEV
             commandBuffer.EndSample(profilerKey);

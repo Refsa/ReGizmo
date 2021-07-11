@@ -101,7 +101,7 @@ namespace ReGizmo.Drawing
             if (currentDrawCount == 0) return;
 
             Profiler.BeginSample("ReGizmoDrawer::RenderDepth");
-            RenderInternal(commandBuffer, uniqueDrawData, true);
+            RenderWithPassInternal(commandBuffer, uniqueDrawData, 1);
             Profiler.EndSample();
         }
 
