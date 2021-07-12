@@ -290,7 +290,7 @@ namespace ReGizmo.Samples
             {
                 for (int i = 0; i < customIcons.Length; i++)
                 {
-                    ReDraw.Icon(customIcons[i], Vector3.left * 5 + Vector3.up * 2 * i, Color.black, Size.Pixels(32f));
+                    ReDraw.Icon(customIcons[i], Vector3.left * 5 + Vector3.up * 2 * i, Color.white, Size.Pixels(32f));
                 }
             }
 

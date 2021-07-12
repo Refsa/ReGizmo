@@ -87,7 +87,7 @@ namespace ReGizmo.Drawing
         {
             foreach (var drawer in _drawers)
             {
-                drawer.drawer.RenderWithMaterial(commandBuffer, cameraFrustum, uniqueDrawData, material);
+                drawer.drawer.RenderWithMaterial(commandBuffer, cameraFrustum, drawer.uniqueDrawData, material);
             }
         }
 
