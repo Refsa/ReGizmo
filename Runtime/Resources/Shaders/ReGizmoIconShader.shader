@@ -98,9 +98,8 @@ Shader "Hidden/ReGizmo/Icon"
             float4 color = float4(i.color, 1.0);
 
             float4 tex_col = tex2D(_IconTexture, i.uv);
-            color.rgb *= tex_col.a;
+            color.rgb *= tex_col.rgb * tex_col.a;
             color.a = tex_col.a;
-            color.rgb *= tex_col;
 
             return color;
         }
@@ -109,7 +108,6 @@ Shader "Hidden/ReGizmo/Icon"
         Pass
         {
             Name "Render"
-
             Blend One One
             ZTest [_ZTest]
             ZWrite Off
@@ -134,7 +132,6 @@ Shader "Hidden/ReGizmo/Icon"
         Pass
         {
             Name "Depth"
-
             ZTest LEqual
             ZWrite On
 
