@@ -24,7 +24,7 @@
                 float opacity = sample_msdf(i.pos, i.uv, i.scale);
             #endif
 
-            return float4(i.color, opacity);
+            return float4(i.color, saturate(opacity));
         }
         ENDCG
 
@@ -91,6 +91,7 @@
             float4 revealage_frag(font_g2f i) : SV_TARGET
             {
                 float4 col = _frag(i);
+                clip(col.a == 0 ? -1 : 1);
                 return col.aaaa;
             }
             ENDCG
