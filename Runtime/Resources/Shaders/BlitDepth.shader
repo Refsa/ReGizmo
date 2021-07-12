@@ -3,7 +3,7 @@ Shader "Hidden/ReGizmo/BlitDepth" {
         _MainTex ("Main Tex", 2D) = "white" {}
     }
     SubShader {
-        ZTest Always Cull Off ZWrite Off Fog { Mode Off }
+        ZTest Always Cull Off ZWrite Off
         
         Pass {
             CGPROGRAM
@@ -33,8 +33,8 @@ Shader "Hidden/ReGizmo/BlitDepth" {
                 return o;
             }
             
-            float4 frag(v2f i) : SV_Target {
-                float depth = tex2D(_CameraDepthTexture, i.uv);
+            float4 frag(v2f i, out float depth : SV_DEPTH) : SV_Target {
+                depth = tex2D(_CameraDepthTexture, i.uv);
                 return float4(depth, 0, 0, 1);
             }
             
