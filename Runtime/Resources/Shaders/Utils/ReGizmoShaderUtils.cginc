@@ -322,7 +322,7 @@ float GetDepthFromClip(float4 clipPos)
 // Weighted-Blended OIT
 
 float wb_oit(float z, float alpha) {
-    // return pow(z, -2.5);
+    return pow(z, -2.5);
     // return alpha * max(1e-2, min(3 * 1e3, 10.0/(1e-5 + pow(z/5, 2) + pow(z/200, 6))));
-    return alpha * max(1e-2, min(3 * 1e3, 0.03/(1e-5 + pow(z/200, 4))));
+    // return alpha * max(1e-2, min(3 * 1e3, 0.03/(1e-5 + pow(z/200, 4))));
 }
