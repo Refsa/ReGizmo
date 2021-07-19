@@ -16,6 +16,12 @@
 This package is configured as a Unity UPM Package so you can install it through the Package Manager with this URL:  
 ``` https://github.com/Refsa/ReGizmo.git#v1.0.0 ```
 
+## Notes
+Requires that depth texture is enabled. This is handled slight different depending on the active render pipeline.
+
+- Built-In: ReGizmo will automatically set the depth mode flag on any active cameras
+- URP: The "Depth Texture" has to be enabled in the Universal Render Pipeline Asset
+
 ## General Usage
 Since ReGizmo is available from anywhere it can be called from Update, OnDrawGizmos, an Editor Window or anywhere else. Just make sure it is called every frame/repaint event since your draw calls dont persist.
 

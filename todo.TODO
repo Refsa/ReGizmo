@@ -11,6 +11,12 @@
         - MeshDrawer
     - @high CullCompute has some sign mismatches
 
+LRP:
+    - @high will automatically enabled depth texture
+
+URP:
+    - @high requires that depth texture is enabled in the renderer settings
+
 Culling:
     - @high Circle drawer
     - @high Triangle drawer
