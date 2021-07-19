@@ -27,17 +27,20 @@ namespace ReGizmo
             Resize();
 
             blendMaterial = ReGizmoHelpers.PrepareMaterial("Hidden/OIT/Blend");
+            // blitMaterial = ReGizmoHelpers.PrepareMaterial("Hidden/BlitCopy");
             blitMaterial = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/CopyColor");
         }
 
-        public void Setup(CommandBuffer cmd)
+        public void Setup(CommandBuffer cmd, RenderTargetIdentifier colorTarget)
         {
-            cmd.Blit(null, tempTargetTexture, blitMaterial);
+            cmd.SetRenderTarget(tempTargetTexture, RenderBufferLoadAction.Load, RenderBufferStoreAction.Store);
+            cmd.ClearRenderTarget(true, true, Color.black);
+            cmd.Blit(colorTarget, tempTargetTexture, blitMaterial);
 
-            cmd.SetRenderTarget(accumulateTexture);
+            cmd.SetRenderTarget(accumulateTexture, RenderBufferLoadAction.Load, RenderBufferStoreAction.Store);
             cmd.ClearRenderTarget(true, true, Color.clear);
 
-            cmd.SetRenderTarget(revealageTexture);
+            cmd.SetRenderTarget(revealageTexture, RenderBufferLoadAction.Load, RenderBufferStoreAction.Store);
             cmd.ClearRenderTarget(true, true, Color.white);
 
             if (camera.pixelHeight != accumulateTexture.height || camera.pixelWidth != accumulateTexture.width)
@@ -57,12 +60,12 @@ namespace ReGizmo
             drawer.RenderWithPass(cmd, cameraFrustum, uniqueDrawData, 2);
         }
 
-        public void Blend(CommandBuffer commandBuffer, RenderTargetIdentifier cameraTexture)
+        public void Blend(CommandBuffer commandBuffer, RenderTargetIdentifier colorTarget)
         {
             blendMaterial.SetTexture("_AccumTex", accumulateTexture);
             blendMaterial.SetTexture("_RevealageTex", revealageTexture);
 
-            commandBuffer.Blit(tempTargetTexture, cameraTexture, blendMaterial);
+            commandBuffer.Blit(tempTargetTexture, colorTarget, blendMaterial);
         }
 
         void Resize()

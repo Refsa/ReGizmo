@@ -41,8 +41,14 @@ namespace ReGizmo.Drawing
             profilerKey = $"ReGizmo Camera: {camera.name}";
 
 #if RG_LEGACY
-            camera.AddCommandBuffer(cameraEvent, commandBuffer);
             camera.depthTextureMode |= DepthTextureMode.Depth;
+
+            framebuffer = new Framebuffer
+            {
+                ColorTarget = BuiltinRenderTextureType.CameraTarget,
+                DepthTarget = BuiltinRenderTextureType.Depth,
+            };
+            Attach();
 #endif
         }
 
@@ -54,6 +60,15 @@ namespace ReGizmo.Drawing
         public void RemoveCommandBuffer()
         {
             this.commandBuffer = null;
+        }
+
+        public void Attach()
+        {
+            if (camera == null || camera.Equals(null)) return;
+
+#if RG_LEGACY
+            camera.AddCommandBuffer(cameraEvent, commandBuffer);
+#endif
         }
 
         public void DeAttach()
@@ -68,6 +83,20 @@ namespace ReGizmo.Drawing
         public void SetActive(bool state)
         {
             isActive = state;
+            if (!isActive)
+            {
+                DeAttach();
+            }
+            else
+            {
+                Attach();
+            }
+        }
+
+        Framebuffer framebuffer;
+        public void SetFramebuffer(Framebuffer framebuffer)
+        {
+            this.framebuffer = framebuffer;
         }
 
         public bool FrameSetup()
@@ -79,7 +108,7 @@ namespace ReGizmo.Drawing
 #endif
 
             frustum.UpdateCameraFrustum();
-            oit.Setup(commandBuffer);
+            oit.Setup(commandBuffer, framebuffer.ColorTarget);
 
 #if REGIZMO_DEV
             commandBuffer.BeginSample(profilerKey);
@@ -109,7 +138,7 @@ namespace ReGizmo.Drawing
 
             drawer.PreRender(commandBuffer, frustum, uniqueDrawData);
 
-            commandBuffer.SetRenderTarget(BuiltinRenderTextureType.Depth);
+            commandBuffer.SetRenderTarget(framebuffer.DepthTarget);
             drawer.RenderDepth(commandBuffer, frustum, uniqueDrawData);
         }
 
@@ -124,15 +153,17 @@ namespace ReGizmo.Drawing
             }
 
             // drawer.Render(commandBuffer, frustum, uniqueDrawData);
-            oit.Render(commandBuffer, drawer, frustum, uniqueDrawData, BuiltinRenderTextureType.Depth);
+            oit.Render(commandBuffer, drawer, frustum, uniqueDrawData, framebuffer.DepthTarget);
         }
 
         public void PostRender()
-        {   
-            oit.Blend(commandBuffer, camera.targetTexture);
-            // commandBuffer.Blit(BuiltinRenderTextureType.Depth, camera.activeTexture);
+        {
+            oit.Blend(commandBuffer, framebuffer.ColorTarget);
+            // commandBuffer.Blit(framebuffer.DepthTarget, camera.activeTexture);
             // commandBuffer.Blit(oit.AccumulateTexture, camera.activeTexture);
             // commandBuffer.Blit(oit.RevealageTexture, camera.activeTexture);
+
+            commandBuffer.SetRenderTarget(BuiltinRenderTextureType.CameraTarget);
 
 #if REGIZMO_DEV
             commandBuffer.EndSample(profilerKey);
@@ -149,3 +180,4 @@ namespace ReGizmo.Drawing
         }
     }
 }
+
