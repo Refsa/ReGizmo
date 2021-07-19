@@ -8,20 +8,41 @@ namespace ReGizmo.Core.URP
 {
     public class ReGizmoURPRenderFeature : ScriptableRendererFeature
     {
-        public static event Action<ScriptableRenderContext, Camera, bool> OnPassExecute;
+        internal static event Action<ScriptableRenderContext, Camera, Framebuffer, bool> OnPassExecute;
 
         public class ReGizmoRenderPass : ScriptableRenderPass
         {
+            RenderTargetIdentifier colorTarget;
+            RenderTargetIdentifier depthTarget;
+
             public ReGizmoRenderPass()
             {
                 renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing;
+            }
+
+            public void Setup(RenderTargetIdentifier colorTarget, RenderTargetIdentifier depthTarget)
+            {
+                this.colorTarget = colorTarget;
+                this.depthTarget = depthTarget;
             }
 
             public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
             {
                 bool gameView = !renderingData.cameraData.isSceneViewCamera;
 
-                OnPassExecute?.Invoke(context, renderingData.cameraData.camera, gameView);
+                var framebuffer = new Framebuffer { ColorTarget = colorTarget, DepthTarget = depthTarget };
+
+                if (renderingData.cameraData.isSceneViewCamera)
+                {
+                    framebuffer.ColorTarget = renderingData.cameraData.camera.activeTexture.colorBuffer;
+                    framebuffer.DepthTarget = renderingData.cameraData.camera.activeTexture.depthBuffer;
+                }
+
+                OnPassExecute?.Invoke(
+                    context,
+                    renderingData.cameraData.camera,
+                    framebuffer,
+                    gameView);
             }
         }
 
@@ -34,6 +55,7 @@ namespace ReGizmo.Core.URP
 
         public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
         {
+            renderPass.Setup(renderer.cameraColorTarget, renderer.cameraDepth);
             renderer.EnqueuePass(renderPass);
         }
     }

@@ -42,7 +42,7 @@ namespace ReGizmo.Core
             throw new System.InvalidOperationException("ReGizmo runtime is not enabled!");
 #endif
 
-            // Debug.Log("#### ReGizmo Init ####");
+            // Debug.Log("#### ReGizmo Init ####"); 
 
 #if UNITY_EDITOR || REGIZMO_RUNTIME
             ReGizmoSettings.Load();
@@ -58,7 +58,7 @@ namespace ReGizmo.Core
             activeCameras = new Dictionary<Camera, CameraData>();
 
 #if RG_URP
-            Core.URP.ReGizmoURPRenderFeature.OnPassExecute += OnPassExecute;
+            Core.URP.ReGizmoURPRenderFeature.OnPassExecute += OnURPPassExecute;
 #elif RG_HDRP
             Core.HDRP.ReGizmoHDRPRenderPass.OnPassExecute += OnHDRPPassExecute;
             Core.HDRP.ReGizmoHDRPRenderPass.OnPassCleanup += OnHDRPPassCleanup;
@@ -175,13 +175,14 @@ namespace ReGizmo.Core
         }
 
 #if RG_URP
-        private static void OnPassExecute(ScriptableRenderContext context, Camera camera, bool isGameView)
+        private static void OnURPPassExecute(ScriptableRenderContext context, Camera camera, Framebuffer framebuffer, bool isGameView)
         {
             if (!activeCameras.TryGetValue(camera, out var cameraData))
             {
                 return;
             }
 
+            cameraData.SetFramebuffer(framebuffer);
             Render(cameraData);
             context.ExecuteCommandBuffer(cameraData.CommandBuffer);
         }
@@ -228,7 +229,7 @@ namespace ReGizmo.Core
             if (isActive)
             {
 #if RG_URP
-                Core.URP.ReGizmoURPRenderFeature.OnPassExecute += OnPassExecute;
+                Core.URP.ReGizmoURPRenderFeature.OnPassExecute += OnURPPassExecute;
 #elif RG_HDRP
                 Core.HDRP.ReGizmoHDRPRenderPass.OnPassExecute += OnHDRPPassExecute;
                 Core.HDRP.ReGizmoHDRPRenderPass.OnPassCleanup += OnHDRPPassCleanup;
@@ -237,7 +238,7 @@ namespace ReGizmo.Core
             else
             {
 #if RG_URP
-                Core.URP.ReGizmoURPRenderFeature.OnPassExecute -= OnPassExecute;
+                Core.URP.ReGizmoURPRenderFeature.OnPassExecute -= OnURPPassExecute;
 #elif RG_HDRP
                 Core.HDRP.ReGizmoHDRPRenderPass.OnPassExecute -= OnHDRPPassExecute;
                 Core.HDRP.ReGizmoHDRPRenderPass.OnPassCleanup -= OnHDRPPassCleanup;
@@ -355,7 +356,7 @@ namespace ReGizmo.Core
         public static void Dispose()
         {
 #if RG_URP
-            Core.URP.ReGizmoURPRenderFeature.OnPassExecute -= OnPassExecute;
+            Core.URP.ReGizmoURPRenderFeature.OnPassExecute -= OnURPPassExecute;
 #elif RG_HDRP
             Core.HDRP.ReGizmoHDRPRenderPass.OnPassExecute -= OnHDRPPassExecute;
             Core.HDRP.ReGizmoHDRPRenderPass.OnPassCleanup -= OnHDRPPassCleanup;
