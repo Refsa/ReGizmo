@@ -162,10 +162,9 @@ Shader "Hidden/ReGizmo/Line_Screen"
             #pragma multi_compile_instancing
             #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
 
-            float frag_depth(g2f_line g, out float depth : SV_DEPTH) : SV_TARGET
+            void frag_depth(g2f_line g, out float depth : SV_DEPTH)
             {
                 depth = g.pos.z;
-                return depth;
             }
             ENDCG
         }

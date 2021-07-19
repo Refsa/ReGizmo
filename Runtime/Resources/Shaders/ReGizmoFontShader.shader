@@ -59,13 +59,12 @@
             #pragma fragment frag_depth
             #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
 
-            float frag_depth(font_g2f i, out float depth : SV_DEPTH) : SV_TARGET
+            void frag_depth(font_g2f i, out float depth : SV_DEPTH)
             {
                 float4 col = _frag(i);
                 clip(col.a == 0 ? -1 : 1);
 
                 depth = i.pos.z;
-                return depth;
             }
             ENDCG
         }

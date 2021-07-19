@@ -179,10 +179,9 @@ Shader "Hidden/ReGizmo/PolyLine_Screen" {
             #pragma fragment depth_frag
             #pragma multi_compile_instancing
 
-            float depth_frag(g2f g, out float depth : SV_DEPTH) : SV_TARGET
+            void depth_frag(g2f g, out float depth : SV_DEPTH)
             {
                 depth = g.pos.z;
-                return depth;
             }
             ENDCG
         }

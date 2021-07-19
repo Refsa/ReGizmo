@@ -152,12 +152,11 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
             #pragma instancing_options procedural:setup
             #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
 
-            float depth_frag(g2f i, out float depth : SV_DEPTH) : SV_TARGET
+            void depth_frag(g2f i, out float depth : SV_DEPTH)
             {
                 float4 color = _frag(i);
                 clip(color.a == 0.0 ? -1 : 1);
                 depth = i.pos.z;
-                return depth;
             }
             ENDCG
         }

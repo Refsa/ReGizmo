@@ -113,11 +113,11 @@
             #pragma multi_compile_instancing
             #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
 
-            float depth_frag(g2f i) : SV_TARGET1
+            void depth_frag(g2f i, out float depth : SV_DEPTH)
             {
                 float4 tex_col = tex2D(_SpriteTexture, i.uv);
                 clip(tex_col.a == 0 ? -1 : 1);
-                return i.pos.z;
+                depth = i.pos.z;
             }
             ENDCG
         }
