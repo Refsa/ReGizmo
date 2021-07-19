@@ -16,6 +16,7 @@ namespace ReGizmo
         public RenderTexture RevealageTexture => revealageTexture;
 
         Material blendMaterial;
+        Material blitMaterial;
 
         Camera camera;
 
@@ -24,11 +25,15 @@ namespace ReGizmo
         {
             this.camera = camera;
             Resize();
+
             blendMaterial = ReGizmoHelpers.PrepareMaterial("Hidden/OIT/Blend");
+            blitMaterial = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/CopyColor");
         }
 
         public void Setup(CommandBuffer cmd)
         {
+            cmd.Blit(null, tempTargetTexture, blitMaterial);
+
             cmd.SetRenderTarget(accumulateTexture);
             cmd.ClearRenderTarget(true, true, Color.clear);
 
@@ -43,15 +48,13 @@ namespace ReGizmo
 
         public void Render(CommandBuffer cmd, IReGizmoDrawer drawer,
             CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData,
-            RenderTargetIdentifier cameraTexture, RenderTargetIdentifier depthTexture)
+            RenderTargetIdentifier depthTexture)
         {
             cmd.SetRenderTarget(accumulateTexture, depthTexture);
             drawer.RenderWithPass(cmd, cameraFrustum, uniqueDrawData, 0);
 
             cmd.SetRenderTarget(revealageTexture);
             drawer.RenderWithPass(cmd, cameraFrustum, uniqueDrawData, 2);
-
-            cmd.SetRenderTarget(camera.activeTexture);
         }
 
         public void Blend(CommandBuffer commandBuffer, RenderTargetIdentifier cameraTexture)
@@ -59,8 +62,7 @@ namespace ReGizmo
             blendMaterial.SetTexture("_AccumTex", accumulateTexture);
             blendMaterial.SetTexture("_RevealageTex", revealageTexture);
 
-            commandBuffer.Blit(cameraTexture, tempTargetTexture, blendMaterial);
-            commandBuffer.Blit(tempTargetTexture, cameraTexture);
+            commandBuffer.Blit(tempTargetTexture, cameraTexture, blendMaterial);
         }
 
         void Resize()
@@ -74,14 +76,17 @@ namespace ReGizmo
             accumulateTexture = new RenderTexture(camera.pixelWidth,
                 camera.pixelHeight, 0,
                 RenderTextureFormat.ARGBHalf, RenderTextureReadWrite.Linear);
+            accumulateTexture.name = "AccumulateTexture";
 
             revealageTexture = new RenderTexture(camera.pixelWidth,
                 camera.pixelHeight, 0,
                 RenderTextureFormat.RHalf, RenderTextureReadWrite.Linear);
+            revealageTexture.name = "RevealageTexture";
 
             tempTargetTexture = new RenderTexture(camera.pixelWidth,
                 camera.pixelHeight, 24,
                 RenderTextureFormat.ARGB32, RenderTextureReadWrite.Linear);
+            tempTargetTexture.name = "TempTargetTexture";
         }
 
         public void Dispose()
