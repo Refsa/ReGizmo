@@ -6,14 +6,18 @@
         probably need another heuristic to also account for depth and not just surface normal against view direction
     - @low Persisting draw-calls, where the user can define a time/duration it will be active for
     - @high comments on public facing methods/types
-    - @high culling frustum doesnt scale properly with viewport rect
     - @low flickering when lots of alpha overlap in close proximity
     - @low some materials should be shared between drawers
         - MeshDrawer
+    - @high CullCompute has some sign mismatches
 
 Culling:
     - @high Circle drawer
     - @high Triangle drawer
+    - @high PolyLine drawer
+    - @high culling frustum doesnt scale properly with viewport rect
+    - @high culling AABB on some drawers doesn scale properly
+        mostly an issue with meshes, might need to pre-compute the bounding box
 
 Z-Sort:
     - @high allow drawers to overlay other objects
