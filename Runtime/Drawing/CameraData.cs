@@ -79,9 +79,7 @@ namespace ReGizmo.Drawing
 #endif
 
             frustum.UpdateCameraFrustum();
-
             oit.Setup(commandBuffer);
-            commandBuffer.SetRenderTarget(camera.activeTexture);
 
 #if REGIZMO_DEV
             commandBuffer.BeginSample(profilerKey);
@@ -113,7 +111,6 @@ namespace ReGizmo.Drawing
 
             commandBuffer.SetRenderTarget(BuiltinRenderTextureType.Depth);
             drawer.RenderDepth(commandBuffer, frustum, uniqueDrawData);
-            commandBuffer.SetRenderTarget(camera.activeTexture);
         }
 
         public void Render(IReGizmoDrawer drawer)
@@ -127,12 +124,12 @@ namespace ReGizmo.Drawing
             }
 
             // drawer.Render(commandBuffer, frustum, uniqueDrawData);
-            oit.Render(commandBuffer, drawer, frustum, uniqueDrawData, camera.activeTexture, BuiltinRenderTextureType.Depth);
+            oit.Render(commandBuffer, drawer, frustum, uniqueDrawData, BuiltinRenderTextureType.Depth);
         }
 
         public void PostRender()
-        {
-            oit.Blend(commandBuffer, camera.activeTexture);
+        {   
+            oit.Blend(commandBuffer, camera.targetTexture);
             // commandBuffer.Blit(BuiltinRenderTextureType.Depth, camera.activeTexture);
             // commandBuffer.Blit(oit.AccumulateTexture, camera.activeTexture);
             // commandBuffer.Blit(oit.RevealageTexture, camera.activeTexture);
