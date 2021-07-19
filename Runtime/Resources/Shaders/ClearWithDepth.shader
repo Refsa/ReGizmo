@@ -1,4 +1,4 @@
-Shader "Hidden/ReGizmo/Clear" {
+Shader "Hidden/ReGizmo/ClearWithDepth" {
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
@@ -14,7 +14,9 @@ Shader "Hidden/ReGizmo/Clear" {
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
+
             float4 _ClearColor;
+            float _ClearDepth;
 
             struct appdata_t {
                 float4 vertex : POSITION;
@@ -38,9 +40,11 @@ Shader "Hidden/ReGizmo/Clear" {
                 return o;
             }
 
-            float4 frag (v2f i) : SV_Target
+            float4 frag (v2f i, out float depth : SV_DEPTH) : SV_Target
             {
                 UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
+
+                depth = _ClearDepth;
                 return _ClearColor;
             }
             ENDCG
