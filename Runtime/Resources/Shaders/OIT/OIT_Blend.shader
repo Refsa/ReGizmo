@@ -27,13 +27,13 @@ Shader "Hidden/OIT/Blend" {
             #pragma fragment frag
             
             struct a2v {
-                float4 vertex : POSITION;
+                float4 vertex   : POSITION;
                 float4 texcoord : TEXCOORD0;
             };
             
             struct v2f {
-                float4 pos : SV_POSITION;
-                float2 uv : TEXCOORD0;
+                float4 pos  : SV_POSITION;
+                float2 uv   : TEXCOORD0;
             };
             
             v2f vert(a2v v) {
@@ -44,22 +44,23 @@ Shader "Hidden/OIT/Blend" {
                 return o;
             }
 
-            sampler2D _MainTex;
-            sampler2D _AccumTex;
-            sampler2D _RevealageTex;
+            UNITY_DECLARE_SCREENSPACE_TEXTURE(_MainTex);
+            float4 _MainTex_TexelSize;
+            UNITY_DECLARE_SCREENSPACE_TEXTURE(_AccumTex);
+            UNITY_DECLARE_SCREENSPACE_TEXTURE(_RevealageTex);
 
             float4 frag(v2f i) : SV_Target {
                 float2 uv = i.uv;
+                float2 buv = uv;
 
-                float2 fuv = uv;
                 if (ProjectionFlipped())
                 {
-                    fuv.y = 1 - fuv.y;
+                    buv.y = 1.0 - buv.y;
                 }
 
-                float4 background = tex2D(_MainTex, fuv);
-                float4 accum = tex2D(_AccumTex, uv);
-                float revealage = tex2D(_RevealageTex, uv).r;
+                float4 background = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_MainTex, buv);
+                float4 accum = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_AccumTex, uv);
+                float revealage = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_RevealageTex, uv).r;
 
                 float4 blend = float4(accum.rgb / clamp(accum.a, 1e-4, 5e4), revealage);
                 // return (1.0 - blend.a) * blend + blend.a * background;
@@ -73,5 +74,4 @@ Shader "Hidden/OIT/Blend" {
             ENDCG
         }
     } 
-    FallBack "Transparent/VertexLit"
 }
