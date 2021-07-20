@@ -31,7 +31,8 @@ namespace ReGizmo.Core
         static bool shouldReset;
         static bool isSetup = false;
 
-        public static bool IsSetup => isSetup;
+        internal static bool IsSetup => isSetup;
+        internal static bool IsActive => isActive;
 
 #if !UNITY_EDITOR && REGIZMO_RUNTIME
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]

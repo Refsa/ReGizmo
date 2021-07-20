@@ -136,6 +136,8 @@ namespace ReGizmo.Core.URP
 
         public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
         {
+            if (!Core.ReGizmo.IsActive) return;
+
             renderPass.Setup(renderer.cameraColorTarget);
 
             if (renderingData.cameraData.isSceneViewCamera)
