@@ -159,11 +159,10 @@ namespace ReGizmo.Drawing
         public void PostRender()
         {
             oit.Blend(commandBuffer, framebuffer.ColorTarget);
-            // commandBuffer.Blit(framebuffer.DepthTarget, camera.activeTexture);
-            // commandBuffer.Blit(oit.AccumulateTexture, camera.activeTexture);
-            // commandBuffer.Blit(oit.RevealageTexture, camera.activeTexture);
 
-            commandBuffer.SetRenderTarget(BuiltinRenderTextureType.CameraTarget);
+            // commandBuffer.Blit(framebuffer.DepthTarget, framebuffer.ColorTarget);
+            // commandBuffer.Blit(oit.AccumulateTexture, framebuffer.ColorTarget);
+            // commandBuffer.Blit(oit.RevealageTexture, framebuffer.ColorTarget);
 
 #if REGIZMO_DEV
             commandBuffer.EndSample(profilerKey);

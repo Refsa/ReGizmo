@@ -18,7 +18,6 @@ namespace ReGizmo.Core.URP
 
             DepthCopyPass depthCopyPass;
             public RenderTargetHandle DepthHandle;
-            RenderTargetHandle sceneDepthHandle;
 
             public ReGizmoRenderPass(DepthCopyPass depthCopyPass)
             {
@@ -66,7 +65,7 @@ namespace ReGizmo.Core.URP
 
             public DepthCopyPass()
             {
-                renderPassEvent = RenderPassEvent.AfterRenderingSkybox;
+                renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing - 1;
 
                 depthHandle.Init("Depth");
 
@@ -90,12 +89,8 @@ namespace ReGizmo.Core.URP
 
                 cmd.GetTemporaryRT(depthHandle.id, rtd, FilterMode.Point);
 
-                // cmd.SetRenderTarget(depthHandle.Identifier());
-                // cmd.ClearRenderTarget(true, false, Color.clear);
-                // ShaderUtils.ClearWithDepth(cmd, depthHandle.Identifier(), Color.clear, 0.0f);
-
-                // ConfigureTarget(new RenderTargetIdentifier(depthHandle.Identifier(), 0, CubemapFace.Unknown, -1));
-                // ConfigureClear(ClearFlag.None, Color.black);
+                ConfigureTarget(depthHandle.Identifier());
+                ConfigureClear(ClearFlag.None, Color.black);
             }
 
             public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
@@ -106,7 +101,7 @@ namespace ReGizmo.Core.URP
 
                 depthTarget = renderingData.cameraData.isSceneViewCamera ? depthAttachment : depthTarget;
 
-                cmd.SetGlobalTexture("_CameraDepthAttachment", depthTarget);
+                // cmd.SetGlobalTexture("_CameraDepthAttachment", depthTarget);
                 cmd.Blit(depthTarget, depthHandle.Identifier(), blitDepthMaterial);
 
                 context.ExecuteCommandBuffer(cmd);
@@ -128,7 +123,7 @@ namespace ReGizmo.Core.URP
         public override void Create()
         {
             depthCopyPass = new DepthCopyPass();
-            copyDepthPass = new CopyDepthPass(RenderPassEvent.AfterRenderingSkybox, new Material(Shader.Find("Hidden/Universal Render Pipeline/CopyDepth")));
+            copyDepthPass = new CopyDepthPass(RenderPassEvent.AfterRenderingPostProcessing - 1, new Material(Shader.Find("Hidden/Universal Render Pipeline/CopyDepth")));
             renderPass = new ReGizmoRenderPass(depthCopyPass);
 
             depthHandle.Init("_ReGizmoDepth");

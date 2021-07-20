@@ -17,7 +17,7 @@ Shader "Hidden/OIT/Blend" {
         _RevealageTex ("Revealage", 2D) = "white" {}
     }
     SubShader {
-        ZTest Always Cull Off ZWrite Off Fog { Mode Off }
+        ZTest Always Cull Off ZWrite Off
         
         Pass {
             CGPROGRAM
@@ -45,7 +45,6 @@ Shader "Hidden/OIT/Blend" {
             }
 
             UNITY_DECLARE_SCREENSPACE_TEXTURE(_MainTex);
-            float4 _MainTex_TexelSize;
             UNITY_DECLARE_SCREENSPACE_TEXTURE(_AccumTex);
             UNITY_DECLARE_SCREENSPACE_TEXTURE(_RevealageTex);
 
