@@ -4,7 +4,6 @@ Shader "Hidden/ReGizmo/CopyColor" {
     Properties
     {
         _MainTex ("Texture", any) = "" {}
-        _Color("Multiplicative color", Color) = (1.0, 1.0, 1.0, 1.0)
     }
     SubShader {
         Pass {
@@ -16,8 +15,7 @@ Shader "Hidden/ReGizmo/CopyColor" {
             #include "UnityCG.cginc"
 
             UNITY_DECLARE_SCREENSPACE_TEXTURE(_MainTex);
-            uniform float4 _MainTex_ST;
-            uniform float4 _Color;
+            float4 _MainTex_ST;
 
             struct appdata_t {
                 float4 vertex : POSITION;
@@ -41,7 +39,7 @@ Shader "Hidden/ReGizmo/CopyColor" {
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            float4 frag (v2f i) : SV_Target
             {
                 UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
                 return UNITY_SAMPLE_SCREENSPACE_TEXTURE(_MainTex, i.texcoord);

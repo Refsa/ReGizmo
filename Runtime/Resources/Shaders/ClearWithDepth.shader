@@ -30,6 +30,11 @@ Shader "Hidden/ReGizmo/ClearWithDepth" {
                 UNITY_VERTEX_OUTPUT_STEREO
             };
 
+            struct Output {
+                float4 color : SV_TARGET;
+                float depth  : SV_DEPTH;
+            };
+
             v2f vert (appdata_t v)
             {
                 v2f o;
@@ -40,12 +45,15 @@ Shader "Hidden/ReGizmo/ClearWithDepth" {
                 return o;
             }
 
-            float4 frag (v2f i, out float depth : SV_DEPTH) : SV_Target
+            Output frag (v2f i)
             {
                 UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
+                
+                Output o;
+                o.color = _ClearColor;
+                o.depth = _ClearDepth;
 
-                depth = _ClearDepth;
-                return _ClearColor;
+                return o;
             }
             ENDCG
 

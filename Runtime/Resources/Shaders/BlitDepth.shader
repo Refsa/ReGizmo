@@ -12,8 +12,7 @@ Shader "Hidden/ReGizmo/BlitDepth" {
             #pragma vertex vert
             #pragma fragment frag
 
-            sampler2D _MainTex;
-            sampler2D _CameraDepthTexture;
+            sampler2D _CameraDepthAttachment;
             
             struct a2v {
                 float4 vertex : POSITION;
@@ -33,13 +32,11 @@ Shader "Hidden/ReGizmo/BlitDepth" {
                 return o;
             }
             
-            float4 frag(v2f i, out float depth : SV_DEPTH) : SV_Target {
-                depth = tex2D(_CameraDepthTexture, i.uv);
-                return float4(depth, 0, 0, 1);
+            float frag(v2f i) : SV_DEPTH {
+                return tex2D(_CameraDepthAttachment, i.uv);
             }
             
             ENDCG
         }
     } 
-    FallBack "Transparent/VertexLit"
 }
