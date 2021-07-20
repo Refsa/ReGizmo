@@ -33,8 +33,6 @@ namespace ReGizmo
 
         public void Setup(CommandBuffer cmd, RenderTargetIdentifier colorTarget)
         {
-            cmd.SetRenderTarget(tempTargetTexture, RenderBufferLoadAction.Load, RenderBufferStoreAction.Store);
-            cmd.ClearRenderTarget(true, true, Color.black);
             cmd.Blit(colorTarget, tempTargetTexture, blitMaterial);
 
             cmd.SetRenderTarget(accumulateTexture, RenderBufferLoadAction.Load, RenderBufferStoreAction.Store);
