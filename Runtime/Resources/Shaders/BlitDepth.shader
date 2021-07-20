@@ -1,7 +1,5 @@
 Shader "Hidden/ReGizmo/BlitDepth" {
-    Properties {
-        _MainTex ("Main Tex", 2D) = "white" {}
-    }
+    Properties { }
     SubShader {
         ZTest Always Cull Off ZWrite Off
         
@@ -13,6 +11,8 @@ Shader "Hidden/ReGizmo/BlitDepth" {
             #pragma fragment frag
 
             sampler2D _CameraDepthAttachment;
+            sampler2D _MainTex;
+            sampler2D _CameraDepthTexture;
             
             struct a2v {
                 float4 vertex : POSITION;
@@ -33,7 +33,7 @@ Shader "Hidden/ReGizmo/BlitDepth" {
             }
             
             float frag(v2f i) : SV_DEPTH {
-                return tex2D(_CameraDepthAttachment, i.uv);
+                return tex2D(_CameraDepthTexture, i.uv);
             }
             
             ENDCG

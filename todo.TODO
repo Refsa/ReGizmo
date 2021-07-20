@@ -11,11 +11,8 @@
         - MeshDrawer
     - @high CullCompute has some sign mismatches
 
-LRP:
-    - @high will automatically enabled depth texture
-
-URP:
-    - @high requires that depth texture is enabled in the renderer settings
+OIT: 
+    - @high sprite-shader needs OIT support
 
 Culling:
     - @high Circle drawer
@@ -57,6 +54,7 @@ Fonts:
 Lines:
     - @low Poly lines needs proper miters, mostly a requirements for thicker lines
     - @low flickering issue when many lines are overlapping in close proximity
+    - @high flipped projection(?) issue with Lines in GL
 
 Generator:
     - @low Code Generator is extremely hard-coded atm, so some work here would be nice
@@ -74,6 +72,8 @@ Testing:
 Readme:
     - Add a Known Issues section
     - Add a third-party library section
+    - will automatically enabled depth texture
+    - requires that depth texture is enabled in the renderer settings
 
 Archive:
   ✔ @low Proper Z-Sorting within and between each drawer @done(21-06-28 23:30) @project(Z-Sort)
