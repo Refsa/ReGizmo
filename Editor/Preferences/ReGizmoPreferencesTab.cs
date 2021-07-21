@@ -183,6 +183,8 @@ namespace ReGizmo.Editor.Preferences
 #if REGIZMO_DEV
         static void ChangePipeline(RenderPipelineUtils.Pipeline pipeline)
         {
+            ReGizmoEditor.ClearScriptDefines();
+
             List<System.Func<Request>> requests = new List<System.Func<Request>>();
             pipelineChange = pipeline;
 

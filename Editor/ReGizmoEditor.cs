@@ -179,23 +179,42 @@ namespace ReGizmo.Editor
             UpdateScriptDefines();
         }
 
+        public static void ClearScriptDefines()
+        {
+            SetScriptDefines(old =>
+            {
+                return old
+                    .Replace(RenderPipelineUtils.LegacyKeyword, "")
+                    .Replace(RenderPipelineUtils.URPKeyword, "")
+                    .Replace(RenderPipelineUtils.HDRPKeyword, "")
+                    .Replace(RenderPipelineUtils.SRPKeyword, "");
+            });
+        }
+
         static void UpdateScriptDefines()
         {
-            string defines = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(UnityEditor.BuildTargetGroup.Standalone);
-            if (defines.Contains(currentPipeline.GetDefine()))
+            SetScriptDefines(old =>
             {
-                return;
-            }
+                if (old.Contains(currentPipeline.GetDefine()))
+                {
+                    return old;
+                }
 
-            defines = defines
-                .Replace(RenderPipelineUtils.LegacyKeyword, "")
-                .Replace(RenderPipelineUtils.URPKeyword, "")
-                .Replace(RenderPipelineUtils.HDRPKeyword, "")
-                .Replace(RenderPipelineUtils.SRPKeyword, "");
+                old = old
+                    .Replace(RenderPipelineUtils.LegacyKeyword, "")
+                    .Replace(RenderPipelineUtils.URPKeyword, "")
+                    .Replace(RenderPipelineUtils.HDRPKeyword, "")
+                    .Replace(RenderPipelineUtils.SRPKeyword, "");
 
-            defines += $";{currentPipeline.GetDefine()}";
+                old += $";{currentPipeline.GetDefine()}";
+                return old;
+            });
+        }
 
-            UnityEditor.PlayerSettings.SetScriptingDefineSymbolsForGroup(UnityEditor.BuildTargetGroup.Standalone, defines);
+        static void SetScriptDefines(Func<string, string> predicate)
+        {
+            string defines = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(UnityEditor.BuildTargetGroup.Standalone);
+            UnityEditor.PlayerSettings.SetScriptingDefineSymbolsForGroup(UnityEditor.BuildTargetGroup.Standalone, predicate.Invoke(defines));
         }
 
 #if RG_HDRP
