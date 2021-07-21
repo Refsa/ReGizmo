@@ -6,7 +6,17 @@ using UnityEngine.Rendering;
 
 namespace ReGizmo
 {
-    internal class OIT : System.IDisposable
+    internal interface IOIT : System.IDisposable
+    {
+        void Setup(CommandBuffer commandBuffer, in Framebuffer framebuffer);
+        void Render(CommandBuffer cmd, IReGizmoDrawer drawer,
+            CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData,
+            in Framebuffer framebuffer);
+        void Blend(CommandBuffer commandBuffer, in Framebuffer framebuffer);
+        void FrameCleanup();
+    }
+
+    internal class OIT : IOIT
     {
         RenderTexture accumulateTexture;
         RenderTexture revealageTexture;
@@ -20,7 +30,6 @@ namespace ReGizmo
 
         Camera camera;
 
-
         public OIT(Camera camera)
         {
             this.camera = camera;
@@ -31,42 +40,44 @@ namespace ReGizmo
             blitMaterial = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/CopyColor");
         }
 
-        public void Setup(CommandBuffer cmd, RenderTargetIdentifier colorTarget)
+        public void Setup(CommandBuffer cmd, in Framebuffer framebuffer)
         {
-            cmd.Blit(colorTarget, tempTargetTexture, blitMaterial);
+            if (camera.pixelHeight != accumulateTexture.height || camera.pixelWidth != accumulateTexture.width)
+            {
+                Resize();
+            }
+
+            cmd.Blit(framebuffer.ColorTarget, tempTargetTexture, blitMaterial);
 
             cmd.SetRenderTarget(accumulateTexture, RenderBufferLoadAction.Load, RenderBufferStoreAction.Store);
             cmd.ClearRenderTarget(true, true, Color.clear);
 
             cmd.SetRenderTarget(revealageTexture, RenderBufferLoadAction.Load, RenderBufferStoreAction.Store);
             cmd.ClearRenderTarget(true, true, Color.white);
-
-            if (camera.pixelHeight != accumulateTexture.height || camera.pixelWidth != accumulateTexture.width)
-            {
-                Resize();
-            }
         }
 
         public void Render(CommandBuffer cmd, IReGizmoDrawer drawer,
             CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData,
-            RenderTargetIdentifier depthTexture)
+            in Framebuffer framebuffer)
         {
-            cmd.SetRenderTarget(accumulateTexture, depthTexture);
+            cmd.SetRenderTarget(accumulateTexture, framebuffer.DepthTarget);
             drawer.RenderWithPass(cmd, cameraFrustum, uniqueDrawData, 0);
 
             cmd.SetRenderTarget(revealageTexture);
             drawer.RenderWithPass(cmd, cameraFrustum, uniqueDrawData, 2);
         }
 
-        public void Blend(CommandBuffer commandBuffer, RenderTargetIdentifier colorTarget)
+        public void Blend(CommandBuffer commandBuffer, in Framebuffer framebuffer)
         {
             blendMaterial.SetTexture("_AccumTex", accumulateTexture);
             blendMaterial.SetTexture("_RevealageTex", revealageTexture);
 
-            commandBuffer.Blit(tempTargetTexture, colorTarget, blendMaterial);
+            commandBuffer.Blit(tempTargetTexture, framebuffer.ColorTarget, blendMaterial);
         }
 
-        void Resize()
+        public void FrameCleanup() { }
+
+        protected void Resize()
         {
             Debug.Log("OIT::Resize");
 
