@@ -188,15 +188,18 @@ namespace ReGizmo.Core
             context.ExecuteCommandBuffer(cameraData.CommandBuffer);
         }
 #elif RG_HDRP
-        static void OnHDRPPassExecute(CommandBuffer commandBuffer, Camera camera)
+        static void OnHDRPPassExecute(in ScriptableRenderContext context, CommandBuffer cmd, Camera camera, in Framebuffer framebuffer)
         {
             if (!activeCameras.TryGetValue(camera, out var cameraData))
             {
-                return; 
+                return;
             }
 
-            cameraData.CommandBufferOverride(commandBuffer);
-            Render(cameraData);
+            cameraData.CommandBufferOverride(cmd);
+            cameraData.SetFramebuffer(framebuffer);
+            Render(cameraData, false);
+            cameraData.RemoveCommandBuffer();
+
 #if UNITY_EDITOR
             OnFrameCleanup();
 #endif
@@ -204,9 +207,13 @@ namespace ReGizmo.Core
 
         static void OnHDRPPassCleanup()
         {
-            foreach (var kvp in activeCameras)
+            if (activeCameras != null)
             {
-                kvp.Value.RemoveCommandBuffer();
+                foreach (var kvp in activeCameras)
+                {
+                    kvp.Value.RemoveCommandBuffer();
+                    kvp.Value.Dispose();
+                }
             }
         }
 #endif
@@ -292,6 +299,7 @@ namespace ReGizmo.Core
             foreach (var drawer in drawers)
             {
                 drawer.PushSharedData();
+                drawer.Clear();
             }
 
 #if RG_LEGACY
@@ -318,17 +326,26 @@ namespace ReGizmo.Core
 
         static void OnFrameCleanup()
         {
-            if (drawers == null) return;
-
-            foreach (var drawer in drawers)
+            if (drawers != null)
             {
-                drawer.Clear();
+                foreach (var drawer in drawers)
+                {
+                    drawer.Clear();
+                }
+            }
+
+            if (activeCameras != null)
+            {
+                foreach (var cameraData in activeCameras.Values)
+                {
+                    cameraData.FrameCleanup();
+                }
             }
         }
 
-        static void Render(CameraData cameraData)
+        static void Render(CameraData cameraData, bool clearCommandBuffer = true)
         {
-            if (!cameraData.FrameSetup())
+            if (!cameraData.FrameSetup(clearCommandBuffer))
             {
                 return;
             }

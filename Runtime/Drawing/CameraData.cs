@@ -13,9 +13,10 @@ namespace ReGizmo.Drawing
         Camera camera;
         CameraEvent cameraEvent;
 
-        OIT oit;
+        IOIT oit;
         CameraFrustum frustum;
         CommandBuffer commandBuffer;
+        Framebuffer framebuffer;
         Dictionary<IReGizmoDrawer, UniqueDrawData> uniqueDrawDatas;
 
         bool isActive;
@@ -32,7 +33,12 @@ namespace ReGizmo.Drawing
 
             frustum = new CameraFrustum(camera);
             uniqueDrawDatas = new Dictionary<IReGizmoDrawer, UniqueDrawData>();
+
+            #if RG_HDRP
+            oit = new ReGizmo.HDRP.OITHDRP(camera);
+            #else
             oit = new OIT(camera);
+            #endif
 
             commandBuffer = new CommandBuffer();
             commandBuffer.name = $"ReGizmo Draw Buffer: {camera.name}";
@@ -93,22 +99,22 @@ namespace ReGizmo.Drawing
             }
         }
 
-        Framebuffer framebuffer;
-        public void SetFramebuffer(Framebuffer framebuffer)
+        public void SetFramebuffer(in Framebuffer framebuffer)
         {
             this.framebuffer = framebuffer;
         }
 
-        public bool FrameSetup()
+        public bool FrameSetup(bool clearCommandBuffer = true)
         {
             if (camera == null) return false;
 
-#if !RG_HDRP
-            commandBuffer.Clear();
-#endif
+            if (clearCommandBuffer)
+            {
+                commandBuffer.Clear();
+            }
 
             frustum.UpdateCameraFrustum();
-            oit.Setup(commandBuffer, framebuffer.ColorTarget);
+            oit.Setup(commandBuffer, framebuffer);
 
 #if REGIZMO_DEV
             commandBuffer.BeginSample(profilerKey);
@@ -153,12 +159,12 @@ namespace ReGizmo.Drawing
             }
 
             // drawer.Render(commandBuffer, frustum, uniqueDrawData);
-            oit.Render(commandBuffer, drawer, frustum, uniqueDrawData, framebuffer.DepthTarget);
+            oit.Render(commandBuffer, drawer, frustum, uniqueDrawData, framebuffer);
         }
 
         public void PostRender()
         {
-            oit.Blend(commandBuffer, framebuffer.ColorTarget);
+            oit.Blend(commandBuffer, framebuffer);
 
             // commandBuffer.Blit(framebuffer.DepthTarget, framebuffer.ColorTarget);
             // commandBuffer.Blit(oit.AccumulateTexture, framebuffer.ColorTarget);
@@ -167,6 +173,15 @@ namespace ReGizmo.Drawing
 #if REGIZMO_DEV
             commandBuffer.EndSample(profilerKey);
 #endif
+        }
+
+        public void FrameCleanup()
+        {
+            oit.FrameCleanup();
+
+            #if RG_HDRP
+            framebuffer = new Framebuffer();
+            #endif
         }
 
         public void Dispose()
