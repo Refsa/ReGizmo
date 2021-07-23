@@ -22,6 +22,7 @@ Shader "Hidden/OIT/Blend" {
         Pass {
             CGPROGRAM
             #include "../Utils/ReGizmoShaderUtils.cginc"
+            #include "OIT_Blend_Shared.cginc"
             
             #pragma vertex vert
             #pragma fragment frag
@@ -61,13 +62,7 @@ Shader "Hidden/OIT/Blend" {
                 float4 accum = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_AccumTex, uv);
                 float revealage = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_RevealageTex, uv).r;
 
-                float4 blend = float4(accum.rgb / clamp(accum.a, 1e-4, 5e4), revealage);
-                // return (1.0 - blend.a) * blend + blend.a * background;
-
-                blend = saturate(blend);
-                if (length(blend.rgb) == 0.0) return background;
-                float4 col = (1.0 - blend.a) * blend + blend.a * background;
-                return col;
+                return oit_blend(background, accum, revealage);
             }
             
             ENDCG
