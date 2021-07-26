@@ -51,11 +51,9 @@ namespace ReGizmo.HDRP
             commandBuffer.SetGlobalTexture("_InputTexture", framebuffer.ColorTarget);
             commandBuffer.Blit(framebuffer.ColorTarget, tempTargetTexture, blitMaterial, 0);
 
-            commandBuffer.SetRenderTarget(accumulateTexture, framebuffer.DepthTarget);
             commandBuffer.SetGlobalColor("_ClearColor", Color.clear);
             commandBuffer.Blit(null, accumulateTexture, clearMaterial);
 
-            commandBuffer.SetRenderTarget(revealageTexture);
             commandBuffer.SetGlobalColor("_ClearColor", Color.white);
             commandBuffer.Blit(null, revealageTexture, clearMaterial);
         }
