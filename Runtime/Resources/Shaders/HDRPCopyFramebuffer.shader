@@ -9,7 +9,8 @@ Shader "Hidden/ReGizmo/CopyFramebuffer"
         #include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/RenderPass/CustomPass/CustomPassCommon.hlsl"
 
         TEXTURE2D_X(_InputTexture);
-        TEXTURE2D(_DepthTexture);
+        TEXTURE2D_FLOAT(_DepthTexture);
+        SAMPLER(sampler_DepthTexture);
 
         struct HVaryings
         {
@@ -42,8 +43,6 @@ Shader "Hidden/ReGizmo/CopyFramebuffer"
             #pragma vertex HVert
             #pragma fragment color_frag
 
-            float _Kek;
-
             float4 color_frag(HVaryings input) : SV_TARGET
             {
                 UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
@@ -53,12 +52,7 @@ Shader "Hidden/ReGizmo/CopyFramebuffer"
 
                 float2 uv = posInput.positionNDC.xy * _RTHandleScale.xy;
                 float3 inColor = SAMPLE_TEXTURE2D_X_LOD(_InputTexture, s_linear_clamp_sampler, uv, 0);
-
-                if (_Kek == 1.0)
-                {
-                    inColor = 1 - inColor;
-                }
-
+ 
                 return float4(inColor, 1.0);
             }
             ENDHLSL
@@ -77,15 +71,29 @@ Shader "Hidden/ReGizmo/CopyFramebuffer"
             #pragma vertex HVert
             #pragma fragment depth_frag
 
-            float depth_frag(HVaryings input) : SV_DEPTH
+            struct Output
+            {
+                float4 color: SV_TARGET;
+                float depth : SV_DEPTH;
+            };
+
+            Output depth_frag(HVaryings input)
             {
                 UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 
-                // float depth = LoadCameraDepth(input.positionCS.xy);
-                // return depth;
+                Output o;
+                // o.depth = 0.5;
+                // o.color = float4(o.depth, 0, 0, 1);
+                // return o;
 
-                uint2 positionSS = input.texcoord * _ScreenSize.xy;
-                return LoadCameraDepth(positionSS);
+                float2 uv = input.texcoord; 
+                o.depth = SAMPLE_DEPTH_TEXTURE(_DepthTexture, sampler_DepthTexture, uv);
+                o.color = float4(o.depth, 0, 0, 1);
+                return o;
+
+                // uint2 positionSS = input.texcoord * _ScreenSize.xy;
+                // depth = LoadCameraDepth(positionSS);
+                // return depth;
             }
             ENDHLSL
         }
