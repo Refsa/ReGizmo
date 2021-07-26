@@ -1,11 +1,11 @@
 Shader "Hidden/ReGizmo/PolyLine_Screen" {
-	Properties { }
-	SubShader {
-		Tags {
+    Properties { }
+    SubShader {
+        Tags {
             "RenderType" = "Overlay"
             "Queue" = "Overlay"
         }
-    
+        
         CGINCLUDE
         #include "UnityCG.cginc"
         #include "Utils/ReGizmoShaderUtils.cginc"
@@ -145,41 +145,65 @@ Shader "Hidden/ReGizmo/PolyLine_Screen" {
 
             return col;
         }
-
-        float4 frag(g2f g) : SV_Target
-        {   
-            return _frag(g);
-        }
         ENDCG
 
-		Pass {
-            Blend SrcAlpha OneMinusSrcAlpha
+        Pass 
+        {
+            Name "Render"
+            Blend One One
             ZWrite Off
             ZTest [_ZTest]
 
-			CGPROGRAM
-			#pragma vertex vert
+            CGPROGRAM
+            #pragma vertex vert
             #pragma geometry geom
-			#pragma fragment frag
+            #pragma fragment frag
             #pragma multi_compile_instancing
-            ENDCG
-		}
 
-        Pass {
+            float4 frag(g2f g) : SV_Target
+            {   
+                return _frag(g);
+            }
+            ENDCG
+        }
+
+        Pass 
+        {
+            Name "Depth"
             ZWrite On
             ZTest LEqual
 
-			CGPROGRAM
-			#pragma vertex vert
+            CGPROGRAM
+            #pragma vertex vert
             #pragma geometry geom
-			#pragma fragment depth_frag
+            #pragma fragment depth_frag
             #pragma multi_compile_instancing
 
-            float depth_frag(g2f g) : SV_TARGET1
+            void depth_frag(g2f g, out float depth : SV_DEPTH)
             {
-                return g.pos.z;
+                depth = g.pos.z;
             }
             ENDCG
-		}
-	}
+        }
+
+        Pass
+        {
+            Name "OIT_Revlealage"
+            ZWrite Off
+            Blend Zero OneMinusSrcAlpha
+
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma geometry geom
+            #pragma fragment revealage_frag
+            #pragma multi_compile_instancing
+
+            float4 revealage_frag(g2f g) : SV_TARGET
+            {
+                float4 col = _frag(g);
+                return col.aaaa;
+            }
+            ENDCG
+        }
+    }
 }

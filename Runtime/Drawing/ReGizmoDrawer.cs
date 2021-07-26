@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using ReGizmo.Core;
@@ -16,6 +17,8 @@ namespace ReGizmo.Drawing
         void PreRender(CommandBuffer commandBuffer, CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData);
         void RenderDepth(CommandBuffer commandBuffer, CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData);
         void Render(CommandBuffer commandBuffer, CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData);
+        void RenderWithMaterial(CommandBuffer commandBuffer, CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData, Material material);
+        void RenderWithPass(CommandBuffer commandBuffer, CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData, int pass);
         uint CurrentDrawCount();
         void SetDepthMode(DepthMode depthMode);
     }
@@ -98,7 +101,7 @@ namespace ReGizmo.Drawing
             if (currentDrawCount == 0) return;
 
             Profiler.BeginSample("ReGizmoDrawer::RenderDepth");
-            RenderInternal(commandBuffer, uniqueDrawData, true);
+            RenderWithPassInternal(commandBuffer, uniqueDrawData, 1);
             Profiler.EndSample();
         }
 
@@ -108,6 +111,22 @@ namespace ReGizmo.Drawing
 
             Profiler.BeginSample("ReGizmoDrawer::Render");
             RenderInternal(commandBuffer, uniqueDrawData);
+            Profiler.EndSample();
+        }
+
+        public void RenderWithMaterial(CommandBuffer commandBuffer, CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData, Material material)
+        {
+            if (currentDrawCount == 0) return;
+
+            Profiler.BeginSample("ReGizmoDraw::RenderWithMaterial");
+            RenderWithMaterialInternal(commandBuffer, uniqueDrawData, material);
+            Profiler.EndSample();
+        }
+
+        public void RenderWithPass(CommandBuffer commandBuffer, CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData, int pass)
+        {
+            Profiler.BeginSample("ReGizmoDrawer::Render");
+            RenderWithPassInternal(commandBuffer, uniqueDrawData, pass);
             Profiler.EndSample();
         }
 
@@ -138,6 +157,8 @@ namespace ReGizmo.Drawing
         }
 
         protected abstract void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData, bool depth = false);
+        protected virtual void RenderWithPassInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData, int pass) { }
+        protected virtual void RenderWithMaterialInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData, Material material) { }
         protected virtual void SetMaterialPropertyBlockData(MaterialPropertyBlock materialPropertyBlock) { }
         protected virtual void SetCullingData(CommandBuffer cmd) { }
 

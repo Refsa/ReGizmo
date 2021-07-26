@@ -24,18 +24,14 @@
                 float opacity = sample_msdf(i.pos, i.uv, i.scale);
             #endif
 
-            return float4(i.color, opacity);
-        }
-
-        float4 frag(font_g2f i) : SV_Target
-        {
-            return _frag(i);
+            return float4(i.color, saturate(opacity));
         }
         ENDCG
 
         Pass
         {
-            Blend SrcAlpha OneMinusSrcAlpha
+            Name "Render"
+            Blend One One
             ZTest [_ZTest]
             ZWrite Off
 
@@ -45,11 +41,19 @@
             #pragma fragment frag
             #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
             #pragma multi_compile _ SDF_SS
+
+            float4 frag(font_g2f i) : SV_Target
+            {
+                float4 col = _frag(i);
+                clip(col.a == 0 ? -1 : 1);
+                return col;
+            }
             ENDCG
         }
 
         Pass
         {
+            Name "Depth"
             ZTest LEqual
             ZWrite On
 
@@ -60,11 +64,34 @@
             #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
             #pragma multi_compile _ SDF_SS
 
-            float depth_frag(font_g2f i) : SV_TARGET1
+            void depth_frag(font_g2f i, out float depth : SV_DEPTH)
             {
                 float4 col = _frag(i);
                 clip(col.a == 0 ? -1 : 1);
-                return i.pos.z;
+
+                depth = i.pos.z;
+            }
+            ENDCG
+        }
+
+        Pass
+        {
+            Name "OIT_Revealage"
+            ZWrite Off
+            Blend Zero OneMinusSrcAlpha
+
+            CGPROGRAM
+            #pragma vertex font_vert
+            #pragma geometry font_geom
+            #pragma fragment revealage_frag
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+            #pragma multi_compile _ SDF_SS
+
+            float4 revealage_frag(font_g2f i) : SV_TARGET
+            {
+                float4 col = _frag(i);
+                clip(col.a == 0 ? -1 : 1);
+                return col.aaaa;
             }
             ENDCG
         }

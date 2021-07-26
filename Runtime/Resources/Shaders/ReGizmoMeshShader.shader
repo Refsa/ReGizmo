@@ -51,20 +51,13 @@ Shader "Hidden/ReGizmo/Mesh"
 
             return f;
         }
-        
-        float4 frag(v2f f) : SV_Target
-        {
-            float4 col = f.col;
-            float3 shade = lerp(col.rgb, 0, _Shaded);
-            col.rgb = saturate(lerp(shade, col.rgb, f.strength));
-
-            return col;
-        }
         ENDCG
 
         Pass
         {
-            Blend SrcAlpha OneMinusSrcAlpha
+            Name "Render"
+
+            Blend One One
             ZTest [_ZTest]
             ZWrite Off
             Cull Back
@@ -75,11 +68,22 @@ Shader "Hidden/ReGizmo/Mesh"
             #pragma multi_compile_instancing
             #pragma instancing_options procedural:setup
             #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+
+            float4 frag(v2f f) : SV_Target
+            {
+                float4 col = f.col;
+                float3 shade = lerp(col.rgb, 0, _Shaded);
+                col.rgb = saturate(lerp(shade, col.rgb, f.strength));
+
+                return col;// * wb_oit(f.pos.z, col.a);
+            }
             ENDCG
         }
 
         Pass
         {
+            Name "Depth"
+
             ZTest LEqual
             ZWrite On
             Cull Back
@@ -94,7 +98,7 @@ Shader "Hidden/ReGizmo/Mesh"
             struct v2f_depth
             {
                 float4 pos: SV_POSITION;
-                float alpha: TEXCOORD0;
+                float depth: TEXCOORD2;
             };
 
             v2f_depth depth_vert(vertex i, uint instanceID: SV_INSTANCEID)
@@ -105,16 +109,37 @@ Shader "Hidden/ReGizmo/Mesh"
                     MeshProperties prop = _Properties[instanceID]; 
                     float4 cloc = TRS(prop.Position, prop.Rotation, prop.Scale, i.pos);
                     o.pos = mul(UNITY_MATRIX_VP, cloc);
-                    o.alpha = prop.Color.a;
+                    o.depth = compute_depth(cloc);
                 #endif
 
                 return o;
             }
 
-            float depth_frag(v2f_depth i) : SV_TARGET1
+            void depth_frag(v2f_depth i, out float depth : SV_DEPTH)
             {
-                return i.pos.z;
+                depth = i.pos.z;
             }
+            ENDCG
+        }
+
+        Pass
+        {
+            Name "OIT_Revealage"
+            ZWrite Off
+            Blend Zero OneMinusSrcAlpha
+
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment revealage_frag
+            #pragma multi_compile_instancing
+            #pragma instancing_options procedural:setup
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+
+            float4 revealage_frag(v2f i) : SV_TARGET
+            {
+                return i.col.aaaa;
+            }
+
             ENDCG
         }
     }

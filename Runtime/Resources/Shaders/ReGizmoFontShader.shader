@@ -22,19 +22,12 @@
             float4 col = float4(i.color, smoothstep(0, 1, op));
             return col;
         }
-        
-        float4 frag(font_g2f i) : SV_Target
-        {
-            float4 col = _frag(i);
-            clip(col.a == 0 ? -1 : 1);
-
-            return col;
-        }
         ENDCG
 
         Pass
         {
-            Blend SrcAlpha OneMinusSrcAlpha
+            Name "Render"
+            Blend One One
             ZTest [_ZTest]
             ZWrite Off
 
@@ -43,26 +36,55 @@
             #pragma geometry font_geom
             #pragma fragment frag
             #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+
+            float4 frag(font_g2f i) : SV_Target
+            {
+                float4 col = _frag(i);
+                clip(col.a == 0 ? -1 : 1);
+
+                return col;
+            }
             ENDCG
         }
 
         Pass
         {
+            Name "Depth"
             ZTest LEqual
             ZWrite On
 
             CGPROGRAM
             #pragma vertex font_vert
             #pragma geometry font_geom
-            #pragma fragment frag
+            #pragma fragment frag_depth
             #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
 
-            float frag_depth(font_g2f i) : SV_TARGET1
+            void frag_depth(font_g2f i, out float depth : SV_DEPTH)
             {
                 float4 col = _frag(i);
                 clip(col.a == 0 ? -1 : 1);
 
-                return i.pos.z;
+                depth = i.pos.z;
+            }
+            ENDCG
+        }
+
+        Pass
+        {
+            Name "OIT_Revealage"
+            Blend Zero OneMinusSrcAlpha
+            ZWrite Off
+
+            CGPROGRAM
+            #pragma vertex font_vert
+            #pragma geometry font_geom
+            #pragma fragment revealage_frag
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+
+            float4 revealage_frag(font_g2f i) : SV_TARGET
+            {
+                float4 col = _frag(i);
+                return col.aaaa;
             }
             ENDCG
         }

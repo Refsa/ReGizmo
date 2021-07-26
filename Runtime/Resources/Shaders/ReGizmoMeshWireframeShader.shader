@@ -36,9 +36,9 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
             float dir    : TEXCOORD2;
         };
 
-    #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
-        StructuredBuffer<MeshProperties> _Properties;
-    #endif
+        #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
+            StructuredBuffer<MeshProperties> _Properties;
+        #endif
 
         void setup()
         {
@@ -48,12 +48,12 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
         {
             v2g f;
 
-        #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
-            MeshProperties prop = _Properties[instanceID];
-            float4 worldPos = TRS(prop.Position, prop.Rotation, prop.Scale, v.pos);
-        #else
-            float4 worldPos = mul(unity_ObjectToWorld, v.pos);
-        #endif
+            #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
+                MeshProperties prop = _Properties[instanceID];
+                float4 worldPos = TRS(prop.Position, prop.Rotation, prop.Scale, v.pos);
+            #else
+                float4 worldPos = mul(unity_ObjectToWorld, v.pos);
+            #endif
 
             f.pos = UnityObjectToClipPos(worldPos);
             f.dir = dot(WorldSpaceViewDir(worldPos), v.normal);
@@ -75,11 +75,11 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
 
             float area = abs(edge1.x * edge2.y - edge1.y * edge2.x);
 
-        #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
-            float4 color = _Properties[i[0].instanceID].Color;
-        #else
-            float4 color = float4(1, 0, 1, 1);
-        #endif
+            #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
+                float4 color = _Properties[i[0].instanceID].Color;
+            #else
+                float4 color = float4(1, 0, 1, 1);
+            #endif
 
             g2f o;
             o.color = color;
@@ -104,24 +104,19 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
         {
             float color_scale = i.dir < -0.5 ? 0.33 : 1.0;
             float d = min(i.dist[0], min(i.dist[1], i.dist[2]));
-            float I = exp2(-0.5 * d * d * d * d);
+            float I = exp2(-0.75 * d * d * d * d);
 
             float4 fillColor = float4(i.color.rgb, 0);
             float4 wireColor = float4(i.color.rgb, 1);
 
             return lerp(fillColor, wireColor * color_scale, I);
         }
-
-        float4 frag(g2f i) : SV_Target
-        {
-            float4 color = _frag(i);
-            return color;
-        }
         ENDCG
 
         Pass
         {
-            Blend SrcAlpha OneMinusSrcAlpha
+            Name "Render"
+            Blend One One
             ZTest [_ZTest]
             ZWrite Off
             Cull Off
@@ -133,11 +128,18 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
             #pragma multi_compile_instancing
             #pragma instancing_options procedural:setup
             #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+
+            float4 frag(g2f i) : SV_Target
+            {
+                float4 color = _frag(i);
+                return color;
+            }
             ENDCG
         }
 
         Pass
         {
+            Name "Depth"
             ZTest LEqual
             ZWrite On
             Cull Off
@@ -150,11 +152,33 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
             #pragma instancing_options procedural:setup
             #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
 
-            float depth_frag(g2f i) : SV_TARGET1
+            void depth_frag(g2f i, out float depth : SV_DEPTH)
             {
                 float4 color = _frag(i);
-                clip(color.a <= 0.01 ? -1 : 1);
-                return i.pos.z;
+                clip(color.a == 0.0 ? -1 : 1);
+                depth = i.pos.z;
+            }
+            ENDCG
+        }
+
+        Pass
+        {
+            Name "OIT_Revealage"
+            Blend Zero OneMinusSrcAlpha
+            Cull Off
+
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma geometry geom
+            #pragma fragment revealage_frag
+            #pragma multi_compile_instancing
+            #pragma instancing_options procedural:setup
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+
+            float4 revealage_frag(g2f i) : SV_TARGET
+            {
+                float4 color = _frag(i);
+                return color.aaaa;
             }
             ENDCG
         }

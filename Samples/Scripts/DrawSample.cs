@@ -290,7 +290,7 @@ namespace ReGizmo.Samples
             {
                 for (int i = 0; i < customIcons.Length; i++)
                 {
-                    ReDraw.Icon(customIcons[i], Vector3.left * 5 + Vector3.up * 2 * i, Color.black, Size.Pixels(32f));
+                    ReDraw.Icon(customIcons[i], Vector3.left * 5 + Vector3.up * 2 * i, Color.white, Size.Pixels(32f));
                 }
             }
 
@@ -298,10 +298,10 @@ namespace ReGizmo.Samples
             {
                 using (new TransformScope(transform))
                 {
-                    ReDraw.Sphere(Color.cyan);
-                    ReDraw.Sphere(Vector3.back * 1, Color.cyan.WithAlpha(0.8f));
-                    ReDraw.Sphere(Vector3.back * 2, Color.cyan.WithAlpha(0.6f));
-                    ReDraw.Sphere(Vector3.back * 3, Color.cyan.WithAlpha(0.4f));
+                    ReDraw.Sphere(Color.cyan.WithAlpha(0.4f));
+                    ReDraw.Sphere(Vector3.back * 1, Color.cyan.WithAlpha(0.3f));
+                    ReDraw.Sphere(Vector3.back * 2, Color.cyan.WithAlpha(0.2f));
+                    ReDraw.Sphere(Vector3.back * 3, Color.cyan.WithAlpha(0.1f));
                 }
             }
 

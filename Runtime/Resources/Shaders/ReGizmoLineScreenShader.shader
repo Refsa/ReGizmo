@@ -39,10 +39,10 @@ Shader "Hidden/ReGizmo/Line_Screen"
         void geom_line(point v2g_line i[1], inout TriangleStream<g2f_line> triangleStream)
         {
             LineProperties prop = _Properties[i[0].vertexID];
-        
+            
             float4 p1 = UnityObjectToClipPos(float4(prop.Position1, 1.0));
             float4 p2 = UnityObjectToClipPos(float4(prop.Position2, 1.0));
-        
+            
             // Sort by point "closest" to screen-space
             if (p1.w > p2.w)
             {
@@ -57,39 +57,39 @@ Shader "Hidden/ReGizmo/Line_Screen"
                 float ratio = (_ProjectionParams.y - p1.w) / (p2.w - p1.w);
                 p1 = lerp(p1, p2, ratio);
             }
-        
+            
             float w = ceil(prop.Width + PixelSize);
-        
+            
             float2 a = p1.xy / p1.w;
             float2 b = p2.xy / p2.w;
             float2 c1 = normalize(float2(a.y - b.y, b.x - a.x)) / _ScreenParams.xy * w;
             float2 c2 = normalize(float2(a.y - b.y, b.x - a.x)) / _ScreenParams.xy * w;
-        
+            
             g2f_line g0 = (g2f_line)0;
             g2f_line g1 = (g2f_line)0;
             g2f_line g2 = (g2f_line)0;
             g2f_line g3 = (g2f_line)0;
-        
+            
             g0.pos = float4(p1.xy + c1 * p1.w, p1.zw);
             g1.pos = float4(p1.xy - c1 * p1.w, p1.zw);
             g2.pos = float4(p2.xy + c2 * p2.w, p2.zw);
             g3.pos = float4(p2.xy - c2 * p2.w, p2.zw);
-        
+            
             g0.uv = float2(0, 0);
             g1.uv = float2(1, 0);
             g2.uv = float2(0, 1);
             g3.uv = float2(1, 1);
-        
+            
             g0.color = prop.Color;
             g1.color = prop.Color;
             g2.color = prop.Color;
             g3.color = prop.Color;
-        
+            
             g0.width = w;
             g1.width = w;
             g2.width = w;
             g3.width = w;
-        
+            
             if (ProjectionFlipped())
             {
                 triangleStream.Append(g1);
@@ -110,30 +110,26 @@ Shader "Hidden/ReGizmo/Line_Screen"
         float4 _frag_line(g2f_line g)
         {
             float4 col = float4(g.color, 0.0);
-        
+            
             // TODO: Unoptimal since we can avoid this distance check, but works for now
             const float2 center_uv = float2(0.5, g.uv.y);
             const float dist = distance(g.uv, center_uv) * 2;
-        
+            
             static const float width_factor = 0.4;
             static const float sharpness = 2.7;
             static const float smoothing = 3.5;
-        
+            
             float x = pow(dist, g.width * width_factor);
             col.a = exp2(-smoothing * pow(x, sharpness));
-        
+            
             return col;
-        }
-        
-        float4 frag_line(g2f_line g) : SV_Target
-        {
-            return _frag_line(g);
         }
         ENDCG
 
         Pass
         {
-            Blend SrcAlpha OneMinusSrcAlpha
+            Name "Render"
+            Blend One One
             ZWrite Off
             ZTest [_ZTest]
 
@@ -143,12 +139,19 @@ Shader "Hidden/ReGizmo/Line_Screen"
             #pragma fragment frag_line
             #pragma multi_compile_instancing
             #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+
+            float4 frag_line(g2f_line g) : SV_Target
+            {
+                float4 col = _frag_line(g);
+                // col *= wb_oit(g.pos.z, col.a);
+                return col;
+            }
             ENDCG
         }
 
         Pass
         {
-            Blend SrcAlpha OneMinusSrcAlpha
+            Name "Depth"
             ZWrite On
             ZTest LEqual
 
@@ -159,9 +162,31 @@ Shader "Hidden/ReGizmo/Line_Screen"
             #pragma multi_compile_instancing
             #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
 
-            float frag_depth(g2f_line g) : SV_TARGET1
+            void frag_depth(g2f_line g, out float depth : SV_DEPTH)
             {
-                return g.pos.z;
+                depth = g.pos.z;
+            }
+            ENDCG
+        }
+
+        Pass
+        {
+            Name "OIT_Revealage"
+            ZWrite Off
+            ZTest LEqual
+            Blend Zero OneMinusSrcAlpha
+
+            CGPROGRAM
+            #pragma vertex vert_line
+            #pragma geometry geom_line
+            #pragma fragment frag_revealage
+            #pragma multi_compile_instancing
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+
+            float4 frag_revealage(g2f_line i) : SV_TARGET
+            {
+                float4 col = _frag_line(i);
+                return col.a;
             }
             ENDCG
         }

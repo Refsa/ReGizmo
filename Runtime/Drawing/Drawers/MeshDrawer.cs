@@ -37,7 +37,6 @@ namespace ReGizmo.Drawing
             {
                 indexCount = mesh.GetIndexCount(0);
             }
-
             uniqueDrawData.SetVertexCount(indexCount);
 
             if (depth)
@@ -56,6 +55,37 @@ namespace ReGizmo.Drawing
                     uniqueDrawData.MaterialPropertyBlock
                 );
             }
+        }
+
+        protected override void RenderWithPassInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData, int pass)
+        {
+            if (indexCount == 0)
+            {
+                indexCount = mesh.GetIndexCount(0);
+            }
+            uniqueDrawData.SetVertexCount(indexCount);
+
+            cmd.DrawMeshInstancedIndirect(
+                mesh, 0, material, pass,
+                uniqueDrawData.ArgsBuffer, 0,
+                uniqueDrawData.MaterialPropertyBlock
+            );
+        }
+
+        protected override void RenderWithMaterialInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData, Material material)
+        {
+            if (indexCount == 0)
+            {
+                indexCount = mesh.GetIndexCount(0);
+            }
+
+            uniqueDrawData.SetVertexCount(indexCount);
+
+            cmd.DrawMeshInstancedIndirect(
+                mesh, 0, material, 0,
+                uniqueDrawData.ArgsBuffer, 0,
+                uniqueDrawData.MaterialPropertyBlock
+            );
         }
 
         protected override void SetMaterialPropertyBlockData(MaterialPropertyBlock materialPropertyBlock)

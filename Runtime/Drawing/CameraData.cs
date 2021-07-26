@@ -8,15 +8,18 @@ namespace ReGizmo.Drawing
 {
     internal class CameraData : System.IDisposable
     {
+        const int DepthTextureID = 999;
+
         Camera camera;
         CameraEvent cameraEvent;
 
+        IOIT oit;
         CameraFrustum frustum;
         CommandBuffer commandBuffer;
+        Framebuffer framebuffer;
         Dictionary<IReGizmoDrawer, UniqueDrawData> uniqueDrawDatas;
 
         bool isActive;
-
         string profilerKey;
 
         public string ProfilerKey => profilerKey;
@@ -31,6 +34,12 @@ namespace ReGizmo.Drawing
             frustum = new CameraFrustum(camera);
             uniqueDrawDatas = new Dictionary<IReGizmoDrawer, UniqueDrawData>();
 
+            #if RG_HDRP
+            oit = new ReGizmo.HDRP.OITHDRP(camera);
+            #else
+            oit = new OIT(camera);
+            #endif
+
             commandBuffer = new CommandBuffer();
             commandBuffer.name = $"ReGizmo Draw Buffer: {camera.name}";
 
@@ -38,7 +47,14 @@ namespace ReGizmo.Drawing
             profilerKey = $"ReGizmo Camera: {camera.name}";
 
 #if RG_LEGACY
-            camera.AddCommandBuffer(cameraEvent, commandBuffer);
+            camera.depthTextureMode |= DepthTextureMode.Depth;
+
+            framebuffer = new Framebuffer
+            {
+                ColorTarget = BuiltinRenderTextureType.CameraTarget,
+                DepthTarget = BuiltinRenderTextureType.Depth,
+            };
+            Attach();
 #endif
         }
 
@@ -50,6 +66,15 @@ namespace ReGizmo.Drawing
         public void RemoveCommandBuffer()
         {
             this.commandBuffer = null;
+        }
+
+        public void Attach()
+        {
+            if (camera == null || camera.Equals(null)) return;
+
+#if RG_LEGACY
+            camera.AddCommandBuffer(cameraEvent, commandBuffer);
+#endif
         }
 
         public void DeAttach()
@@ -64,17 +89,32 @@ namespace ReGizmo.Drawing
         public void SetActive(bool state)
         {
             isActive = state;
+            if (!isActive)
+            {
+                DeAttach();
+            }
+            else
+            {
+                Attach();
+            }
         }
 
-        public bool FrameSetup()
+        public void SetFramebuffer(in Framebuffer framebuffer)
+        {
+            this.framebuffer = framebuffer;
+        }
+
+        public bool FrameSetup(bool clearCommandBuffer = true)
         {
             if (camera == null) return false;
 
-#if !RG_HDRP
-            commandBuffer.Clear();
-#endif
+            if (clearCommandBuffer)
+            {
+                commandBuffer.Clear();
+            }
 
             frustum.UpdateCameraFrustum();
+            oit.Setup(commandBuffer, framebuffer);
 
 #if REGIZMO_DEV
             commandBuffer.BeginSample(profilerKey);
@@ -103,14 +143,9 @@ namespace ReGizmo.Drawing
             }
 
             drawer.PreRender(commandBuffer, frustum, uniqueDrawData);
-            drawer.RenderDepth(commandBuffer, frustum, uniqueDrawData);
-        }
 
-        public void PostRender()
-        {
-#if REGIZMO_DEV
-            commandBuffer.EndSample(profilerKey);
-#endif
+            commandBuffer.SetRenderTarget(framebuffer.DepthTarget);
+            drawer.RenderDepth(commandBuffer, frustum, uniqueDrawData);
         }
 
         public void Render(IReGizmoDrawer drawer)
@@ -123,15 +158,40 @@ namespace ReGizmo.Drawing
                 uniqueDrawDatas.Add(drawer, uniqueDrawData);
             }
 
-            drawer.Render(commandBuffer, frustum, uniqueDrawData);
+            // drawer.Render(commandBuffer, frustum, uniqueDrawData);
+            oit.Render(commandBuffer, drawer, frustum, uniqueDrawData, framebuffer);
+        }
+
+        public void PostRender()
+        {
+            oit.Blend(commandBuffer, framebuffer);
+
+            // commandBuffer.Blit(framebuffer.DepthTarget, framebuffer.ColorTarget);
+            // commandBuffer.Blit(oit.AccumulateTexture, framebuffer.ColorTarget);
+            // commandBuffer.Blit(oit.RevealageTexture, framebuffer.ColorTarget);
+
+#if REGIZMO_DEV
+            commandBuffer.EndSample(profilerKey);
+#endif
+        }
+
+        public void FrameCleanup()
+        {
+            oit.FrameCleanup();
+
+            #if RG_HDRP
+            framebuffer = new Framebuffer();
+            #endif
         }
 
         public void Dispose()
         {
-            foreach (var data in uniqueDrawDatas.Values) 
+            foreach (var data in uniqueDrawDatas.Values)
             {
                 data?.Dispose();
             }
+            oit?.Dispose();
         }
     }
 }
+

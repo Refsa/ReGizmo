@@ -6,10 +6,21 @@
         probably need another heuristic to also account for depth and not just surface normal against view direction
     - @low Persisting draw-calls, where the user can define a time/duration it will be active for
     - @high comments on public facing methods/types
-    - @high culling frustum doesnt scale properly with viewport rect
     - @low flickering when lots of alpha overlap in close proximity
     - @low some materials should be shared between drawers
         - MeshDrawer
+    - @high CullCompute has some sign mismatches
+
+OIT: 
+    - @high sprite-shader needs OIT support
+
+Culling:
+    - @high Circle drawer
+    - @high Triangle drawer
+    - @high PolyLine drawer
+    - @high culling frustum doesnt scale properly with viewport rect
+    - @high culling AABB on some drawers doesn scale properly
+        mostly an issue with meshes, might need to pre-compute the bounding box
 
 Z-Sort:
     - @high allow drawers to overlay other objects
@@ -43,6 +54,7 @@ Fonts:
 Lines:
     - @low Poly lines needs proper miters, mostly a requirements for thicker lines
     - @low flickering issue when many lines are overlapping in close proximity
+    - @high flipped projection(?) issue with Lines in GL
 
 Generator:
     - @low Code Generator is extremely hard-coded atm, so some work here would be nice
@@ -60,6 +72,8 @@ Testing:
 Readme:
     - Add a Known Issues section
     - Add a third-party library section
+    - will automatically enabled depth texture
+    - requires that depth texture is enabled in the renderer settings
 
 Archive:
   ✔ @low Proper Z-Sorting within and between each drawer @done(21-06-28 23:30) @project(Z-Sort)

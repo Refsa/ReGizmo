@@ -29,6 +29,7 @@ namespace ReGizmo.Drawing
         (IconDrawer, UniqueDrawData) AddSubDrawer(Texture2D texture)
         {
             var drawer = new IconDrawer(texture);
+            drawer.SetDepthMode(depthMode);
             var uniqueDrawData = new UniqueDrawData();
 
             drawers.Add(texture, (drawer, uniqueDrawData));

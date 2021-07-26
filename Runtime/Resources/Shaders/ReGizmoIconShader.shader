@@ -20,9 +20,9 @@ Shader "Hidden/ReGizmo/Icon"
 
         struct g2f
         {
-            float4 pos : SV_POSITION;
-            float2 uv: TEXCOORD0;
-            float3 color: TEXCOORD1;
+            float4 pos   : SV_POSITION;
+            float2 uv    : TEXCOORD0;
+            float3 color : TEXCOORD1;
         };
 
         sampler2D _IconTexture;
@@ -98,22 +98,17 @@ Shader "Hidden/ReGizmo/Icon"
             float4 color = float4(i.color, 1.0);
 
             float4 tex_col = tex2D(_IconTexture, i.uv);
-            color *= tex_col.a;
+            color.rgb *= tex_col.rgb * tex_col.a;
+            color.a = tex_col.a;
 
-            return lerp(tex_col, color, 0.5);
-        }
-
-        float4 frag(g2f i) : SV_Target
-        {
-            float4 col = _frag(i);
-            clip(col.a == 0 ? -1 : 1);
-            return col;
+            return color;
         }
         ENDCG
 
         Pass
         {
-            Blend SrcAlpha OneMinusSrcAlpha
+            Name "Render"
+            Blend One One
             ZTest [_ZTest]
             ZWrite Off
 
@@ -123,11 +118,20 @@ Shader "Hidden/ReGizmo/Icon"
             #pragma fragment frag
             #pragma multi_compile_instancing
             #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+
+            float4 frag(g2f i) : SV_Target
+            {
+                float4 col = _frag(i);
+                clip(col.a == 0 ? -1 : 1);
+                
+                return col;
+            }
             ENDCG
         }
 
         Pass
         {
+            Name "Depth"
             ZTest LEqual
             ZWrite On
 
@@ -138,11 +142,33 @@ Shader "Hidden/ReGizmo/Icon"
             #pragma multi_compile_instancing
             #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
 
-            float frag_depth(g2f i) : SV_TARGET1
+            void frag_depth(g2f i, out float depth : SV_DEPTH)
             {
                 float4 col = _frag(i);
                 clip(col.a == 0 ? -1 : 1);
-                return i.pos.z;
+                
+                depth = i.pos.z;
+            }
+            ENDCG
+        }
+
+        Pass
+        {
+            Name "OIT_Revealage"
+            ZWrite Off
+            Blend Zero OneMinusSrcAlpha
+
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma geometry geom
+            #pragma fragment frag_revealage
+            #pragma multi_compile_instancing
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+
+            float4 frag_revealage(g2f i) : SV_TARGET
+            {
+                float4 col = _frag(i);
+                return col.aaaa;
             }
             ENDCG
         }
