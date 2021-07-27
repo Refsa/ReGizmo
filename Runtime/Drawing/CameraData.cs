@@ -115,6 +115,7 @@ namespace ReGizmo.Drawing
 
             frustum.UpdateCameraFrustum();
             oit.Setup(commandBuffer, framebuffer);
+            commandBuffer.SetGlobalFloat("_AlphaBehindScale", ReGizmoSettings.AlphaBehindScale);
 
 #if REGIZMO_DEV
             commandBuffer.BeginSample(profilerKey);
@@ -158,13 +159,16 @@ namespace ReGizmo.Drawing
                 uniqueDrawDatas.Add(drawer, uniqueDrawData);
             }
 
-            // drawer.Render(commandBuffer, frustum, uniqueDrawData);
-            oit.Render(commandBuffer, drawer, frustum, uniqueDrawData, framebuffer);
+            commandBuffer.SetRenderTarget(framebuffer.ColorTarget, framebuffer.DepthTarget);
+            drawer.RenderWithPass(commandBuffer, frustum, uniqueDrawData, 3);
+            drawer.RenderWithPass(commandBuffer, frustum, uniqueDrawData, 4);
+
+            // oit.Render(commandBuffer, drawer, frustum, uniqueDrawData, framebuffer);
         }
 
         public void PostRender()
         {
-            oit.Blend(commandBuffer, framebuffer);
+            // oit.Blend(commandBuffer, framebuffer);
 
             // commandBuffer.Blit(framebuffer.DepthTarget, framebuffer.ColorTarget);
             // commandBuffer.Blit(oit.AccumulateTexture, framebuffer.ColorTarget);

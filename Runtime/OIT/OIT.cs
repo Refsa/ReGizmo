@@ -61,6 +61,7 @@ namespace ReGizmo
             in Framebuffer framebuffer)
         {
             cmd.SetRenderTarget(accumulateTexture, framebuffer.DepthTarget);
+            drawer.RenderWithPass(cmd, cameraFrustum, uniqueDrawData, 4);
             drawer.RenderWithPass(cmd, cameraFrustum, uniqueDrawData, 0);
 
             cmd.SetRenderTarget(revealageTexture);
