@@ -128,7 +128,7 @@ Shader "Hidden/ReGizmo/Line_Screen"
 
         Pass
         {
-            Name "Render"
+            Name "RenderOIT"
             Blend One One
             ZWrite Off
             ZTest [_ZTest]
@@ -187,6 +187,52 @@ Shader "Hidden/ReGizmo/Line_Screen"
             {
                 float4 col = _frag_line(i);
                 return col.a;
+            }
+            ENDCG
+        }
+
+        Pass
+        {
+            Name "RenderFront"
+            Blend SrcAlpha OneMinusSrcAlpha
+            ZWrite Off
+            ZTest LEqual
+
+            CGPROGRAM
+            #pragma vertex vert_line
+            #pragma geometry geom_line
+            #pragma fragment frag_line
+            #pragma multi_compile_instancing
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+
+            float4 frag_line(g2f_line g) : SV_Target
+            {
+                float4 col = _frag_line(g);
+                // col *= wb_oit(g.pos.z, col.a);
+                return col;
+            }
+            ENDCG
+        }
+
+        Pass
+        {
+            Name "RenderBehind"
+            Blend SrcAlpha OneMinusSrcAlpha
+            ZWrite Off
+            ZTest Greater
+
+            CGPROGRAM
+            #pragma vertex vert_line
+            #pragma geometry geom_line
+            #pragma fragment frag_line
+            #pragma multi_compile_instancing
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+
+            float4 frag_line(g2f_line g) : SV_Target
+            {
+                float4 col = _frag_line(g);
+                col.a *= _AlphaBehindScale;
+                return col;
             }
             ENDCG
         }
