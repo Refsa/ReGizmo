@@ -13,6 +13,7 @@ namespace ReGizmo.Core
         [SerializeField] Font font;
         [SerializeField] ReSDFData sdfFont;
         [SerializeField] bool fontSuperSample = true;
+        [SerializeField] float alphaBehindScale = 0.5f;
 
 #if REGIZMO_DEV
         [SerializeField] bool showDebugGizmos = true;
@@ -22,6 +23,7 @@ namespace ReGizmo.Core
         public static ReSDFData SDFFont => instance.sdfFont;
         public static bool FontSuperSample => instance.fontSuperSample;
         public static bool ShowDebugGizmos => instance.showDebugGizmos;
+        public static float AlphaBehindScale => instance.alphaBehindScale;
 
         public static void SetFont(Font font)
         {
@@ -37,6 +39,11 @@ namespace ReGizmo.Core
             {
                 instance.sdfFont = font;
             }
+        }
+
+        public static void SetAlphaBehindScale(float alphaBehindScale)
+        {
+            instance.alphaBehindScale = alphaBehindScale;
         }
 
         public static void ToggleFontSuperSampling()

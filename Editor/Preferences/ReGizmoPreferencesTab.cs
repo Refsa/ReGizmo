@@ -147,6 +147,15 @@ namespace ReGizmo.Editor.Preferences
                 });
             }
 
+            var setAlphaBehindScale = new Slider(0f, 1f);
+            setAlphaBehindScale.name = "Alpha Behind Scale";
+            setAlphaBehindScale.label = "Alpha behind scale";
+            setAlphaBehindScale.tooltip = "Control the alpha scale when rendering gizmos behind other objects";
+            setAlphaBehindScale.value = ReGizmoSettings.AlphaBehindScale;
+            setAlphaBehindScale.RegisterValueChangedCallback(ce => {
+                ReGizmoSettings.SetAlphaBehindScale(ce.newValue);
+            });
+
 
             // var targetPipelineDropdown = new DropdownMenu();
             // targetPipelineDropdown.AppendAction("Legacy", (dma) => { }, dma => dma.name == "Legacy" ? DropdownMenuAction.Status.Checked : DropdownMenuAction.Status.Normal);
@@ -163,6 +172,7 @@ namespace ReGizmo.Editor.Preferences
 #endif
 
             contentContainer.Add(enableRuntimeToggle);
+            contentContainer.Add(setAlphaBehindScale);
             contentContainer.Add(defaultFontSelection);
             contentContainer.Add(defaultSDFFontSelection);
             contentContainer.Add(fontSuperSampleToggle);
