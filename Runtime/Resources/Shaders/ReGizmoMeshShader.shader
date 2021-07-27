@@ -55,7 +55,7 @@ Shader "Hidden/ReGizmo/Mesh"
 
         Pass
         {
-            Name "Render"
+            Name "RenderOIT"
 
             Blend One One
             ZTest [_ZTest]
@@ -140,6 +140,61 @@ Shader "Hidden/ReGizmo/Mesh"
                 return i.col.aaaa;
             }
 
+            ENDCG
+        }
+
+        Pass
+        {
+            Name "RenderFront"
+
+            Blend SrcAlpha OneMinusSrcAlpha
+            ZTest LEqual
+            ZWrite Off
+            Cull Back
+
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            #pragma multi_compile_instancing
+            #pragma instancing_options procedural:setup
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+
+            float4 frag(v2f f) : SV_Target
+            {
+                float4 col = f.col;
+                float3 shade = lerp(col.rgb, 0, _Shaded);
+                col.rgb = saturate(lerp(shade, col.rgb, f.strength));
+
+                return col;// * wb_oit(f.pos.z, col.a);
+            }
+            ENDCG
+        }
+
+        Pass
+        {
+            Name "RenderBehind"
+
+            Blend SrcAlpha OneMinusSrcAlpha
+            ZTest GEqual
+            ZWrite Off
+            Cull Back
+
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            #pragma multi_compile_instancing
+            #pragma instancing_options procedural:setup
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+
+            float4 frag(v2f f) : SV_Target
+            {
+                float4 col = f.col;
+                float3 shade = lerp(col.rgb, 0, _Shaded);
+                col.rgb = saturate(lerp(shade, col.rgb, f.strength));
+                col.a *= _AlphaBehindScale;
+
+                return col;
+            }
             ENDCG
         }
     }
