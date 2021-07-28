@@ -15,6 +15,8 @@
 
         CGINCLUDE
         #include "Utils/ReGizmoFontUtils.cginc"
+        #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+        #pragma multi_compile _ SDF_SS
 
         float4 _frag(font_g2f i)
         {
@@ -39,8 +41,6 @@
             #pragma vertex font_vert
             #pragma geometry font_geom
             #pragma fragment frag
-            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
-            #pragma multi_compile _ SDF_SS
 
             float4 frag(font_g2f i) : SV_Target
             {
@@ -61,14 +61,11 @@
             #pragma vertex font_vert
             #pragma geometry font_geom
             #pragma fragment depth_frag
-            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
-            #pragma multi_compile _ SDF_SS
 
             void depth_frag(font_g2f i, out float depth : SV_DEPTH)
             {
                 float4 col = _frag(i);
                 clip(col.a == 0 ? -1 : 1);
-
                 depth = i.pos.z;
             }
             ENDCG
@@ -84,14 +81,54 @@
             #pragma vertex font_vert
             #pragma geometry font_geom
             #pragma fragment revealage_frag
-            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
-            #pragma multi_compile _ SDF_SS
 
             float4 revealage_frag(font_g2f i) : SV_TARGET
             {
                 float4 col = _frag(i);
-                clip(col.a == 0 ? -1 : 1);
                 return col.aaaa;
+            }
+            ENDCG
+        }
+
+        Pass
+        {
+            Name "RenderFront"
+            Blend SrcAlpha OneMinusSrcAlpha
+            ZTest LEqual
+            ZWrite Off
+
+            CGPROGRAM
+            #pragma vertex font_vert
+            #pragma geometry font_geom
+            #pragma fragment frag
+
+            float4 frag(font_g2f i) : SV_Target
+            {
+                float4 col = _frag(i);
+                clip(col.a == 0 ? -1 : 1);
+                return col;
+            }
+            ENDCG
+        }
+
+        Pass
+        {
+            Name "RenderBehind"
+            Blend SrcAlpha OneMinusSrcAlpha
+            ZTest Greater
+            ZWrite Off
+
+            CGPROGRAM
+            #pragma vertex font_vert
+            #pragma geometry font_geom
+            #pragma fragment frag
+
+            float4 frag(font_g2f i) : SV_Target
+            {
+                float4 col = _frag(i);
+                clip(col.a == 0 ? -1 : 1);
+                col.a *= _AlphaBehindScale;
+                return col;
             }
             ENDCG
         }
