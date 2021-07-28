@@ -110,5 +110,56 @@
             }
             ENDCG
         }
+
+        Pass
+        {
+            Name "RenderFront"
+
+            Blend SrcAlpha OneMinusSrcAlpha
+            ZTest LEqual
+            ZWrite Off
+            Cull Off
+
+            CGPROGRAM
+            #pragma vertex vert_2d
+            #pragma geometry geom_2d
+            #pragma fragment frag
+            #pragma multi_compile_instancing
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+
+            float4 frag (g2f_2d i) : SV_Target
+            {
+                float4 col = _frag(i);
+                clip(col.a == 0 ? -1 : 1);
+                return col;
+            }
+            ENDCG
+        }
+
+        Pass
+        {
+            Name "RenderBehind"
+
+            Blend SrcAlpha OneMinusSrcAlpha
+            ZTest Greater
+            ZWrite Off
+            Cull Off
+
+            CGPROGRAM
+            #pragma vertex vert_2d
+            #pragma geometry geom_2d
+            #pragma fragment frag
+            #pragma multi_compile_instancing
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+
+            float4 frag (g2f_2d i) : SV_Target
+            {
+                float4 col = _frag(i);
+                clip(col.a == 0 ? -1 : 1);
+                col.a *= _AlphaBehindScale;
+                return col;
+            }
+            ENDCG
+        }
     }
 }
