@@ -98,7 +98,8 @@ namespace ReGizmo.Editor.Preferences
 
                     ReGizmoSettings.SetFont((Font)ce.newValue);
                     ReGizmoEditorUtils.SaveAsset(ReGizmoSettings.Instance);
-                    Core.ReGizmo.Reload();
+                    ReGizmo.Core.ReGizmo.Initialize();
+                    ReGizmo.Core.ReGizmo.SetActive(true);
                 });
             }
 
@@ -117,7 +118,8 @@ namespace ReGizmo.Editor.Preferences
 
                     ReGizmoSettings.SetSDFFont((ReSDFData)ce.newValue);
                     ReGizmoEditorUtils.SaveAsset(ReGizmoSettings.Instance);
-                    Core.ReGizmo.Reload();
+                    ReGizmo.Core.ReGizmo.Initialize();
+                    ReGizmo.Core.ReGizmo.SetActive(true);
                 });
             }
 
@@ -152,7 +154,8 @@ namespace ReGizmo.Editor.Preferences
             setAlphaBehindScale.label = "Alpha behind scale";
             setAlphaBehindScale.tooltip = "Control the alpha scale when rendering gizmos behind other objects";
             setAlphaBehindScale.value = ReGizmoSettings.AlphaBehindScale;
-            setAlphaBehindScale.RegisterValueChangedCallback(ce => {
+            setAlphaBehindScale.RegisterValueChangedCallback(ce =>
+            {
                 ReGizmoSettings.SetAlphaBehindScale(ce.newValue);
             });
 
