@@ -205,5 +205,47 @@ Shader "Hidden/ReGizmo/PolyLine_Screen" {
             }
             ENDCG
         }
+
+        Pass 
+        {
+            Name "RenderFront"
+            Blend SrcAlpha OneMinusSrcAlpha
+            ZWrite Off
+            ZTest LEqual
+
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma geometry geom
+            #pragma fragment frag
+            #pragma multi_compile_instancing
+
+            float4 frag(g2f g) : SV_Target
+            {   
+                return _frag(g);
+            }
+            ENDCG
+        }
+
+        Pass 
+        {
+            Name "RenderBehind"
+            Blend SrcAlpha OneMinusSrcAlpha
+            ZWrite Off
+            ZTest Greater
+
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma geometry geom
+            #pragma fragment frag
+            #pragma multi_compile_instancing
+
+            float4 frag(g2f g) : SV_Target
+            {   
+                float4 col = _frag(g);
+                col.a *= _AlphaBehindScale;
+                return col;
+            }
+            ENDCG
+        }
     }
 }
