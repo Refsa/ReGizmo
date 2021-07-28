@@ -172,5 +172,52 @@ Shader "Hidden/ReGizmo/Icon"
             }
             ENDCG
         }
+
+        Pass
+        {
+            Name "RenderFront"
+            Blend SrcAlpha OneMinusSrcAlpha
+            ZTest LEqual
+            ZWrite Off
+
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma geometry geom
+            #pragma fragment frag
+            #pragma multi_compile_instancing
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+
+            float4 frag(g2f i) : SV_Target
+            {
+                float4 col = _frag(i);
+                clip(col.a == 0 ? -1 : 1);
+                return col;
+            }
+            ENDCG
+        }
+
+        Pass
+        {
+            Name "RenderBehind"
+            Blend SrcAlpha OneMinusSrcAlpha
+            ZTest Greater
+            ZWrite Off
+
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma geometry geom
+            #pragma fragment frag
+            #pragma multi_compile_instancing
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+
+            float4 frag(g2f i) : SV_Target
+            {
+                float4 col = _frag(i);
+                clip(col.a == 0 ? -1 : 1);
+                col.a *= _AlphaBehindScale;
+                return col;
+            }
+            ENDCG
+        }
     }
 }
