@@ -350,16 +350,8 @@ namespace ReGizmo.Core
                 return;
             }
 
-            foreach (var drawer in drawers)
-            {
-                cameraData.PreRender(drawer);
-            }
-
-            foreach (var drawer in drawers)
-            {
-                cameraData.Render(drawer);
-            }
-
+            cameraData.PreRender(drawers);
+            cameraData.Render(drawers);
             cameraData.PostRender();
         }
 

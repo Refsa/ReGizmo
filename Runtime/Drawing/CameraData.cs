@@ -19,6 +19,8 @@ namespace ReGizmo.Drawing
         Framebuffer framebuffer;
         Dictionary<IReGizmoDrawer, UniqueDrawData> uniqueDrawDatas;
 
+        RenderTexture depthTexture;
+
         bool isActive;
         string profilerKey;
 
@@ -34,11 +36,11 @@ namespace ReGizmo.Drawing
             frustum = new CameraFrustum(camera);
             uniqueDrawDatas = new Dictionary<IReGizmoDrawer, UniqueDrawData>();
 
-            #if RG_HDRP
+#if RG_HDRP
             oit = new ReGizmo.HDRP.OITHDRP(camera);
-            #else
+#else
             oit = new OIT(camera);
-            #endif
+#endif
 
             commandBuffer = new CommandBuffer();
             commandBuffer.name = $"ReGizmo Draw Buffer: {camera.name}";
@@ -48,12 +50,6 @@ namespace ReGizmo.Drawing
 
 #if RG_LEGACY
             camera.depthTextureMode |= DepthTextureMode.Depth;
-
-            framebuffer = new Framebuffer
-            {
-                ColorTarget = BuiltinRenderTextureType.CameraTarget,
-                DepthTarget = BuiltinRenderTextureType.Depth,
-            };
             Attach();
 #endif
         }
@@ -113,9 +109,27 @@ namespace ReGizmo.Drawing
                 commandBuffer.Clear();
             }
 
+#if RG_LEGACY
+            if (depthTexture == null || depthTexture.width != camera.pixelWidth || depthTexture.height != camera.pixelHeight)
+            {
+                depthTexture?.Release();
+                depthTexture = new RenderTexture(camera.pixelWidth, camera.pixelHeight, 32, RenderTextureFormat.Depth);
+            }
+
+            ShaderUtils.ClearDepth(commandBuffer, depthTexture, 0f);
+            ShaderUtils.CopyDepth(commandBuffer, depthTexture, BuiltinRenderTextureType.Depth);
+
+            framebuffer = new Framebuffer
+            {
+                ColorTarget = BuiltinRenderTextureType.CameraTarget,
+                DepthTarget = BuiltinRenderTextureType.Depth,
+            };
+#endif
+
             frustum.UpdateCameraFrustum();
-            oit.Setup(commandBuffer, framebuffer);
+            // oit.Setup(commandBuffer, framebuffer);
             commandBuffer.SetGlobalFloat("_AlphaBehindScale", ReGizmoSettings.AlphaBehindScale);
+            // commandBuffer.SetGlobalVector("_ScreenParams", new Vector4(camera.pixelWidth, camera.pixelHeight, 1f + 1f / camera.pixelWidth, 1f + 1f / camera.pixelHeight));
 
 #if REGIZMO_DEV
             commandBuffer.BeginSample(profilerKey);
@@ -133,10 +147,22 @@ namespace ReGizmo.Drawing
             return true;
         }
 
-        public void PreRender(IReGizmoDrawer drawer)
+        public void PreRender(List<IReGizmoDrawer> drawers)
         {
             if (!isActive) return;
 
+            commandBuffer.SetRenderTarget(
+                framebuffer.ColorTarget, RenderBufferLoadAction.Load, RenderBufferStoreAction.DontCare,
+                framebuffer.DepthTarget, RenderBufferLoadAction.Load, RenderBufferStoreAction.DontCare);
+
+            foreach (var drawer in drawers)
+            {
+                PreRender(drawer);
+            }
+        }
+
+        void PreRender(IReGizmoDrawer drawer)
+        {
             if (!uniqueDrawDatas.TryGetValue(drawer, out var uniqueDrawData))
             {
                 uniqueDrawData = new UniqueDrawData();
@@ -144,12 +170,20 @@ namespace ReGizmo.Drawing
             }
 
             drawer.PreRender(commandBuffer, frustum, uniqueDrawData);
-
-            commandBuffer.SetRenderTarget(framebuffer.DepthTarget);
             drawer.RenderDepth(commandBuffer, frustum, uniqueDrawData);
         }
 
-        public void Render(IReGizmoDrawer drawer)
+        public void Render(List<IReGizmoDrawer> drawers)
+        {
+            commandBuffer.SetRenderTarget(framebuffer.ColorTarget, framebuffer.DepthTarget);
+
+            foreach (var drawer in drawers)
+            {
+                Render(drawer);
+            }   
+        }
+
+        void Render(IReGizmoDrawer drawer)
         {
             if (!isActive) return;
 
@@ -159,7 +193,6 @@ namespace ReGizmo.Drawing
                 uniqueDrawDatas.Add(drawer, uniqueDrawData);
             }
 
-            commandBuffer.SetRenderTarget(framebuffer.ColorTarget, framebuffer.DepthTarget);
             drawer.RenderWithPass(commandBuffer, frustum, uniqueDrawData, 3);
             drawer.RenderWithPass(commandBuffer, frustum, uniqueDrawData, 4);
 
@@ -170,10 +203,6 @@ namespace ReGizmo.Drawing
         {
             // oit.Blend(commandBuffer, framebuffer);
 
-            // commandBuffer.Blit(framebuffer.DepthTarget, framebuffer.ColorTarget);
-            // commandBuffer.Blit(oit.AccumulateTexture, framebuffer.ColorTarget);
-            // commandBuffer.Blit(oit.RevealageTexture, framebuffer.ColorTarget);
-
 #if REGIZMO_DEV
             commandBuffer.EndSample(profilerKey);
 #endif
@@ -183,9 +212,9 @@ namespace ReGizmo.Drawing
         {
             oit.FrameCleanup();
 
-            #if RG_HDRP
+#if RG_HDRP
             framebuffer = new Framebuffer();
-            #endif
+#endif
         }
 
         public void Dispose()
