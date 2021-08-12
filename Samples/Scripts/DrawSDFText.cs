@@ -12,7 +12,7 @@ namespace ReGizmo.Samples
     internal class DrawSDFText : DrawSampleBase
     {
         [SerializeField] string text = "Hello";
-        [SerializeField, Range(8f, 1024f)] float fontSize = 1f;
+        [SerializeField, Range(8f, 1024f)] float fontSize = 16f;
 
         protected override void Draw()
         {

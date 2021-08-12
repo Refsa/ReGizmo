@@ -813,6 +813,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 58354032043627218, guid: 0c1186736b57ad44293f907e4eff645b,
         type: 3}
+      propertyPath: testSizeSqr
+      value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 58354032043627218, guid: 0c1186736b57ad44293f907e4eff645b,
+        type: 3}
       propertyPath: previewParallel
       value: 1
       objectReference: {fileID: 0}
