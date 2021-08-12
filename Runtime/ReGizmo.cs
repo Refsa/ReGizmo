@@ -197,7 +197,7 @@ namespace ReGizmo.Core
 
             cameraData.CommandBufferOverride(cmd);
             cameraData.SetFramebuffer(framebuffer);
-            Render(cameraData, false);
+            Render(cameraData, clearCommandBuffer: false);
             cameraData.RemoveCommandBuffer();
 
 #if UNITY_EDITOR

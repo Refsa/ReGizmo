@@ -110,15 +110,6 @@ namespace ReGizmo.Drawing
             }
 
 #if RG_LEGACY
-            if (depthTexture == null || depthTexture.width != camera.pixelWidth || depthTexture.height != camera.pixelHeight)
-            {
-                depthTexture?.Release();
-                depthTexture = new RenderTexture(camera.pixelWidth, camera.pixelHeight, 32, RenderTextureFormat.Depth);
-            }
-
-            ShaderUtils.ClearDepth(commandBuffer, depthTexture, 0f);
-            ShaderUtils.CopyDepth(commandBuffer, depthTexture, BuiltinRenderTextureType.Depth);
-
             framebuffer = new Framebuffer
             {
                 ColorTarget = BuiltinRenderTextureType.CameraTarget,
@@ -151,9 +142,7 @@ namespace ReGizmo.Drawing
         {
             if (!isActive) return;
 
-            commandBuffer.SetRenderTarget(
-                framebuffer.ColorTarget, RenderBufferLoadAction.Load, RenderBufferStoreAction.DontCare,
-                framebuffer.DepthTarget, RenderBufferLoadAction.Load, RenderBufferStoreAction.DontCare);
+            commandBuffer.SetRenderTarget(framebuffer.ColorTarget, framebuffer.DepthTarget);
 
             foreach (var drawer in drawers)
             {
@@ -180,7 +169,7 @@ namespace ReGizmo.Drawing
             foreach (var drawer in drawers)
             {
                 Render(drawer);
-            }   
+            }
         }
 
         void Render(IReGizmoDrawer drawer)

@@ -155,7 +155,7 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
             void depth_frag(g2f i, out float depth : SV_DEPTH)
             {
                 float4 color = _frag(i);
-                clip(color.a == 0.0 ? -1 : 1);
+                clip(color.a == 0 ? -1 : 1);
                 depth = i.pos.z;
             }
             ENDCG
@@ -179,6 +179,55 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
             {
                 float4 color = _frag(i);
                 return color.aaaa;
+            }
+            ENDCG
+        }
+
+        Pass
+        {
+            Name "RenderFront"
+            Blend Zero OneMinusSrcAlpha
+            ZTest LEqual
+            ZWrite Off
+            Cull Off
+
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma geometry geom
+            #pragma fragment frag
+            #pragma multi_compile_instancing
+            #pragma instancing_options procedural:setup
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+
+            float4 frag(g2f i) : SV_Target
+            {
+                float4 color = _frag(i);
+                return color;
+            }
+            ENDCG
+        }
+
+        Pass
+        {
+            Name "RenderBehind"
+            Blend Zero OneMinusSrcAlpha
+            ZTest Greater
+            ZWrite Off
+            Cull Off
+
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma geometry geom
+            #pragma fragment frag
+            #pragma multi_compile_instancing
+            #pragma instancing_options procedural:setup
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+
+            float4 frag(g2f i) : SV_Target
+            {
+                float4 color = _frag(i);
+                color.a *= _AlphaBehindScale;
+                return color;
             }
             ENDCG
         }

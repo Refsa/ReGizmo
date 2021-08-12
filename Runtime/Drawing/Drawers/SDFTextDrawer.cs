@@ -27,7 +27,7 @@ namespace ReGizmo.Drawing
 
             SetupCharacterData();
 
-            cullingHandler = new FontCullingHandler();
+            // cullingHandler = new FontCullingHandler();
         }
 
         void SetupCharacterData()
@@ -49,10 +49,8 @@ namespace ReGizmo.Drawing
                     (glyph.planeBounds.top + glyph.planeBounds.bottom) * 0.5f,
                     0f, 0f); */
 
-                Vector2 bottomLeftUV = new Vector2(glyph.atlasBounds.left, glyph.atlasBounds.bottom) /
-                                       atlasTextureSize;
-                Vector2 bottomRightUV =
-                    new Vector2(glyph.atlasBounds.right, glyph.atlasBounds.bottom) / atlasTextureSize;
+                Vector2 bottomLeftUV = new Vector2(glyph.atlasBounds.left, glyph.atlasBounds.bottom) / atlasTextureSize;
+                Vector2 bottomRightUV = new Vector2(glyph.atlasBounds.right, glyph.atlasBounds.bottom) / atlasTextureSize;
                 Vector2 topLeftUV = new Vector2(glyph.atlasBounds.left, glyph.atlasBounds.top) / atlasTextureSize;
                 Vector2 topRightUV = new Vector2(glyph.atlasBounds.right, glyph.atlasBounds.top) / atlasTextureSize;
 
@@ -92,28 +90,7 @@ namespace ReGizmo.Drawing
 
         protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData, bool depth)
         {
-            uniqueDrawData.SetInstanceCount(1);
-
-            if (depth)
-            {
-                cmd.DrawProceduralIndirect(
-                    Matrix4x4.identity,
-                    material, 1,
-                    MeshTopology.Points,
-                    uniqueDrawData.ArgsBuffer, 0,
-                    uniqueDrawData.MaterialPropertyBlock
-                );
-            }
-            else
-            {
-                cmd.DrawProceduralIndirect(
-                    Matrix4x4.identity,
-                    material, 0,
-                    MeshTopology.Points,
-                    uniqueDrawData.ArgsBuffer, 0,
-                    uniqueDrawData.MaterialPropertyBlock
-                );
-            }
+            RenderWithPassInternal(cmd, uniqueDrawData, depth ? 1 : 0);
         }
 
         protected override void RenderWithPassInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData, int pass)

@@ -21,6 +21,7 @@ static const int FILL_MODE_OUTLINE = 1 << 21;
 
 // Shared Data (cbuffer)
 int _ZTest;
+float _AlphaBehindScale;
 
 float4x4 rotation_matrix(float3 rotation)
 {

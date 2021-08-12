@@ -165,7 +165,7 @@ Shader "Hidden/ReGizmo/Mesh"
                 float3 shade = lerp(col.rgb, 0, _Shaded);
                 col.rgb = saturate(lerp(shade, col.rgb, f.strength));
 
-                return col;// * wb_oit(f.pos.z, col.a);
+                return col;
             }
             ENDCG
         }

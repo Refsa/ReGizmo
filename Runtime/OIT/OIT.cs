@@ -50,18 +50,20 @@ namespace ReGizmo
             cmd.Blit(framebuffer.ColorTarget, tempTargetTexture, blitMaterial);
 
             cmd.SetRenderTarget(accumulateTexture, RenderBufferLoadAction.Load, RenderBufferStoreAction.Store);
-            cmd.ClearRenderTarget(true, true, Color.clear);
+            cmd.ClearRenderTarget(false, true, Color.clear);
 
             cmd.SetRenderTarget(revealageTexture, RenderBufferLoadAction.Load, RenderBufferStoreAction.Store);
-            cmd.ClearRenderTarget(true, true, Color.white);
+            cmd.ClearRenderTarget(false, true, Color.white);
         }
 
         public void Render(CommandBuffer cmd, IReGizmoDrawer drawer,
             CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData,
             in Framebuffer framebuffer)
         {
+            // cmd.SetRenderTarget(tempTargetTexture, framebuffer.DepthTarget);
+            // drawer.RenderWithPass(cmd, cameraFrustum, uniqueDrawData, 4); 
+
             cmd.SetRenderTarget(accumulateTexture, framebuffer.DepthTarget);
-            drawer.RenderWithPass(cmd, cameraFrustum, uniqueDrawData, 4);
             drawer.RenderWithPass(cmd, cameraFrustum, uniqueDrawData, 0);
 
             cmd.SetRenderTarget(revealageTexture);
