@@ -43,11 +43,11 @@ namespace ReGizmo.Drawing
 
             if (depth)
             {
-                /* cmd.DrawMeshInstancedIndirect(
+                cmd.DrawMeshInstancedIndirect(
                     quad, 0, material, 1,
                     uniqueDrawData.ArgsBuffer, 0,
                     uniqueDrawData.MaterialPropertyBlock
-                ); */
+                );
             }
             else
             {
@@ -57,6 +57,18 @@ namespace ReGizmo.Drawing
                     uniqueDrawData.MaterialPropertyBlock
                 );
             }
+        }
+
+        protected override void RenderWithPassInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData, int pass)
+        {
+            uniqueDrawData.SetVertexCount(quad.GetIndexCount(0));
+            uniqueDrawData.SetInstanceCount(uniqueDrawData.DrawCount);
+
+            cmd.DrawMeshInstancedIndirect(
+                quad, 0, material, pass,
+                uniqueDrawData.ArgsBuffer, 0,
+                uniqueDrawData.MaterialPropertyBlock
+            );
         }
 
         protected override void SetMaterialPropertyBlockData(MaterialPropertyBlock materialPropertyBlock)

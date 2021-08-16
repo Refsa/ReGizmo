@@ -144,6 +144,73 @@ Shader "Hidden/ReGizmo/Grid"
 
         Pass
         {
+            Name "RenderOIT"
+
+            Blend One One
+            ZTest LEqual
+            ZWrite Off
+            Cull Off
+
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            #pragma multi_compile_instancing
+            #pragma instancing_options procedural:setup
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+            ENDCG
+        }
+
+        Pass
+        {
+            Name "Depth"
+            ZTest LEqual
+            ZWrite Off
+            Cull Off
+
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment depth_frag
+            #pragma multi_compile_instancing
+            #pragma instancing_options procedural:setup
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+
+            float depth_frag(v2f i) : SV_DEPTH
+            {
+                return 1;
+
+                float4 col = multi_grid(i);
+                clip(col.a == 0.0 ? -1 : 1);
+                return i.pos.z;
+            }
+            ENDCG
+        }
+
+        Pass
+        {
+            Name "OIT_Revealage"
+            Blend SrcAlpha OneMinusSrcAlpha
+            ZTest LEqual
+            ZWrite Off
+            Cull Off
+
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment revealage_frag
+            #pragma multi_compile_instancing
+            #pragma instancing_options procedural:setup
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
+
+            float4 revealage_frag(v2f i) : SV_TARGET
+            {
+                float4 col = multi_grid(i);
+                return col.aaaa;
+            }
+            ENDCG
+        }
+
+        Pass
+        {
+            Name "RenderFront"
             Blend SrcAlpha OneMinusSrcAlpha
             ZTest LEqual
             ZWrite Off
@@ -160,22 +227,26 @@ Shader "Hidden/ReGizmo/Grid"
 
         Pass
         {
-            ZTest LEqual
-            ZWrite On
+            Name "RenderBehind"
+
+            Blend SrcAlpha OneMinusSrcAlpha
+            ZTest Greater
+            ZWrite Off
             Cull Off
 
             CGPROGRAM
             #pragma vertex vert
-            #pragma fragment depth_frag
+            #pragma fragment frag_behind
             #pragma multi_compile_instancing
             #pragma instancing_options procedural:setup
             #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
 
-            float depth_frag(v2f i) : SV_TARGET1
+            float4 frag_behind(v2f i) : SV_Target
             {
                 float4 col = multi_grid(i);
                 clip(col.a == 0.0 ? -1 : 1);
-                return i.pos.z;
+                col.a *= _AlphaBehindScale;
+                return col;
             }
             ENDCG
         }
