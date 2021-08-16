@@ -88,7 +88,14 @@ namespace ReGizmo.Drawing
             }
             else
             {
-                uniqueDrawData.SetDrawCount((uint)currentDrawCount);
+                if (argsBufferCountOffset == 0)
+                {
+                    uniqueDrawData.SetVertexCount((uint)currentDrawCount);
+                }
+                else if (argsBufferCountOffset == 1)
+                {
+                    uniqueDrawData.SetInstanceCount((uint)currentDrawCount);
+                }
                 uniqueDrawData.MaterialPropertyBlock.SetBuffer(PropertiesName, shaderDataBuffer.ComputeBuffer);
                 SetMaterialPropertyBlockData(uniqueDrawData.MaterialPropertyBlock);
             }
