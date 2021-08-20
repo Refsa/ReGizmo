@@ -40,23 +40,8 @@ namespace ReGizmo.Drawing
         {
             uniqueDrawData.SetVertexCount(quad.GetIndexCount(0));
             uniqueDrawData.SetInstanceCount(uniqueDrawData.DrawCount);
-
-            if (depth)
-            {
-                cmd.DrawMeshInstancedIndirect(
-                    quad, 0, material, 1,
-                    uniqueDrawData.ArgsBuffer, 0,
-                    uniqueDrawData.MaterialPropertyBlock
-                );
-            }
-            else
-            {
-                cmd.DrawMeshInstancedIndirect(
-                    quad, 0, material, 0,
-                    uniqueDrawData.ArgsBuffer, 0,
-                    uniqueDrawData.MaterialPropertyBlock
-                );
-            }
+            
+            RenderWithPassInternal(cmd, uniqueDrawData, depth ? 1 : 0);
         }
 
         protected override void RenderWithPassInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData, int pass)
