@@ -137,6 +137,16 @@ namespace ReGizmo.Editor.Preferences
             var openSDFFontWindow = new Button(() => ReFontSetup.Open());
             openSDFFontWindow.text = "SDF Font Creator";
 
+            var setAlphaBehindScale = new Slider(0f, 1f);
+            setAlphaBehindScale.name = "Alpha Behind Scale";
+            setAlphaBehindScale.label = "Alpha behind scale";
+            setAlphaBehindScale.tooltip = "Control the alpha scale when rendering gizmos behind other objects";
+            setAlphaBehindScale.value = ReGizmoSettings.AlphaBehindScale;
+            setAlphaBehindScale.RegisterValueChangedCallback(ce =>
+            {
+                ReGizmoSettings.SetAlphaBehindScale(ce.newValue);
+            });
+
 #if REGIZMO_DEV
             var devSettingsLabel = new Label("Dev Settings");
             var showDebugGizmosButton = new Toggle("Show Debug Gizmos");
@@ -148,16 +158,6 @@ namespace ReGizmo.Editor.Preferences
                     ReGizmoEditorUtils.SaveAsset(ReGizmoSettings.Instance);
                 });
             }
-
-            var setAlphaBehindScale = new Slider(0f, 1f);
-            setAlphaBehindScale.name = "Alpha Behind Scale";
-            setAlphaBehindScale.label = "Alpha behind scale";
-            setAlphaBehindScale.tooltip = "Control the alpha scale when rendering gizmos behind other objects";
-            setAlphaBehindScale.value = ReGizmoSettings.AlphaBehindScale;
-            setAlphaBehindScale.RegisterValueChangedCallback(ce =>
-            {
-                ReGizmoSettings.SetAlphaBehindScale(ce.newValue);
-            });
 
 
             // var targetPipelineDropdown = new DropdownMenu();
