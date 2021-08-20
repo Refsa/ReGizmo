@@ -17,12 +17,16 @@ namespace ReGizmo.Core
 
 #if REGIZMO_DEV
         [SerializeField] bool showDebugGizmos = true;
+        public static bool ShowDebugGizmos => instance.showDebugGizmos;
+        public static void ToggleShowDebugGizmos()
+        {
+            instance.showDebugGizmos = !instance.showDebugGizmos;
+        }
 #endif
 
         public static Font Font => instance.font;
         public static ReSDFData SDFFont => instance.sdfFont;
         public static bool FontSuperSample => instance.fontSuperSample;
-        public static bool ShowDebugGizmos => instance.showDebugGizmos;
         public static float AlphaBehindScale => instance.alphaBehindScale;
 
         public static void SetFont(Font font)
@@ -49,11 +53,6 @@ namespace ReGizmo.Core
         public static void ToggleFontSuperSampling()
         {
             instance.fontSuperSample = !instance.fontSuperSample;
-        }
-
-        public static void ToggleShowDebugGizmos()
-        {
-            instance.showDebugGizmos = !instance.showDebugGizmos;
         }
 
         public static void Load()

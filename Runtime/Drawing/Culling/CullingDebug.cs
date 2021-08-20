@@ -25,6 +25,7 @@ namespace ReGizmo.Drawing
             return;
 #endif
 
+#if REGIZMO_DEV
             if (buffer == null || buffer.Equals(null))
             {
                 buffer = ComputeBufferPool.Get(len, System.Runtime.InteropServices.Marshal.SizeOf<CullingDebug.BoundingBox>(), name: "CullingDebugBuffer");
@@ -51,6 +52,7 @@ namespace ReGizmo.Drawing
                     ReDraw.AABBDebug(bb.Center, Quaternion.identity, bb.Extents, color);
                 }
             });
+#endif
         }
 
         public void CulledCount(CommandBuffer commandBuffer, int originalCount, ComputeBuffer argsBuffer)
