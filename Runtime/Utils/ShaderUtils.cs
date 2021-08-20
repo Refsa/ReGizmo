@@ -9,6 +9,7 @@ namespace ReGizmo
         static Material clearDepthMaterial;
         static Material clearWithDepthMaterial;
         static Material copyDepthMaterial;
+        static Material blitDepthToColorMaterial;
 
         static ShaderUtils()
         {
@@ -16,6 +17,7 @@ namespace ReGizmo
             clearDepthMaterial = new Material(Shader.Find("Hidden/ReGizmo/ClearDepth"));
             clearWithDepthMaterial = new Material(Shader.Find("Hidden/ReGizmo/ClearWithDepth"));
             copyDepthMaterial = new Material(Shader.Find("Hidden/ReGizmo/CopyDepth"));
+            blitDepthToColorMaterial = new Material(Shader.Find("Hidden/ReGizmo/BlitDepthToColor"));
         }
 
         public static void ClearTexture(CommandBuffer cmd, RenderTargetIdentifier texture, Color clearColor)
@@ -46,8 +48,14 @@ namespace ReGizmo
 
         public static void CopyDepth(CommandBuffer cmd, RenderTargetIdentifier targetTexture, RenderTargetIdentifier depthTexture)
         {
-            cmd.SetGlobalTexture("_MainTex", depthTexture);
+            cmd.SetGlobalTexture("_DepthTex", depthTexture);
             cmd.Blit(depthTexture, targetTexture, copyDepthMaterial);
+        }
+
+        public static void BlitDepthToColor(CommandBuffer cmd, RenderTargetIdentifier targetTexture, RenderTargetIdentifier depthTexture)
+        {
+            cmd.SetGlobalTexture("_DepthTex", depthTexture);
+            cmd.Blit(depthTexture, targetTexture, blitDepthToColorMaterial);
         }
     }
 }
