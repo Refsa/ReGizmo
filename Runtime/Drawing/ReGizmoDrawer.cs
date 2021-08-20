@@ -38,7 +38,7 @@ namespace ReGizmo.Drawing
 
         public ReGizmoDrawer()
         {
-            shaderDataBuffer = new ShaderDataBuffer<TShaderData>();
+            shaderDataBuffer = new ShaderDataBuffer<TShaderData>(name: this.GetType().Name + "_Buffer");
         }
 
         public ReGizmoDrawer(Material material) : this()
@@ -62,6 +62,7 @@ namespace ReGizmo.Drawing
             currentDrawCount = shaderDataBuffer.Count();
             if (currentDrawCount == 0) return;
             shaderDataBuffer.PushData();
+            PushSharedDataInternal();
         }
 
         public void PreRender(CommandBuffer commandBuffer, CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData)
@@ -88,6 +89,7 @@ namespace ReGizmo.Drawing
             }
             else
             {
+                uniqueDrawData.SetDrawCount((uint)currentDrawCount);
                 if (argsBufferCountOffset == 0)
                 {
                     uniqueDrawData.SetVertexCount((uint)currentDrawCount);
@@ -167,6 +169,7 @@ namespace ReGizmo.Drawing
         protected virtual void RenderWithPassInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData, int pass) { }
         protected virtual void RenderWithMaterialInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData, Material material) { }
         protected virtual void SetMaterialPropertyBlockData(MaterialPropertyBlock materialPropertyBlock) { }
+        protected virtual void PushSharedDataInternal() { }
         protected virtual void SetCullingData(CommandBuffer cmd) { }
 
         public virtual void Dispose()
