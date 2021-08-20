@@ -15,15 +15,16 @@ namespace ReGizmo.Utils
 
         volatile int writeCursor;
         Mutex mutex;
+        string name;
 
         public ComputeBuffer ComputeBuffer => shaderDataBuffer;
 
-        public ShaderDataBuffer(int capacity = 1024)
+        public ShaderDataBuffer(int capacity = 1024, string name = "ComputeBuffer")
         {
+            this.name = name;
+
             Expand(capacity);
-
             mutex = new Mutex();
-
             writeCursor = 0;
         }
 
@@ -75,6 +76,7 @@ namespace ReGizmo.Utils
             {
                 ComputeBufferPool.Free(shaderDataBuffer);
                 shaderDataBuffer = ComputeBufferPool.Get(shaderDataPool.Length, Marshal.SizeOf<T>());
+                shaderDataBuffer.name = name;
             }
 
             shaderDataBuffer.SetData(shaderDataPool, 0, 0, writeCursor);
