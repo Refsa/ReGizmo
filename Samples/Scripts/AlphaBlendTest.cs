@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace ReGizmo.Samples
 {
-    public class AlphaBlendTest : MonoBehaviour
+    internal class AlphaBlendTest : DrawSampleBase
     {
-        void OnDrawGizmos()
+        protected override void Draw()
         {
             using (new TransformScope(transform))
             {
