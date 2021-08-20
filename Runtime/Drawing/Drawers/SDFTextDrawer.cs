@@ -96,6 +96,7 @@ namespace ReGizmo.Drawing
         protected override void RenderWithPassInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData, int pass)
         {
             uniqueDrawData.SetInstanceCount(1);
+            uniqueDrawData.SetVertexCount(uniqueDrawData.DrawCount);
 
             cmd.DrawProceduralIndirect(
                 Matrix4x4.identity,
@@ -106,12 +107,16 @@ namespace ReGizmo.Drawing
             );
         }
 
+        protected override void PushSharedDataInternal()
+        {
+            textDataBuffers.PushData();
+        }
+
         protected override void SetMaterialPropertyBlockData(MaterialPropertyBlock materialPropertyBlock)
         {
             base.SetMaterialPropertyBlockData(materialPropertyBlock);
 
             materialPropertyBlock.SetBuffer("_CharacterInfos", characterInfoBuffer);
-            textDataBuffers.PushData();
             materialPropertyBlock.SetBuffer("_TextData", textDataBuffers.ComputeBuffer);
 
             materialPropertyBlock.SetFloat("_DistanceRange", font.Font.atlas.distanceRange);

@@ -19,7 +19,7 @@ namespace ReGizmo.Drawing
 
         public TextDrawer(Font font) : base()
         {
-            textDataBuffers = new ShaderDataBuffer<TextData>();
+            textDataBuffers = new ShaderDataBuffer<TextData>(name: "Text_TextDataBuffer");
 
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Font");
             this.font = font;
@@ -61,6 +61,7 @@ namespace ReGizmo.Drawing
 
             ComputeBufferPool.Free(characterInfoBuffer);
             characterInfoBuffer = ComputeBufferPool.Get(200, Marshal.SizeOf<CharacterInfoShader>());
+            characterInfoBuffer.name = "Text_CharacterInfoBuffer";
             characterInfoBuffer.SetData(characterInfos);
         }
 
@@ -82,28 +83,7 @@ namespace ReGizmo.Drawing
 
         protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData, bool depth)
         {
-            uniqueDrawData.SetInstanceCount(1);
-
-            if (depth)
-            {
-                cmd.DrawProceduralIndirect(
-                    Matrix4x4.identity,
-                    material, 1,
-                    MeshTopology.Points,
-                    uniqueDrawData.ArgsBuffer, 0,
-                    uniqueDrawData.MaterialPropertyBlock
-                );
-            }
-            else
-            {
-                cmd.DrawProceduralIndirect(
-                    Matrix4x4.identity,
-                    material, 0,
-                    MeshTopology.Points,
-                    uniqueDrawData.ArgsBuffer, 0,
-                    uniqueDrawData.MaterialPropertyBlock
-                );
-            }
+            RenderWithPassInternal(cmd, uniqueDrawData, depth ? 1 : 0);
         }
 
         protected override void RenderWithPassInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData, int pass)
@@ -116,7 +96,12 @@ namespace ReGizmo.Drawing
                 MeshTopology.Points,
                 uniqueDrawData.ArgsBuffer, 0,
                 uniqueDrawData.MaterialPropertyBlock
-            );
+            ); 
+        } 
+
+        protected override void PushSharedDataInternal()
+        {
+            textDataBuffers.PushData();
         }
 
         protected override void SetMaterialPropertyBlockData(MaterialPropertyBlock materialPropertyBlock)
@@ -126,7 +111,6 @@ namespace ReGizmo.Drawing
             materialPropertyBlock.SetTexture("_MainTex", font.material.mainTexture);
             materialPropertyBlock.SetBuffer("_CharacterInfos", characterInfoBuffer);
 
-            textDataBuffers.PushData();
             materialPropertyBlock.SetBuffer("_TextData", textDataBuffers.ComputeBuffer);
         }
 
