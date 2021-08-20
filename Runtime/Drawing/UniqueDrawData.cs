@@ -43,7 +43,7 @@ namespace ReGizmo.Drawing
 
         public ComputeBuffer GetRenderArgsBuffer() => argsBuffer;
 
-        public ComputeBuffer GetDrawBuffer<TShaderData>(int size)
+        public ComputeBuffer GetDrawBuffer<TShaderData>(int size, string name = "DrawBuffer")
             where TShaderData : unmanaged
         {
             if (drawBuffer == null || drawBuffer.count < size)
@@ -53,7 +53,7 @@ namespace ReGizmo.Drawing
                     ComputeBufferPool.Free(drawBuffer);
                 }
 
-                drawBuffer = ComputeBufferPool.Get(size, System.Runtime.InteropServices.Marshal.SizeOf<TShaderData>(), ComputeBufferType.Append, "CulledDrawBuffer");
+                drawBuffer = ComputeBufferPool.Get(size, System.Runtime.InteropServices.Marshal.SizeOf<TShaderData>(), ComputeBufferType.Append, name);
             }
 
             return drawBuffer;
