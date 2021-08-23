@@ -137,7 +137,7 @@ namespace ReGizmo.Core.URP
 
             if (renderingData.cameraData.isSceneViewCamera)
             {
-                depthCopyPass.Setup(renderer.cameraDepth);
+                depthCopyPass.Setup(renderer.cameraDepthTarget);
                 renderer.EnqueuePass(depthCopyPass);
             }
             else
