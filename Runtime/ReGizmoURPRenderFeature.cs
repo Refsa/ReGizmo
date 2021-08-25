@@ -15,36 +15,26 @@ namespace ReGizmo.Core.URP
         class ReGizmoRenderPass : ScriptableRenderPass
         {
             RenderTargetIdentifier colorTarget;
+            RenderTargetIdentifier depthTarget;
 
-            DepthCopyPass depthCopyPass;
-            public RenderTargetHandle DepthHandle;
-
-            public ReGizmoRenderPass(DepthCopyPass depthCopyPass)
+            public ReGizmoRenderPass()
             {
                 renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing;
-                this.depthCopyPass = depthCopyPass;
-
-                DepthHandle.Init("_DepthCopy");
             }
 
-            public void Setup(RenderTargetIdentifier colorTarget)
+            public void Setup(RenderTargetIdentifier colorTarget, RenderTargetIdentifier depthTarget)
             {
                 this.colorTarget = colorTarget;
+                this.depthTarget = depthTarget;
             }
 
             public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
             {
                 bool gameView = !renderingData.cameraData.isSceneViewCamera;
-
-                var framebuffer = new Framebuffer { ColorTarget = colorTarget, DepthTarget = DepthHandle.Identifier() };
-
                 ref var cameraData = ref renderingData.cameraData;
 
-                if (renderingData.cameraData.isSceneViewCamera)
-                {
-                    framebuffer.ColorTarget = cameraData.targetTexture.colorBuffer;
-                    framebuffer.DepthTarget = depthCopyPass.DepthTarget;
-                }
+                colorTarget = cameraData.isSceneViewCamera ? colorAttachment : colorTarget;
+                var framebuffer = new Framebuffer { ColorTarget = colorTarget, DepthTarget = depthTarget };
 
                 OnPassExecute?.Invoke(
                     context,
@@ -65,14 +55,9 @@ namespace ReGizmo.Core.URP
 
             public DepthCopyPass()
             {
-                renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing - 1;
+                renderPassEvent = RenderPassEvent.BeforeRenderingPostProcessing;
 
                 depthHandle.Init("Depth");
-
-                if (blitDepthMaterial == null)
-                {
-                    blitDepthMaterial = new Material(Shader.Find("Hidden/ReGizmo/BlitDepth"));
-                }
             }
 
             public void Setup(RenderTargetIdentifier depthTarget)
@@ -82,6 +67,9 @@ namespace ReGizmo.Core.URP
 
             public override void Configure(CommandBuffer cmd, RenderTextureDescriptor cameraTextureDescriptor)
             {
+                blitDepthMaterial ??= new Material(Shader.Find("Hidden/ReGizmo/BlitDepth_URP"));
+                // blitDepthMaterial ??= new Material(Shader.Find("Hidden/Universal Render Pipeline/CopyDepth"));
+
                 var rtd = cameraTextureDescriptor;
                 rtd.colorFormat = RenderTextureFormat.Depth;
                 rtd.depthBufferBits = 32;
@@ -89,7 +77,7 @@ namespace ReGizmo.Core.URP
 
                 cmd.GetTemporaryRT(depthHandle.id, rtd, FilterMode.Point);
 
-                ConfigureTarget(depthHandle.Identifier());
+                ConfigureTarget(new RenderTargetIdentifier(depthHandle.Identifier(), 0, CubemapFace.Unknown, -1));
                 ConfigureClear(ClearFlag.None, Color.black);
             }
 
@@ -99,10 +87,13 @@ namespace ReGizmo.Core.URP
                 context.ExecuteCommandBuffer(cmd);
                 cmd.Clear();
 
-                depthTarget = renderingData.cameraData.isSceneViewCamera ? depthAttachment : depthTarget;
+                ref var cameraData = ref renderingData.cameraData;
 
-                // cmd.SetGlobalTexture("_CameraDepthAttachment", depthTarget);
-                cmd.Blit(depthTarget, depthHandle.Identifier(), blitDepthMaterial);
+                depthTarget = renderingData.cameraData.isSceneViewCamera ? depthAttachment : depthTarget;
+                cmd.SetGlobalTexture("_CameraDepthAttachment", depthAttachment);
+
+                // cmd.Blit(depthTarget, depthHandle.Identifier(), blitDepthMaterial);
+                cmd.DrawMesh(RenderingUtils.fullscreenMesh, cameraData.camera.transform.localToWorldMatrix, blitDepthMaterial);
 
                 context.ExecuteCommandBuffer(cmd);
                 CommandBufferPool.Release(cmd);
@@ -117,35 +108,21 @@ namespace ReGizmo.Core.URP
         ReGizmoRenderPass renderPass;
         DepthCopyPass depthCopyPass;
 
-        CopyDepthPass copyDepthPass;
-        RenderTargetHandle depthHandle;
-
         public override void Create()
         {
             depthCopyPass = new DepthCopyPass();
-            copyDepthPass = new CopyDepthPass(RenderPassEvent.AfterRenderingPostProcessing - 1, new Material(Shader.Find("Hidden/Universal Render Pipeline/CopyDepth")));
-            renderPass = new ReGizmoRenderPass(depthCopyPass);
-
-            depthHandle.Init("_ReGizmoDepth");
+            // copyDepthPass = new CopyDepthPass(RenderPassEvent.AfterRenderingPostProcessing - 1, new Material(Shader.Find("Hidden/Universal Render Pipeline/CopyDepth")));
+            renderPass = new ReGizmoRenderPass();
         }
 
         public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
         {
             if (!Core.ReGizmo.IsActive) return;
 
-            renderPass.Setup(renderer.cameraColorTarget);
+            depthCopyPass.Setup(renderer.cameraDepthTarget);
+            renderer.EnqueuePass(depthCopyPass);
 
-            if (renderingData.cameraData.isSceneViewCamera)
-            {
-                depthCopyPass.Setup(renderer.cameraDepth);
-                renderer.EnqueuePass(depthCopyPass);
-            }
-            else
-            {
-                copyDepthPass.Setup(depthHandle, renderPass.DepthHandle);
-                renderer.EnqueuePass(copyDepthPass);
-            }
-
+            renderPass.Setup(renderer.cameraColorTarget, depthCopyPass.DepthTarget);
             renderer.EnqueuePass(renderPass);
         }
     }
