@@ -1,3 +1,4 @@
+#if REGIZMO_DEV
 using System.Linq;
 using System.Threading.Tasks;
 using ReGizmo.Drawing;
@@ -5,9 +6,7 @@ using UnityEngine;
 
 namespace ReGizmo.Samples.Performance
 {
-#if !REGIZMO_DEV
     [AddComponentMenu("")]
-#endif
     public class LinePerformanceTest : PerformanceTest, ISequentialTest, IParallelTest
     {
         public void RunParallelTest()
@@ -54,3 +53,4 @@ namespace ReGizmo.Samples.Performance
         }
     }
 }
+#endif
