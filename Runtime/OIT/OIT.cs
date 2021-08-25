@@ -82,8 +82,6 @@ namespace ReGizmo
 
         protected void Resize()
         {
-            Debug.Log("OIT::Resize");
-
             ReleaseTexture(ref accumulateTexture);
             ReleaseTexture(ref revealageTexture);
             ReleaseTexture(ref tempTargetTexture);

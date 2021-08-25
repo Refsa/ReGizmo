@@ -199,7 +199,7 @@ namespace ReGizmo.Drawing
 
         public void FrameCleanup()
         {
-            oit.FrameCleanup();
+            // oit.FrameCleanup();
 
 #if RG_HDRP
             framebuffer = new Framebuffer();
