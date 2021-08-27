@@ -10,7 +10,7 @@ namespace ReGizmo.Core.URP
 {
     public class ReGizmoURPRenderFeature : ScriptableRendererFeature
     {
-        internal static event Action<ScriptableRenderContext, Camera, Framebuffer, bool> OnPassExecute;
+        internal static event Action<ScriptableRenderContext, Camera, Framebuffer, CommandBuffer> OnPassExecute;
 
         class ReGizmoRenderPass : ScriptableRenderPass
         {
@@ -30,6 +30,10 @@ namespace ReGizmo.Core.URP
 
             public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
             {
+                var cmd = CommandBufferPool.Get();
+                context.ExecuteCommandBuffer(cmd);
+                cmd.Clear();
+
                 bool gameView = !renderingData.cameraData.isSceneViewCamera;
                 ref var cameraData = ref renderingData.cameraData;
 
@@ -40,7 +44,10 @@ namespace ReGizmo.Core.URP
                     context,
                     renderingData.cameraData.camera,
                     framebuffer,
-                    gameView);
+                    cmd);
+
+                context.ExecuteCommandBuffer(cmd);
+                CommandBufferPool.Release(cmd);
             }
         }
 
@@ -55,7 +62,7 @@ namespace ReGizmo.Core.URP
 
             public DepthCopyPass()
             {
-                renderPassEvent = RenderPassEvent.BeforeRenderingPostProcessing;
+                renderPassEvent = RenderPassEvent.AfterRenderingPrePasses;
 
                 depthHandle.Init("Depth");
             }
@@ -67,9 +74,6 @@ namespace ReGizmo.Core.URP
 
             public override void Configure(CommandBuffer cmd, RenderTextureDescriptor cameraTextureDescriptor)
             {
-                blitDepthMaterial ??= new Material(Shader.Find("Hidden/ReGizmo/BlitDepth_URP"));
-                // blitDepthMaterial ??= new Material(Shader.Find("Hidden/Universal Render Pipeline/CopyDepth"));
-
                 var rtd = cameraTextureDescriptor;
                 rtd.colorFormat = RenderTextureFormat.Depth;
                 rtd.depthBufferBits = 32;
@@ -83,13 +87,18 @@ namespace ReGizmo.Core.URP
 
             public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
             {
+                if (blitDepthMaterial == null || blitDepthMaterial.Equals(null))
+                {
+                    blitDepthMaterial = new Material(Shader.Find("Hidden/ReGizmo/BlitDepth_URP"));
+                    // blitDepthMaterial = new Material(Shader.Find("Hidden/Universal Render Pipeline/CopyDepth"));
+                }
+
                 var cmd = CommandBufferPool.Get("ReGizmo::CopyDepth");
                 context.ExecuteCommandBuffer(cmd);
                 cmd.Clear();
 
                 ref var cameraData = ref renderingData.cameraData;
 
-                depthTarget = renderingData.cameraData.isSceneViewCamera ? depthAttachment : depthTarget;
                 cmd.SetGlobalTexture("_CameraDepthAttachment", depthAttachment);
 
                 // cmd.Blit(depthTarget, depthHandle.Identifier(), blitDepthMaterial);

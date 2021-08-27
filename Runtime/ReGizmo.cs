@@ -176,16 +176,19 @@ namespace ReGizmo.Core
         }
 
 #if RG_URP
-        private static void OnURPPassExecute(ScriptableRenderContext context, Camera camera, Framebuffer framebuffer, bool isGameView)
+        private static void OnURPPassExecute(ScriptableRenderContext context, Camera camera, Framebuffer framebuffer, CommandBuffer cmd)
         {
+            activeCameras ??= new Dictionary<Camera, CameraData>();
+
             if (!activeCameras.TryGetValue(camera, out var cameraData))
             {
                 return;
             }
 
+            cameraData.CommandBufferOverride(cmd);
             cameraData.SetFramebuffer(framebuffer);
-            Render(cameraData);
-            context.ExecuteCommandBuffer(cameraData.CommandBuffer);
+            Render(cameraData, clearCommandBuffer: false);
+            cameraData.RemoveCommandBuffer();
         }
 #elif RG_HDRP
         static void OnHDRPPassExecute(in ScriptableRenderContext context, CommandBuffer cmd, Camera camera, in Framebuffer framebuffer)
