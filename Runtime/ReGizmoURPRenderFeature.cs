@@ -19,7 +19,7 @@ namespace ReGizmo.Core.URP
 
             public ReGizmoRenderPass()
             {
-                renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing;
+                renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing + 100;
             }
 
             public void Setup(RenderTargetIdentifier colorTarget, RenderTargetIdentifier depthTarget)
