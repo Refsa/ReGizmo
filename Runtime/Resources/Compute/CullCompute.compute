@@ -17,7 +17,7 @@ struct BoundingBox
 RWStructuredBuffer<BoundingBox> _DebugAABB;
 #define DEBUG 0
 
-int _Count;
+uint _Count;
 float4 _CameraFrustum[6];
 float2 _CameraClips;
 

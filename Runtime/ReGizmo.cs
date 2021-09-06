@@ -312,10 +312,6 @@ namespace ReGizmo.Core
             }
 #endif
 
-#if UNITY_EDITOR && (RG_LEGACY || RG_URP)
-            OnFrameCleanup();
-#endif
-
             if (shouldReset)
             {
                 shouldReset = false;
@@ -356,6 +352,7 @@ namespace ReGizmo.Core
             cameraData.PreRender(drawers);
             cameraData.Render(drawers);
             cameraData.PostRender();
+            cameraData.FrameCleanup();
         }
 
         public static void ClearAll()
