@@ -5,7 +5,7 @@ namespace ReGizmo.Drawing
 {
     internal class SpriteCullingHandler : CullingHandler
     {
-        static readonly int KernelID = CullingCompute.FindKernel("Sprite_CameraCulling");
+        static readonly int KernelID = GetKernelID("Sprite_CameraCulling");
         static readonly string InputID = "_SpriteInput";
         static readonly string OutputID = "_SpriteOutput";
 

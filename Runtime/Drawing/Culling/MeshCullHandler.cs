@@ -10,7 +10,7 @@ namespace ReGizmo.Drawing
 {
     internal class MeshCullingHandler : CullingHandler
     {
-        static readonly int KernelID = CullingCompute.FindKernel("Mesh_CameraCulling");
+        static readonly int KernelID = GetKernelID("Mesh_CameraCulling");
         static readonly string InputID = "_MeshInput";
         static readonly string OutputID = "_MeshOutput";
 
