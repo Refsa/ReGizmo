@@ -134,6 +134,8 @@ namespace ReGizmo.Drawing
 
         public void RenderWithPass(CommandBuffer commandBuffer, CameraFrustum cameraFrustum, UniqueDrawData uniqueDrawData, int pass)
         {
+            if (currentDrawCount == 0) return;
+
             Profiler.BeginSample("ReGizmoDrawer::Render");
             RenderWithPassInternal(commandBuffer, uniqueDrawData, pass);
             Profiler.EndSample();
