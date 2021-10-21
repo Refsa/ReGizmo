@@ -8,6 +8,7 @@ namespace ReGizmo.Utils
         List<Vector3> vertices;
         List<Vector3> normals;
         List<int> indices;
+        List<Vector2> uvs;
 
         List<Triangle> triangles;
 
@@ -16,6 +17,7 @@ namespace ReGizmo.Utils
             vertices = new List<Vector3>();
             normals = new List<Vector3>();
             indices = new List<int>();
+            uvs = new List<Vector2>();
 
             triangles = new List<Triangle>();
         }
@@ -48,6 +50,12 @@ namespace ReGizmo.Utils
             return index;
         }
 
+        public Shape AddUv(Vector2 uv)
+        {
+            uvs.Add(uv);
+            return this;
+        }
+
         public Shape Build()
         {
             foreach (var tri in triangles)
@@ -70,6 +78,7 @@ namespace ReGizmo.Utils
             mesh.SetVertices(vertices);
             mesh.SetIndices(indices, MeshTopology.Triangles, 0);
             mesh.SetNormals(normals);
+            mesh.SetUVs(0, uvs);
             
             //mesh.RecalculateNormals();
             //mesh.RecalculateBounds();
