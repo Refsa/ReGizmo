@@ -9,14 +9,14 @@ namespace ReGizmo.Drawing
     {
         protected override IEnumerable<(IconDrawer, UniqueDrawData)> _drawers => drawers.Values;
 
-        Dictionary<Texture2D, (IconDrawer drawer, UniqueDrawData uniqueDrawData)> drawers;
+        Dictionary<Texture, (IconDrawer drawer, UniqueDrawData uniqueDrawData)> drawers;
 
         public IconsDrawer() : base()
         {
-            drawers = new Dictionary<Texture2D, (IconDrawer, UniqueDrawData)>();
+            drawers = new Dictionary<Texture, (IconDrawer, UniqueDrawData)>();
         }
 
-        public ref IconShaderData GetShaderData(Texture2D texture)
+        public ref IconShaderData GetShaderData(Texture texture)
         {
             if (!drawers.TryGetValue(texture, out var drawer))
             {
@@ -26,7 +26,7 @@ namespace ReGizmo.Drawing
             return ref drawer.drawer.GetShaderData();
         }
 
-        (IconDrawer, UniqueDrawData) AddSubDrawer(Texture2D texture)
+        (IconDrawer, UniqueDrawData) AddSubDrawer(Texture texture)
         {
             var drawer = new IconDrawer(texture);
             drawer.SetDepthMode(depthMode);
