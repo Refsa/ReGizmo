@@ -87,6 +87,7 @@ namespace ReGizmo.Core
                 // Textures
                 ReGizmoResolver<IconsDrawer>.Init(() => new IconsDrawer());
                 ReGizmoResolver<SpritesDrawer>.Init(() => new SpritesDrawer());
+                ReGizmoResolver<TexturesDrawer>.Init(() => new TexturesDrawer());
 
                 // Fonts
                 ReGizmoResolver<TextDrawer>.Init(() => new TextDrawer(ReGizmoSettings.Font));
@@ -130,6 +131,7 @@ namespace ReGizmo.Core
                 ReGizmoResolver<LineDrawer>.DrawerSorted,
                 ReGizmoResolver<PolyLineDrawer>.DrawerSorted,
                 ReGizmoResolver<GridDrawer>.DrawerSorted,
+                ReGizmoResolver<TexturesDrawer>.DrawerSorted,
 
                 // ## OVERLAY ##
                 // ReGizmoResolver<CubeDrawer>.DrawerOverlay,
