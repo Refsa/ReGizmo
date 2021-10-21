@@ -58,12 +58,7 @@ namespace ReGizmo.Core
             Dispose();
             activeCameras = new Dictionary<Camera, CameraData>();
 
-#if RG_URP
-            Core.URP.ReGizmoURPRenderFeature.OnPassExecute += OnURPPassExecute;
-#elif RG_HDRP
-            Core.HDRP.ReGizmoHDRPRenderPass.OnPassExecute += OnHDRPPassExecute;
-            Core.HDRP.ReGizmoHDRPRenderPass.OnPassCleanup += OnHDRPPassCleanup;
-#endif
+            SetActive(true);
 
             ComputeBufferPool.Init();
 
@@ -178,7 +173,7 @@ namespace ReGizmo.Core
         }
 
 #if RG_URP
-        private static void OnURPPassExecute(ScriptableRenderContext context, Camera camera, Framebuffer framebuffer, CommandBuffer cmd)
+        private static void OnURPPassExecute(in ScriptableRenderContext context, Camera camera, in Framebuffer framebuffer, CommandBuffer cmd)
         {
             activeCameras ??= new Dictionary<Camera, CameraData>();
 
@@ -190,6 +185,7 @@ namespace ReGizmo.Core
             cameraData.CommandBufferOverride(cmd);
             cameraData.SetFramebuffer(framebuffer);
             Render(cameraData, clearCommandBuffer: false);
+            cameraData.SetFramebuffer(new Framebuffer());
             cameraData.RemoveCommandBuffer();
         }
 #elif RG_HDRP
@@ -243,6 +239,7 @@ namespace ReGizmo.Core
             {
 #if RG_URP
                 Core.URP.ReGizmoURPRenderFeature.OnPassExecute += OnURPPassExecute;
+                Core.URP.ReGizmoURPRenderFeature.OnPassCleanup += OnFrameCleanup;
 #elif RG_HDRP
                 Core.HDRP.ReGizmoHDRPRenderPass.OnPassExecute += OnHDRPPassExecute;
                 Core.HDRP.ReGizmoHDRPRenderPass.OnPassCleanup += OnHDRPPassCleanup;
@@ -252,6 +249,7 @@ namespace ReGizmo.Core
             {
 #if RG_URP
                 Core.URP.ReGizmoURPRenderFeature.OnPassExecute -= OnURPPassExecute;
+                Core.URP.ReGizmoURPRenderFeature.OnPassCleanup -= OnFrameCleanup;
 #elif RG_HDRP
                 Core.HDRP.ReGizmoHDRPRenderPass.OnPassExecute -= OnHDRPPassExecute;
                 Core.HDRP.ReGizmoHDRPRenderPass.OnPassCleanup -= OnHDRPPassCleanup;
