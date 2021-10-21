@@ -12,6 +12,7 @@
     - @high CullCompute has some sign mismatches
     # @high Handle unregistering textures, etc. from content drawers when source object is destroyed
         i.e. add an unregister method
+    - @high Some issue with depth sorting (renderFront/renderBack)
 
 OIT: 
     - @high sprite-shader needs OIT support

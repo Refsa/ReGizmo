@@ -106,6 +106,7 @@ namespace ReGizmo.Core
             drawers = new List<IReGizmoDrawer>()
             {
                 // ## SORTED ##
+                ReGizmoResolver<TexturesDrawer>.DrawerSorted,
                 ReGizmoResolver<CubeDrawer>.DrawerSorted,
                 ReGizmoResolver<SphereDrawer>.DrawerSorted,
                 ReGizmoResolver<ConeDrawer>.DrawerSorted,
@@ -126,7 +127,6 @@ namespace ReGizmo.Core
                 ReGizmoResolver<LineDrawer>.DrawerSorted,
                 ReGizmoResolver<PolyLineDrawer>.DrawerSorted,
                 ReGizmoResolver<GridDrawer>.DrawerSorted,
-                ReGizmoResolver<TexturesDrawer>.DrawerSorted,
 
                 // ## OVERLAY ##
                 // ReGizmoResolver<CubeDrawer>.DrawerOverlay,

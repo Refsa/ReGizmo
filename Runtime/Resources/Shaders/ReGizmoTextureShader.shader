@@ -39,6 +39,9 @@ Shader "Hidden/ReGizmo/Texture"
         {
             v2f f = (v2f)0;
             f.uv = v.uv;
+            #if UNITY_UV_STARTS_AT_TOP
+            f.uv.y = 1 - f.uv.y;
+            #endif
 
             #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
                 MeshProperties prop = _Properties[instanceID]; 
@@ -93,7 +96,6 @@ Shader "Hidden/ReGizmo/Texture"
             struct v2f_depth
             {
                 float4 pos: SV_POSITION;
-                float depth: TEXCOORD2;
             };
 
             v2f_depth depth_vert(vertex i, uint instanceID: SV_INSTANCEID)
@@ -104,7 +106,6 @@ Shader "Hidden/ReGizmo/Texture"
                     MeshProperties prop = _Properties[instanceID]; 
                     float4 cloc = TRS(prop.Position, prop.Rotation, prop.Scale, i.pos);
                     o.pos = mul(UNITY_MATRIX_VP, cloc);
-                    o.depth = compute_depth(cloc);
                 #endif
 
                 return o;
@@ -171,7 +172,7 @@ Shader "Hidden/ReGizmo/Texture"
             Name "RenderBehind"
 
             Blend SrcAlpha OneMinusSrcAlpha
-            ZTest GEqual
+            ZTest Greater
             ZWrite Off
             Cull Back
 
