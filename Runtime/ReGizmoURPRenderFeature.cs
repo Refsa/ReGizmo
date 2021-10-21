@@ -10,7 +10,10 @@ namespace ReGizmo.Core.URP
 {
     public class ReGizmoURPRenderFeature : ScriptableRendererFeature
     {
-        internal static event Action<ScriptableRenderContext, Camera, Framebuffer, CommandBuffer> OnPassExecute;
+        internal delegate void PassExecuteDelegate(in ScriptableRenderContext context, Camera camera, in Framebuffer framebuffer, CommandBuffer commandBuffer);
+
+        internal static event PassExecuteDelegate OnPassExecute;
+        internal static event Action OnPassCleanup;
 
         class ReGizmoRenderPass : ScriptableRenderPass
         {
@@ -43,12 +46,17 @@ namespace ReGizmo.Core.URP
 
                 OnPassExecute?.Invoke(
                     context,
-                    renderingData.cameraData.camera,
+                    cameraData.camera,
                     framebuffer,
                     cmd);
 
                 context.ExecuteCommandBuffer(cmd);
                 CommandBufferPool.Release(cmd);
+            }
+
+            public override void FrameCleanup(CommandBuffer cmd)
+            {
+                OnPassCleanup?.Invoke();
             }
         }
 
