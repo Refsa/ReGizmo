@@ -70,51 +70,57 @@ namespace ReGizmo.Core.URP
 
             public DepthCopyPass()
             {
-                renderPassEvent = RenderPassEvent.AfterRenderingPrePasses;
+                renderPassEvent = RenderPassEvent.AfterRenderingOpaques;
 
-                depthHandle.Init("Depth");
+                depthHandle.Init("_DepthCopy");
             }
 
-            public override void Configure(CommandBuffer cmd, RenderTextureDescriptor cameraTextureDescriptor)
+#if UNITY_2020_3_OR_NEWER
+            public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
             {
-                var rtd = cameraTextureDescriptor;
-                rtd.colorFormat = RenderTextureFormat.Depth;
-                rtd.depthBufferBits = 32;
+                var rtd = renderingData.cameraData.cameraTargetDescriptor;
                 rtd.msaaSamples = 1;
 
                 cmd.GetTemporaryRT(depthHandle.id, rtd, FilterMode.Point);
-
-                ConfigureTarget(new RenderTargetIdentifier(depthHandle.Identifier(), 0, CubemapFace.Unknown, -1));
-                ConfigureClear(ClearFlag.None, Color.black);
             }
+#else
+            public override void Configure(CommandBuffer cmd, RenderTextureDescriptor cameraTextureDescriptor)
+            {
+                var rtd = cameraTextureDescriptor;
+                rtd.msaaSamples = 1;
+
+                cmd.GetTemporaryRT(depthHandle.id, rtd, FilterMode.Point);
+            }
+#endif
 
             public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
             {
                 if (blitDepthMaterial == null || blitDepthMaterial.Equals(null))
                 {
                     blitDepthMaterial = new Material(Shader.Find("Hidden/ReGizmo/BlitDepth_URP"));
-                    // blitDepthMaterial = new Material(Shader.Find("Hidden/Universal Render Pipeline/CopyDepth"));
                 }
 
                 var cmd = CommandBufferPool.Get("ReGizmo::CopyDepth");
                 context.ExecuteCommandBuffer(cmd);
                 cmd.Clear();
 
-                ref var cameraData = ref renderingData.cameraData;
-
-                cmd.SetGlobalTexture("_CameraDepthAttachment", depthAttachment);
-
-                // cmd.Blit(depthTarget, depthHandle.Identifier(), blitDepthMaterial);
-                cmd.DrawMesh(RenderingUtils.fullscreenMesh, cameraData.camera.transform.localToWorldMatrix, blitDepthMaterial);
+                cmd.Blit(depthHandle.Identifier(), depthHandle.Identifier(), blitDepthMaterial);
 
                 context.ExecuteCommandBuffer(cmd);
                 CommandBufferPool.Release(cmd);
             }
 
+#if UNITY_2020_3_OR_NEWER
+            public override void OnCameraCleanup(CommandBuffer cmd)
+            {
+                cmd.ReleaseTemporaryRT(depthHandle.id);
+            }
+#else
             public override void FrameCleanup(CommandBuffer cmd)
             {
                 cmd.ReleaseTemporaryRT(depthHandle.id);
             }
+#endif
         }
 
         ReGizmoRenderPass renderPass;
@@ -123,7 +129,6 @@ namespace ReGizmo.Core.URP
         public override void Create()
         {
             depthCopyPass = new DepthCopyPass();
-            // copyDepthPass = new CopyDepthPass(RenderPassEvent.AfterRenderingPostProcessing - 1, new Material(Shader.Find("Hidden/Universal Render Pipeline/CopyDepth")));
             renderPass = new ReGizmoRenderPass();
         }
 

@@ -1,21 +1,18 @@
 Shader "Hidden/ReGizmo/BlitDepth_URP" {
     Properties { }
     SubShader {
-        ZTest Always Cull Off ZWrite Off
+        ZTest Always ZWrite On Cull Back
         
         Pass {
             HLSLPROGRAM
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
             
             #pragma vertex vert
             #pragma fragment frag
 
-            TEXTURE2D(_CameraDepthAttachment);
-            SAMPLER(sampler_CameraDepthAttachment_linear_clamp);
-            
-            struct a2v {
+            struct appdata {
                 float4 vertex : POSITION;
-                float4 texcoord : TEXCOORD0;
             };
             
             struct v2f {
@@ -23,16 +20,17 @@ Shader "Hidden/ReGizmo/BlitDepth_URP" {
                 float2 uv : TEXCOORD0;
             };
             
-            v2f vert(a2v v) {
+            v2f vert(appdata v) {
                 v2f o;
                 o.pos = TransformObjectToHClip(v.vertex);
-                o.uv = v.texcoord;
+                float4 suv = ComputeScreenPos(o.pos);
+                o.uv = suv.xy / suv.w;
                 
                 return o;
             }
             
-            float frag(v2f i) : SV_DEPTH {
-                float depth = SAMPLE_TEXTURE2D(_CameraDepthAttachment, sampler_CameraDepthAttachment_linear_clamp, i.uv);
+            float4 frag(v2f i, out float depth : SV_DEPTH) : SV_TARGET0 {
+                depth = SampleSceneDepth(i.uv);
                 return depth;
             }
             ENDHLSL
