@@ -40,8 +40,8 @@ namespace ReGizmo.Core.URP
                 bool gameView = !renderingData.cameraData.isSceneViewCamera;
                 ref var cameraData = ref renderingData.cameraData;
 
-                // colorTarget = cameraData.isSceneViewCamera ? colorAttachment : colorTarget;
-                colorTarget = colorAttachment;
+                colorTarget = cameraData.isSceneViewCamera ? colorAttachment : colorTarget;
+                // colorTarget = colorAttachment;
                 var framebuffer = new Framebuffer { ColorTarget = colorTarget, DepthTarget = depthTarget };
 
                 OnPassExecute?.Invoke(
@@ -82,6 +82,8 @@ namespace ReGizmo.Core.URP
                 rtd.msaaSamples = 1;
 
                 cmd.GetTemporaryRT(depthHandle.id, rtd, FilterMode.Point);
+                ConfigureTarget(depthHandle.Identifier(), depthHandle.Identifier());
+                ConfigureClear(ClearFlag.All, Color.clear);
             }
 #else
             public override void Configure(CommandBuffer cmd, RenderTextureDescriptor cameraTextureDescriptor)
@@ -90,6 +92,8 @@ namespace ReGizmo.Core.URP
                 rtd.msaaSamples = 1;
 
                 cmd.GetTemporaryRT(depthHandle.id, rtd, FilterMode.Point);
+                ConfigureTarget(depthHandle.Identifier(), depthHandle.Identifier());
+                ConfigureClear(ClearFlag.All, Color.clear);
             }
 #endif
 
@@ -104,7 +108,7 @@ namespace ReGizmo.Core.URP
                 context.ExecuteCommandBuffer(cmd);
                 cmd.Clear();
 
-                cmd.Blit(depthHandle.Identifier(), depthHandle.Identifier(), blitDepthMaterial);
+                cmd.Blit(null, depthHandle.Identifier(), blitDepthMaterial);
 
                 context.ExecuteCommandBuffer(cmd);
                 CommandBufferPool.Release(cmd);
