@@ -119,15 +119,17 @@ namespace ReGizmo.Samples
                 int index = 1;
                 foreach (var cm in customMeshes)
                 {
-                    ReDraw.Mesh(cm, Vector3.up * index * 5, Quaternion.identity, Vector3.one, colors[index % 3]);
+                    var rot = Quaternion.Euler(index * 45f, index * 45f, index * 45f);
 
-                    ReDraw.WireframeMesh(cm, Vector3.up * index * 5 + Vector3.forward * 5f, Quaternion.identity,
+                    ReDraw.Mesh(cm, Vector3.up * index * 5, rot, Vector3.one, colors[index % 3]);
+
+                    ReDraw.WireframeMesh(cm, Vector3.up * index * 5 + Vector3.forward * 5f, rot,
                         Vector3.one, colors[index % 3]);
 
-                    ReDraw.Mesh(cm, Vector3.up * index * 5 + Vector3.forward * 10f, Quaternion.identity, Vector3.one,
+                    ReDraw.Mesh(cm, Vector3.up * index * 5 + Vector3.forward * 10f, rot, Vector3.one,
                         colors[index % 3]);
 
-                    ReDraw.WireframeMesh(cm, Vector3.up * index * 5 + Vector3.forward * 10f, Quaternion.identity,
+                    ReDraw.WireframeMesh(cm, Vector3.up * index * 5 + Vector3.forward * 10f, rot,
                         Vector3.one, Color.black);
                     index++;
                 }

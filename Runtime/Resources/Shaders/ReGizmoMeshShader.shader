@@ -98,7 +98,6 @@ Shader "Hidden/ReGizmo/Mesh"
             struct v2f_depth
             {
                 float4 pos: SV_POSITION;
-                float depth: TEXCOORD2;
             };
 
             v2f_depth depth_vert(vertex i, uint instanceID: SV_INSTANCEID)
@@ -109,7 +108,6 @@ Shader "Hidden/ReGizmo/Mesh"
                     MeshProperties prop = _Properties[instanceID]; 
                     float4 cloc = TRS(prop.Position, prop.Rotation, prop.Scale, i.pos);
                     o.pos = mul(UNITY_MATRIX_VP, cloc);
-                    o.depth = compute_depth(cloc);
                 #endif
 
                 return o;
