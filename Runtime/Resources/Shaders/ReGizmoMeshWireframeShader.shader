@@ -184,7 +184,7 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
         Pass
         {
             Name "RenderFront"
-            Blend Zero OneMinusSrcAlpha
+            Blend SrcAlpha OneMinusSrcAlpha
             ZTest LEqual
             ZWrite Off
             Cull Off
@@ -199,8 +199,6 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
 
             float4 frag(g2f i) : SV_Target
             {
-                // return i.color;
-
                 float4 color = _frag(i);
                 return color;
             }
@@ -210,7 +208,7 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
         Pass
         {
             Name "RenderBehind"
-            Blend Zero OneMinusSrcAlpha
+            Blend SrcAlpha OneMinusSrcAlpha
             ZTest Greater
             ZWrite Off
             Cull Off
