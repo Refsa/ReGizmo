@@ -46,18 +46,16 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
 
         v2g vert(vertex v, uint instanceID: SV_InstanceID)
         {
-            v2g f;
+            v2g f = (v2g)0;
+            f.instanceID = instanceID;
 
             #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
                 MeshProperties prop = _Properties[instanceID];
                 float4 worldPos = TRS(prop.Position, prop.Rotation, prop.Scale, v.pos);
-            #else
-                float4 worldPos = mul(unity_ObjectToWorld, v.pos);
-            #endif
 
-            f.pos = UnityObjectToClipPos(worldPos);
-            f.dir = dot(WorldSpaceViewDir(worldPos), v.normal);
-            f.instanceID = instanceID;
+                f.pos = UnityObjectToClipPos(worldPos);
+                f.dir = dot(WorldSpaceViewDir(worldPos), rotate_vector(prop.Rotation, v.normal));
+            #endif
 
             return f;
         }
@@ -102,13 +100,13 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
 
         float4 _frag(g2f i)
         {
-            float color_scale = i.dir < -0.5 ? 0.33 : 1.0;
             float d = min(i.dist[0], min(i.dist[1], i.dist[2]));
             float I = exp2(-0.75 * d * d * d * d);
 
             float4 fillColor = float4(i.color.rgb, 0);
             float4 wireColor = float4(i.color.rgb, 1);
 
+            float color_scale = i.dir < -0.5 ? 0.33 : 1.0;
             return lerp(fillColor, wireColor * color_scale, I);
         }
         ENDCG
@@ -142,7 +140,7 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
             Name "Depth"
             ZTest LEqual
             ZWrite On
-            Cull Off
+            Cull Back
 
             CGPROGRAM
             #pragma vertex vert
@@ -201,6 +199,8 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
 
             float4 frag(g2f i) : SV_Target
             {
+                // return i.color;
+
                 float4 color = _frag(i);
                 return color;
             }
