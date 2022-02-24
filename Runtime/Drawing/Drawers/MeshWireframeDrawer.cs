@@ -7,6 +7,7 @@ namespace ReGizmo.Drawing
     internal class MeshWireframeDrawer : ReGizmoDrawer<MeshDrawerShaderData>
     {
         protected Mesh mesh;
+        protected MeshBoundingBox boundingBox;
         uint indexCount;
 
         public MeshWireframeDrawer() : base()
@@ -20,6 +21,10 @@ namespace ReGizmo.Drawing
             this.mesh = mesh;
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh_Wireframe");
             material.SetInt("_NormalsCount", mesh.normals.Length);
+
+            boundingBox.Center = mesh.bounds.center;
+            boundingBox.Size = mesh.bounds.size;
+            (cullingHandler as MeshCullingHandler).BoundingBox = boundingBox;
         }
 
         protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData, bool depth)

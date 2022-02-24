@@ -15,17 +15,23 @@ namespace ReGizmo.Drawing
     internal class MeshDrawer : ReGizmoDrawer<MeshDrawerShaderData>
     {
         protected Mesh mesh;
+        protected MeshBoundingBox boundingBox;
         uint indexCount;
 
         public MeshDrawer() : base()
         {
             cullingHandler = new MeshCullingHandler();
             argsBufferCountOffset = 1;
-        }
+        } 
 
         public MeshDrawer(Mesh mesh) : this()
         {
             this.mesh = mesh;
+
+            boundingBox.Center = mesh.bounds.center;
+            boundingBox.Size = mesh.bounds.size;
+            (cullingHandler as MeshCullingHandler).BoundingBox = boundingBox;
+
             indexCount = mesh.GetIndexCount(0);
 
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh");

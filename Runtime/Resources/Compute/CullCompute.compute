@@ -7,15 +7,18 @@
 #pragma kernel Line_CameraCulling
 #pragma kernel PolyLine_CameraCulling
 
-struct BoundingBox
+struct DebugBoundingBox
 {
     float3 Center;
     float3 Extents;
     bool Visible;
 };
 
-RWStructuredBuffer<BoundingBox> _DebugAABB;
+RWStructuredBuffer<DebugBoundingBox> _DebugAABB;
 #define DEBUG 0
+
+float3 _BoundingBoxCenter;
+float3 _BoundingBoxSize;
 
 uint _Count;
 float4 _CameraFrustum[6];
@@ -38,11 +41,11 @@ void Mesh_CameraCulling (uint3 id : SV_DispatchThreadID)
     [branch] if (id.x >= _Count) return;
 
     MeshProperties ld = _MeshInput[id.x];
-    bool in_frustum = box_inside_frustum(ld.Position, ld.Scale);
+    bool in_frustum = box_inside_frustum(ld.Position + _BoundingBoxCenter, ld.Scale * _BoundingBoxSize);
 
     #if DEBUG == 1
         {
-            BoundingBox bb = (BoundingBox)0;
+            DebugBoundingBox bb = (DebugBoundingBox)0;
             bb.Center = ld.Position;
             bb.Extents = ld.Scale;
             bb.Visible = in_frustum;
@@ -100,7 +103,7 @@ void Font_CameraCulling (uint3 id : SV_DispatchThreadID)
 
     #if DEBUG == 1
         {
-            BoundingBox bb = (BoundingBox)0;
+            DebugBoundingBox bb = (DebugBoundingBox)0;
             bb.Center = center;
             bb.Extents = extents;
             bb.Visible = in_frustum;
@@ -153,7 +156,7 @@ void Icon_CameraCulling (uint3 id : SV_DispatchThreadID)
 
     #if DEBUG == 1
         {
-            BoundingBox bb = (BoundingBox)0;
+            DebugBoundingBox bb = (DebugBoundingBox)0;
             bb.Center = center;
             bb.Extents = extents;
             bb.Visible = in_frustum;
@@ -203,7 +206,7 @@ void Sprite_CameraCulling (uint3 id : SV_DispatchThreadID)
 
     #if DEBUG == 1
         {
-            BoundingBox bb = (BoundingBox)0;
+            DebugBoundingBox bb = (DebugBoundingBox)0;
             bb.Center = center;
             bb.Extents = extents;
             bb.Visible = in_frustum;
@@ -234,7 +237,7 @@ void Line_CameraCulling (uint3 id : SV_DispatchThreadID)
 
     #if DEBUG == 1
         {
-            BoundingBox bb = (BoundingBox)0;
+            DebugBoundingBox bb = (DebugBoundingBox)0;
             bb.Center = center;
             bb.Extents = extents;
             bb.Visible = in_frustum;
