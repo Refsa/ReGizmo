@@ -44,6 +44,8 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
         {
         }
 
+        int _NormalsCount;
+
         v2g vert(vertex v, uint instanceID: SV_InstanceID)
         {
             v2g f = (v2g)0;
@@ -54,7 +56,11 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
                 float4 worldPos = TRS(prop.Position, prop.Rotation, prop.Scale, v.pos);
 
                 f.pos = UnityObjectToClipPos(worldPos);
-                f.dir = dot(WorldSpaceViewDir(worldPos), rotate_vector(prop.Rotation, v.normal));
+                if (_NormalsCount != 0) {
+                    f.dir = dot(WorldSpaceViewDir(worldPos), rotate_vector(prop.Rotation, v.normal));
+                } else {
+                    f.dir = 1.0;
+                }
             #endif
 
             return f;

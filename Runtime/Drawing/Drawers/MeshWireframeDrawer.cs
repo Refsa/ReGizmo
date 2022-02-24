@@ -19,6 +19,7 @@ namespace ReGizmo.Drawing
         {
             this.mesh = mesh;
             material = ReGizmoHelpers.PrepareMaterial("Hidden/ReGizmo/Mesh_Wireframe");
+            material.SetInt("_NormalsCount", mesh.normals.Length);
         }
 
         protected override void RenderInternal(CommandBuffer cmd, UniqueDrawData uniqueDrawData, bool depth)
