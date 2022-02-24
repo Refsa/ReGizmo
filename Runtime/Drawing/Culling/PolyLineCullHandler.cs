@@ -5,7 +5,7 @@ namespace ReGizmo.Drawing
 {
     internal class PolyLineCullingHandler : CullingHandler
     {
-        static readonly int KernelID = CullingCompute.FindKernel("PolyLine_CameraCulling");
+        static readonly int KernelID = GetKernelID("PolyLine_CameraCulling");
         static readonly string InputID = "_PolyLineInput";
         static readonly string OutputID = "_PolyLineOutput";
 

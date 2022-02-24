@@ -19,8 +19,6 @@ namespace ReGizmo.Drawing
         Framebuffer framebuffer;
         Dictionary<IReGizmoDrawer, UniqueDrawData> uniqueDrawDatas;
 
-        RenderTexture depthTexture;
-
         bool isActive;
         string profilerKey;
 
@@ -113,14 +111,17 @@ namespace ReGizmo.Drawing
             framebuffer = new Framebuffer
             {
                 ColorTarget = BuiltinRenderTextureType.CameraTarget,
-                DepthTarget = BuiltinRenderTextureType.Depth,
+                DepthTarget = BuiltinRenderTextureType.CameraTarget,
             };
+
+            commandBuffer.SetRenderTarget(framebuffer.ColorTarget);
+            commandBuffer.ClearRenderTarget(true, false, Color.clear);
+            ShaderUtils.CopyDepth(commandBuffer, framebuffer.ColorTarget, BuiltinRenderTextureType.Depth);
 #endif
 
             frustum.UpdateCameraFrustum();
             // oit.Setup(commandBuffer, framebuffer);
             commandBuffer.SetGlobalFloat("_AlphaBehindScale", ReGizmoSettings.AlphaBehindScale);
-            // commandBuffer.SetGlobalVector("_ScreenParams", new Vector4(camera.pixelWidth, camera.pixelHeight, 1f + 1f / camera.pixelWidth, 1f + 1f / camera.pixelHeight));
 
 #if REGIZMO_DEV
             commandBuffer.BeginSample(profilerKey);
@@ -152,6 +153,8 @@ namespace ReGizmo.Drawing
 
         void PreRender(IReGizmoDrawer drawer)
         {
+            if (!isActive) return;
+
             if (!uniqueDrawDatas.TryGetValue(drawer, out var uniqueDrawData))
             {
                 uniqueDrawData = new UniqueDrawData();
@@ -174,8 +177,6 @@ namespace ReGizmo.Drawing
 
         void Render(IReGizmoDrawer drawer)
         {
-            if (!isActive) return;
-
             if (!uniqueDrawDatas.TryGetValue(drawer, out var uniqueDrawData))
             {
                 uniqueDrawData = new UniqueDrawData();
@@ -199,7 +200,7 @@ namespace ReGizmo.Drawing
 
         public void FrameCleanup()
         {
-            oit.FrameCleanup();
+            // oit.FrameCleanup();
 
 #if RG_HDRP
             framebuffer = new Framebuffer();
@@ -212,7 +213,7 @@ namespace ReGizmo.Drawing
             {
                 data?.Dispose();
             }
-            oit?.Dispose();
+            // oit?.Dispose();
         }
     }
 }

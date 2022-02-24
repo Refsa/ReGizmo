@@ -30,6 +30,10 @@ namespace ReGizmo.Utils
                 quadShape
                     .AddTriangle(c1, c2, c3)
                     .AddTriangle(c1, c3, c4)
+                    .AddUv(new Vector2(0f, 0f))
+                    .AddUv(new Vector2(1f, 0f))
+                    .AddUv(new Vector2(1f, 1f))
+                    .AddUv(new Vector2(0f, 1f))
                     .ToMesh("quad");
         }
 
@@ -103,7 +107,7 @@ namespace ReGizmo.Utils
             new Vector3(-1.0f, 0.0f, 0.0f), new Vector3(-1.0f, 0.0f, 0.0f), new Vector3(1.0f, 0.0f, 0.0f),
             new Vector3(1.0f, 0.0f, 0.0f), new Vector3(1.0f, 0.0f, 0.0f), new Vector3(1.0f, 0.0f, 0.0f)
         };
-        
+
         public static Mesh Cube(Vector3 size)
         {
             if (size == Vector3.zero) size = DefaultSize;

@@ -44,22 +44,41 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
         {
         }
 
+        int _NormalsCount;
+
         v2g vert(vertex v, uint instanceID: SV_InstanceID)
         {
-            v2g f;
+            v2g f = (v2g)0;
+            f.instanceID = instanceID;
 
             #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
                 MeshProperties prop = _Properties[instanceID];
                 float4 worldPos = TRS(prop.Position, prop.Rotation, prop.Scale, v.pos);
-            #else
-                float4 worldPos = mul(unity_ObjectToWorld, v.pos);
+
+                f.pos = UnityObjectToClipPos(worldPos);
+                if (_NormalsCount != 0) {
+                    f.dir = dot(WorldSpaceViewDir(worldPos), rotate_vector(prop.Rotation, v.normal));
+                } else {
+                    f.dir = 1.0;
+                }
             #endif
 
-            f.pos = UnityObjectToClipPos(worldPos);
-            f.dir = dot(WorldSpaceViewDir(worldPos), v.normal);
-            f.instanceID = instanceID;
-
             return f;
+        }
+
+        void adjust(inout float s0, inout float s1, inout float s2)
+        {
+            float M = max(s0, max(s1, s2));
+            float m = min(s0, min(s1, s2));
+            float fM = floor(M);
+            float fm = floor(m);
+
+            if ((fM - fm) == 1) {
+                float range = M - m;
+                s0 = (s0 - fM) / range + fM;
+                s1 = (s1 - fM) / range + fM;
+                s2 = (s2 - fM) / range + fM;
+            }
         }
 
         [maxvertexcount(3)]
@@ -84,32 +103,40 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
             g2f o;
             o.color = color;
 
+            float d0 = area / length(edge0);
+            float d1 = area / length(edge1);
+            float d2 = area / length(edge2);
+            // adjust(d0, d1, d2);
+
             o.pos = i[0].pos;
-            o.dist = float3(area / length(edge0), 0, 0);
+            o.dist = float3(d0, 0, 0);
             o.dir = i[0].dir;
             triangleStream.Append(o);
 
             o.pos = i[1].pos;
-            o.dist = float3(0, area / length(edge1), 0);
+            o.dist = float3(0, d1, 0);
             o.dir = i[1].dir;
             triangleStream.Append(o);
 
             o.pos = i[2].pos;
-            o.dist = float3(0, 0, area / length(edge2));
+            o.dist = float3(0, 0, d2);
             o.dir = i[2].dir;
             triangleStream.Append(o);
         }
 
         float4 _frag(g2f i)
         {
-            float color_scale = i.dir < -0.5 ? 0.33 : 1.0;
-            float d = min(i.dist[0], min(i.dist[1], i.dist[2]));
-            float I = exp2(-0.75 * d * d * d * d);
+            const float thickness = 0.5;
+            const float firmness = 1;
+
+            float d =  min(i.dist[0], min(i.dist[1], i.dist[2]));
+            d = exp2(-1 / thickness * d * d);
 
             float4 fillColor = float4(i.color.rgb, 0);
             float4 wireColor = float4(i.color.rgb, 1);
 
-            return lerp(fillColor, wireColor * color_scale, I);
+            float color_scale = i.dir < 0 ? 0.33 : 1.0;
+            return lerp(fillColor, wireColor * color_scale, d);
         }
         ENDCG
 
@@ -155,7 +182,7 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
             void depth_frag(g2f i, out float depth : SV_DEPTH)
             {
                 float4 color = _frag(i);
-                clip(color.a == 0 ? -1 : 1);
+                clip(color.a <= 0.0001 ? -1 : 1);
                 depth = i.pos.z;
             }
             ENDCG
@@ -186,7 +213,7 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
         Pass
         {
             Name "RenderFront"
-            Blend Zero OneMinusSrcAlpha
+            Blend SrcAlpha OneMinusSrcAlpha
             ZTest LEqual
             ZWrite Off
             Cull Off
@@ -210,7 +237,7 @@ Shader "Hidden/ReGizmo/Mesh_Wireframe"
         Pass
         {
             Name "RenderBehind"
-            Blend Zero OneMinusSrcAlpha
+            Blend SrcAlpha OneMinusSrcAlpha
             ZTest Greater
             ZWrite Off
             Cull Off

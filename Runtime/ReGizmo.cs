@@ -58,12 +58,7 @@ namespace ReGizmo.Core
             Dispose();
             activeCameras = new Dictionary<Camera, CameraData>();
 
-#if RG_URP
-            Core.URP.ReGizmoURPRenderFeature.OnPassExecute += OnURPPassExecute;
-#elif RG_HDRP
-            Core.HDRP.ReGizmoHDRPRenderPass.OnPassExecute += OnHDRPPassExecute;
-            Core.HDRP.ReGizmoHDRPRenderPass.OnPassCleanup += OnHDRPPassCleanup;
-#endif
+            SetActive(true);
 
             ComputeBufferPool.Init();
 
@@ -87,6 +82,7 @@ namespace ReGizmo.Core
                 // Textures
                 ReGizmoResolver<IconsDrawer>.Init(() => new IconsDrawer());
                 ReGizmoResolver<SpritesDrawer>.Init(() => new SpritesDrawer());
+                ReGizmoResolver<TexturesDrawer>.Init(() => new TexturesDrawer());
 
                 // Fonts
                 ReGizmoResolver<TextDrawer>.Init(() => new TextDrawer(ReGizmoSettings.Font));
@@ -110,6 +106,7 @@ namespace ReGizmo.Core
             drawers = new List<IReGizmoDrawer>()
             {
                 // ## SORTED ##
+                ReGizmoResolver<TexturesDrawer>.DrawerSorted,
                 ReGizmoResolver<CubeDrawer>.DrawerSorted,
                 ReGizmoResolver<SphereDrawer>.DrawerSorted,
                 ReGizmoResolver<ConeDrawer>.DrawerSorted,
@@ -176,16 +173,20 @@ namespace ReGizmo.Core
         }
 
 #if RG_URP
-        private static void OnURPPassExecute(ScriptableRenderContext context, Camera camera, Framebuffer framebuffer, bool isGameView)
+        private static void OnURPPassExecute(in ScriptableRenderContext context, Camera camera, in Framebuffer framebuffer, CommandBuffer cmd)
         {
+            activeCameras ??= new Dictionary<Camera, CameraData>();
+
             if (!activeCameras.TryGetValue(camera, out var cameraData))
             {
                 return;
             }
 
+            cameraData.CommandBufferOverride(cmd);
             cameraData.SetFramebuffer(framebuffer);
-            Render(cameraData);
-            context.ExecuteCommandBuffer(cameraData.CommandBuffer);
+            Render(cameraData, clearCommandBuffer: false);
+            cameraData.SetFramebuffer(new Framebuffer());
+            cameraData.RemoveCommandBuffer();
         }
 #elif RG_HDRP
         static void OnHDRPPassExecute(in ScriptableRenderContext context, CommandBuffer cmd, Camera camera, in Framebuffer framebuffer)
@@ -238,6 +239,7 @@ namespace ReGizmo.Core
             {
 #if RG_URP
                 Core.URP.ReGizmoURPRenderFeature.OnPassExecute += OnURPPassExecute;
+                Core.URP.ReGizmoURPRenderFeature.OnPassCleanup += OnFrameCleanup;
 #elif RG_HDRP
                 Core.HDRP.ReGizmoHDRPRenderPass.OnPassExecute += OnHDRPPassExecute;
                 Core.HDRP.ReGizmoHDRPRenderPass.OnPassCleanup += OnHDRPPassCleanup;
@@ -247,6 +249,7 @@ namespace ReGizmo.Core
             {
 #if RG_URP
                 Core.URP.ReGizmoURPRenderFeature.OnPassExecute -= OnURPPassExecute;
+                Core.URP.ReGizmoURPRenderFeature.OnPassCleanup -= OnFrameCleanup;
 #elif RG_HDRP
                 Core.HDRP.ReGizmoHDRPRenderPass.OnPassExecute -= OnHDRPPassExecute;
                 Core.HDRP.ReGizmoHDRPRenderPass.OnPassCleanup -= OnHDRPPassCleanup;
@@ -309,10 +312,6 @@ namespace ReGizmo.Core
             }
 #endif
 
-#if UNITY_EDITOR && (RG_LEGACY || RG_URP)
-            OnFrameCleanup();
-#endif
-
             if (shouldReset)
             {
                 shouldReset = false;
@@ -353,6 +352,7 @@ namespace ReGizmo.Core
             cameraData.PreRender(drawers);
             cameraData.Render(drawers);
             cameraData.PostRender();
+            cameraData.FrameCleanup();
         }
 
         public static void ClearAll()

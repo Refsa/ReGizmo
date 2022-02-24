@@ -88,6 +88,21 @@ namespace ReGizmo.Drawing
             }
         }
 
+        public static void Texture(Texture texture, Vector3 pos, Quaternion rotation, float scale)
+        {
+            if (ReGizmoResolver<TexturesDrawer>.TryGet(out var drawers))
+            {
+                ref var data = ref drawers.GetShaderData(texture);
+
+                float aspect = (float)texture.width / (float)texture.height;
+
+                data.Position = pos.Add(currentPosition);
+                data.Rotation.Copy(rotation);
+                data.Scale.Set(scale, scale, 1f);
+                data.Color = Color.white;
+            }
+        }
+
         public static void Rect(Rect rect, Color color, float depth = 0f, DepthMode depthMode = DepthMode.Sorted)
         {
             Vector3 p1 = new Vector3(rect.xMin + currentPosition.x, rect.yMin + currentPosition.y, depth + currentPosition.z);

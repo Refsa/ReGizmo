@@ -5,7 +5,7 @@ namespace ReGizmo.Drawing
 {
     internal class IconCullingHandler : CullingHandler
     {
-        static readonly int KernelID = CullingCompute.FindKernel("Icon_CameraCulling");
+        static readonly int KernelID = GetKernelID("Icon_CameraCulling");
         static readonly string InputID = "_IconInput";
         static readonly string OutputID = "_IconOutput";
 

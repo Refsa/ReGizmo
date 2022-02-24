@@ -1,3 +1,4 @@
+#if REGIZMO_DEV
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using Unity.Mathematics;
@@ -32,3 +33,4 @@ namespace ReGizmo.Samples
         }
     }
 }
+#endif

@@ -13,12 +13,12 @@ namespace ReGizmo.Drawing
 
     internal class IconDrawer : ReGizmoDrawer<IconShaderData>
     {
-        Texture2D icon;
+        Texture icon;
         float aspect;
 
         protected override string PropertiesName { get; } = "_DrawData";
 
-        public IconDrawer(Texture2D icon) : base()
+        public IconDrawer(Texture icon) : base()
         {
             this.icon = icon;
             this.aspect = (float)icon.width / (float)icon.height;

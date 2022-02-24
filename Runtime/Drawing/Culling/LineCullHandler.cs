@@ -6,7 +6,7 @@ namespace ReGizmo.Drawing
 {
     internal class LineCullingHandler : CullingHandler
     {
-        static readonly int KernelID = CullingCompute.FindKernel("Line_CameraCulling");
+        static readonly int KernelID = GetKernelID("Line_CameraCulling");
         static readonly string InputID = "_LineInput";
         static readonly string OutputID = "_LineOutput";
 

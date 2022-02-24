@@ -7,7 +7,7 @@ namespace ReGizmo.Drawing
 {
     internal class FontCullingHandler : CullingHandler
     {
-        static readonly int KernelID = CullingCompute.FindKernel("Font_CameraCulling");
+        static readonly int KernelID = GetKernelID("Font_CameraCulling");
         static readonly string InputID = "_FontInput";
         static readonly string OutputID = "_FontOutput";
         static readonly string TextDataID = "_FontTextData";

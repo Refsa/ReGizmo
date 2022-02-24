@@ -80,6 +80,7 @@ namespace ReGizmo.Editor
             if (change == PlayModeStateChange.ExitingEditMode)
             {
                 Core.ReGizmo.Dispose();
+                isSetup = false;
             }
             else if (change == PlayModeStateChange.EnteredEditMode)
             {
@@ -91,7 +92,12 @@ namespace ReGizmo.Editor
             }
             else if (change == PlayModeStateChange.EnteredPlayMode)
             {
-
+                if (!isSetup)
+                {
+                    Core.ReGizmo.Initialize();
+                    isSetup = true;
+                }
+                Core.ReGizmo.SetActive(true);
             }
         }
 
@@ -102,7 +108,8 @@ namespace ReGizmo.Editor
 
         static void OnAfterAssemblyReloaded()
         {
-
+            Core.ReGizmo.Initialize();
+            Core.ReGizmo.SetActive(true);
         }
 
         static void OnSceneChangedInEditMode(Scene arg0, Scene arg1)

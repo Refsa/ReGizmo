@@ -50,5 +50,15 @@ namespace ReGizmo.Drawing
         {
 
         }
+
+        protected static int GetKernelID(string name)
+        {
+            if (CullingCompute == null)
+            {
+                return 0;
+            }
+
+            return CullingCompute.FindKernel(name);
+        }
     }
 }
