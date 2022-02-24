@@ -51,7 +51,7 @@ Shader "Hidden/ReGizmo/CopyFramebuffer"
                 PositionInputs posInput = GetPositionInput(input.positionCS.xy, _ScreenSize.zw, depth, UNITY_MATRIX_I_VP, UNITY_MATRIX_V);
 
                 float2 uv = posInput.positionNDC.xy * _RTHandleScale.xy;
-                float3 inColor = SAMPLE_TEXTURE2D_X_LOD(_InputTexture, s_linear_clamp_sampler, uv, 0);
+                float3 inColor = SAMPLE_TEXTURE2D_X_LOD(_InputTexture, s_linear_clamp_sampler, uv, 0).xyz;
  
                 return float4(inColor, 1.0);
             }
